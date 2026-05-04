@@ -1,71 +1,131 @@
-import { CarePlanPreview } from "@/components/CarePlanPreview";
-import { CareDifferentiatorPanel } from "@/components/CareDifferentiatorPanel";
-import { CarePackCatalog } from "@/components/CarePackCatalog";
-import { CarePlatformNorthStar } from "@/components/CarePlatformNorthStar";
-import { CareRequestBoard } from "@/components/CareRequestBoard";
-import { ReassuranceBoard } from "@/components/ReassuranceBoard";
-import { Section } from "@/components/Section";
-import { SimpleUxPrinciples } from "@/components/SimpleUxPrinciples";
-import { SocialContributionPanel } from "@/components/SocialContributionPanel";
-import { WorryIntakeHub } from "@/components/WorryIntakeHub";
-import { PolicyGuardrail } from "@/components/PolicyGuardrail";
-import { RoleCard } from "@/components/RoleCard";
-import { StatusBadge } from "@/components/StatusBadge";
+import Link from 'next/link'
+import { AppFrame } from '@/components/ui/AppFrame'
+import { CareButton } from '@/components/ui/CareButton'
+import { CareCard } from '@/components/ui/CareCard'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { StatusPill } from '@/components/ui/StatusPill'
+
+const worryActions = [
+  {
+    href: '/care-intake',
+    title: '사진·카톡으로 맡기기',
+    desc: '예약 문자, 약 봉투, 영수증, 처방전',
+    emoji: '📷'
+  },
+  {
+    href: '/care-request',
+    title: '부모님 걱정 맡기기',
+    desc: '병원, 밥, 약, 서류, 퇴원 후 케어',
+    emoji: '💬'
+  },
+  {
+    href: '/child/today',
+    title: '오늘의 안심판',
+    desc: '안심 / 확인 필요 / 긴급',
+    emoji: '🟢'
+  },
+  {
+    href: '/family-code',
+    title: '가족 공동조회',
+    desc: '형제자매와 함께 확인',
+    emoji: '👨‍👩‍👧‍👦'
+  }
+]
+
+const worries = [
+  '병원에 혼자 못 가세요',
+  '밥을 잘 못 챙겨 드세요',
+  '약을 잘 드시는지 모르겠어요',
+  '퇴원 후 집에서 걱정돼요',
+  '보험서류가 필요해요',
+  '뭘 해야 할지 모르겠어요'
+]
 
 export default function HomePage() {
   return (
-    <main className="stack">
-      <section className="hero worry-hero">
-        <div className="hero-card">
-          <div className="kicker">부모님 케어 플랫폼</div>
-          <h1>부모님 걱정을 쉽게 맡기는 앱.</h1>
-          <p>
-            이 앱의 핵심 사용자는 40대 이상 자녀입니다. 그래서 기능 메뉴가 아니라 걱정 선택으로 시작합니다.
-            병원, 식사, 약, 퇴원, 서류, 정기진료, 안부를 가족 대신 정리해주는 부모님 케어 플랫폼입니다.
+    <AppFrame title="부모님 케어 플랫폼" subtitle="부모님 걱정을 간단히 맡기는 앱">
+      <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div>
+          <StatusPill text="40대 이상 보호자용" tone="green" />
+          <h1 className="mt-5 text-5xl font-black leading-[1.05] tracking-tight text-slate-950 md:text-7xl">
+            부모님 걱정,
+            <br />
+            쉽게 맡기세요.
+          </h1>
+          <p className="mt-6 max-w-2xl text-xl font-bold leading-9 text-slate-600">
+            앱이 어려워도 괜찮습니다. 사진, 카톡, 전화, 한 줄 메모로 맡기면 운영실이 병원·식사·약·서류·퇴원 후 케어로 정리합니다.
           </p>
-          <div className="row wrap" style={{ justifyContent: "flex-start" }}>
-            <StatusBadge label="3번 안에 완료" tone="safe" />
-            <StatusBadge label="전화·카톡·사진 접수" tone="safe" />
-            <StatusBadge label="큰 글씨 부모님 화면" tone="safe" />
-            <StatusBadge label="사회공헌 연결" tone="warn" />
-            <StatusBadge label="차량/운송 분리" tone="warn" />
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <CareButton href="/care-intake" size="xl">
+              사진·카톡으로 맡기기
+            </CareButton>
+            <CareButton href="/care-request" tone="dark" size="xl">
+              걱정 선택하기
+            </CareButton>
           </div>
         </div>
-        <ReassuranceBoard />
+
+        <CareCard tone="dark" className="lg:mt-8">
+          <p className="text-sm font-black text-emerald-200">무엇이 걱정되세요?</p>
+          <div className="mt-5 grid gap-3">
+            {worries.map((worry) => (
+              <Link key={worry} href="/care-request" className="rounded-3xl bg-white/10 p-4 text-lg font-black text-white transition hover:bg-white/15">
+                {worry}
+              </Link>
+            ))}
+          </div>
+          <p className="mt-5 rounded-3xl bg-emerald-200 p-4 text-sm font-black leading-6 text-slate-950">
+            잘 모르겠으면 “뭘 해야 할지 모르겠어요”만 눌러도 됩니다.
+          </p>
+        </CareCard>
       </section>
 
-      <CarePlatformNorthStar />
+      <section className="mt-10">
+        <SectionHeader
+          eyebrow="빠른 시작"
+          title="3번 안에 끝납니다"
+          description="복잡한 메뉴 대신 가장 많이 쓰는 행동만 먼저 보여줍니다."
+        />
 
-      <WorryIntakeHub compact />
-
-      <CareDifferentiatorPanel />
-
-      <CarePackCatalog compact />
-
-      <div className="grid two">
-        <Section title="걱정이 해결 플랜으로 바뀌는 과정" description="사용자는 걱정만 말하고, 앱은 다음 액션을 정리합니다.">
-          <CarePlanPreview />
-        </Section>
-        <Section title="40대 이상 맞춤 원칙" description="편리함은 기능 수가 아니라 이해하기 쉬운 흐름에서 나옵니다.">
-          <SimpleUxPrinciples />
-        </Section>
-      </div>
-
-      <PolicyGuardrail />
-
-      <section className="grid four">
-        <RoleCard href="/care-request" title="걱정 접수" badge="핵심 시작점" description="병원·밥·약·퇴원·서류·모름 중 하나만 눌러 해결 플랜을 만듭니다." />
-        <RoleCard href="/care-passport" title="케어패스포트" badge="부모님 이해" description="거동, 식사, 약, 청력, 말투, 낙상 주의사항을 다음 케어에 반영합니다." />
-        <RoleCard href="/care-meals" title="안심밥상" badge="생활 케어" description="식사 확인, 도시락/회복식 연결, 가족 알림을 단순하게 묶습니다." />
-        <RoleCard href="/impact" title="사회공헌" badge="돌봄 공백 완화" description="취약가정 쿠폰, 공공지원, 무료 안부, 지역 서비스 연결을 설계합니다." />
+        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {worryActions.map((action) => (
+            <Link key={action.href} href={action.href}>
+              <CareCard className="h-full transition hover:-translate-y-1 hover:shadow-md">
+                <div className="text-4xl">{action.emoji}</div>
+                <h2 className="mt-4 text-2xl font-black">{action.title}</h2>
+                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{action.desc}</p>
+              </CareCard>
+            </Link>
+          ))}
+        </div>
       </section>
 
-      <div className="grid two">
-        <Section title="접수된 부모님 걱정" description="가족은 진행상태를 해석하지 않고 다음 단계만 확인합니다.">
-          <CareRequestBoard />
-        </Section>
-        <SocialContributionPanel />
-      </div>
-    </main>
-  );
+      <section className="mt-10 grid gap-4 md:grid-cols-3">
+        <CareCard tone="green">
+          <h2 className="text-2xl font-black">자녀앱</h2>
+          <p className="mt-3 text-sm font-bold leading-6">오늘의 안심판과 가족 할 일 3개만 먼저 확인합니다.</p>
+          <CareButton href="/child" className="mt-5" tone="white">
+            자녀앱 보기
+          </CareButton>
+        </CareCard>
+
+        <CareCard tone="blue">
+          <h2 className="text-2xl font-black">부모님앱</h2>
+          <p className="mt-3 text-sm font-bold leading-6">큰 글씨, 만남 암호, 자녀 전화, 도움 요청만 남깁니다.</p>
+          <CareButton href="/parent/today" className="mt-5" tone="white">
+            부모님 화면
+          </CareButton>
+        </CareCard>
+
+        <CareCard tone="amber">
+          <h2 className="text-2xl font-black">운영실</h2>
+          <p className="mt-3 text-sm font-bold leading-6">긴급, 확인 필요, 진행 중, 완료를 우선순위로 봅니다.</p>
+          <CareButton href="/ops" className="mt-5" tone="white">
+            운영실 보기
+          </CareButton>
+        </CareCard>
+      </section>
+    </AppFrame>
+  )
 }

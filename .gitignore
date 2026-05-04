@@ -21,3 +21,4 @@ patch
 patch_project
 *.zip
 .supabase
+.env.local

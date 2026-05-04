@@ -1,0 +1,3 @@
+import { carePacks } from '@/lib/constants'
+import { Card, CardTitle } from './Card'
+export function CarePackGrid() { return <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{carePacks.map((pack) => <Card key={pack.code}><CardTitle eyebrow="케어팩" title={pack.title} description={pack.description} /><ul className="space-y-2 text-sm leading-6 text-slate-700">{pack.included.map((item) => <li key={item}>✓ {item}</li>)}</ul><div className="mt-4 flex flex-wrap gap-2">{pack.channels.map((channel) => <span key={channel} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">{channel}</span>)}{pack.socialCareReady ? <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">사회공헌 연결</span> : null}</div></Card>)}</div> }

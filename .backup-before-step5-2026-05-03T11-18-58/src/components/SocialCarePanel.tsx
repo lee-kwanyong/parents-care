@@ -1,0 +1,2 @@
+import { Card, CardTitle } from './Card'
+export function SocialCarePanel() { return <div className="grid gap-5 md:grid-cols-3"><Card><CardTitle eyebrow="사회공헌" title="취약가정 안심 쿠폰" description="비용 부담이 있는 가족에게 후원형 케어 쿠폰을 연결합니다." /></Card><Card><CardTitle eyebrow="공공 연결" title="지역 복지 서비스 안내" description="식사 지원, 방문요양, 교통약자 이동지원 등 지역 자원을 안내합니다." /></Card><Card><CardTitle eyebrow="무료 캠페인" title="정기 안부 확인" description="고립 위험 어르신에게 전화·카톡 기반 안부 확인 캠페인을 운영합니다." /></Card></div> }

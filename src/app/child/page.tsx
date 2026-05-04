@@ -1,36 +1,100 @@
 import Link from 'next/link'
-import { AppShell } from '@/components/AppShell'
-import { Card, CardTitle } from '@/components/Card'
-import { ManagerTrustCard } from '@/components/ManagerTrustCard'
-import { StatusTimeline } from '@/components/StatusTimeline'
-import { demoManager, demoTimeline } from '@/lib/mock-data'
+import { TodayReassuranceBoard } from '@/components/TodayReassuranceBoard'
+import { AppFrame } from '@/components/ui/AppFrame'
+import { CareCard } from '@/components/ui/CareCard'
+import { SectionHeader } from '@/components/ui/SectionHeader'
+import { StatusPill } from '@/components/ui/StatusPill'
+
+const primaryActions = [
+  {
+    href: '/care-intake',
+    title: '사진·카톡으로 맡기기',
+    desc: '예약 문자, 약 봉투, 영수증을 올리세요',
+    emoji: '📷'
+  },
+  {
+    href: '/care-request',
+    title: '부모님 걱정 맡기기',
+    desc: '잘 몰라도 운영실이 정리합니다',
+    emoji: '💬'
+  },
+  {
+    href: '/child/tasks',
+    title: '가족 할 일',
+    desc: '제가 할게요 / 완료했어요',
+    emoji: '✅'
+  },
+  {
+    href: '/child/cases',
+    title: '부모님 케이스',
+    desc: '진행상황을 하나로 확인',
+    emoji: '🧾'
+  }
+]
+
+const secondaryLinks = [
+  ['/child/manager-evaluations', '매니저 평가'],
+  ['/child/family', '가족 공동조회'],
+  ['/child/notifications', '알림함'],
+  ['/child/files', '파일함'],
+  ['/care-passport', '케어패스포트'],
+  ['/child/meals', '안심밥상'],
+  ['/child/discharge', '퇴원 후 7일'],
+  ['/child/documents', '서류'],
+  ['/child/routines', '정기진료'],
+  ['/child/costs', '비용 승인'],
+  ['/child/summaries', '30초 요약'],
+  ['/child/social-care', '사회공헌']
+]
 
 export default function ChildHomePage() {
   return (
-    <AppShell title="자녀앱" subtitle="부모님 병원 일정 등록부터 보호자 리포트와 매니저 평가까지 확인합니다.">
-      <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-        <div className="space-y-5">
-          <Card>
-            <CardTitle eyebrow="오늘 일정" title="어머니 정형외과 진료" desc="2026-04-29 10:30 · 서울튼튼병원" />
-            <div className="grid gap-3 md:grid-cols-3">
-              <Link href="/child/appointments/new" className="rounded-2xl bg-blue-600 p-4 font-bold text-white">병원 일정 등록</Link>
-              <Link href="/child/appointments/demo" className="rounded-2xl bg-white p-4 font-bold text-blue-700 ring-1 ring-blue-200">타임라인 확인</Link>
-              <button className="rounded-2xl bg-slate-100 p-4 text-left font-bold text-slate-800">가족 공동조회 코드: 482913</button>
-            </div>
-          </Card>
-          <Card>
-            <CardTitle title="몇 시에 어디서 어떻게 진행되는지" desc="운영실과 매니저의 진행상태 업데이트가 가족 타임라인에 반영됩니다." />
-            <StatusTimeline items={demoTimeline} />
-          </Card>
-        </div>
-        <div className="space-y-5">
-          <ManagerTrustCard manager={demoManager} />
-          <Card>
-            <CardTitle title="보호자 리포트" desc="진료 내용, 안내사항, 검사/약/다음 예약, 비용, 컨디션, 다음 액션을 확인합니다." />
-            <Link href="/child/appointments/demo" className="block rounded-2xl bg-slate-950 px-4 py-3 text-center font-bold text-white">리포트/평가 보기</Link>
-          </Card>
-        </div>
+    <AppFrame title="자녀앱" subtitle="오늘 부모님 상태를 먼저 확인하세요">
+      <SectionHeader
+        eyebrow="자녀앱"
+        title={
+          <>
+            엄마,
+            <br />
+            오늘 괜찮으세요?
+          </>
+        }
+        description="기능을 찾지 않아도 됩니다. 오늘의 안심판, 가족 할 일, 확인 필요한 이유만 먼저 보세요."
+      />
+
+      <div className="mt-8">
+        <TodayReassuranceBoard mode="family" />
       </div>
-    </AppShell>
+
+      <section className="mt-8">
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-2xl font-black">가장 많이 쓰는 버튼</h2>
+          <StatusPill text="3번 안에 완료" tone="green" />
+        </div>
+
+        <div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {primaryActions.map((action) => (
+            <Link key={action.href} href={action.href}>
+              <CareCard className="h-full transition hover:-translate-y-1 hover:shadow-md">
+                <div className="text-4xl">{action.emoji}</div>
+                <h3 className="mt-4 text-xl font-black">{action.title}</h3>
+                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{action.desc}</p>
+              </CareCard>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-8 rounded-[2rem] bg-white p-5 shadow-sm md:p-7">
+        <h2 className="text-2xl font-black">필요할 때 보는 메뉴</h2>
+        <div className="mt-4 flex flex-wrap gap-3">
+          {secondaryLinks.map(([href, label]) => (
+            <Link key={href} href={href} className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black hover:bg-emerald-50">
+              {label}
+            </Link>
+          ))}
+        </div>
+      </section>
+    </AppFrame>
   )
 }
