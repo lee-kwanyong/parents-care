@@ -22,3 +22,17 @@ patch_project
 *.zip
 .supabase
 .env.local
+
+node_modules/
+.next/
+out/
+.vercel/
+.DS_Store
+
+.env
+.env.*
+!.env.example
+!.env.vercel.example
+
+.backup-*/
+*.backup-*

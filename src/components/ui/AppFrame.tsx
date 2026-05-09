@@ -2,6 +2,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { MobileQuickNav } from './MobileQuickNav'
 import { PWARegister } from '@/components/PWARegister'
+import { DemoRoleBanner } from '@/components/DemoRoleBanner'
 
 type AppFrameProps = {
   children: ReactNode
@@ -25,6 +26,7 @@ export function AppFrame({
   return (
     <main className={`min-h-screen bg-slate-50 pb-24 text-slate-950 md:pb-10 ${className}`}>
       <PWARegister />
+      <DemoRoleBanner />
       <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 px-5 py-3 backdrop-blur md:px-8">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <div className="min-w-0">
@@ -47,6 +49,18 @@ export function AppFrame({
             </Link>
             <Link href="/install" className="rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
               홈 화면 추가
+            </Link>
+            <Link href="/demo-start" className="rounded-2xl bg-blue-600 px-4 py-3 text-sm font-black text-white">
+              데모
+            </Link>
+            <Link href="/buyer-demo" className="rounded-2xl bg-indigo-600 px-4 py-3 text-sm font-black text-white">
+              바이어
+            </Link>
+            <Link href="/login" className="rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-black text-white">
+              로그인
+            </Link>
+            <Link href="/my" className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black">
+              마이
             </Link>
             <Link href="/child" className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black">
               자녀앱

@@ -7,6 +7,12 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const worryActions = [
   {
+    href: '/login',
+    title: '로그인·회원가입',
+    desc: '카카오, 휴대폰, 이메일 링크',
+    emoji: '🔐'
+  },
+  {
     href: '/care-intake',
     title: '사진·카톡으로 맡기기',
     desc: '예약 문자, 약 봉투, 영수증, 처방전',
