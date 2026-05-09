@@ -36,3 +36,9 @@ out/
 
 .backup-*/
 *.backup-*
+
+# local env secrets
+.env
+.env.*
+!.env.example
+!.env.vercel.example

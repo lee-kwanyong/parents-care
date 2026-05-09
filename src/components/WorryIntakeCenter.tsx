@@ -62,7 +62,7 @@ export function WorryIntakeCenter({ error }: { error?: string }) {
           <div className="grid gap-3 sm:grid-cols-2">
             <label className="block">
               <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 이름</span>
-              <input name="contactName" className="w-full rounded-2xl border border-[#E0EFEC] p-3 outline-none focus:border-care-500" placeholder="예: 이관용" />
+              <input name="contactName" className="w-full rounded-2xl border border-[#E0EFEC] p-3 outline-none focus:border-care-500" placeholder="예: 홍길동" />
             </label>
             <label className="block">
               <span className="mb-2 block text-sm font-black text-[#4E6D69]">연락처</span>

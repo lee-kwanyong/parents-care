@@ -353,7 +353,7 @@ export function EasyAuthPanel({
             value={displayName}
             onChange={(event) => setDisplayName(event.target.value)}
             className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
-            placeholder="이름. 예: 이관용"
+            placeholder="이름. 예: 홍길동"
           />
 
           {(mode === 'phone' || mode === 'kakao') ? (

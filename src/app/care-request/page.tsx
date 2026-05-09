@@ -272,7 +272,7 @@ export default function CareRequestPage() {
                 value={contactName}
                 onChange={(event) => setContactName(event.target.value)}
                 className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
-                placeholder="예: 이관용"
+                placeholder="예: 홍길동"
               />
             </label>
 

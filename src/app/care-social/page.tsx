@@ -137,7 +137,7 @@ export default function CareSocialPage() {
                   value={guardianName}
                   onChange={(event) => setGuardianName(event.target.value)}
                   className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
-                  placeholder="예: 이관용"
+                  placeholder="예: 홍길동"
                 />
               </label>
 
