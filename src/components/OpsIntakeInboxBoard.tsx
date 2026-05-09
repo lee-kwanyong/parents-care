@@ -91,7 +91,47 @@ export function OpsIntakeInboxBoard() {
     }
   }
 
+  function buildStatusConfirmMessage(item: IntakeItem, status: string) {
+    const title = item.summary_title || '부모님 걱정 접수'
+    const elderName = item.elder_name || '부모님'
+    const contactName = item.contact_name || '보호자'
+
+    if (status === 'processing') {
+      return [
+        '이 접수를 정리 중 상태로 바꿀까요?',
+        '',
+        `접수: ${title}`,
+        `부모님: ${elderName}`,
+        `보호자: ${contactName}`,
+        '',
+        '확인을 누르면 운영실 정리 중으로 표시됩니다.'
+      ].join('\n')
+    }
+
+    if (status === 'converted') {
+      return [
+        '이 접수를 케어 요청으로 정리할까요?',
+        '',
+        `접수: ${title}`,
+        `부모님: ${elderName}`,
+        `보호자: ${contactName}`,
+        '',
+        '확인을 누르면 변환 완료 상태로 저장됩니다.',
+        '잘못 누른 경우 취소를 눌러주세요.'
+      ].join('\n')
+    }
+
+    return '상태를 변경할까요?'
+  }
+
   async function updateStatus(item: IntakeItem, status: string) {
+    const confirmMessage = buildStatusConfirmMessage(item, status)
+
+    if (typeof window !== 'undefined' && !window.confirm(confirmMessage)) {
+      setMessage('상태 변경을 취소했습니다.')
+      return
+    }
+
     setMessage('')
 
     try {
