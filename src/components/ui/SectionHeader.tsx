@@ -5,23 +5,61 @@ type SectionHeaderProps = {
   title: ReactNode
   description?: ReactNode
   actions?: ReactNode
+  align?: 'left' | 'center'
 }
 
-export function SectionHeader({ eyebrow, title, description, actions }: SectionHeaderProps) {
+export function SectionHeader({
+  eyebrow,
+  title,
+  description,
+  actions,
+  align = 'left'
+}: SectionHeaderProps) {
+  const isCenter = align === 'center'
+
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-      <div>
-        {eyebrow ? <p className="text-sm font-black text-emerald-700">{eyebrow}</p> : null}
-        <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950 md:text-6xl">
-          {title}
-        </h1>
-        {description ? (
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl md:leading-9">
-            {description}
-          </p>
-        ) : null}
-      </div>
-      {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
-    </div>
+    <section
+      className={[
+        'rounded-[2rem] border border-[#E1EFEC] bg-[linear-gradient(135deg,#FFFFFF_0%,#F2FBF8_48%,#F3FAFE_100%)] px-6 py-7 shadow-[0_18px_54px_rgba(125,169,162,0.11)] md:px-8 md:py-9',
+        isCenter ? 'text-center' : 'text-left'
+      ].join(' ')}
+    >
+      {eyebrow ? (
+        <div
+          className={[
+            'inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-black tracking-[0.02em] text-[#64A098] ring-1 ring-[#D8ECE8]',
+            isCenter ? 'mx-auto' : ''
+          ].join(' ')}
+        >
+          {eyebrow}
+        </div>
+      ) : null}
+
+      <h1 className="mt-4 text-4xl font-black leading-tight tracking-[-0.03em] text-[#2E504D] md:text-6xl">
+        {title}
+      </h1>
+
+      {description ? (
+        <p
+          className={[
+            'mt-4 max-w-3xl text-base font-bold leading-7 text-[#63807C] md:text-lg md:leading-8',
+            isCenter ? 'mx-auto' : ''
+          ].join(' ')}
+        >
+          {description}
+        </p>
+      ) : null}
+
+      {actions ? (
+        <div
+          className={[
+            'mt-6 flex flex-wrap gap-3',
+            isCenter ? 'justify-center' : ''
+          ].join(' ')}
+        >
+          {actions}
+        </div>
+      ) : null}
+    </section>
   )
 }

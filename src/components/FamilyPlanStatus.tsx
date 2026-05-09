@@ -68,14 +68,14 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
   const passportManagerTips = plan?.passportManagerTips || []
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-4xl">
         <div className="rounded-3xl bg-white p-6 shadow-sm md:p-8">
           <p className="text-sm font-black text-emerald-700">가족용 간편 케어플랜</p>
           <h1 className="mt-3 text-3xl font-black md:text-5xl">
             부모님 걱정 처리 상태
           </h1>
-          <p className="mt-4 break-all text-sm text-slate-500">접수번호: {intakeId}</p>
+          <p className="mt-4 break-all text-sm text-[#7A9692]">접수번호: {intakeId}</p>
 
           {loading ? (
             <div className="mt-8 rounded-3xl bg-slate-50 p-8 text-center text-xl font-black">불러오는 중...</div>
@@ -96,24 +96,24 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
                       : 'bg-amber-50')
                 }
               >
-                <p className="text-sm font-black text-slate-600">오늘의 안심판</p>
+                <p className="text-sm font-black text-[#63807C]">오늘의 안심판</p>
                 <div className="mt-2 text-5xl font-black">{plan.reassuranceState}</div>
                 <h2 className="mt-5 text-2xl font-black">{plan.title}</h2>
-                <p className="mt-3 text-lg leading-8 text-slate-700">{plan.oneMinuteSummary}</p>
+                <p className="mt-3 text-lg leading-8 text-[#4E6D69]">{plan.oneMinuteSummary}</p>
 
                 {plan.passportApplied ? (
-                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-slate-700">
+                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-[#4E6D69]">
                     부모님 상태 정보가 케어플랜에 반영됐습니다.
                     {plan.passportElderName ? ` 대상: ${plan.passportElderName}` : ''}
                   </p>
                 ) : (
-                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-slate-700">
+                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-[#4E6D69]">
                     부모님 상태 등록을 하면 청력, 통증, 알러지, 복용약 정보가 플랜에 자동 반영됩니다.
                   </p>
                 )}
 
                 {!data.planReady ? (
-                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-slate-700">
+                  <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-[#4E6D69]">
                     운영실이 아직 확정하지 않은 자동 추천 플랜입니다. 확정 후 안내 문구가 더 정확해집니다.
                   </p>
                 ) : null}
@@ -154,7 +154,7 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
                     ))}
                   </div>
                 ) : (
-                  <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-slate-600">
+                  <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-[#63807C]">
                     아직 반영된 부모님 상태 정보가 없습니다.
                   </p>
                 )}
@@ -164,9 +164,9 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
                 <h2 className="text-2xl font-black">포함된 케어</h2>
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   {plan.careBundles.filter((bundle) => bundle.visibleToFamily).map((bundle) => (
-                    <div key={bundle.code} className="rounded-2xl border border-slate-200 p-4">
+                    <div key={bundle.code} className="rounded-2xl border border-[#E0EFEC] p-4">
                       <div className="text-lg font-black">{bundle.title}</div>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{bundle.description}</p>
+                      <p className="mt-2 text-sm leading-6 text-[#63807C]">{bundle.description}</p>
                     </div>
                   ))}
                 </div>
@@ -179,12 +179,12 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
                 </section>
               ) : null}
 
-              <section className="mt-6 rounded-3xl bg-slate-900 p-6 text-white">
+              <section className="mt-6 rounded-3xl bg-[#5F7C92] p-6 text-[#2E504D]">
                 <h2 className="text-2xl font-black">운영실 안내 문구</h2>
-                <p className="mt-3 text-lg leading-8 text-slate-200">{plan.nextContactScript}</p>
+                <p className="mt-3 text-lg leading-8 text-[#63807C]">{plan.nextContactScript}</p>
 
                 {passportManagerTips.length > 0 ? (
-                  <div className="mt-5 rounded-2xl bg-white/10 p-4">
+                  <div className="mt-5 rounded-2xl bg-white/70 p-4">
                     <h3 className="font-black text-emerald-200">매니저 현장 주의사항</h3>
                     <div className="mt-3 space-y-2">
                       {passportManagerTips.slice(0, 5).map((tip, index) => (
@@ -200,13 +200,13 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
           )}
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+            <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               다시 확인
             </button>
-            <Link href="/care-passport" className="rounded-2xl bg-blue-600 px-5 py-4 font-black text-white">
+            <Link href="/care-passport" className="rounded-2xl bg-[#A7D3EA] px-5 py-4 font-black text-[#2E504D]">
               부모님 상태 등록
             </Link>
-            <Link href="/care-request" className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+            <Link href="/care-request" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
               또 다른 걱정 접수
             </Link>
             <Link href="/" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">

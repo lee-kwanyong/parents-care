@@ -71,17 +71,17 @@ export default function CareCostsPage() {
         <CostApprovalBoard mode="family" />
       </div>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-5 text-white md:p-7">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-5 text-[#2E504D] md:p-7">
         <h2 className="text-2xl font-black">차량 정책도 분리합니다</h2>
-        <p className="mt-3 text-base font-bold leading-7 text-slate-200">
+        <p className="mt-3 text-base font-bold leading-7 text-[#63807C]">
           차량 보유 여부는 참고 정보입니다. 매니저 개인차량 직접 유상운송은 기본 서비스에 포함되지 않습니다.
           기본 이동은 병원 앞 만남, 집 앞 만남 후 택시 동행, 이동지원 제휴 기준입니다.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/manager" className="rounded-2xl bg-white px-4 py-3 text-sm font-black text-slate-950">
+          <Link href="/manager" className="rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#2F4948]">
             매니저 정책 보기
           </Link>
-          <Link href="/child/cases" className="rounded-2xl bg-white/10 px-4 py-3 text-sm font-black">
+          <Link href="/child/cases" className="rounded-2xl bg-white/70 px-4 py-3 text-sm font-black">
             케이스에서 확인
           </Link>
         </div>

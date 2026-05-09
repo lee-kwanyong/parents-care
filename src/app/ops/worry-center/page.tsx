@@ -105,17 +105,17 @@ export default function OpsWorryCenterPage() {
   }, [items])
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-black text-care-700">운영실</p>
             <h1 className="mt-2 text-3xl font-black md:text-5xl">부모님 걱정 해결 센터</h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               로그인 연동 전까지는 비로그인 접수를 운영실에서 확인합니다. 배포 전에는 이 화면을 운영실 권한으로 잠급니다.
             </p>
           </div>
-          <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             새로고침
           </button>
         </div>
@@ -138,7 +138,7 @@ export default function OpsWorryCenterPage() {
           ) : items.length === 0 ? (
             <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
               <div className="text-xl font-black">아직 접수된 걱정이 없습니다.</div>
-              <p className="mt-2 text-slate-500">/care-request 에서 테스트 접수를 만들어보세요.</p>
+              <p className="mt-2 text-[#7A9692]">/care-request 에서 테스트 접수를 만들어보세요.</p>
             </div>
           ) : (
             items.map((item) => (
@@ -154,10 +154,10 @@ export default function OpsWorryCenterPage() {
                     <h2 className="mt-4 text-2xl font-black">
                       {item.contact_name || '보호자 이름 미입력'} · {item.contact_phone || '연락처 미입력'}
                     </h2>
-                    <p className="mt-3 whitespace-pre-wrap text-lg leading-8 text-slate-700">
+                    <p className="mt-3 whitespace-pre-wrap text-lg leading-8 text-[#4E6D69]">
                       {item.raw_text || item.ai_summary || '내용 없음'}
                     </p>
-                    <p className="mt-3 text-sm text-slate-500">
+                    <p className="mt-3 text-sm text-[#7A9692]">
                       접수일: {new Date(item.created_at).toLocaleString('ko-KR')}
                     </p>
                   </div>
@@ -189,7 +189,7 @@ export default function OpsWorryCenterPage() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-3xl bg-white p-5 shadow-sm">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-2 text-3xl font-black">{value}</div>
     </div>
   )
@@ -197,7 +197,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

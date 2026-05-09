@@ -79,10 +79,10 @@ export function DemoStartBoard() {
 
   return (
     <div>
-      <section className="rounded-[2rem] bg-slate-950 p-6 text-white md:p-8">
+      <section className="rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D] md:p-8">
         <div className="flex flex-wrap gap-2">
-          <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">DEMO MODE</span>
-          <span className="rounded-full bg-emerald-300 px-3 py-1 text-xs font-black text-slate-950">M&A 시연용</span>
+          <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">DEMO MODE</span>
+          <span className="rounded-full bg-emerald-300 px-3 py-1 text-xs font-black text-[#2F4948]">M&A 시연용</span>
         </div>
 
         <h1 className="mt-5 text-4xl font-black leading-tight md:text-6xl">
@@ -91,7 +91,7 @@ export function DemoStartBoard() {
           부모님 케어 데모
         </h1>
 
-        <p className="mt-5 max-w-3xl text-lg font-bold leading-8 text-slate-200">
+        <p className="mt-5 max-w-3xl text-lg font-bold leading-8 text-[#63807C]">
           보호자 걱정 접수부터 사진·카톡 접수, 운영실 처리, 검증 매니저 매칭, 부모님 큰 글씨 화면, 리포트, 평가까지 한 번에 시연합니다.
         </p>
       </section>
@@ -106,12 +106,12 @@ export function DemoStartBoard() {
               'rounded-3xl border p-4 text-left transition ' +
               (role === item.code
                 ? 'border-emerald-500 bg-emerald-50'
-                : 'border-slate-200 bg-white hover:bg-slate-50')
+                : 'border-[#E0EFEC] bg-white hover:bg-slate-50')
             }
           >
             <div className="text-xl font-black">{item.label}</div>
-            <p className="mt-2 text-xs font-bold leading-5 text-slate-600">{item.description}</p>
-            <Link href={item.homePath} className="mt-4 inline-block rounded-2xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+            <p className="mt-2 text-xs font-bold leading-5 text-[#63807C]">{item.description}</p>
+            <Link href={item.homePath} className="mt-4 inline-block rounded-2xl bg-[#5F7C92] px-4 py-3 text-sm font-black text-[#2E504D]">
               화면 열기
             </Link>
           </button>
@@ -126,21 +126,21 @@ export function DemoStartBoard() {
           </div>
 
           <h2 className="mt-4 text-3xl font-black">데모 데이터를 자동 생성합니다</h2>
-          <p className="mt-3 text-sm font-bold leading-6 text-slate-600">
+          <p className="mt-3 text-sm font-bold leading-6 text-[#63807C]">
             보호자, 매니저, 운영실 계정과 어머니 케이스, 검증 매니저, 매칭 요청, 현장 배정, 평가 데이터를 생성합니다.
           </p>
 
           <input
             value={secret}
             onChange={(event) => setSecret(event.target.value)}
-            className="mt-5 w-full rounded-2xl border border-slate-200 p-4"
+            className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4"
             placeholder="Production에서는 DEMO_SEED_SECRET 또는 CRON_SECRET 입력"
           />
 
           <button
             onClick={seedDemo}
             disabled={seeding}
-            className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white disabled:opacity-50"
+            className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D] disabled:opacity-50"
           >
             {seeding ? '데모 데이터 생성 중...' : '데모 데이터 생성'}
           </button>
@@ -154,7 +154,7 @@ export function DemoStartBoard() {
 
         <CareCard tone="blue">
           <h2 className="text-3xl font-black">데모 계정</h2>
-          <p className="mt-3 text-sm font-bold leading-6 text-slate-700">
+          <p className="mt-3 text-sm font-bold leading-6 text-[#4E6D69]">
             이메일/비밀번호 로그인 테스트용 계정입니다. Supabase Service Role Key가 있으면 자동 생성됩니다.
           </p>
 
@@ -162,8 +162,8 @@ export function DemoStartBoard() {
             {demoAccounts.map((account) => (
               <div key={account.email} className="rounded-2xl bg-white p-4">
                 <div className="font-black">{account.label}</div>
-                <p className="mt-1 text-sm font-bold text-slate-600">{account.email}</p>
-                <p className="mt-1 text-sm font-bold text-slate-600">{account.password}</p>
+                <p className="mt-1 text-sm font-bold text-[#63807C]">{account.email}</p>
+                <p className="mt-1 text-sm font-bold text-[#63807C]">{account.password}</p>
               </div>
             ))}
           </div>
@@ -182,7 +182,7 @@ export function DemoStartBoard() {
       {seedResult ? (
         <section className="mt-8 rounded-[2rem] bg-white p-5 shadow-sm md:p-7">
           <h2 className="text-2xl font-black">생성 결과</h2>
-          <p className="mt-2 text-sm font-bold text-slate-600">{seedResult.message}</p>
+          <p className="mt-2 text-sm font-bold text-[#63807C]">{seedResult.message}</p>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {seedResult.results?.map((result) => (
@@ -204,7 +204,7 @@ export function DemoStartBoard() {
 
       <section className="mt-8">
         <h2 className="text-3xl font-black">M&A 데모 시나리오</h2>
-        <p className="mt-2 text-sm font-bold leading-6 text-slate-600">
+        <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
           바이어에게는 아래 순서대로 15분 안에 보여주면 됩니다.
         </p>
 
@@ -217,14 +217,14 @@ export function DemoStartBoard() {
               </div>
 
               <h3 className="mt-4 text-2xl font-black">{step.title}</h3>
-              <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{step.description}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{step.description}</p>
 
               <div className="mt-4 rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs font-black text-slate-500">확인 포인트</div>
+                <div className="text-xs font-black text-[#7A9692]">확인 포인트</div>
                 <p className="mt-1 text-sm font-bold leading-6">{step.checkPoint}</p>
               </div>
 
-              <Link href={step.path} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-slate-950 px-5 py-4 font-black text-white">
+              <Link href={step.path} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
                 화면 열기: {step.path}
               </Link>
             </CareCard>

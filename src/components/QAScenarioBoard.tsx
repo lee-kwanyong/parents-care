@@ -205,7 +205,7 @@ export function QAScenarioBoard() {
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">QA 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">QA 안심판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.reassuranceState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -229,7 +229,7 @@ export function QAScenarioBoard() {
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -248,7 +248,7 @@ export function QAScenarioBoard() {
         ) : scenarios.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 QA 시나리오가 없습니다.</div>
-            <p className="mt-2 text-slate-500">Supabase SQL을 먼저 실행해주세요.</p>
+            <p className="mt-2 text-[#7A9692]">Supabase SQL을 먼저 실행해주세요.</p>
           </div>
         ) : (
           scenarios.map((scenario) => {
@@ -269,7 +269,7 @@ export function QAScenarioBoard() {
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{scenario.title}</h3>
-                    <p className="mt-3 text-base font-bold leading-7 text-slate-600">{scenario.description}</p>
+                    <p className="mt-3 text-base font-bold leading-7 text-[#63807C]">{scenario.description}</p>
 
                     <div className="mt-4 rounded-2xl bg-emerald-50 p-4">
                       <h4 className="font-black text-emerald-950">기대 결과</h4>
@@ -278,7 +278,7 @@ export function QAScenarioBoard() {
 
                     <div className="mt-4 flex flex-wrap gap-2">
                       {(scenario.pass_criteria || []).map((criterion) => (
-                        <span key={criterion} className="rounded-full bg-slate-100 px-3 py-2 text-xs font-black text-slate-700">
+                        <span key={criterion} className="rounded-full bg-slate-100 px-3 py-2 text-xs font-black text-[#4E6D69]">
                           {criterion}
                         </span>
                       ))}
@@ -286,12 +286,12 @@ export function QAScenarioBoard() {
                   </div>
 
                   <div className="grid min-w-[180px] gap-2">
-                    <button onClick={() => startRun(scenario)} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                    <button onClick={() => startRun(scenario)} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                       QA Run 시작
                     </button>
                     {latestRun ? (
                       <>
-                        <button onClick={() => updateRun(latestRun.id, 'passed')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRun(latestRun.id, 'passed')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                           Run 통과
                         </button>
                         <button onClick={() => updateRun(latestRun.id, 'needs_fix')} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
@@ -321,7 +321,7 @@ export function QAScenarioBoard() {
                           </div>
 
                           <div className="mt-3 text-lg font-black">{step.action_label}</div>
-                          <p className="mt-2 text-sm leading-6 text-slate-600">{step.expected_result}</p>
+                          <p className="mt-2 text-sm leading-6 text-[#63807C]">{step.expected_result}</p>
 
                           <div className="mt-3 flex flex-wrap gap-2">
                             <Link href={step.screen_path} className="rounded-xl bg-slate-100 px-3 py-2 text-sm font-black">
@@ -355,7 +355,7 @@ export function QAScenarioBoard() {
                 </section>
 
                 {scenarioRuns.length > 0 ? (
-                  <section className="mt-6 rounded-3xl bg-slate-950 p-5 text-white">
+                  <section className="mt-6 rounded-3xl bg-[#5F7C92] p-5 text-[#2E504D]">
                     <h4 className="text-xl font-black">최근 QA Run</h4>
                     <div className="mt-4 space-y-3">
                       {scenarioRuns.slice(0, 3).map((run) => {
@@ -365,15 +365,15 @@ export function QAScenarioBoard() {
                         const passed = runResults.filter((result) => result.result_status === 'passed').length
 
                         return (
-                          <div key={run.id} className="rounded-2xl bg-white/10 p-4">
+                          <div key={run.id} className="rounded-2xl bg-white/70 p-4">
                             <div className="flex flex-wrap gap-2">
-                              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">{labelQARunStatus(run.run_status)}</span>
-                              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">통과 {passed}</span>
-                              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">실패 {failed}</span>
-                              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">차단 {blocked}</span>
+                              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">{labelQARunStatus(run.run_status)}</span>
+                              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">통과 {passed}</span>
+                              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">실패 {failed}</span>
+                              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">차단 {blocked}</span>
                             </div>
                             <div className="mt-2 font-black">{run.run_label}</div>
-                            <p className="mt-1 text-xs text-slate-300">{new Date(run.created_at).toLocaleString('ko-KR')}</p>
+                            <p className="mt-1 text-xs text-[#7A9692]">{new Date(run.created_at).toLocaleString('ko-KR')}</p>
                           </div>
                         )
                       })}
@@ -392,7 +392,7 @@ export function QAScenarioBoard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -400,7 +400,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

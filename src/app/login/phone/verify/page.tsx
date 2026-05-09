@@ -41,19 +41,19 @@ export default async function PhoneVerifyPage({
             <input type="hidden" name="next" value={next} />
 
             <label className="block">
-              <span className="mb-2 block text-sm font-black text-slate-700">인증번호</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">인증번호</span>
               <input
                 name="token"
                 inputMode="numeric"
                 autoComplete="one-time-code"
                 required
                 maxLength={8}
-                className="w-full rounded-3xl border border-slate-200 p-5 text-center text-3xl font-black tracking-[0.35em] outline-none focus:border-care-500"
+                className="w-full rounded-3xl border border-[#E0EFEC] p-5 text-center text-3xl font-black tracking-[0.35em] outline-none focus:border-care-500"
                 placeholder="123456"
               />
             </label>
 
-            <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-white hover:bg-care-700">
+            <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-[#2E504D] hover:bg-care-700">
               확인하고 시작하기
             </button>
           </form>

@@ -6,7 +6,7 @@ import { PWAInstallPanel } from '@/components/PWAInstallPanel'
 
 export default function ParentInstallPage() {
   return (
-    <main className="min-h-screen bg-emerald-50 px-5 py-6 text-slate-950">
+    <main className="min-h-screen bg-emerald-50 px-5 py-6 text-[#2F4948]">
       <section className="mx-auto max-w-xl space-y-5">
         <CareCard tone="white">
           <StatusPill text="부모님 폰 설치 안내" tone="green" />
@@ -17,7 +17,7 @@ export default function ParentInstallPage() {
             <br />
             추가해드려요.
           </h1>
-          <p className="mt-5 text-xl font-bold leading-9 text-slate-700">
+          <p className="mt-5 text-xl font-bold leading-9 text-[#4E6D69]">
             부모님은 앱 사용법을 외우실 필요가 없습니다. 홈 화면에서 버튼 하나만 누르면 오늘 일정과 만남 암호가 보입니다.
           </p>
 
@@ -49,13 +49,13 @@ export default function ParentInstallPage() {
           </div>
         </CareCard>
 
-        <div className="rounded-[2rem] bg-slate-950 p-5 text-white">
+        <div className="rounded-[2rem] bg-[#5F7C92] p-5 text-[#2E504D]">
           <h2 className="text-2xl font-black">설치 후 확인</h2>
           <div className="mt-4 space-y-3">
-            <Link href="/parent/today" className="block rounded-2xl bg-white/10 p-4 text-lg font-black">
+            <Link href="/parent/today" className="block rounded-2xl bg-white/70 p-4 text-lg font-black">
               오늘 일정 화면 열기
             </Link>
-            <Link href="/care-passport" className="block rounded-2xl bg-white/10 p-4 text-lg font-black">
+            <Link href="/care-passport" className="block rounded-2xl bg-white/70 p-4 text-lg font-black">
               케어패스포트 확인
             </Link>
           </div>

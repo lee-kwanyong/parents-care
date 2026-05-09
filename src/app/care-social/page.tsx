@@ -78,7 +78,7 @@ export default function CareSocialPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-6xl">
         <p className="text-sm font-black text-emerald-700">사회공헌·공공지원 연결</p>
         <h1 className="mt-2 text-3xl font-black md:text-5xl">
@@ -86,7 +86,7 @@ export default function CareSocialPage() {
           <br />
           걱정될 때도 맡길 수 있어야 합니다.
         </h1>
-        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-[#63807C]">
           비용 부담, 결식 우려, 가족 부재, 독거, 퇴원 후 돌봄 공백이 있으면
           운영실이 공공지원·후원 쿠폰·지역 복지·식사 지원 연결 가능성을 확인합니다.
         </p>
@@ -94,7 +94,7 @@ export default function CareSocialPage() {
         <form onSubmit={submit} className="mt-8 space-y-6">
           <section className="rounded-3xl bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-black">1. 어떤 도움이 필요하세요?</h2>
-            <p className="mt-2 text-slate-600">
+            <p className="mt-2 text-[#63807C]">
               정확히 몰라도 괜찮습니다. 가장 비슷한 항목만 골라주세요.
             </p>
 
@@ -108,11 +108,11 @@ export default function CareSocialPage() {
                     'rounded-2xl border p-4 text-left transition ' +
                     (needTypes.includes(option.code)
                       ? 'border-emerald-500 bg-emerald-50'
-                      : 'border-slate-200 bg-white hover:bg-slate-50')
+                      : 'border-[#E0EFEC] bg-white hover:bg-slate-50')
                   }
                 >
                   <div className="text-lg font-black">{option.label}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{option.description}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#63807C]">{option.description}</p>
                 </button>
               ))}
             </div>
@@ -123,30 +123,30 @@ export default function CareSocialPage() {
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">부모님</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">부모님</span>
                 <input
                   value={elderName}
                   onChange={(event) => setElderName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">보호자 이름</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 이름</span>
                 <input
                   value={guardianName}
                   onChange={(event) => setGuardianName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 이관용"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">보호자 연락처</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 연락처</span>
                 <input
                   value={guardianPhone}
                   onChange={(event) => setGuardianPhone(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="010-1234-5678"
                 />
               </label>
@@ -154,11 +154,11 @@ export default function CareSocialPage() {
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">생활 상황</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">생활 상황</span>
                 <select
                   value={livingSituation}
                   onChange={(event) => setLivingSituation(event.target.value as LivingSituation)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 >
                   {livingSituationOptions.map((option) => (
                     <option key={option.code} value={option.code}>
@@ -169,11 +169,11 @@ export default function CareSocialPage() {
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">긴급도</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">긴급도</span>
                 <select
                   value={urgency}
                   onChange={(event) => setUrgency(event.target.value as SocialUrgency)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 >
                   <option value="low">낮음</option>
                   <option value="normal">보통</option>
@@ -183,11 +183,11 @@ export default function CareSocialPage() {
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">연락 방식</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">연락 방식</span>
                 <select
                   value={preferredContact}
                   onChange={(event) => setPreferredContact(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 >
                   <option value="phone">전화</option>
                   <option value="kakao">카톡</option>
@@ -236,22 +236,22 @@ export default function CareSocialPage() {
                   onClick={() => item.set(!item.checked)}
                   className={
                     'rounded-2xl border p-4 text-left transition ' +
-                    (item.checked ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-white')
+                    (item.checked ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-white')
                   }
                 >
                   <div className="text-lg font-black">{item.title}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{item.desc}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#63807C]">{item.desc}</p>
                 </button>
               ))}
             </div>
 
             <label className="mt-5 block">
-              <span className="mb-2 block text-sm font-black text-slate-700">상황 메모</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">상황 메모</span>
               <textarea
                 value={memo}
                 onChange={(event) => setMemo(event.target.value)}
                 rows={5}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 어머니가 혼자 계시고 식사를 자주 거르세요. 병원비와 도시락 비용도 부담됩니다. 어떤 지원이 가능한지 잘 모르겠습니다."
               />
             </label>
@@ -265,7 +265,7 @@ export default function CareSocialPage() {
 
           <button
             disabled={saving}
-            className="w-full rounded-3xl bg-emerald-600 px-6 py-6 text-2xl font-black text-white disabled:opacity-50"
+            className="w-full rounded-3xl bg-[#8CCFC3] px-6 py-6 text-2xl font-black text-[#2E504D] disabled:opacity-50"
           >
             {saving ? '접수 중...' : '사회공헌 지원 검토 요청'}
           </button>

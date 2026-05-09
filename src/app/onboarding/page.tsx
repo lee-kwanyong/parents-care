@@ -15,14 +15,14 @@ export default async function OnboardingPage({ searchParams }: { searchParams?: 
         {params.error ? <p className="mb-4 rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-700">{params.error}</p> : null}
         <form action={completeOnboardingAction} className="space-y-4">
           <label className="block">
-            <span className="mb-2 block text-sm font-black text-slate-700">보호자 이름</span>
-            <input name="displayName" defaultValue={user.email ?? ''} className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-care-500" />
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 이름</span>
+            <input name="displayName" defaultValue={user.email ?? ''} className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-care-500" />
           </label>
           <label className="block">
-            <span className="mb-2 block text-sm font-black text-slate-700">가족 공간 이름</span>
-            <input name="familyName" defaultValue="우리 가족" className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-care-500" />
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">가족 공간 이름</span>
+            <input name="familyName" defaultValue="우리 가족" className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-care-500" />
           </label>
-          <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-white hover:bg-care-700">시작하기</button>
+          <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-[#2E504D] hover:bg-care-700">시작하기</button>
         </form>
       </Card>
     </AppShell>

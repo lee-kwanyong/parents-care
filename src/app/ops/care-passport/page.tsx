@@ -52,7 +52,7 @@ export default function OpsCarePassportPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -60,11 +60,11 @@ export default function OpsCarePassportPage() {
             <h1 className="mt-2 text-3xl font-black md:text-5xl">
               부모님 케어패스포트 확인
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               매니저 배정 전 청력, 통증, 알러지, 복용약, 낙상 위험을 확인합니다.
             </p>
           </div>
-          <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             새로고침
           </button>
         </div>
@@ -79,7 +79,7 @@ export default function OpsCarePassportPage() {
           ) : items.length === 0 ? (
             <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
               <div className="text-xl font-black">등록된 케어패스포트가 없습니다.</div>
-              <p className="mt-2 text-slate-500">/care-passport 에서 먼저 등록해보세요.</p>
+              <p className="mt-2 text-[#7A9692]">/care-passport 에서 먼저 등록해보세요.</p>
             </div>
           ) : (
             items.map((item) => (
@@ -95,7 +95,7 @@ export default function OpsCarePassportPage() {
                     </div>
 
                     <h2 className="mt-4 text-3xl font-black">{item.elder_name}</h2>
-                    <p className="mt-2 text-slate-600">
+                    <p className="mt-2 text-[#63807C]">
                       보호자: {item.guardian_name || '미입력'} · {item.guardian_phone || '미입력'}
                     </p>
 
@@ -146,7 +146,7 @@ export default function OpsCarePassportPage() {
 }
 
 function Badge({ text }: { text: string }) {
-  return <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">{text}</span>
+  return <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">{text}</span>
 }
 
 function InfoBox({ title, items }: { title: string; items: string[] }) {
@@ -156,12 +156,12 @@ function InfoBox({ title, items }: { title: string; items: string[] }) {
       <div className="mt-3 space-y-2">
         {items.length > 0 ? (
           items.map((item) => (
-            <p key={item} className="text-sm leading-6 text-slate-700">
+            <p key={item} className="text-sm leading-6 text-[#4E6D69]">
               • {item}
             </p>
           ))
         ) : (
-          <p className="text-sm text-slate-500">미입력</p>
+          <p className="text-sm text-[#7A9692]">미입력</p>
         )}
       </div>
     </div>

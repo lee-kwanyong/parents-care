@@ -141,7 +141,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">통합 케어 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">통합 케어 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -165,7 +165,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -179,25 +179,25 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
       {mode === 'ops' ? (
         <form onSubmit={createCase} className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black">통합 케어 케이스 만들기</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-[#63807C]">
             최근 걱정 접수, 사진 접수, 케어패스포트, 식사, 약, 서류, 매니저, 비용승인, 30초 요약을 하나의 케이스로 묶습니다.
           </p>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             <input
               name="elderName"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="부모님"
               defaultValue="어머니"
             />
             <input
               name="guardianName"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="보호자 이름"
             />
             <input
               name="guardianPhone"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="010-1234-5678"
             />
           </div>
@@ -205,11 +205,11 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
           <div className="mt-3 grid gap-3 md:grid-cols-[1fr_220px_220px]">
             <input
               name="caseTitle"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="예: 어머니 5월 정형외과 케어"
               defaultValue="어머니 통합 케어 케이스"
             />
-            <select name="caseType" className="rounded-2xl border border-slate-200 p-4">
+            <select name="caseType" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="parent_care">부모님 통합 케어</option>
               <option value="hospital_day">병원 가는 날</option>
               <option value="meal_care">식사 케어</option>
@@ -218,13 +218,13 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
               <option value="social_support">사회공헌 연결</option>
               <option value="custom">직접 만들기</option>
             </select>
-            <select name="action" className="rounded-2xl border border-slate-200 p-4">
+            <select name="action" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="create_from_latest">최근 데이터 자동 연결</option>
               <option value="create_empty">빈 케이스 만들기</option>
             </select>
           </div>
 
-          <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
             통합 케어 케이스 만들기
           </button>
         </form>
@@ -239,9 +239,9 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 통합 케어 케이스가 없습니다.</div>
             {mode === 'ops' ? (
-              <p className="mt-2 text-slate-500">위에서 케이스를 만들어보세요.</p>
+              <p className="mt-2 text-[#7A9692]">위에서 케이스를 만들어보세요.</p>
             ) : (
-              <p className="mt-2 text-slate-500">운영실이 케이스를 만들면 여기에서 확인할 수 있습니다.</p>
+              <p className="mt-2 text-[#7A9692]">운영실이 케이스를 만들면 여기에서 확인할 수 있습니다.</p>
             )}
           </div>
         ) : (
@@ -262,12 +262,12 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
 
                     <h3 className="mt-3 text-3xl font-black">{caseItem.case_title}</h3>
 
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       {caseItem.elder_name} · {caseItem.guardian_name || '보호자 미입력'} · {caseItem.guardian_phone || '연락처 미입력'}
                     </p>
 
                     {caseItem.summary_text ? (
-                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-base leading-7 text-slate-700">
+                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-base leading-7 text-[#4E6D69]">
                         {caseItem.summary_text}
                       </p>
                     ) : null}
@@ -295,13 +295,13 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                         </button>
                         <button
                           onClick={() => updateCase(caseItem.id, 'completed')}
-                          className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white"
+                          className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]"
                         >
                           완료
                         </button>
                         <button
                           onClick={() => updateCase(caseItem.id, 'archived')}
-                          className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white"
+                          className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]"
                         >
                           보관
                         </button>
@@ -309,7 +309,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                     ) : (
                       <button
                         onClick={() => updateCase(caseItem.id, 'completed')}
-                        className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white"
+                        className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]"
                       >
                         확인했어요
                       </button>
@@ -321,7 +321,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                   <h4 className="text-xl font-black">연결된 케어 항목</h4>
 
                   {caseLinks.length === 0 ? (
-                    <p className="mt-3 text-sm text-slate-500">아직 연결된 항목이 없습니다.</p>
+                    <p className="mt-3 text-sm text-[#7A9692]">아직 연결된 항목이 없습니다.</p>
                   ) : (
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
                       {caseLinks.map((link) => (
@@ -342,30 +342,30 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                   )}
                 </section>
 
-                <section className="mt-6 rounded-3xl bg-slate-900 p-5 text-white">
+                <section className="mt-6 rounded-3xl bg-[#5F7C92] p-5 text-[#2E504D]">
                   <h4 className="text-xl font-black">통합 타임라인</h4>
 
                   {caseTimeline.length === 0 ? (
-                    <p className="mt-3 text-sm text-slate-300">아직 타임라인이 없습니다.</p>
+                    <p className="mt-3 text-sm text-[#7A9692]">아직 타임라인이 없습니다.</p>
                   ) : (
                     <div className="mt-4 space-y-3">
                       {caseTimeline.slice(0, 10).map((event) => (
-                        <div key={event.id} className="rounded-2xl bg-white/10 p-4">
+                        <div key={event.id} className="rounded-2xl bg-white/70 p-4">
                           <div className="flex flex-wrap gap-2">
-                            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">
+                            <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">
                               {event.severity}
                             </span>
                             {event.event_status ? (
-                              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black">
+                              <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black">
                                 {event.event_status}
                               </span>
                             ) : null}
                           </div>
                           <div className="mt-2 font-black">{event.title}</div>
                           {event.description ? (
-                            <p className="mt-1 text-sm leading-6 text-slate-200">{event.description}</p>
+                            <p className="mt-1 text-sm leading-6 text-[#63807C]">{event.description}</p>
                           ) : null}
-                          <p className="mt-2 text-xs text-slate-400">
+                          <p className="mt-2 text-xs text-[#92AAA6]">
                             {new Date(event.occurred_at).toLocaleString('ko-KR')}
                           </p>
                         </div>
@@ -385,7 +385,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -393,7 +393,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )
@@ -406,12 +406,12 @@ function InfoBox({ title, items }: { title: string; items: string[] }) {
       <div className="mt-2 space-y-1">
         {items.length > 0 ? (
           items.map((item) => (
-            <p key={item} className="text-sm leading-6 text-slate-700">
+            <p key={item} className="text-sm leading-6 text-[#4E6D69]">
               • {item}
             </p>
           ))
         ) : (
-          <p className="text-sm text-slate-500">없음</p>
+          <p className="text-sm text-[#7A9692]">없음</p>
         )}
       </div>
     </div>

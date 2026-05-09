@@ -88,7 +88,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
     <div>
       <section className="rounded-3xl bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-black">파일 업로드</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-[#63807C]">
           약 봉투, 영수증, 처방전, 예약 문자 캡처, 검사결과지를 Supabase Storage에 저장합니다.
         </p>
 
@@ -96,26 +96,26 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
           <div className="grid gap-3 md:grid-cols-3">
             <input
               name="elderName"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="부모님"
               defaultValue="어머니"
             />
 
             <input
               name="uploadedByName"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="업로드한 사람"
             />
 
             <input
               name="uploadedByPhone"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="010-1234-5678"
             />
           </div>
 
           <div className="grid gap-3 md:grid-cols-3">
-            <select name="linkedModule" className="rounded-2xl border border-slate-200 p-4">
+            <select name="linkedModule" className="rounded-2xl border border-[#E0EFEC] p-4">
               {careFileModuleOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label}
@@ -123,7 +123,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
               ))}
             </select>
 
-            <select name="uploadedByRole" className="rounded-2xl border border-slate-200 p-4">
+            <select name="uploadedByRole" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="family">가족</option>
               <option value="ops">운영실</option>
               <option value="manager">매니저</option>
@@ -131,7 +131,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
 
             <input
               name="fileLabel"
-              className="rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="예: 약 봉투 사진"
             />
           </div>
@@ -141,7 +141,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
             multiple
             accept="image/*,.pdf,.txt"
             onChange={onFileChange}
-            className="block w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5"
+            className="block w-full rounded-2xl border border-dashed border-[#D6EAE7] bg-slate-50 p-5"
           />
 
           {selectedFiles.length > 0 ? (
@@ -149,7 +149,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
               <div className="font-black">선택된 파일</div>
               <div className="mt-2 space-y-1">
                 {selectedFiles.map((file) => (
-                  <p key={`${file.name}-${file.size}`} className="text-sm text-slate-600">
+                  <p key={`${file.name}-${file.size}`} className="text-sm text-[#63807C]">
                     • {file.name} · {formatFileSize(file.size)}
                   </p>
                 ))}
@@ -160,13 +160,13 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
           <textarea
             name="memo"
             rows={3}
-            className="w-full rounded-2xl border border-slate-200 p-4"
+            className="w-full rounded-2xl border border-[#E0EFEC] p-4"
             placeholder="메모. 예: 정형외과 진료 후 받은 처방전입니다."
           />
 
           <button
             disabled={uploading}
-            className="w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white disabled:opacity-50"
+            className="w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D] disabled:opacity-50"
           >
             {uploading ? '업로드 중...' : '파일 업로드'}
           </button>
@@ -174,7 +174,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -207,12 +207,12 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                   </div>
 
                   <h3 className="mt-3 text-2xl font-black">{file.file_label || file.file_name}</h3>
-                  <p className="mt-2 text-sm text-slate-600">
+                  <p className="mt-2 text-sm text-[#63807C]">
                     {file.elder_name} · {file.mime_type} · {new Date(file.created_at).toLocaleString('ko-KR')}
                   </p>
 
                   {file.memo ? (
-                    <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                    <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                       {file.memo}
                     </p>
                   ) : null}
@@ -233,7 +233,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                       href={file.file_url}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-2xl bg-slate-900 px-4 py-3 text-center font-black text-white"
+                      className="rounded-2xl bg-[#5F7C92] px-4 py-3 text-center font-black text-[#2E504D]"
                     >
                       파일 열기
                     </a>
@@ -256,7 +256,7 @@ export function CareFileBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

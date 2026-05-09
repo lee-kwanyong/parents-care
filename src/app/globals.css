@@ -48,3 +48,39 @@ button, input, select, textarea { font: inherit; }
     outline-offset: 3px;
   }
 }
+
+/* bright-care-ui */
+:root {
+  --care-bg: #f7fcfb;
+  --care-mint: #8ccfc3;
+  --care-mint-soft: #e5f8f4;
+  --care-blue-soft: #eaf6fc;
+  --care-text: #2e504d;
+}
+
+body {
+  background: linear-gradient(180deg, #ffffff 0%, #f3fbf9 45%, #f6fbfe 100%);
+}
+
+/* bright-care-ui */
+:root {
+  --care-bg: #f7fcfb;
+  --care-mint: #8ccfc3;
+  --care-mint-soft: #e5f8f4;
+  --care-blue-soft: #eaf6fc;
+  --care-text: #2e504d;
+}
+
+body {
+  background: linear-gradient(180deg, #ffffff 0%, #f3fbf9 45%, #f6fbfe 100%);
+}
+
+/* solid-white-header-fix */
+header[class*="sticky"][class*="top-0"],
+nav[class*="sticky"][class*="top-0"],
+div[class*="sticky"][class*="top-0"] {
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 8px 24px rgba(82, 112, 108, 0.08);
+}

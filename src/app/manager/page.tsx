@@ -85,7 +85,7 @@ export default function ManagerHomePage() {
         <Link href="/manager/today">
           <CareCard tone="dark" className="h-full">
             <h2 className="text-2xl font-black">오늘 배정</h2>
-            <p className="mt-3 text-sm font-bold leading-6 text-slate-200">
+            <p className="mt-3 text-sm font-bold leading-6 text-[#63807C]">
               현장 체크리스트와 단계별 진행상태 업데이트
             </p>
           </CareCard>
@@ -94,7 +94,7 @@ export default function ManagerHomePage() {
         <Link href="/ops/manager-field">
           <CareCard tone="white" className="h-full">
             <h2 className="text-2xl font-black">운영실 현장 보드</h2>
-            <p className="mt-3 text-sm font-bold leading-6 text-slate-600">
+            <p className="mt-3 text-sm font-bold leading-6 text-[#63807C]">
               배정 생성, 이슈 확인, 리포트 검수
             </p>
           </CareCard>

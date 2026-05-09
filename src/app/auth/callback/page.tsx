@@ -48,7 +48,7 @@ function AuthCallbackInner() {
   }, [router, searchParams])
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-950">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2F4948]">
       <section className="mx-auto max-w-xl">
         <CareCard tone="green">
           <h1 className="text-3xl font-black">로그인 확인</h1>

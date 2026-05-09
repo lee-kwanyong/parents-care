@@ -133,10 +133,10 @@ export default function ManagerApplyPage() {
           <h2 className="mt-4 text-3xl font-black">연락 가능한 정보를 입력해주세요</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-4">
-            <input value={applicantName} onChange={(event) => setApplicantName(event.target.value)} required className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="이름" />
-            <input value={applicantPhone} onChange={(event) => setApplicantPhone(event.target.value)} required className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
-            <input value={birthYear} onChange={(event) => setBirthYear(event.target.value)} inputMode="numeric" className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="출생연도 예: 1975" />
-            <input value={addressText} onChange={(event) => setAddressText(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="거주지역 예: 서울 강서구" />
+            <input value={applicantName} onChange={(event) => setApplicantName(event.target.value)} required className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="이름" />
+            <input value={applicantPhone} onChange={(event) => setApplicantPhone(event.target.value)} required className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
+            <input value={birthYear} onChange={(event) => setBirthYear(event.target.value)} inputMode="numeric" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="출생연도 예: 1975" />
+            <input value={addressText} onChange={(event) => setAddressText(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="거주지역 예: 서울 강서구" />
           </div>
         </CareCard>
 
@@ -158,11 +158,11 @@ export default function ManagerApplyPage() {
                   'rounded-3xl border p-5 text-left transition ' +
                   (managerType === option.code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-xl font-black">{option.label}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{option.description}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{option.description}</p>
               </button>
             ))}
           </div>
@@ -186,7 +186,7 @@ export default function ManagerApplyPage() {
                   'rounded-2xl border p-4 text-left text-sm font-black transition ' +
                   (certifications.includes(item)
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 {item}
@@ -195,11 +195,11 @@ export default function ManagerApplyPage() {
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-[180px_1fr]">
-            <input value={careerYears} onChange={(event) => setCareerYears(event.target.value)} inputMode="decimal" className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="경력연수" />
-            <input value={availableRegionsText} onChange={(event) => setAvailableRegionsText(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="활동 가능 지역. 예: 강남구, 송파구, 성남시" />
+            <input value={careerYears} onChange={(event) => setCareerYears(event.target.value)} inputMode="decimal" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="경력연수" />
+            <input value={availableRegionsText} onChange={(event) => setAvailableRegionsText(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="활동 가능 지역. 예: 강남구, 송파구, 성남시" />
           </div>
 
-          <textarea value={careerSummary} onChange={(event) => setCareerSummary(event.target.value)} rows={4} className="mt-5 w-full rounded-2xl border border-slate-200 p-4 leading-7" placeholder="경력 요약. 예: 요양보호사 3년, 정형외과 동행 경험 다수" />
+          <textarea value={careerSummary} onChange={(event) => setCareerSummary(event.target.value)} rows={4} className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7" placeholder="경력 요약. 예: 요양보호사 3년, 정형외과 동행 경험 다수" />
         </CareCard>
 
         <CareCard tone="white">
@@ -213,7 +213,7 @@ export default function ManagerApplyPage() {
           <h3 className="mt-5 text-xl font-black">전문분야</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-3">
             {specialtyOptions.map((item) => (
-              <button key={item} type="button" onClick={() => setSpecialties(toggle(specialties, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (specialties.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:bg-white')}>
+              <button key={item} type="button" onClick={() => setSpecialties(toggle(specialties, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (specialties.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')}>
                 {item}
               </button>
             ))}
@@ -222,7 +222,7 @@ export default function ManagerApplyPage() {
           <h3 className="mt-5 text-xl font-black">업무 범위</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-3">
             {serviceScopeOptions.map((item) => (
-              <button key={item} type="button" onClick={() => setServiceScopes(toggle(serviceScopes, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (serviceScopes.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:bg-white')}>
+              <button key={item} type="button" onClick={() => setServiceScopes(toggle(serviceScopes, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (serviceScopes.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')}>
                 {item}
               </button>
             ))}
@@ -231,7 +231,7 @@ export default function ManagerApplyPage() {
           <h3 className="mt-5 text-xl font-black">디지털 활용</h3>
           <div className="mt-3 grid gap-3 md:grid-cols-3">
             {digitalSkillOptions.map((item) => (
-              <button key={item} type="button" onClick={() => setDigitalSkills(toggle(digitalSkills, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (digitalSkills.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:bg-white')}>
+              <button key={item} type="button" onClick={() => setDigitalSkills(toggle(digitalSkills, item))} className={'rounded-2xl border p-4 text-left text-sm font-black transition ' + (digitalSkills.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')}>
                 {item}
               </button>
             ))}
@@ -248,7 +248,7 @@ export default function ManagerApplyPage() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-7">
             {dayOptions.map((item) => (
-              <button key={item} type="button" onClick={() => setAvailableDays(toggle(availableDays, item))} className={'rounded-2xl border p-4 text-center text-lg font-black transition ' + (availableDays.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:bg-white')}>
+              <button key={item} type="button" onClick={() => setAvailableDays(toggle(availableDays, item))} className={'rounded-2xl border p-4 text-center text-lg font-black transition ' + (availableDays.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')}>
                 {item}
               </button>
             ))}
@@ -256,7 +256,7 @@ export default function ManagerApplyPage() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-5">
             {timeSlotOptions.map((item) => (
-              <button key={item} type="button" onClick={() => setAvailableTimeSlots(toggle(availableTimeSlots, item))} className={'rounded-2xl border p-4 text-center text-lg font-black transition ' + (availableTimeSlots.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-slate-200 bg-slate-50 hover:bg-white')}>
+              <button key={item} type="button" onClick={() => setAvailableTimeSlots(toggle(availableTimeSlots, item))} className={'rounded-2xl border p-4 text-center text-lg font-black transition ' + (availableTimeSlots.includes(item) ? 'border-emerald-500 bg-emerald-50' : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')}>
                 {item}
               </button>
             ))}
@@ -291,8 +291,8 @@ export default function ManagerApplyPage() {
 
           <h2 className="mt-4 text-3xl font-black">마지막으로 확인해주세요</h2>
 
-          <textarea value={introText} onChange={(event) => setIntroText(event.target.value)} rows={3} className="mt-5 w-full rounded-2xl border border-slate-200 p-4 leading-7" placeholder="자기소개. 예: 어르신 병원동행과 진료 안내 경험이 있습니다." />
-          <textarea value={motivationText} onChange={(event) => setMotivationText(event.target.value)} rows={3} className="mt-3 w-full rounded-2xl border border-slate-200 p-4 leading-7" placeholder="지원 동기. 예: 부모님을 모시는 마음으로 차분하게 동행하겠습니다." />
+          <textarea value={introText} onChange={(event) => setIntroText(event.target.value)} rows={3} className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7" placeholder="자기소개. 예: 어르신 병원동행과 진료 안내 경험이 있습니다." />
+          <textarea value={motivationText} onChange={(event) => setMotivationText(event.target.value)} rows={3} className="mt-3 w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7" placeholder="지원 동기. 예: 부모님을 모시는 마음으로 차분하게 동행하겠습니다." />
 
           <div className="mt-5 grid gap-3">
             <label className="flex items-start gap-3 rounded-2xl bg-slate-50 p-4">

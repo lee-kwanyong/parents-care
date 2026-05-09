@@ -33,16 +33,16 @@ export default function OpsQAPage() {
         <QAScenarioBoard />
       </div>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-6 text-white">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D]">
         <h2 className="text-2xl font-black">QA 기준</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-4">
           {['3번 안에 접수', '검증 매니저만 배정', '부모님 큰 글씨', '평가가 신뢰도 반영'].map((item) => (
-            <div key={item} className="rounded-2xl bg-white/10 p-4 font-black">
+            <div key={item} className="rounded-2xl bg-white/70 p-4 font-black">
               {item}
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm font-bold leading-6 text-slate-200">
+        <p className="mt-4 text-sm font-bold leading-6 text-[#63807C]">
           40대 이상 보호자가 한눈에 이해하고, 앱을 못 써도 전화·카톡·사진으로 대체 가능한지 확인합니다.
         </p>
       </section>

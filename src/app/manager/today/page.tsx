@@ -3,7 +3,7 @@ import { ManagerFieldConsole } from '@/components/ManagerFieldConsole'
 
 export default function ManagerTodayPage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -11,7 +11,7 @@ export default function ManagerTodayPage() {
             <h1 className="mt-2 text-3xl font-black md:text-5xl">
               오늘 배정 일정
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               만남 암호, 케어패스포트, 알러지, 복용약, 이동 정책, 서류와 리포트를 현장에서 확인합니다.
             </p>
           </div>

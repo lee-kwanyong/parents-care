@@ -4,7 +4,7 @@ import { CareButton } from '@/components/ui/CareButton'
 
 export default function OfflinePage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-950">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2F4948]">
       <section className="mx-auto max-w-xl">
         <CareCard tone="amber">
           <h1 className="text-4xl font-black leading-tight">

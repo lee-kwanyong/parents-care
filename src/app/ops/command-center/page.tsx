@@ -3,7 +3,7 @@ import { OpsCommandCenterBoard } from '@/components/OpsCommandCenterBoard'
 
 export default function OpsCommandCenterPage() {
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -11,7 +11,7 @@ export default function OpsCommandCenterPage() {
             <h1 className="mt-2 text-3xl font-black md:text-5xl">
               통합 관제 보드
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               긴급, 확인 필요, 진행 중, 완료를 한 화면에서 확인합니다.
             </p>
           </div>

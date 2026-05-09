@@ -182,7 +182,7 @@ export function ManagerMatchingBoard() {
           (summary.reassuranceState === '안심' ? 'bg-emerald-50' : 'bg-amber-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">검증 매니저 매칭판</p>
+        <p className="text-sm font-black text-[#63807C]">검증 매니저 매칭판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.reassuranceState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -206,7 +206,7 @@ export function ManagerMatchingBoard() {
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -219,28 +219,28 @@ export function ManagerMatchingBoard() {
 
       <form onSubmit={createRequest} className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-black">검증 매니저 매칭 요청 만들기</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <p className="mt-2 text-sm leading-6 text-[#63807C]">
           본인확인 완료, 활동 중, 직접 운송 미포함 매니저만 후보로 생성됩니다.
         </p>
 
         <div className="mt-5 grid gap-3 md:grid-cols-3">
-          <input name="elderName" className="rounded-2xl border border-slate-200 p-4" placeholder="부모님" defaultValue="어머니" />
-          <input name="guardianName" className="rounded-2xl border border-slate-200 p-4" placeholder="보호자 이름" />
-          <input name="guardianPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
-          <input name="requestTitle" className="rounded-2xl border border-slate-200 p-4 md:col-span-2" placeholder="예: 어머니 정형외과 병원동행" defaultValue="어머니 병원동행 매칭" />
-          <select name="requestType" className="rounded-2xl border border-slate-200 p-4">
+          <input name="elderName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" defaultValue="어머니" />
+          <input name="guardianName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="보호자 이름" />
+          <input name="guardianPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
+          <input name="requestTitle" className="rounded-2xl border border-[#E0EFEC] p-4 md:col-span-2" placeholder="예: 어머니 정형외과 병원동행" defaultValue="어머니 병원동행 매칭" />
+          <select name="requestType" className="rounded-2xl border border-[#E0EFEC] p-4">
             {matchingRequestTypeOptions.map((option) => (
               <option key={option.code} value={option.code}>
                 {option.label}
               </option>
             ))}
           </select>
-          <input name="regionText" className="rounded-2xl border border-slate-200 p-4" placeholder="지역 예: 서울 강남구" />
-          <input name="hospitalName" className="rounded-2xl border border-slate-200 p-4" placeholder="병원명" />
-          <input name="appointmentDate" className="rounded-2xl border border-slate-200 p-4" type="date" />
-          <input name="appointmentTime" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 오전 9시" />
-          <input name="meetingLocation" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 병원 정문" />
-          <select name="priority" className="rounded-2xl border border-slate-200 p-4">
+          <input name="regionText" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="지역 예: 서울 강남구" />
+          <input name="hospitalName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="병원명" />
+          <input name="appointmentDate" className="rounded-2xl border border-[#E0EFEC] p-4" type="date" />
+          <input name="appointmentTime" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 오전 9시" />
+          <input name="meetingLocation" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 병원 정문" />
+          <select name="priority" className="rounded-2xl border border-[#E0EFEC] p-4">
             <option value="normal">보통</option>
             <option value="high">중요</option>
             <option value="urgent">긴급</option>
@@ -260,7 +260,7 @@ export function ManagerMatchingBoard() {
                   'rounded-2xl border p-3 text-left text-sm font-black ' +
                   (requiredSpecialties.includes(item)
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-white')
+                    : 'border-[#E0EFEC] bg-white')
                 }
               >
                 {item}
@@ -279,7 +279,7 @@ export function ManagerMatchingBoard() {
                   'rounded-2xl border p-3 text-left text-sm font-black ' +
                   (requiredServiceScopes.includes(item)
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-white')
+                    : 'border-[#E0EFEC] bg-white')
                 }
               >
                 {item}
@@ -330,9 +330,9 @@ export function ManagerMatchingBoard() {
           </div>
         </section>
 
-        <textarea name="opsMemo" rows={3} className="mt-5 w-full rounded-2xl border border-slate-200 p-4" placeholder="운영실 메모" />
+        <textarea name="opsMemo" rows={3} className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="운영실 메모" />
 
-        <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+        <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
           매칭 요청 만들기
         </button>
       </form>
@@ -363,7 +363,7 @@ export function ManagerMatchingBoard() {
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{request.request_title}</h3>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-[#63807C]">
                       {request.elder_name} · {request.region_text || '지역 미입력'} · {request.hospital_name || '병원 미입력'}
                     </p>
 
@@ -373,10 +373,10 @@ export function ManagerMatchingBoard() {
                   </div>
 
                   <div className="grid min-w-[190px] gap-2">
-                    <button onClick={() => actionRequest('generate_candidates', request.id)} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                    <button onClick={() => actionRequest('generate_candidates', request.id)} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                       후보 생성
                     </button>
-                    <button onClick={() => actionRequest('assign_selected', request.id)} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                    <button onClick={() => actionRequest('assign_selected', request.id)} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                       선택 매니저 배정
                     </button>
                   </div>
@@ -386,7 +386,7 @@ export function ManagerMatchingBoard() {
                   <h4 className="text-xl font-black">추천 후보</h4>
 
                   {requestCandidates.length === 0 ? (
-                    <p className="mt-3 text-sm text-slate-500">아직 생성된 후보가 없습니다.</p>
+                    <p className="mt-3 text-sm text-[#7A9692]">아직 생성된 후보가 없습니다.</p>
                   ) : (
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
                       {requestCandidates.map((candidate) => {
@@ -402,7 +402,7 @@ export function ManagerMatchingBoard() {
                             </div>
 
                             <h5 className="mt-3 text-2xl font-black">{profile?.manager_name || '매니저'}</h5>
-                            <p className="mt-2 text-sm leading-6 text-slate-600">{profile?.trust_card_summary || '신뢰카드 정보 없음'}</p>
+                            <p className="mt-2 text-sm leading-6 text-[#63807C]">{profile?.trust_card_summary || '신뢰카드 정보 없음'}</p>
 
                             <div className="mt-3 flex flex-wrap gap-2">
                               {(candidate.score_reasons || []).map((reason) => (
@@ -418,7 +418,7 @@ export function ManagerMatchingBoard() {
 
                             <button
                               onClick={() => actionRequest('select_candidate', request.id, candidate.manager_profile_id)}
-                              className="mt-4 w-full rounded-2xl bg-slate-900 px-4 py-3 font-black text-white"
+                              className="mt-4 w-full rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]"
                             >
                               이 매니저 선택
                             </button>
@@ -440,7 +440,7 @@ export function ManagerMatchingBoard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -448,7 +448,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

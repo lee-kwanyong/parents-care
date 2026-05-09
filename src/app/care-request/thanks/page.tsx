@@ -24,18 +24,18 @@ export default async function CareRequestThanksPage({
   const title = packTitleByCode[packValue] || '부모님 케어 상담'
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-10 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-10 text-[#2E504D]">
       <section className="mx-auto max-w-3xl rounded-3xl bg-white p-8 shadow-sm">
         <p className="text-sm font-black text-emerald-700">접수 완료</p>
         <h1 className="mt-3 text-3xl font-black md:text-5xl">
           부모님 걱정이 접수됐습니다.
         </h1>
-        <p className="mt-5 text-lg leading-8 text-slate-600">
+        <p className="mt-5 text-lg leading-8 text-[#63807C]">
           추천 케어팩은 <b>{title}</b> 입니다. 운영실이 확인하면 가족용 간편 케어플랜으로 정리됩니다.
         </p>
 
         <div className="mt-6 rounded-2xl bg-slate-50 p-5">
-          <div className="text-sm font-black text-slate-500">접수번호</div>
+          <div className="text-sm font-black text-[#7A9692]">접수번호</div>
           <div className="mt-2 break-all text-lg font-black">{intakeId || '임시 접수'}</div>
           {isDemo ? (
             <p className="mt-3 text-sm font-bold text-amber-700">
@@ -46,11 +46,11 @@ export default async function CareRequestThanksPage({
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2">
           {intakeId ? (
-            <Link href={`/care-request/status/${intakeId}`} className="rounded-2xl bg-emerald-600 px-5 py-4 text-center font-black text-white">
+            <Link href={`/care-request/status/${intakeId}`} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 text-center font-black text-[#2E504D]">
               가족용 케어플랜 보기
             </Link>
           ) : null}
-          <Link href="/ops/plan-builder" className="rounded-2xl bg-slate-900 px-5 py-4 text-center font-black text-white">
+          <Link href="/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 text-center font-black text-[#2E504D]">
             운영실에서 플랜 만들기
           </Link>
           <Link href="/care-request" className="rounded-2xl bg-slate-100 px-5 py-4 text-center font-black">

@@ -153,11 +153,11 @@ export default function CarePassportPage() {
           <h2 className="mt-4 text-3xl font-black">현장에서 꼭 알아야 할 것</h2>
 
           <label className="mt-5 block">
-            <span className="mb-2 block text-sm font-black text-slate-700">부모님</span>
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">부모님</span>
             <input
               value={elderName}
               onChange={(event) => setElderName(event.target.value)}
-              className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+              className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
             />
           </label>
 
@@ -171,11 +171,11 @@ export default function CarePassportPage() {
                   'rounded-3xl border p-5 text-left transition ' +
                   (selectedConditions.includes(item.code)
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-xl font-black">{item.title}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{item.tip}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{item.tip}</p>
               </button>
             ))}
           </div>
@@ -203,7 +203,7 @@ export default function CarePassportPage() {
                   'rounded-3xl border p-4 text-left text-lg font-black transition ' +
                   (allergyStatus === value
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 {label}
@@ -213,35 +213,35 @@ export default function CarePassportPage() {
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">알러지 메모</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">알러지 메모</span>
               <textarea
                 value={allergyMemo}
                 onChange={(event) => setAllergyMemo(event.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 조영제 알러지 의심, 특정 약 복용 후 두드러기"
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">복용 중인 약</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">복용 중인 약</span>
               <textarea
                 value={medicationMemo}
                 onChange={(event) => setMedicationMemo(event.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 혈압약, 당뇨약, 무릎 통증약"
               />
             </label>
           </div>
 
           <label className="mt-5 block">
-            <span className="mb-2 block text-sm font-black text-slate-700">식사 제한·선호</span>
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">식사 제한·선호</span>
             <textarea
               value={dietMemo}
               onChange={(event) => setDietMemo(event.target.value)}
               rows={3}
-              className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+              className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
               placeholder="예: 딱딱한 음식 어려움, 저염식, 당뇨식, 죽 선호"
             />
           </label>
@@ -269,7 +269,7 @@ export default function CarePassportPage() {
                   'rounded-3xl border p-4 text-left text-lg font-black transition ' +
                   (fallRiskLevel === value
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 {label}
@@ -279,23 +279,23 @@ export default function CarePassportPage() {
 
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">응대 메모</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">응대 메모</span>
               <textarea
                 value={communicationNotes}
                 onChange={(event) => setCommunicationNotes(event.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 큰 소리보다 천천히 설명하면 좋아하세요. 재촉하면 불안해하세요."
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">긴급 메모</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">긴급 메모</span>
               <textarea
                 value={emergencyNotes}
                 onChange={(event) => setEmergencyNotes(event.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 연락 안 되면 첫째 아들에게 전화. 어지러움 호소 시 바로 보호자 확인."
               />
             </label>
@@ -308,7 +308,7 @@ export default function CarePassportPage() {
             {shareOptions.map((item) => (
               <div key={item.code} className="rounded-2xl bg-white p-4">
                 <div className="font-black">{item.title}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{item.desc}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{item.desc}</p>
               </div>
             ))}
           </div>

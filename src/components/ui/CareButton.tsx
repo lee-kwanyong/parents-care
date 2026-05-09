@@ -1,54 +1,105 @@
 import Link from 'next/link'
-import type { ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-type CareButtonProps = {
-  href?: string
+type CareButtonTone =
+  | 'primary'
+  | 'soft'
+  | 'white'
+  | 'ghost'
+  | 'dark'
+  | 'danger'
+  | 'amber'
+  | 'blue'
+  | 'green'
+
+type CareButtonSize = 'sm' | 'md' | 'lg' | 'xl'
+
+type CareButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode
+  href?: string
+  tone?: CareButtonTone
+  size?: CareButtonSize
   className?: string
-  tone?: 'primary' | 'dark' | 'soft' | 'danger' | 'amber' | 'white'
-  size?: 'md' | 'lg' | 'xl'
-  type?: 'button' | 'submit'
-  disabled?: boolean
-  onClick?: () => void
+  target?: string
+  rel?: string
 }
 
-const tones = {
-  primary: 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm',
-  dark: 'bg-slate-950 text-white hover:bg-slate-800 shadow-sm',
-  soft: 'bg-slate-100 text-slate-950 hover:bg-slate-200',
-  danger: 'bg-red-600 text-white hover:bg-red-700 shadow-sm',
-  amber: 'bg-amber-100 text-amber-950 hover:bg-amber-200',
-  white: 'bg-white text-slate-950 hover:bg-slate-50 ring-1 ring-slate-200'
+function cn(...values: Array<string | false | null | undefined>) {
+  return values.filter(Boolean).join(' ')
 }
 
-const sizes = {
-  md: 'px-5 py-4 text-base',
-  lg: 'px-6 py-5 text-lg',
-  xl: 'px-7 py-6 text-xl md:text-2xl'
+function toneClasses(tone: CareButtonTone) {
+  switch (tone) {
+    case 'primary':
+      return 'bg-[#8CCFC3] text-[#244B48] hover:bg-[#7EC5B8] ring-1 ring-[#BFE5DF]'
+    case 'soft':
+      return 'bg-[#F0FAF8] text-[#466B68] hover:bg-[#E5F5F2] ring-1 ring-[#D2E8E4]'
+    case 'white':
+      return 'bg-white text-[#466B68] hover:bg-[#FBFEFD] ring-1 ring-[#DCEBE8]'
+    case 'ghost':
+      return 'bg-transparent text-[#5B7B78] hover:bg-[#F0FAF8] ring-1 ring-transparent'
+    case 'dark':
+      return 'bg-[#DCEEF6] text-[#3F6177] hover:bg-[#CFE6F1] ring-1 ring-[#C2DCEB]'
+    case 'danger':
+      return 'bg-[#F7D5D5] text-[#8A4A4A] hover:bg-[#F2C7C7] ring-1 ring-[#EEC4C4]'
+    case 'amber':
+      return 'bg-[#F8E9C9] text-[#735C31] hover:bg-[#F4DEB1] ring-1 ring-[#EAD3A7]'
+    case 'blue':
+      return 'bg-[#DCEEF6] text-[#3F6177] hover:bg-[#CFE6F1] ring-1 ring-[#C2DCEB]'
+    case 'green':
+      return 'bg-[#E5F5F2] text-[#3F6865] hover:bg-[#D8EFEA] ring-1 ring-[#C9E5DF]'
+    default:
+      return 'bg-[#8CCFC3] text-[#244B48] hover:bg-[#7EC5B8] ring-1 ring-[#BFE5DF]'
+  }
+}
+
+function sizeClasses(size: CareButtonSize) {
+  switch (size) {
+    case 'sm':
+      return 'px-3 py-2 text-sm rounded-xl'
+    case 'md':
+      return 'px-4 py-3 text-sm rounded-2xl'
+    case 'lg':
+      return 'px-5 py-3.5 text-base rounded-2xl'
+    case 'xl':
+      return 'px-6 py-4 text-lg rounded-3xl'
+    default:
+      return 'px-4 py-3 text-sm rounded-2xl'
+  }
 }
 
 export function CareButton({
-  href,
   children,
-  className = '',
+  href,
   tone = 'primary',
-  size = 'lg',
+  size = 'md',
+  className,
+  target,
+  rel,
   type = 'button',
   disabled,
-  onClick
+  ...props
 }: CareButtonProps) {
-  const base = `inline-flex w-full items-center justify-center rounded-3xl font-black transition disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 md:w-auto ${tones[tone]} ${sizes[size]} ${className}`
+  const classes = cn(
+    'inline-flex items-center justify-center gap-2 font-black tracking-[-0.01em] transition-all duration-150',
+    'shadow-[0_8px_24px_rgba(111,171,162,0.13)]',
+    'focus:outline-none focus:ring-2 focus:ring-[#BFE5DF] focus:ring-offset-2',
+    disabled ? 'cursor-not-allowed opacity-60' : '',
+    toneClasses(tone),
+    sizeClasses(size),
+    className
+  )
 
   if (href) {
     return (
-      <Link href={href} className={base}>
+      <Link href={href} className={classes} target={target} rel={rel}>
         {children}
       </Link>
     )
   }
 
   return (
-    <button type={type} disabled={disabled} onClick={onClick} className={base}>
+    <button type={type} disabled={disabled} className={classes} {...props}>
       {children}
     </button>
   )

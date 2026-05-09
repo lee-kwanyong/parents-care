@@ -108,7 +108,7 @@ export function PWAInstallPanel({ mode = 'guardian' }: { mode?: 'guardian' | 'pa
           {mode === 'parent' ? '부모님 폰에 큰 버튼으로 추가하세요.' : '자녀 폰에 앱처럼 추가하세요.'}
         </h2>
 
-        <p className="mt-3 text-base font-bold leading-7 text-slate-700">
+        <p className="mt-3 text-base font-bold leading-7 text-[#4E6D69]">
           {mode === 'parent'
             ? '부모님은 복잡한 메뉴 없이 홈 화면 버튼을 눌러 오늘 일정, 만남 암호, 자녀 전화, 도움 요청만 보면 됩니다.'
             : '자녀는 홈 화면에서 오늘의 안심판, 사진·카톡 맡기기, 가족 할 일을 바로 확인할 수 있습니다.'}
@@ -125,7 +125,7 @@ export function PWAInstallPanel({ mode = 'guardian' }: { mode?: 'guardian' | 'pa
         <div className="mt-6 grid gap-3">
           {steps.map((step, index) => (
             <div key={step} className="rounded-2xl bg-white p-4">
-              <div className="text-sm font-black text-slate-500">{index + 1}단계</div>
+              <div className="text-sm font-black text-[#7A9692]">{index + 1}단계</div>
               <div className="mt-1 text-lg font-black">{step}</div>
             </div>
           ))}

@@ -144,11 +144,11 @@ export default function CareIntakePage() {
                   'rounded-3xl border p-5 text-left transition ' +
                   (channel === option.code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-xl font-black">{option.label}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{option.description}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{option.description}</p>
               </button>
             ))}
           </div>
@@ -162,9 +162,9 @@ export default function CareIntakePage() {
 
           <h2 className="mt-4 text-3xl font-black">사진이나 내용을 올려주세요</h2>
 
-          <label className="mt-5 block rounded-[2rem] border-2 border-dashed border-slate-300 bg-slate-50 p-6">
+          <label className="mt-5 block rounded-[2rem] border-2 border-dashed border-[#D6EAE7] bg-slate-50 p-6">
             <span className="block text-2xl font-black">사진·파일 선택</span>
-            <span className="mt-2 block text-sm font-bold leading-6 text-slate-600">
+            <span className="mt-2 block text-sm font-bold leading-6 text-[#63807C]">
               예약증, 약 봉투, 영수증, 처방전, 카톡 캡처를 올릴 수 있습니다.
             </span>
             <input
@@ -181,7 +181,7 @@ export default function CareIntakePage() {
               {selectedFiles.map((file) => (
                 <div key={`${file.name}-${file.size}`} className="rounded-2xl bg-slate-50 p-4">
                   <div className="font-black">{file.name}</div>
-                  <p className="mt-1 text-xs font-bold text-slate-500">
+                  <p className="mt-1 text-xs font-bold text-[#7A9692]">
                     {file.type || '형식 미확인'} · {formatFileSize(file.size)}
                   </p>
                 </div>
@@ -190,12 +190,12 @@ export default function CareIntakePage() {
           ) : null}
 
           <label className="mt-5 block">
-            <span className="mb-2 block text-sm font-black text-slate-700">카톡·문자 내용 붙여넣기</span>
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">카톡·문자 내용 붙여넣기</span>
             <textarea
               value={rawText}
               onChange={(event) => setRawText(event.target.value)}
               rows={6}
-              className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+              className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
               placeholder="예: [서울OO병원] 5월 10일 오전 10시 정형외과 예약. 진료 후 영수증과 처방전 필요. 어머니가 무릎이 아프세요."
             />
           </label>
@@ -211,30 +211,30 @@ export default function CareIntakePage() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">부모님</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">부모님</span>
               <input
                 value={elderName}
                 onChange={(event) => setElderName(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">보호자 이름</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 이름</span>
               <input
                 value={contactName}
                 onChange={(event) => setContactName(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 placeholder="예: 이관용"
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">연락처</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">연락처</span>
               <input
                 value={contactPhone}
                 onChange={(event) => setContactPhone(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 placeholder="010-1234-5678"
               />
             </label>
@@ -247,7 +247,7 @@ export default function CareIntakePage() {
               onChange={(event) => setSocialCareRequested(event.target.checked)}
               className="mt-1 h-5 w-5"
             />
-            <span className="text-sm font-bold leading-6 text-slate-700">
+            <span className="text-sm font-bold leading-6 text-[#4E6D69]">
               비용 부담이 있으면 공공지원·후원 쿠폰·지역 복지 연결도 함께 안내받고 싶습니다.
             </span>
           </label>

@@ -158,12 +158,12 @@ export default function CareMealsPage() {
                   'rounded-3xl border p-5 text-left transition ' +
                   (supportType === option.code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-4xl">{option.emoji}</div>
                 <div className="mt-3 text-xl font-black">{option.title}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{option.desc}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{option.desc}</p>
               </button>
             ))}
           </div>
@@ -187,7 +187,7 @@ export default function CareMealsPage() {
                   'rounded-3xl border p-4 text-left text-lg font-black transition ' +
                   (dietType === code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 {label}
@@ -207,7 +207,7 @@ export default function CareMealsPage() {
                   'rounded-3xl border p-4 text-left text-lg font-black transition ' +
                   (mealTimes.includes(code)
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 {label}
@@ -225,19 +225,19 @@ export default function CareMealsPage() {
           <h2 className="mt-4 text-3xl font-black">연락과 배송 정보를 남겨주세요</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <input value={elderName} onChange={(event) => setElderName(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="부모님" />
-            <input value={guardianName} onChange={(event) => setGuardianName(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="보호자 이름" />
-            <input value={guardianPhone} onChange={(event) => setGuardianPhone(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
-            <input value={startDate} onChange={(event) => setStartDate(event.target.value)} type="date" className="tap-target rounded-2xl border border-slate-200 p-4" />
-            <input value={durationDays} onChange={(event) => setDurationDays(event.target.value)} inputMode="numeric" className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="며칠 동안 확인할까요?" />
-            <input value={deliveryAddress} onChange={(event) => setDeliveryAddress(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="배송 주소" />
+            <input value={elderName} onChange={(event) => setElderName(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" />
+            <input value={guardianName} onChange={(event) => setGuardianName(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="보호자 이름" />
+            <input value={guardianPhone} onChange={(event) => setGuardianPhone(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
+            <input value={startDate} onChange={(event) => setStartDate(event.target.value)} type="date" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" />
+            <input value={durationDays} onChange={(event) => setDurationDays(event.target.value)} inputMode="numeric" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="며칠 동안 확인할까요?" />
+            <input value={deliveryAddress} onChange={(event) => setDeliveryAddress(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="배송 주소" />
           </div>
 
-          <input value={deliveryNote} onChange={(event) => setDeliveryNote(event.target.value)} className="mt-3 tap-target w-full rounded-2xl border border-slate-200 p-4" placeholder="배송 메모. 예: 전화 후 전달" />
+          <input value={deliveryNote} onChange={(event) => setDeliveryNote(event.target.value)} className="mt-3 tap-target w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="배송 메모. 예: 전화 후 전달" />
 
           <label className="mt-5 flex items-start gap-3 rounded-2xl bg-slate-50 p-4">
             <input type="checkbox" checked={socialCareRequested} onChange={(event) => setSocialCareRequested(event.target.checked)} className="mt-1 h-5 w-5" />
-            <span className="text-sm font-bold leading-6 text-slate-700">
+            <span className="text-sm font-bold leading-6 text-[#4E6D69]">
               비용 부담이 있으면 공공지원·후원 도시락·지역 복지 연결도 함께 안내받고 싶습니다.
             </span>
           </label>
@@ -246,7 +246,7 @@ export default function CareMealsPage() {
             value={memo}
             onChange={(event) => setMemo(event.target.value)}
             rows={4}
-            className="mt-5 w-full rounded-2xl border border-slate-200 p-4 leading-7"
+            className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7"
             placeholder="예: 퇴원 후 입맛이 없고 딱딱한 음식은 어려워하세요."
           />
         </CareCard>

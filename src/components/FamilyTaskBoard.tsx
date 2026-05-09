@@ -156,7 +156,7 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">가족 할 일 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">가족 할 일 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
         <div className="mt-5 grid gap-3 md:grid-cols-4">
           <Stat label="열린 할 일" value={summary.open} />
@@ -169,14 +169,14 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
       <div className="mt-6 flex flex-wrap gap-3">
         <button
           onClick={load}
-          className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white"
+          className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]"
         >
           새로고침
         </button>
         <button
           onClick={autoGenerate}
           disabled={creating}
-          className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white disabled:opacity-50"
+          className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D] disabled:opacity-50"
         >
           {creating ? '생성 중...' : '식사·약·케어플랜에서 자동 생성'}
         </button>
@@ -193,10 +193,10 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
         <div className="mt-4 grid gap-3 md:grid-cols-[1fr_160px_160px_auto]">
           <input
             name="title"
-            className="rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+            className="rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
             placeholder="예: 저녁 약 복용 확인 전화하기"
           />
-          <select name="category" className="rounded-2xl border border-slate-200 p-4">
+          <select name="category" className="rounded-2xl border border-[#E0EFEC] p-4">
             <option value="general">일반</option>
             <option value="meal">식사</option>
             <option value="medication">약</option>
@@ -204,13 +204,13 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
             <option value="appointment">예약</option>
             <option value="social_support">사회공헌</option>
           </select>
-          <select name="priority" className="rounded-2xl border border-slate-200 p-4">
+          <select name="priority" className="rounded-2xl border border-[#E0EFEC] p-4">
             <option value="normal">보통</option>
             <option value="high">중요</option>
             <option value="urgent">긴급</option>
             <option value="low">낮음</option>
           </select>
-          <button className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+          <button className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             추가
           </button>
         </div>
@@ -226,7 +226,7 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
         ) : openItems.length === 0 ? (
           <div className="mt-4 rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">열린 가족 할 일이 없습니다.</div>
-            <p className="mt-2 text-slate-500">지금은 확인할 일이 없습니다.</p>
+            <p className="mt-2 text-[#7A9692]">지금은 확인할 일이 없습니다.</p>
           </div>
         ) : (
           <div className="mt-4 space-y-3">
@@ -248,7 +248,7 @@ export function FamilyTaskBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
       <section className="mt-8">
         <h2 className="text-2xl font-black">완료된 일</h2>
         {doneItems.length === 0 ? (
-          <p className="mt-3 rounded-3xl bg-white p-5 text-slate-500 shadow-sm">아직 완료된 일이 없습니다.</p>
+          <p className="mt-3 rounded-3xl bg-white p-5 text-[#7A9692] shadow-sm">아직 완료된 일이 없습니다.</p>
         ) : (
           <div className="mt-4 space-y-3">
             {doneItems.slice(0, 10).map((item) => (
@@ -309,10 +309,10 @@ function TaskCard({
           <h3 className="mt-3 text-2xl font-black">{item.title}</h3>
 
           {item.description ? (
-            <p className="mt-2 max-w-3xl text-base leading-7 text-slate-700">{item.description}</p>
+            <p className="mt-2 max-w-3xl text-base leading-7 text-[#4E6D69]">{item.description}</p>
           ) : null}
 
-          <p className="mt-3 text-xs font-bold text-slate-500">
+          <p className="mt-3 text-xs font-bold text-[#7A9692]">
             생성: {new Date(item.created_at).toLocaleString('ko-KR')}
           </p>
         </div>
@@ -320,16 +320,16 @@ function TaskCard({
         {!readonly ? (
           <div className="grid min-w-[190px] gap-2">
             {item.status !== 'claimed' ? (
-              <button onClick={onClaim} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+              <button onClick={onClaim} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                 제가 할게요
               </button>
             ) : null}
 
-            <button onClick={onComplete} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+            <button onClick={onComplete} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
               완료했어요
             </button>
 
-            <button onClick={onDelegate} className="rounded-2xl bg-slate-100 px-4 py-3 font-black text-slate-900">
+            <button onClick={onDelegate} className="rounded-2xl bg-slate-100 px-4 py-3 font-black text-[#2E504D]">
               다른 가족에게 넘기기
             </button>
 
@@ -348,7 +348,7 @@ function TaskCard({
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -356,7 +356,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

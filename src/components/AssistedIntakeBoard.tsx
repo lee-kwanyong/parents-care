@@ -128,7 +128,7 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">사진·카톡 접수 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">사진·카톡 접수 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -152,7 +152,7 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -171,7 +171,7 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
         ) : requests.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 사진·카톡 간편 접수가 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-intake 에서 먼저 접수해보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-intake 에서 먼저 접수해보세요.</p>
           </div>
         ) : (
           requests.map((request) => {
@@ -193,12 +193,12 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
 
                     <h3 className="mt-3 text-3xl font-black">{request.summary_title}</h3>
 
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       부모님: {request.elder_name} · 연락: {request.contact_name || '미입력'} {request.contact_phone || ''}
                     </p>
 
                     {request.raw_text ? (
-                      <p className="mt-4 whitespace-pre-wrap rounded-2xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                      <p className="mt-4 whitespace-pre-wrap rounded-2xl bg-slate-50 p-4 text-sm leading-7 text-[#4E6D69]">
                         {request.raw_text}
                       </p>
                     ) : null}
@@ -222,7 +222,7 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
                           {requestAssets.map((asset) => (
                             <div key={asset.id} className="rounded-2xl bg-white p-3">
                               <div className="font-black">{asset.file_name || asset.asset_kind}</div>
-                              <p className="mt-1 text-xs text-slate-500">
+                              <p className="mt-1 text-xs text-[#7A9692]">
                                 {asset.mime_type || '형식 미확인'} · {asset.size_bytes ? `${Math.round(asset.size_bytes / 1024)}KB` : '크기 미확인'}
                               </p>
                               {asset.data_url && asset.mime_type?.startsWith('image/') ? (
@@ -242,19 +242,19 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
                         <button onClick={() => updateStatus(request.id, 'triaged')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
                           정리 완료
                         </button>
-                        <button onClick={() => convertToCareRequest(request.id)} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => convertToCareRequest(request.id)} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           케어 요청으로 변환
                         </button>
                         <button onClick={() => updateStatus(request.id, 'needs_more_info')} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
                           추가정보 필요
                         </button>
-                        <button onClick={() => updateStatus(request.id, 'closed')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateStatus(request.id, 'closed')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                           완료
                         </button>
                       </>
                     ) : (
                       <>
-                        <button onClick={() => updateStatus(request.id, 'closed')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateStatus(request.id, 'closed')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           확인했어요
                         </button>
                       </>
@@ -273,7 +273,7 @@ export function AssistedIntakeBoard({ mode = 'family' }: { mode?: 'family' | 'op
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -281,7 +281,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )
@@ -294,12 +294,12 @@ function InfoBox({ title, items }: { title: string; items: string[] }) {
       <div className="mt-2 space-y-1">
         {items.length > 0 ? (
           items.map((item) => (
-            <p key={item} className="text-sm leading-6 text-slate-700">
+            <p key={item} className="text-sm leading-6 text-[#4E6D69]">
               • {item}
             </p>
           ))
         ) : (
-          <p className="text-sm text-slate-500">없음</p>
+          <p className="text-sm text-[#7A9692]">없음</p>
         )}
       </div>
     </div>

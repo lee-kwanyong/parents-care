@@ -110,7 +110,7 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
           (summary.reassuranceState === '확인 필요' ? 'bg-amber-50' : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">퇴원 후 7일 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">퇴원 후 7일 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -134,7 +134,7 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -153,7 +153,7 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
         ) : packs.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">등록된 퇴원 후 7일 안심팩이 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-discharge 에서 먼저 등록해보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-discharge 에서 먼저 등록해보세요.</p>
           </div>
         ) : (
           packs.map((pack) => {
@@ -173,12 +173,12 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{pack.elder_name} 퇴원 후 7일 안심팩</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       병원: {pack.hospital_name || '미입력'} · 진단/수술: {pack.primary_diagnosis || '미입력'}
                     </p>
 
                     {pack.memo ? (
-                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {pack.memo}
                       </p>
                     ) : null}
@@ -195,7 +195,7 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                       </button>
                     )}
 
-                    <button onClick={() => updatePack(pack.id, 'completed')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                    <button onClick={() => updatePack(pack.id, 'completed')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                       7일 케어 완료
                     </button>
 
@@ -232,17 +232,17 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                           </div>
 
                           <h4 className="mt-3 text-2xl font-black">{check.title}</h4>
-                          <p className="mt-2 text-sm leading-6 text-slate-700">{check.check_focus}</p>
+                          <p className="mt-2 text-sm leading-6 text-[#4E6D69]">{check.check_focus}</p>
 
                           {check.family_note ? (
-                            <p className="mt-3 rounded-2xl bg-white p-4 text-sm font-bold leading-6 text-slate-700">
+                            <p className="mt-3 rounded-2xl bg-white p-4 text-sm font-bold leading-6 text-[#4E6D69]">
                               가족 메모: {check.family_note}
                             </p>
                           ) : null}
                         </div>
 
                         <div className="grid min-w-[170px] gap-2">
-                          <button onClick={() => updateCheck(check.id, 'done')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                          <button onClick={() => updateCheck(check.id, 'done')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                             확인 완료
                           </button>
                           <button onClick={() => updateCheck(check.id, 'needs_attention')} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
@@ -270,7 +270,7 @@ export function DischargeCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -278,7 +278,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

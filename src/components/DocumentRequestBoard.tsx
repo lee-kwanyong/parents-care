@@ -74,7 +74,7 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">서류 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">서류 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
         <div className="mt-5 grid gap-3 md:grid-cols-5">
           <Stat label="전체" value={summary.total} />
@@ -86,7 +86,7 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -105,7 +105,7 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
         ) : items.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 요청된 서류가 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-documents 에서 서류 요청을 만들어보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-documents 에서 서류 요청을 만들어보세요.</p>
           </div>
         ) : (
           items.map((item) => (
@@ -123,12 +123,12 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
                     {item.elder_name} · {item.document_label}
                   </h3>
 
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                  <p className="mt-2 text-sm leading-6 text-[#63807C]">
                     병원: {item.hospital_name || '미입력'} · 방문일: {item.visit_date || '미입력'}
                   </p>
 
                   {item.memo ? (
-                    <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                    <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                       {item.memo}
                     </p>
                   ) : null}
@@ -152,13 +152,13 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
                       <button onClick={() => updateStatus(item.id, 'collected')} className="rounded-2xl bg-emerald-100 px-4 py-3 font-black text-emerald-900">
                         수령 완료
                       </button>
-                      <button onClick={() => updateStatus(item.id, 'sent_to_family')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                      <button onClick={() => updateStatus(item.id, 'sent_to_family')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                         가족 전달
                       </button>
                     </>
                   ) : (
                     <>
-                      <button onClick={() => updateStatus(item.id, 'collected')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                      <button onClick={() => updateStatus(item.id, 'collected')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                         수령했어요
                       </button>
                       <button onClick={() => updateStatus(item.id, 'not_needed')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
@@ -179,7 +179,7 @@ export function DocumentRequestBoard({ mode = 'family' }: { mode?: 'family' | 'o
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -187,7 +187,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

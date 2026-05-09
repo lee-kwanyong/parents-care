@@ -64,7 +64,7 @@ export default function CareRoutinesPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-6xl">
         <p className="text-sm font-black text-emerald-700">정기진료·다음 예약 자동관리</p>
         <h1 className="mt-2 text-3xl font-black md:text-5xl">
@@ -72,7 +72,7 @@ export default function CareRoutinesPage() {
           <br />
           놓치지 않게 관리합니다.
         </h1>
-        <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-600">
+        <p className="mt-5 max-w-3xl text-lg leading-8 text-[#63807C]">
           의사가 “2주 뒤 다시 오세요”라고 말하면, 그 말이 리포트로 끝나지 않고 다음 예약 후보와 가족 할 일로 이어집니다.
         </p>
 
@@ -90,11 +90,11 @@ export default function CareRoutinesPage() {
                     'rounded-2xl border p-4 text-left transition ' +
                     (routineType === option.code
                       ? 'border-emerald-500 bg-emerald-50'
-                      : 'border-slate-200 bg-white hover:bg-slate-50')
+                      : 'border-[#E0EFEC] bg-white hover:bg-slate-50')
                   }
                 >
                   <div className="text-lg font-black">{option.label}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">{option.description}</p>
+                  <p className="mt-2 text-sm leading-6 text-[#63807C]">{option.description}</p>
                 </button>
               ))}
             </div>
@@ -105,62 +105,62 @@ export default function CareRoutinesPage() {
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">부모님</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">부모님</span>
                 <input
                   value={elderName}
                   onChange={(event) => setElderName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">제목</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">제목</span>
                 <input
                   value={title}
                   onChange={(event) => setTitle(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 정형외과 재진"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">첫 확인일</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">첫 확인일</span>
                 <input
                   value={firstDueDate}
                   onChange={(event) => setFirstDueDate(event.target.value)}
                   type="date"
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 />
               </label>
             </div>
 
             <div className="mt-5 grid gap-3 md:grid-cols-3">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">병원명</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">병원명</span>
                 <input
                   value={hospitalName}
                   onChange={(event) => setHospitalName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 서울OO병원"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">진료과</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">진료과</span>
                 <input
                   value={department}
                   onChange={(event) => setDepartment(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 정형외과"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">담당의</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">담당의</span>
                 <input
                   value={doctorName}
                   onChange={(event) => setDoctorName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="선택 입력"
                 />
               </label>
@@ -180,7 +180,7 @@ export default function CareRoutinesPage() {
                     'rounded-2xl border p-4 text-left font-black transition ' +
                     (cadenceType === option.code
                       ? 'border-emerald-500 bg-emerald-50'
-                      : 'border-slate-200 bg-white hover:bg-slate-50')
+                      : 'border-[#E0EFEC] bg-white hover:bg-slate-50')
                   }
                 >
                   {option.label}
@@ -190,12 +190,12 @@ export default function CareRoutinesPage() {
 
             {cadenceType === 'custom' ? (
               <label className="mt-5 block">
-                <span className="mb-2 block text-sm font-black text-slate-700">며칠마다 반복할까요?</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">며칠마다 반복할까요?</span>
                 <input
                   value={customDays}
                   onChange={(event) => setCustomDays(event.target.value)}
                   inputMode="numeric"
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 45"
                 />
               </label>
@@ -203,21 +203,21 @@ export default function CareRoutinesPage() {
 
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">선호 요일</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">선호 요일</span>
                 <input
                   value={preferredDay}
                   onChange={(event) => setPreferredDay(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 화요일 오전"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">선호 시간</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">선호 시간</span>
                 <input
                   value={preferredTime}
                   onChange={(event) => setPreferredTime(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 오전 10시 전후"
                 />
               </label>
@@ -229,33 +229,33 @@ export default function CareRoutinesPage() {
 
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">담당자 이름</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">담당자 이름</span>
                 <input
                   value={familyOwnerName}
                   onChange={(event) => setFamilyOwnerName(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="예: 첫째 아들"
                 />
               </label>
 
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">담당자 연락처</span>
+                <span className="mb-2 block text-sm font-black text-[#4E6D69]">담당자 연락처</span>
                 <input
                   value={familyOwnerPhone}
                   onChange={(event) => setFamilyOwnerPhone(event.target.value)}
-                  className="w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                  className="w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                   placeholder="010-1234-5678"
                 />
               </label>
             </div>
 
             <label className="mt-5 block">
-              <span className="mb-2 block text-sm font-black text-slate-700">메모</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">메모</span>
               <textarea
                 value={memo}
                 onChange={(event) => setMemo(event.target.value)}
                 rows={4}
-                className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+                className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
                 placeholder="예: 무릎 통증 때문에 4주마다 정형외과 재진. 오전 시간 선호."
               />
             </label>
@@ -269,7 +269,7 @@ export default function CareRoutinesPage() {
 
           <button
             disabled={saving}
-            className="w-full rounded-3xl bg-emerald-600 px-6 py-6 text-2xl font-black text-white disabled:opacity-50"
+            className="w-full rounded-3xl bg-[#8CCFC3] px-6 py-6 text-2xl font-black text-[#2E504D] disabled:opacity-50"
           >
             {saving ? '저장 중...' : '정기 케어 등록하기'}
           </button>

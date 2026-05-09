@@ -81,7 +81,7 @@ export default function ManagerVerifyPage() {
 
       <section className="mt-8 rounded-[2rem] bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-black">평가가 신뢰도에 반영됩니다</h2>
-        <p className="mt-3 text-base font-bold leading-7 text-slate-600">
+        <p className="mt-3 text-base font-bold leading-7 text-[#63807C]">
           매칭 후 보호자가 남기는 안전, 친절, 정확성, 시간준수 평가는 매니저 신뢰카드에 반영됩니다.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">

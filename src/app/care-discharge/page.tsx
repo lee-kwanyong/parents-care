@@ -125,18 +125,18 @@ export default function CareDischargePage() {
           <h2 className="mt-4 text-3xl font-black">퇴원 정보를 알려주세요</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <input value={elderName} onChange={(event) => setElderName(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="부모님" />
-            <input value={guardianName} onChange={(event) => setGuardianName(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="보호자 이름" />
-            <input value={guardianPhone} onChange={(event) => setGuardianPhone(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
-            <input value={hospitalName} onChange={(event) => setHospitalName(event.target.value)} className="tap-target rounded-2xl border border-slate-200 p-4" placeholder="퇴원 병원" />
-            <input value={dischargeDate} onChange={(event) => setDischargeDate(event.target.value)} required type="date" className="tap-target rounded-2xl border border-slate-200 p-4" />
-            <input value={nextVisitDate} onChange={(event) => setNextVisitDate(event.target.value)} type="date" className="tap-target rounded-2xl border border-slate-200 p-4" />
+            <input value={elderName} onChange={(event) => setElderName(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" />
+            <input value={guardianName} onChange={(event) => setGuardianName(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="보호자 이름" />
+            <input value={guardianPhone} onChange={(event) => setGuardianPhone(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
+            <input value={hospitalName} onChange={(event) => setHospitalName(event.target.value)} className="tap-target rounded-2xl border border-[#E0EFEC] p-4" placeholder="퇴원 병원" />
+            <input value={dischargeDate} onChange={(event) => setDischargeDate(event.target.value)} required type="date" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" />
+            <input value={nextVisitDate} onChange={(event) => setNextVisitDate(event.target.value)} type="date" className="tap-target rounded-2xl border border-[#E0EFEC] p-4" />
           </div>
 
           <input
             value={primaryDiagnosis}
             onChange={(event) => setPrimaryDiagnosis(event.target.value)}
-            className="mt-3 tap-target w-full rounded-2xl border border-slate-200 p-4"
+            className="mt-3 tap-target w-full rounded-2xl border border-[#E0EFEC] p-4"
             placeholder="진단/수술/퇴원 메모. 예: 무릎 수술 후 퇴원"
           />
         </CareCard>
@@ -159,11 +159,11 @@ export default function CareDischargePage() {
                   'rounded-3xl border p-5 text-left transition ' +
                   (risks[item.key]
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-xl font-black">{item.title}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{item.desc}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{item.desc}</p>
               </button>
             ))}
           </div>
@@ -172,7 +172,7 @@ export default function CareDischargePage() {
             value={memo}
             onChange={(event) => setMemo(event.target.value)}
             rows={5}
-            className="mt-5 w-full rounded-2xl border border-slate-200 p-4 leading-7"
+            className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7"
             placeholder="예: 오른쪽 다리가 불편하고 밤에 화장실 갈 때 넘어질까 걱정됩니다."
           />
         </CareCard>

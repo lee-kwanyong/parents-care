@@ -78,22 +78,22 @@ export default function OpsPlanBuilderPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-black text-emerald-700">운영실</p>
             <h1 className="mt-2 text-3xl font-black md:text-5xl">간편 케어플랜 만들기</h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               보호자의 걱정을 가족용 플랜으로 바꿉니다. 이제 부모님 케어패스포트의 청력, 통증,
               알러지, 복용약, 식사 제한도 자동으로 반영됩니다.
             </p>
           </div>
           <div className="flex gap-3">
-            <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+            <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               새로고침
             </button>
-            <Link href="/ops/care-passport" className="rounded-2xl bg-blue-600 px-5 py-4 font-black text-white">
+            <Link href="/ops/care-passport" className="rounded-2xl bg-[#A7D3EA] px-5 py-4 font-black text-[#2E504D]">
               케어패스포트
             </Link>
             <Link href="/ops/worry-center" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
@@ -114,7 +114,7 @@ export default function OpsPlanBuilderPage() {
             ) : items.length === 0 ? (
               <div className="rounded-3xl bg-white p-6 text-center shadow-sm">
                 <div className="font-black">접수된 걱정이 없습니다.</div>
-                <Link href="/care-request" className="mt-4 inline-block rounded-2xl bg-emerald-600 px-5 py-3 font-black text-white">
+                <Link href="/care-request" className="mt-4 inline-block rounded-2xl bg-[#8CCFC3] px-5 py-3 font-black text-[#2E504D]">
                   테스트 접수 만들기
                 </Link>
               </div>
@@ -137,11 +137,11 @@ export default function OpsPlanBuilderPage() {
                       <h3 className="mt-3 text-xl font-black">
                         {item.contact_name || '보호자 미입력'} · {item.contact_phone || '연락처 미입력'}
                       </h3>
-                      <p className="mt-2 line-clamp-3 text-sm leading-6 text-slate-600">{item.raw_text}</p>
+                      <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#63807C]">{item.raw_text}</p>
                     </div>
                   </div>
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <button onClick={() => createPlan(item)} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                    <button onClick={() => createPlan(item)} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                       케어패스포트 반영 플랜 생성
                     </button>
                     <Link href={`/care-request/status/${item.id}`} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
@@ -156,28 +156,28 @@ export default function OpsPlanBuilderPage() {
           <section className="rounded-3xl bg-white p-6 shadow-sm">
             <h2 className="text-2xl font-black">생성된 간편 플랜</h2>
             {!selected ? (
-              <p className="mt-4 text-slate-500">왼쪽에서 접수를 선택하세요.</p>
+              <p className="mt-4 text-[#7A9692]">왼쪽에서 접수를 선택하세요.</p>
             ) : !plan ? (
               <div className="mt-5 rounded-3xl bg-slate-50 p-6">
                 <p className="text-lg font-black">선택된 접수</p>
-                <p className="mt-3 whitespace-pre-wrap text-slate-700">{selected.raw_text}</p>
-                <button onClick={() => createPlan(selected)} className="mt-5 rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+                <p className="mt-3 whitespace-pre-wrap text-[#4E6D69]">{selected.raw_text}</p>
+                <button onClick={() => createPlan(selected)} className="mt-5 rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
                   이 접수로 케어플랜 만들기
                 </button>
               </div>
             ) : (
               <div className="mt-5 space-y-5">
-                <div className="rounded-3xl bg-slate-900 p-6 text-white">
+                <div className="rounded-3xl bg-[#5F7C92] p-6 text-[#2E504D]">
                   <p className="text-sm font-black text-emerald-200">안심 상태</p>
                   <div className="mt-2 text-5xl font-black">{plan.reassuranceState}</div>
                   <h3 className="mt-5 text-3xl font-black">{plan.title}</h3>
-                  <p className="mt-3 text-lg leading-8 text-slate-200">{plan.oneMinuteSummary}</p>
+                  <p className="mt-3 text-lg leading-8 text-[#63807C]">{plan.oneMinuteSummary}</p>
                   {plan.passportApplied ? (
-                    <p className="mt-4 rounded-2xl bg-white/10 p-4 text-sm font-bold text-emerald-100">
+                    <p className="mt-4 rounded-2xl bg-white/70 p-4 text-sm font-bold text-emerald-100">
                       케어패스포트 반영 완료{plan.passportElderName ? ` · ${plan.passportElderName}` : ''}
                     </p>
                   ) : (
-                    <p className="mt-4 rounded-2xl bg-white/10 p-4 text-sm font-bold text-slate-200">
+                    <p className="mt-4 rounded-2xl bg-white/70 p-4 text-sm font-bold text-[#63807C]">
                       케어패스포트가 없어서 기본 플랜으로 생성됐습니다.
                     </p>
                   )}
@@ -204,14 +204,14 @@ export default function OpsPlanBuilderPage() {
                     {plan.careBundles.map((bundle) => (
                       <div key={bundle.code} className="rounded-2xl bg-white p-4">
                         <div className="font-black">{bundle.title}</div>
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{bundle.description}</p>
+                        <p className="mt-2 text-sm leading-6 text-[#63807C]">{bundle.description}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {selected ? (
-                  <Link href={`/care-request/status/${selected.id}`} className="block rounded-2xl bg-slate-900 px-5 py-4 text-center font-black text-white">
+                  <Link href={`/care-request/status/${selected.id}`} className="block rounded-2xl bg-[#5F7C92] px-5 py-4 text-center font-black text-[#2E504D]">
                     가족용 화면 확인
                   </Link>
                 ) : null}
@@ -225,7 +225,7 @@ export default function OpsPlanBuilderPage() {
 }
 
 function Badge({ text }: { text: string }) {
-  return <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">{text}</span>
+  return <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#63807C]">{text}</span>
 }
 
 function PlanBlock({ title, items }: { title: string; items: string[] }) {

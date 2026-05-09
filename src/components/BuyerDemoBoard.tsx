@@ -146,12 +146,12 @@ export function BuyerDemoBoard() {
                 : 'bg-red-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">BUYER DEMO HEALTH</p>
+        <p className="text-sm font-black text-[#63807C]">BUYER DEMO HEALTH</p>
         <h2 className="mt-3 text-5xl font-black">
           {summary?.readinessState || '확인 중'}
         </h2>
 
-        <p className="mt-4 max-w-3xl text-lg font-bold leading-8 text-slate-700">
+        <p className="mt-4 max-w-3xl text-lg font-bold leading-8 text-[#4E6D69]">
           바이어가 실제 URL에서 접수, 운영실 처리, 매니저 검증, 매칭, 현장 배정, 리포트, 평가가 연결되는지 확인할 수 있는 시연 페이지입니다.
         </p>
 
@@ -182,7 +182,7 @@ export function BuyerDemoBoard() {
       <section className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <CareCard tone="white">
           <h2 className="text-2xl font-black">시연 역할 선택</h2>
-          <p className="mt-2 text-sm font-bold leading-6 text-slate-600">
+          <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
             바이어 시연 중 보호자, 부모님, 매니저, 운영실 화면을 빠르게 전환합니다.
           </p>
 
@@ -196,11 +196,11 @@ export function BuyerDemoBoard() {
                   'rounded-2xl border p-4 text-left ' +
                   (role === item.code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50')
+                    : 'border-[#E0EFEC] bg-slate-50')
                 }
               >
                 <div className="font-black">{item.label}</div>
-                <p className="mt-1 text-xs font-bold leading-5 text-slate-600">{item.description}</p>
+                <p className="mt-1 text-xs font-bold leading-5 text-[#63807C]">{item.description}</p>
               </button>
             ))}
           </div>
@@ -214,14 +214,14 @@ export function BuyerDemoBoard() {
 
         <CareCard tone="blue">
           <h2 className="text-2xl font-black">데모 데이터 생성</h2>
-          <p className="mt-2 text-sm font-bold leading-6 text-slate-700">
+          <p className="mt-2 text-sm font-bold leading-6 text-[#4E6D69]">
             데모 데이터가 부족하면 여기서 생성합니다. 로컬은 비워도 되고, Production은 DEMO_SEED_SECRET 또는 CRON_SECRET이 필요합니다.
           </p>
 
           <input
             value={secret}
             onChange={(event) => setSecret(event.target.value)}
-            className="mt-5 w-full rounded-2xl border border-slate-200 p-4"
+            className="mt-5 w-full rounded-2xl border border-[#E0EFEC] p-4"
             placeholder="Production secret"
           />
 
@@ -229,11 +229,11 @@ export function BuyerDemoBoard() {
             <button
               onClick={seedDemo}
               disabled={seeding}
-              className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D] disabled:opacity-50"
             >
               {seeding ? '생성 중...' : '데모 데이터 생성'}
             </button>
-            <button onClick={loadHealth} className="rounded-2xl bg-slate-950 px-5 py-4 font-black text-white">
+            <button onClick={loadHealth} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               헬스체크 다시 확인
             </button>
           </div>
@@ -263,9 +263,9 @@ export function BuyerDemoBoard() {
                     {check.count !== null ? <StatusPill text={`${check.count}건`} tone="slate" /> : null}
                   </div>
                   <div className="mt-3 text-lg font-black">{check.label}</div>
-                  <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{check.message}</p>
+                  <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{check.message}</p>
                   {check.path ? (
-                    <Link href={check.path} className="mt-3 inline-block rounded-xl bg-white px-3 py-2 text-xs font-black ring-1 ring-slate-200">
+                    <Link href={check.path} className="mt-3 inline-block rounded-xl bg-white px-3 py-2 text-xs font-black ring-1 ring-[#DCEBE8]">
                       화면 열기: {check.path}
                     </Link>
                   ) : null}
@@ -278,7 +278,7 @@ export function BuyerDemoBoard() {
 
       <section className="mt-10">
         <h2 className="text-3xl font-black">15분 시연 순서</h2>
-        <p className="mt-2 text-sm font-bold leading-6 text-slate-600">
+        <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
           자료 설명보다 이 순서대로 직접 화면을 열어 보여주는 것이 M&A 검토에 더 효과적입니다.
         </p>
 
@@ -291,14 +291,14 @@ export function BuyerDemoBoard() {
               </div>
 
               <h3 className="mt-4 text-2xl font-black">{step.title}</h3>
-              <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{step.description}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{step.description}</p>
 
               <div className="mt-4 rounded-2xl bg-slate-50 p-4">
-                <div className="text-xs font-black text-slate-500">확인 포인트</div>
+                <div className="text-xs font-black text-[#7A9692]">확인 포인트</div>
                 <p className="mt-1 text-sm font-bold leading-6">{step.checkPoint}</p>
               </div>
 
-              <Link href={step.path} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-slate-950 px-5 py-4 font-black text-white">
+              <Link href={step.path} className="mt-4 inline-flex w-full items-center justify-center rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
                 화면 열기
               </Link>
             </CareCard>
@@ -306,7 +306,7 @@ export function BuyerDemoBoard() {
         </div>
       </section>
 
-      <section className="mt-10 rounded-[2rem] bg-slate-950 p-6 text-white md:p-8">
+      <section className="mt-10 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D] md:p-8">
         <h2 className="text-3xl font-black">바이어에게 보여줄 핵심 문장</h2>
         <p className="mt-5 max-w-4xl text-xl font-black leading-9 text-blue-200">
           “이 데모는 전국 운영 전 단계의 MVP입니다. 보호자 걱정 접수, 운영실 정리, 검증 매니저 매칭, 부모님 화면, 리포트, 평가가 실제 DB에 저장되고 화면에서 확인됩니다.”
@@ -319,7 +319,7 @@ export function BuyerDemoBoard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )

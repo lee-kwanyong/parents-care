@@ -266,12 +266,12 @@ export function EasyAuthPanel({
       <CareCard tone="green">
         <StatusPill text="로그인 완료" tone="green" />
         <h2 className="mt-4 text-3xl font-black">로그인되었습니다.</h2>
-        <p className="mt-3 text-sm font-bold leading-6 text-slate-700">
+        <p className="mt-3 text-sm font-bold leading-6 text-[#4E6D69]">
           이제 부모님 걱정을 맡기거나 오늘의 안심판을 확인할 수 있습니다.
         </p>
 
         {message ? (
-          <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-slate-700">
+          <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold text-[#4E6D69]">
             {message}
           </p>
         ) : null}
@@ -297,7 +297,7 @@ export function EasyAuthPanel({
         </div>
 
         <h2 className="mt-4 text-3xl font-black">어떤 화면으로 시작할까요?</h2>
-        <p className="mt-2 text-sm font-bold leading-6 text-slate-600">
+        <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
           보호자, 가족, 부모님, 매니저, 운영실에 따라 첫 화면을 다르게 열어줍니다.
         </p>
 
@@ -311,11 +311,11 @@ export function EasyAuthPanel({
                 'rounded-3xl border p-4 text-left transition ' +
                 (userRole === role.code
                   ? 'border-emerald-500 bg-emerald-50'
-                  : 'border-slate-200 bg-slate-50 hover:bg-white')
+                  : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
               }
             >
               <div className="text-lg font-black">{role.label}</div>
-              <p className="mt-2 text-xs font-bold leading-5 text-slate-600">{role.description}</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-[#63807C]">{role.description}</p>
             </button>
           ))}
         </div>
@@ -339,11 +339,11 @@ export function EasyAuthPanel({
                 'rounded-3xl border p-4 text-left transition ' +
                 (mode === value
                   ? 'border-emerald-500 bg-emerald-50'
-                  : 'border-slate-200 bg-slate-50 hover:bg-white')
+                  : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
               }
             >
               <div className="text-lg font-black">{title}</div>
-              <p className="mt-2 text-xs font-bold leading-5 text-slate-600">{desc}</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-[#63807C]">{desc}</p>
             </button>
           ))}
         </div>
@@ -352,7 +352,7 @@ export function EasyAuthPanel({
           <input
             value={displayName}
             onChange={(event) => setDisplayName(event.target.value)}
-            className="tap-target rounded-2xl border border-slate-200 p-4"
+            className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
             placeholder="이름. 예: 이관용"
           />
 
@@ -360,14 +360,14 @@ export function EasyAuthPanel({
             <input
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="휴대폰. 예: 010-1234-5678"
             />
           ) : (
             <input
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="이메일"
             />
           )}
@@ -391,7 +391,7 @@ export function EasyAuthPanel({
       {mode === 'phone' ? (
         <CareCard tone="blue">
           <h2 className="text-3xl font-black">휴대폰 번호로 시작하기</h2>
-          <p className="mt-3 text-sm font-bold leading-6 text-slate-700">
+          <p className="mt-3 text-sm font-bold leading-6 text-[#4E6D69]">
             Supabase Phone Auth와 SMS provider가 설정되면 문자 인증번호로 로그인합니다.
           </p>
 
@@ -399,10 +399,10 @@ export function EasyAuthPanel({
             <input
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="010-1234-5678"
             />
-            <button onClick={sendPhoneOtp} disabled={saving} className="rounded-2xl bg-slate-950 px-5 py-4 font-black text-white">
+            <button onClick={sendPhoneOtp} disabled={saving} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               인증번호 받기
             </button>
           </div>
@@ -411,10 +411,10 @@ export function EasyAuthPanel({
             <input
               value={phoneOtp}
               onChange={(event) => setPhoneOtp(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="문자 인증번호"
             />
-            <button disabled={saving} className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+            <button disabled={saving} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
               확인
             </button>
           </form>
@@ -432,10 +432,10 @@ export function EasyAuthPanel({
             <input
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="이메일"
             />
-            <button disabled={saving} className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+            <button disabled={saving} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
               링크 받기
             </button>
           </form>
@@ -445,7 +445,7 @@ export function EasyAuthPanel({
       {mode === 'email_password' ? (
         <CareCard tone="white">
           <h2 className="text-3xl font-black">이메일/비밀번호</h2>
-          <p className="mt-3 text-sm font-bold leading-6 text-slate-600">
+          <p className="mt-3 text-sm font-bold leading-6 text-[#63807C]">
             운영실이나 매니저처럼 고정 계정이 필요한 경우 사용할 수 있습니다.
           </p>
 
@@ -453,17 +453,17 @@ export function EasyAuthPanel({
             <input
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="이메일"
             />
             <input
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="tap-target rounded-2xl border border-slate-200 p-4"
+              className="tap-target rounded-2xl border border-[#E0EFEC] p-4"
               placeholder="비밀번호"
               type="password"
             />
-            <button disabled={saving} className="rounded-3xl bg-slate-950 px-6 py-5 text-xl font-black text-white">
+            <button disabled={saving} className="rounded-3xl bg-[#5F7C92] px-6 py-5 text-xl font-black text-[#2E504D]">
               로그인 또는 회원가입
             </button>
           </form>

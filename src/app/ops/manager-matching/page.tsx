@@ -33,11 +33,11 @@ export default function OpsManagerMatchingPage() {
         <ManagerMatchingBoard />
       </div>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-6 text-white">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D]">
         <h2 className="text-2xl font-black">매칭 원칙</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-4">
           {['본인확인 완료', '활동 중 매니저', '직접 운송 미포함', '평가 반영'].map((item) => (
-            <div key={item} className="rounded-2xl bg-white/10 p-4 font-black">
+            <div key={item} className="rounded-2xl bg-white/70 p-4 font-black">
               {item}
             </div>
           ))}

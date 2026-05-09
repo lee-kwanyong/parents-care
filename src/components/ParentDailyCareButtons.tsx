@@ -48,7 +48,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
   return (
     <section className="mt-5 rounded-[2rem] bg-white p-6 shadow-sm">
       <h2 className="text-3xl font-black">오늘 확인</h2>
-      <p className="mt-2 text-lg font-bold text-slate-600">
+      <p className="mt-2 text-lg font-bold text-[#63807C]">
         누르면 자녀와 운영실에서 확인할 수 있어요.
       </p>
 
@@ -74,7 +74,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
               className={
                 'rounded-3xl px-6 py-5 text-left text-2xl font-black disabled:opacity-60 ' +
                 (danger
-                  ? 'bg-red-600 text-white'
+                  ? 'bg-[#F2B8B8] text-[#2E504D]'
                   : caution
                     ? 'bg-amber-100 text-amber-950'
                     : 'bg-emerald-100 text-emerald-950')

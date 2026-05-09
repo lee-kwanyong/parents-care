@@ -79,7 +79,7 @@ export function AuthStatusCard() {
       <CareCard tone="amber">
         <StatusPill text="로그인 필요" tone="amber" />
         <h2 className="mt-4 text-3xl font-black">아직 로그인하지 않았습니다.</h2>
-        <p className="mt-3 text-sm font-bold leading-6 text-slate-700">
+        <p className="mt-3 text-sm font-bold leading-6 text-[#4E6D69]">
           카카오, 휴대폰, 이메일 링크 중 편한 방식으로 시작할 수 있습니다.
         </p>
         <div className="mt-5">
@@ -104,7 +104,7 @@ export function AuthStatusCard() {
         {profile?.display_name || session.user.email || '사용자'}님
       </h2>
 
-      <div className="mt-4 space-y-2 text-sm font-bold leading-6 text-slate-700">
+      <div className="mt-4 space-y-2 text-sm font-bold leading-6 text-[#4E6D69]">
         <p>이메일: {session.user.email || profile?.email || '없음'}</p>
         <p>전화번호: {displayPhone(profile?.phone || session.user.phone)}</p>
         <p>로그인 방식: {profile?.preferred_login_method || 'easy'}</p>

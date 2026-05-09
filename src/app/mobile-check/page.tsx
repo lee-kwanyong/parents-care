@@ -72,7 +72,7 @@ export default function MobileCheckPage() {
               {group.items.map(([label, href]) => (
                 <Link key={`${label}-${href}`} href={href} className="block rounded-2xl bg-white p-4">
                   <div className="text-base font-black leading-7">{label}</div>
-                  <div className="mt-1 text-xs font-bold text-slate-500">{href}</div>
+                  <div className="mt-1 text-xs font-bold text-[#7A9692]">{href}</div>
                 </Link>
               ))}
             </div>
@@ -80,11 +80,11 @@ export default function MobileCheckPage() {
         ))}
       </section>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-6 text-white">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D]">
         <h2 className="text-3xl font-black">최종 기준</h2>
         <div className="mt-5 grid gap-3 md:grid-cols-5">
           {['3번 안에 완료', '전화·카톡·사진 대체', '큰 버튼', '큰 글씨', '검증된 매니저'].map((item) => (
-            <div key={item} className="rounded-2xl bg-white/10 p-4 text-center text-lg font-black">
+            <div key={item} className="rounded-2xl bg-white/70 p-4 text-center text-lg font-black">
               {item}
             </div>
           ))}

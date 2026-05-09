@@ -172,7 +172,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
           (summary.reassuranceState === '확인 필요' ? 'bg-amber-50' : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">비용 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">비용 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -202,7 +202,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -216,18 +216,18 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
       {mode === 'ops' ? (
         <form onSubmit={createRequest} className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black">추가비용 사전승인 요청 만들기</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-[#63807C]">
             보호자 승인 전에는 결제 완료나 비용 집행으로 넘어갈 수 없도록 설계했습니다.
           </p>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <input name="elderName" className="rounded-2xl border border-slate-200 p-4" placeholder="부모님" defaultValue="어머니" />
-            <input name="guardianName" className="rounded-2xl border border-slate-200 p-4" placeholder="보호자 이름" />
-            <input name="guardianPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
+            <input name="elderName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" defaultValue="어머니" />
+            <input name="guardianName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="보호자 이름" />
+            <input name="guardianPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
 
-            <input name="title" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 택시비 사전승인" defaultValue="추가비용 사전승인" />
+            <input name="title" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 택시비 사전승인" defaultValue="추가비용 사전승인" />
 
-            <select name="sourceType" className="rounded-2xl border border-slate-200 p-4">
+            <select name="sourceType" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="manual">수동</option>
               <option value="appointment">병원동행</option>
               <option value="meal_care">안심밥상</option>
@@ -237,21 +237,21 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
               <option value="social_support">사회공헌</option>
             </select>
 
-            <select name="priority" className="rounded-2xl border border-slate-200 p-4">
+            <select name="priority" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="normal">보통</option>
               <option value="high">중요</option>
               <option value="urgent">긴급</option>
               <option value="low">낮음</option>
             </select>
 
-            <select name="approvalMethod" className="rounded-2xl border border-slate-200 p-4">
+            <select name="approvalMethod" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="app">앱 승인</option>
               <option value="phone">전화 승인</option>
               <option value="kakao">카톡 승인</option>
               <option value="ops">운영실 확인</option>
             </select>
 
-            <select name="itemType" className="rounded-2xl border border-slate-200 p-4">
+            <select name="itemType" className="rounded-2xl border border-[#E0EFEC] p-4">
               {costItemTypeOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label}
@@ -259,15 +259,15 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
               ))}
             </select>
 
-            <input name="itemLabel" className="rounded-2xl border border-slate-200 p-4" placeholder="항목명 예: 병원 왕복 택시비" />
-            <input name="amountKrw" className="rounded-2xl border border-slate-200 p-4" inputMode="numeric" placeholder="금액 예: 18000" />
+            <input name="itemLabel" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="항목명 예: 병원 왕복 택시비" />
+            <input name="amountKrw" className="rounded-2xl border border-[#E0EFEC] p-4" inputMode="numeric" placeholder="금액 예: 18000" />
           </div>
 
-          <textarea name="reason" rows={3} className="mt-4 w-full rounded-2xl border border-slate-200 p-4" placeholder="비용 발생 이유. 예: 집 앞 만남 후 택시 동행이 필요합니다." />
+          <textarea name="reason" rows={3} className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="비용 발생 이유. 예: 집 앞 만남 후 택시 동행이 필요합니다." />
 
-          <textarea name="guardianMessage" rows={3} className="mt-4 w-full rounded-2xl border border-slate-200 p-4" placeholder="보호자에게 보여줄 안내 문구. 비워두면 자동 생성됩니다." />
+          <textarea name="guardianMessage" rows={3} className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="보호자에게 보여줄 안내 문구. 비워두면 자동 생성됩니다." />
 
-          <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
             사전승인 요청 만들기
           </button>
         </form>
@@ -281,7 +281,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
         ) : requests.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 추가비용 승인 요청이 없습니다.</div>
-            {mode === 'ops' ? <p className="mt-2 text-slate-500">위에서 승인 요청을 만들어보세요.</p> : null}
+            {mode === 'ops' ? <p className="mt-2 text-[#7A9692]">위에서 승인 요청을 만들어보세요.</p> : null}
           </div>
         ) : (
           requests.map((request) => {
@@ -300,7 +300,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{request.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       {request.elder_name} · {request.guardian_name || '보호자 미입력'} · {request.guardian_phone || '연락처 미입력'}
                     </p>
 
@@ -313,7 +313,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                     </div>
 
                     {request.reason ? (
-                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {request.reason}
                       </p>
                     ) : null}
@@ -326,7 +326,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                             <div key={item.id} className="flex justify-between gap-3 rounded-xl bg-white p-3 text-sm">
                               <div>
                                 <div className="font-black">{item.label}</div>
-                                <div className="text-slate-500">{labelCostItemType(item.item_type)}</div>
+                                <div className="text-[#7A9692]">{labelCostItemType(item.item_type)}</div>
                               </div>
                               <div className="font-black">{formatKrw(item.amount_krw)}</div>
                             </div>
@@ -342,7 +342,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                           {requestEvents.slice(0, 5).map((event) => (
                             <div key={event.id} className="rounded-xl bg-white p-3 text-sm">
                               <div className="font-black">{event.title}</div>
-                              {event.description ? <p className="mt-1 text-slate-600">{event.description}</p> : null}
+                              {event.description ? <p className="mt-1 text-[#63807C]">{event.description}</p> : null}
                             </div>
                           ))}
                         </div>
@@ -353,7 +353,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                   <div className="grid min-w-[190px] gap-2">
                     {request.status === 'pending_guardian' ? (
                       <>
-                        <button onClick={() => updateRequest(request.id, 'approved')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRequest(request.id, 'approved')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           승인해요
                         </button>
                         <button onClick={() => updateRequest(request.id, 'rejected')} className="rounded-2xl bg-red-50 px-4 py-3 font-black text-red-700">
@@ -367,7 +367,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
                         <button onClick={() => updateRequest(request.id, 'payment_pending')} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
                           결제 대기
                         </button>
-                        <button onClick={() => updateRequest(request.id, 'paid')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRequest(request.id, 'paid')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                           결제 완료
                         </button>
                         <button onClick={() => updateRequest(request.id, 'cancelled')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
@@ -389,7 +389,7 @@ export function CostApprovalBoard({ mode = 'family' }: { mode?: 'family' | 'ops'
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -397,7 +397,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

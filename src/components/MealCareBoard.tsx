@@ -120,7 +120,7 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">식사 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">식사 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -144,7 +144,7 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -163,7 +163,7 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
         ) : requests.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">등록된 안심밥상 요청이 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-meals 에서 먼저 등록해보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-meals 에서 먼저 등록해보세요.</p>
           </div>
         ) : (
           requests.map((request) => {
@@ -186,13 +186,13 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{request.elder_name} 안심밥상</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       식사 시간: {request.meal_times.map(labelMealTime).join(', ')}
                       {request.delivery_address ? ` · 배송지: ${request.delivery_address}` : ''}
                     </p>
 
                     {request.memo ? (
-                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {request.memo}
                       </p>
                     ) : null}
@@ -204,10 +204,10 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                         <button onClick={() => updateRequest(request.id, 'reviewing')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
                           검토 중
                         </button>
-                        <button onClick={() => updateRequest(request.id, 'active')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRequest(request.id, 'active')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           활성화
                         </button>
-                        <button onClick={() => updateRequest(request.id, 'completed')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRequest(request.id, 'completed')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                           완료
                         </button>
                         <button onClick={() => updateRequest(request.id, 'cancelled')} className="rounded-2xl bg-red-50 px-4 py-3 font-black text-red-700">
@@ -219,7 +219,7 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                         <button onClick={() => updateRequest(request.id, 'paused')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
                           잠시 중지
                         </button>
-                        <button onClick={() => updateRequest(request.id, 'completed')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateRequest(request.id, 'completed')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           완료
                         </button>
                       </>
@@ -256,23 +256,23 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
                           </h4>
 
                           {event.memo ? (
-                            <p className="mt-2 text-sm leading-6 text-slate-700">{event.memo}</p>
+                            <p className="mt-2 text-sm leading-6 text-[#4E6D69]">{event.memo}</p>
                           ) : null}
                         </div>
 
                         <div className="grid min-w-[170px] gap-2">
-                          <button onClick={() => updateEvent(event.id, { mealStatus: 'eaten' })} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                          <button onClick={() => updateEvent(event.id, { mealStatus: 'eaten' })} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                             드셨어요
                           </button>
                           <button onClick={() => updateEvent(event.id, { mealStatus: 'not_eaten' })} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
                             못 드셨어요
                           </button>
-                          <button onClick={() => updateEvent(event.id, { mealStatus: 'needs_help' })} className="rounded-2xl bg-red-600 px-4 py-3 font-black text-white">
+                          <button onClick={() => updateEvent(event.id, { mealStatus: 'needs_help' })} className="rounded-2xl bg-[#F2B8B8] px-4 py-3 font-black text-[#2E504D]">
                             도움 필요
                           </button>
                           {mode === 'ops' ? (
                             <>
-                              <button onClick={() => updateEvent(event.id, { deliveryStatus: 'delivered' })} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                              <button onClick={() => updateEvent(event.id, { deliveryStatus: 'delivered' })} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                                 배송 완료
                               </button>
                               <button onClick={() => updateEvent(event.id, { deliveryStatus: 'failed' })} className="rounded-2xl bg-red-50 px-4 py-3 font-black text-red-700">
@@ -297,7 +297,7 @@ export function MealCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -305,7 +305,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

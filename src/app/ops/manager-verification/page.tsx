@@ -33,16 +33,16 @@ export default function OpsManagerVerificationPage() {
         <ManagerTrustVerificationBoard mode="ops" />
       </div>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-6 text-white">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D]">
         <h2 className="text-2xl font-black">매칭 차단 기준</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-4">
           {['휴대폰 본인확인', '신분 확인', '차량 정책 확인', '면접 확인'].map((item) => (
-            <div key={item} className="rounded-2xl bg-white/10 p-4 font-black">
+            <div key={item} className="rounded-2xl bg-white/70 p-4 font-black">
               {item}
             </div>
           ))}
         </div>
-        <p className="mt-4 text-sm font-bold leading-6 text-slate-200">
+        <p className="mt-4 text-sm font-bold leading-6 text-[#63807C]">
           위 4개가 확인되지 않으면 SQL 레벨에서 승인 상태로 변경할 수 없습니다.
         </p>
       </section>

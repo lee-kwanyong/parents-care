@@ -57,7 +57,7 @@ export default function OpsDailyCarePage() {
   }, [data])
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -65,12 +65,12 @@ export default function OpsDailyCarePage() {
             <h1 className="mt-2 text-3xl font-black md:text-5xl">
               일상 케어 관제
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               식사, 약, 컨디션, 도움 요청, 안전 귀가를 확인합니다.
             </p>
           </div>
 
-          <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             새로고침
           </button>
         </div>
@@ -114,9 +114,9 @@ export default function OpsDailyCarePage() {
                       <Badge text={item.elder_name} />
                     </div>
                     <h2 className="mt-3 text-2xl font-black">{item.care_label}</h2>
-                    {item.memo ? <p className="mt-2 text-slate-700">{item.memo}</p> : null}
+                    {item.memo ? <p className="mt-2 text-[#4E6D69]">{item.memo}</p> : null}
                   </div>
-                  <p className="text-sm font-bold text-slate-500">
+                  <p className="text-sm font-bold text-[#7A9692]">
                     {item.occurred_at ? new Date(item.occurred_at).toLocaleString('ko-KR') : ''}
                   </p>
                 </div>
@@ -132,7 +132,7 @@ export default function OpsDailyCarePage() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-3xl bg-white p-5 shadow-sm">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-2 text-3xl font-black">{value}</div>
     </div>
   )
@@ -140,7 +140,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

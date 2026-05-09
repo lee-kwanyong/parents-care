@@ -113,7 +113,7 @@ export function DeployReadinessBoard() {
               : 'bg-red-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">배포 전 점검판</p>
+        <p className="text-sm font-black text-[#63807C]">배포 전 점검판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.readinessState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -141,7 +141,7 @@ export function DeployReadinessBoard() {
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-950 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           다시 점검
         </button>
         <CareButton href="/mobile-check" tone="soft">
@@ -170,7 +170,7 @@ export function DeployReadinessBoard() {
                     <StatusPill text={check.key} tone="slate" />
                   </div>
                   <div className="mt-3 text-lg font-black">{check.label}</div>
-                  <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{check.message}</p>
+                  <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{check.message}</p>
                 </div>
               ))}
             </div>
@@ -178,7 +178,7 @@ export function DeployReadinessBoard() {
         ))}
       </section>
 
-      <section className="mt-8 rounded-[2rem] bg-slate-950 p-6 text-white">
+      <section className="mt-8 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D]">
         <h2 className="text-2xl font-black">배포 전 수동 확인</h2>
         <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {[
@@ -191,7 +191,7 @@ export function DeployReadinessBoard() {
             '모바일 실제 기기 확인',
             'Service Role 브라우저 노출 없음'
           ].map((item) => (
-            <div key={item} className="rounded-2xl bg-white/10 p-4 text-sm font-black">
+            <div key={item} className="rounded-2xl bg-white/70 p-4 text-sm font-black">
               {item}
             </div>
           ))}
@@ -204,7 +204,7 @@ export function DeployReadinessBoard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )

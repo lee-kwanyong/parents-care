@@ -114,11 +114,11 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">오늘의 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">오늘의 안심판</p>
         <h2 className="mt-2 text-5xl font-black tracking-tight md:text-6xl">
           {summary.reassuranceState}
         </h2>
-        <p className="mt-5 max-w-3xl text-xl font-bold leading-9 text-slate-800">
+        <p className="mt-5 max-w-3xl text-xl font-bold leading-9 text-[#345A56]">
           {summary.summaryText}
         </p>
 
@@ -171,7 +171,7 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
       <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm">
         <h2 className="text-2xl font-black">연결된 전체 신호</h2>
         {Object.keys(groupedSources).length === 0 ? (
-          <p className="mt-3 text-slate-500">아직 연결된 신호가 없습니다.</p>
+          <p className="mt-3 text-[#7A9692]">아직 연결된 신호가 없습니다.</p>
         ) : (
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             {Object.entries(groupedSources).map(([type, items]) => (
@@ -182,7 +182,7 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
                   {items.slice(0, 3).map((item) => (
                     <Link key={`${item.sourceType}-${item.id}`} href={item.url} className="block rounded-xl bg-white p-3 text-sm font-bold">
                       {item.label}
-                      <span className="ml-2 text-xs text-slate-500">{item.statusLabel}</span>
+                      <span className="ml-2 text-xs text-[#7A9692]">{item.statusLabel}</span>
                     </Link>
                   ))}
                 </div>
@@ -193,11 +193,11 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
       </section>
 
       {summary.importantNotes.length > 0 ? (
-        <section className="mt-6 rounded-3xl bg-slate-900 p-6 text-white">
+        <section className="mt-6 rounded-3xl bg-[#5F7C92] p-6 text-[#2E504D]">
           <h2 className="text-2xl font-black">중요 메모</h2>
           <div className="mt-4 space-y-3">
             {summary.importantNotes.map((note) => (
-              <div key={note} className="rounded-2xl bg-white/10 p-4 font-bold">
+              <div key={note} className="rounded-2xl bg-white/70 p-4 font-bold">
                 {note}
               </div>
             ))}
@@ -206,17 +206,17 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
       ) : null}
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
 
         {mode === 'ops' ? (
-          <button onClick={saveSnapshot} className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+          <button onClick={saveSnapshot} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             오늘 안심판 저장
           </button>
         ) : null}
 
-        <Link href="/care-intake" className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+        <Link href="/care-intake" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
           사진·카톡으로 맡기기
         </Link>
 
@@ -241,7 +241,7 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
                   <Badge text={snapshot.reassurance_state} />
                   <Badge text={new Date(snapshot.created_at).toLocaleString('ko-KR')} />
                 </div>
-                <p className="mt-2 text-sm leading-6 text-slate-700">{snapshot.summary_text}</p>
+                <p className="mt-2 text-sm leading-6 text-[#4E6D69]">{snapshot.summary_text}</p>
               </div>
             ))}
           </div>
@@ -254,7 +254,7 @@ export function TodayReassuranceBoard({ mode = 'family' }: { mode?: 'family' | '
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -262,7 +262,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

@@ -48,7 +48,7 @@ export default function ChildDailyCarePage() {
   const summary = data?.summary
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-slate-900">
+    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
       <section className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -56,12 +56,12 @@ export default function ChildDailyCarePage() {
             <h1 className="mt-2 text-3xl font-black md:text-5xl">
               밥·약·컨디션 확인
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
               부모님이 큰 버튼으로 누른 식사, 약, 컨디션, 도움 요청을 확인합니다.
             </p>
           </div>
 
-          <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             새로고침
           </button>
         </div>
@@ -87,7 +87,7 @@ export default function ChildDailyCarePage() {
                     : 'bg-emerald-50')
               }
             >
-              <p className="text-sm font-black text-slate-600">오늘의 안심판</p>
+              <p className="text-sm font-black text-[#63807C]">오늘의 안심판</p>
               <div className="mt-2 text-5xl font-black">{summary?.reassuranceState || '확인 필요'}</div>
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <StatusCard label="식사" value={summary?.mealNeedsCheck ? '확인 필요' : '확인됨'} />
@@ -115,12 +115,12 @@ export default function ChildDailyCarePage() {
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge text={labelDailyCareType(item.check_type)} />
                       <Badge text={labelDailyCareStatus(item.status)} />
-                      <span className="text-sm text-slate-500">
+                      <span className="text-sm text-[#7A9692]">
                         {item.occurred_at ? new Date(item.occurred_at).toLocaleString('ko-KR') : ''}
                       </span>
                     </div>
                     <div className="mt-2 text-lg font-black">{item.care_label}</div>
-                    {item.memo ? <p className="mt-1 text-sm text-slate-600">{item.memo}</p> : null}
+                    {item.memo ? <p className="mt-1 text-sm text-[#63807C]">{item.memo}</p> : null}
                   </div>
                 ))}
               </div>
@@ -129,7 +129,7 @@ export default function ChildDailyCarePage() {
         )}
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/parent/today" className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+          <Link href="/parent/today" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             부모님 화면 보기
           </Link>
           <Link href="/child" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
@@ -144,7 +144,7 @@ export default function ChildDailyCarePage() {
 function StatusCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-2 text-2xl font-black">{value}</div>
     </div>
   )
@@ -152,7 +152,7 @@ function StatusCard({ label, value }: { label: string; value: string }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

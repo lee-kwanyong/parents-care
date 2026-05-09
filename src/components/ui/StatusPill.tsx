@@ -1,20 +1,46 @@
+type StatusTone = 'green' | 'blue' | 'amber' | 'red' | 'slate' | 'white'
+
 type StatusPillProps = {
   text: string
-  tone?: 'green' | 'amber' | 'red' | 'blue' | 'slate' | 'white'
+  tone?: StatusTone
+  className?: string
 }
 
-const tones = {
-  green: 'bg-emerald-100 text-emerald-900',
-  amber: 'bg-amber-100 text-amber-900',
-  red: 'bg-red-100 text-red-900',
-  blue: 'bg-blue-100 text-blue-900',
-  slate: 'bg-slate-100 text-slate-700',
-  white: 'bg-white/15 text-white'
+function cn(...values: Array<string | false | null | undefined>) {
+  return values.filter(Boolean).join(' ')
 }
 
-export function StatusPill({ text, tone = 'slate' }: StatusPillProps) {
+function toneClasses(tone: StatusTone) {
+  switch (tone) {
+    case 'green':
+      return 'bg-[#E5F8F4] text-[#3C706A] ring-1 ring-[#CBEAE4]'
+    case 'blue':
+      return 'bg-[#EAF6FC] text-[#456F88] ring-1 ring-[#D1EAF5]'
+    case 'amber':
+      return 'bg-[#FFF5DF] text-[#886B35] ring-1 ring-[#F0DDB6]'
+    case 'red':
+      return 'bg-[#FFF0F1] text-[#965D65] ring-1 ring-[#EFD2D6]'
+    case 'white':
+      return 'bg-white text-[#557A76] ring-1 ring-white/80'
+    case 'slate':
+    default:
+      return 'bg-[#F4FAF9] text-[#667F7C] ring-1 ring-[#E2EFEC]'
+  }
+}
+
+export function StatusPill({
+  text,
+  tone = 'slate',
+  className
+}: StatusPillProps) {
   return (
-    <span className={`inline-flex rounded-full px-3 py-1 text-xs font-black ${tones[tone]}`}>
+    <span
+      className={cn(
+        'inline-flex items-center rounded-full px-3 py-1 text-xs font-black tracking-[-0.01em]',
+        toneClasses(tone),
+        className
+      )}
+    >
       {text}
     </span>
   )

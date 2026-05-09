@@ -108,7 +108,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">사회공헌 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">사회공헌 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -132,7 +132,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -151,7 +151,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
         ) : cases.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 사회공헌 요청이 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-social 에서 요청을 만들어보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-social 에서 요청을 만들어보세요.</p>
           </div>
         ) : (
           cases.map((caseItem) => {
@@ -185,7 +185,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                     </div>
 
                     {caseItem.memo ? (
-                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {caseItem.memo}
                       </p>
                     ) : null}
@@ -197,7 +197,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                           {matchedPrograms.map((program) => (
                             <div key={program.program_code} className="rounded-2xl bg-white p-3">
                               <div className="font-black">{program.title}</div>
-                              <p className="mt-1 text-sm leading-6 text-slate-600">{program.description}</p>
+                              <p className="mt-1 text-sm leading-6 text-[#63807C]">{program.description}</p>
                             </div>
                           ))}
                         </div>
@@ -211,7 +211,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                           {caseVouchers.map((voucher) => (
                             <div key={voucher.id} className="rounded-2xl bg-white p-3">
                               <div className="font-black">{voucher.title}</div>
-                              <p className="mt-1 text-sm leading-6 text-slate-600">
+                              <p className="mt-1 text-sm leading-6 text-[#63807C]">
                                 {voucher.value_label} · {voucher.status} · {voucher.voucher_code}
                               </p>
                               {mode === 'ops' ? (
@@ -219,7 +219,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                                   <button onClick={() => updateVoucher(voucher.id, 'reserved')} className="rounded-xl bg-slate-100 px-3 py-2 text-sm font-black">
                                     예약
                                   </button>
-                                  <button onClick={() => updateVoucher(voucher.id, 'used')} className="rounded-xl bg-emerald-600 px-3 py-2 text-sm font-black text-white">
+                                  <button onClick={() => updateVoucher(voucher.id, 'used')} className="rounded-xl bg-[#8CCFC3] px-3 py-2 text-sm font-black text-[#2E504D]">
                                     사용 완료
                                   </button>
                                   <button onClick={() => updateVoucher(voucher.id, 'cancelled')} className="rounded-xl bg-red-50 px-3 py-2 text-sm font-black text-red-700">
@@ -243,10 +243,10 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                         <button onClick={() => updateCase(caseItem.id, 'eligible')} className="rounded-2xl bg-blue-100 px-4 py-3 font-black text-blue-900">
                           지원 가능
                         </button>
-                        <button onClick={() => updateCase(caseItem.id, 'voucher_issued')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateCase(caseItem.id, 'voucher_issued')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           후원 쿠폰 발급
                         </button>
-                        <button onClick={() => updateCase(caseItem.id, 'connected')} className="rounded-2xl bg-slate-900 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateCase(caseItem.id, 'connected')} className="rounded-2xl bg-[#5F7C92] px-4 py-3 font-black text-[#2E504D]">
                           연결 완료
                         </button>
                         <button onClick={() => updateCase(caseItem.id, 'not_eligible')} className="rounded-2xl bg-amber-50 px-4 py-3 font-black text-amber-800">
@@ -255,7 +255,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
                       </>
                     ) : (
                       <>
-                        <button onClick={() => updateCase(caseItem.id, 'closed')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                        <button onClick={() => updateCase(caseItem.id, 'closed')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                           확인했어요
                         </button>
                       </>
@@ -274,7 +274,7 @@ export function SocialCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -282,7 +282,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

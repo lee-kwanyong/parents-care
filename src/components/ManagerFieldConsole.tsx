@@ -277,7 +277,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
               : 'bg-amber-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">매니저 현장 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">매니저 현장 안심판</p>
         <div className="mt-2 text-5xl font-black">
           {checklistSummary.issue > 0 || selected?.status === 'issue'
             ? '긴급'
@@ -295,7 +295,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -311,8 +311,8 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
           <h2 className="text-2xl font-black">매니저 현장 배정 만들기</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <input name="elderName" className="rounded-2xl border border-slate-200 p-4" placeholder="부모님" defaultValue="어머니" />
-            <select name="managerProfileId" className="rounded-2xl border border-slate-200 p-4">
+            <input name="elderName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" defaultValue="어머니" />
+            <select name="managerProfileId" className="rounded-2xl border border-[#E0EFEC] p-4">
               {managerProfiles.length === 0 ? (
                 <option value="">본인확인 완료 매니저 없음</option>
               ) : (
@@ -323,41 +323,41 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                 ))
               )}
             </select>
-            <input name="managerName" className="rounded-2xl border border-slate-200 p-4" placeholder="매니저 이름은 프로필에서 자동 반영" defaultValue="" />
-            <input name="managerPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="매니저 연락처" />
-            <input name="title" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 정형외과 병원동행" defaultValue="병원동행 현장 케어" />
-            <input name="appointmentDate" className="rounded-2xl border border-slate-200 p-4" type="date" />
-            <input name="appointmentTime" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 오전 9시" />
-            <input name="meetingLocation" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 병원 정문" />
-            <input name="meetingCode" className="rounded-2xl border border-slate-200 p-4" placeholder="2580" defaultValue="2580" />
-            <select name="assignmentType" className="rounded-2xl border border-slate-200 p-4">
+            <input name="managerName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="매니저 이름은 프로필에서 자동 반영" defaultValue="" />
+            <input name="managerPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="매니저 연락처" />
+            <input name="title" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 정형외과 병원동행" defaultValue="병원동행 현장 케어" />
+            <input name="appointmentDate" className="rounded-2xl border border-[#E0EFEC] p-4" type="date" />
+            <input name="appointmentTime" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 오전 9시" />
+            <input name="meetingLocation" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 병원 정문" />
+            <input name="meetingCode" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="2580" defaultValue="2580" />
+            <select name="assignmentType" className="rounded-2xl border border-[#E0EFEC] p-4">
               {assignmentTypeOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label}
                 </option>
               ))}
             </select>
-            <select name="transportMode" className="rounded-2xl border border-slate-200 p-4 md:col-span-2">
+            <select name="transportMode" className="rounded-2xl border border-[#E0EFEC] p-4 md:col-span-2">
               {transportModeOptions.map((option) => (
                 <option key={option.code} value={option.code}>
                   {option.label}
                 </option>
               ))}
             </select>
-            <label className="flex items-center gap-3 rounded-2xl border border-slate-200 p-4 font-black">
+            <label className="flex items-center gap-3 rounded-2xl border border-[#E0EFEC] p-4 font-black">
               <input name="vehicleOwned" type="checkbox" />
               차량 보유 표시
             </label>
           </div>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
-            <textarea name="guardianQuestions" rows={4} className="rounded-2xl border border-slate-200 p-4" placeholder={"보호자 질문 리스트\n예: 무릎 통증 원인 확인\n예: 약 변경 여부 확인"} />
-            <textarea name="requiredDocuments" rows={4} className="rounded-2xl border border-slate-200 p-4" placeholder={"요청 서류\n예: 진료비 영수증\n예: 진료비 세부내역서"} />
+            <textarea name="guardianQuestions" rows={4} className="rounded-2xl border border-[#E0EFEC] p-4" placeholder={"보호자 질문 리스트\n예: 무릎 통증 원인 확인\n예: 약 변경 여부 확인"} />
+            <textarea name="requiredDocuments" rows={4} className="rounded-2xl border border-[#E0EFEC] p-4" placeholder={"요청 서류\n예: 진료비 영수증\n예: 진료비 세부내역서"} />
           </div>
 
-          <textarea name="opsMemo" rows={3} className="mt-4 w-full rounded-2xl border border-slate-200 p-4" placeholder="운영실 메모" />
+          <textarea name="opsMemo" rows={3} className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="운영실 메모" />
 
-          <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
             현장 배정 만들기
           </button>
         </form>
@@ -372,7 +372,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
           ) : assignments.length === 0 ? (
             <div className="rounded-3xl bg-white p-6 text-center shadow-sm">
               <div className="text-xl font-black">배정된 일정이 없습니다.</div>
-              {mode === 'ops' ? <p className="mt-2 text-slate-500">위에서 현장 배정을 만들어보세요.</p> : null}
+              {mode === 'ops' ? <p className="mt-2 text-[#7A9692]">위에서 현장 배정을 만들어보세요.</p> : null}
             </div>
           ) : (
             assignments.map((assignment) => (
@@ -389,7 +389,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                   <Badge text={labelManagerStatus(assignment.status)} />
                 </div>
                 <h3 className="mt-3 text-xl font-black">{assignment.title}</h3>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
+                <p className="mt-2 text-sm leading-6 text-[#63807C]">
                   {assignment.elder_name} · {assignment.appointment_date || '날짜 미정'} · {assignment.appointment_time || '시간 미정'}
                 </p>
               </button>
@@ -416,7 +416,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                     </div>
 
                     <h2 className="mt-3 text-3xl font-black">{selected.title}</h2>
-                    <p className="mt-3 text-lg leading-8 text-slate-700">
+                    <p className="mt-3 text-lg leading-8 text-[#4E6D69]">
                       만남 장소: {selected.meeting_location || '미정'} · 만남 암호: {selected.meeting_code}
                     </p>
 
@@ -434,10 +434,10 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                         className={
                           'rounded-2xl px-4 py-3 font-black ' +
                           (flow.status === 'issue'
-                            ? 'bg-red-600 text-white'
+                            ? 'bg-[#F2B8B8] text-[#2E504D]'
                             : flow.status === 'completed'
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-slate-100 text-slate-900')
+                              ? 'bg-[#8CCFC3] text-[#2E504D]'
+                              : 'bg-slate-100 text-[#2E504D]')
                         }
                       >
                         {flow.label}
@@ -484,15 +484,15 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                             <Badge text={item.status} />
                           </div>
                           <h4 className="mt-2 text-xl font-black">{item.title}</h4>
-                          {item.description ? <p className="mt-2 text-sm leading-6 text-slate-700">{item.description}</p> : null}
+                          {item.description ? <p className="mt-2 text-sm leading-6 text-[#4E6D69]">{item.description}</p> : null}
                           {item.issue_note ? <p className="mt-2 text-sm font-bold text-red-700">이슈: {item.issue_note}</p> : null}
                         </div>
 
                         <div className="grid min-w-[150px] gap-2">
-                          <button onClick={() => updateChecklist(item, 'done')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                          <button onClick={() => updateChecklist(item, 'done')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                             확인 완료
                           </button>
-                          <button onClick={() => updateChecklist(item, 'issue')} className="rounded-2xl bg-red-600 px-4 py-3 font-black text-white">
+                          <button onClick={() => updateChecklist(item, 'issue')} className="rounded-2xl bg-[#F2B8B8] px-4 py-3 font-black text-[#2E504D]">
                             이슈
                           </button>
                           <button onClick={() => updateChecklist(item, 'skipped')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
@@ -510,19 +510,19 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
 
                 <form onSubmit={createReport} className="mt-4 space-y-3">
                   <input type="hidden" name="assignmentId" value={selected.id} />
-                  <select name="reassuranceState" className="w-full rounded-2xl border border-slate-200 p-4">
+                  <select name="reassuranceState" className="w-full rounded-2xl border border-[#E0EFEC] p-4">
                     <option value="안심">안심</option>
                     <option value="확인 필요">확인 필요</option>
                     <option value="긴급">긴급</option>
                   </select>
-                  <textarea name="visitSummary" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="진행 요약" />
-                  <textarea name="doctorGuidance" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="의료진 안내사항" />
-                  <textarea name="medicationSummary" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="약/처방 내용" />
-                  <textarea name="documentSummary" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="서류/영수증" />
-                  <textarea name="mealConditionSummary" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="식사/컨디션" />
-                  <textarea name="parentCondition" rows={3} className="w-full rounded-2xl border border-slate-200 p-4" placeholder="부모님 컨디션" />
-                  <textarea name="familyNextActions" rows={4} className="w-full rounded-2xl border border-slate-200 p-4" placeholder={"가족이 해야 할 일\n예: 저녁 약 확인\n예: 다음 예약 확인"} />
-                  <button className="w-full rounded-3xl bg-slate-900 px-6 py-5 text-xl font-black text-white">
+                  <textarea name="visitSummary" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="진행 요약" />
+                  <textarea name="doctorGuidance" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="의료진 안내사항" />
+                  <textarea name="medicationSummary" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="약/처방 내용" />
+                  <textarea name="documentSummary" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="서류/영수증" />
+                  <textarea name="mealConditionSummary" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="식사/컨디션" />
+                  <textarea name="parentCondition" rows={3} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님 컨디션" />
+                  <textarea name="familyNextActions" rows={4} className="w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder={"가족이 해야 할 일\n예: 저녁 약 확인\n예: 다음 예약 확인"} />
+                  <button className="w-full rounded-3xl bg-[#5F7C92] px-6 py-5 text-xl font-black text-[#2E504D]">
                     리포트 초안 제출
                   </button>
                 </form>
@@ -535,7 +535,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                           <Badge text={report.reassurance_state} />
                           <Badge text={report.status} />
                         </div>
-                        <p className="mt-3 text-sm leading-6 text-slate-700">{report.visit_summary}</p>
+                        <p className="mt-3 text-sm leading-6 text-[#4E6D69]">{report.visit_summary}</p>
                       </div>
                     ))}
                   </div>
@@ -549,12 +549,12 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
                     selectedEvents.map((event) => (
                       <div key={event.id} className="rounded-2xl bg-slate-50 p-4">
                         <div className="font-black">{event.title}</div>
-                        {event.description ? <p className="mt-2 text-sm text-slate-600">{event.description}</p> : null}
-                        <p className="mt-2 text-xs text-slate-500">{new Date(event.created_at).toLocaleString('ko-KR')}</p>
+                        {event.description ? <p className="mt-2 text-sm text-[#63807C]">{event.description}</p> : null}
+                        <p className="mt-2 text-xs text-[#7A9692]">{new Date(event.created_at).toLocaleString('ko-KR')}</p>
                       </div>
                     ))
                   ) : (
-                    <div className="rounded-2xl bg-slate-50 p-4 text-slate-500">아직 진행 로그가 없습니다.</div>
+                    <div className="rounded-2xl bg-slate-50 p-4 text-[#7A9692]">아직 진행 로그가 없습니다.</div>
                   )}
                 </div>
               </article>
@@ -569,7 +569,7 @@ export function ManagerFieldConsole({ mode = 'manager' }: { mode?: 'manager' | '
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -577,7 +577,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

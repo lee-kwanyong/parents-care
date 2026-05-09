@@ -240,7 +240,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
           (summary.reassuranceState === '안심' ? 'bg-emerald-50' : 'bg-amber-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">가족 공동조회 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">가족 공동조회 안심판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.reassuranceState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -264,7 +264,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -278,35 +278,35 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
       <section className="mt-8 grid gap-6 lg:grid-cols-2">
         <form onSubmit={createFamily} className="rounded-3xl bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black">가족 공간 만들기</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-[#63807C]">
             대표 보호자가 가족 공동조회 공간을 만들고 초대 코드를 발급합니다.
           </p>
 
           <div className="mt-5 grid gap-3">
-            <input name="familyName" className="rounded-2xl border border-slate-200 p-4" placeholder="예: 어머니 케어 가족" />
-            <input name="elderName" className="rounded-2xl border border-slate-200 p-4" placeholder="부모님 성함" defaultValue="어머니" />
-            <input name="guardianName" className="rounded-2xl border border-slate-200 p-4" placeholder="대표 보호자 이름" />
-            <input name="guardianPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
+            <input name="familyName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="예: 어머니 케어 가족" />
+            <input name="elderName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님 성함" defaultValue="어머니" />
+            <input name="guardianName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="대표 보호자 이름" />
+            <input name="guardianPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
           </div>
 
-          <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
             가족 공간 만들기
           </button>
         </form>
 
         <form onSubmit={joinWithCode} className="rounded-3xl bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black">초대 코드로 참여</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-600">
+          <p className="mt-2 text-sm leading-6 text-[#63807C]">
             가족에게 받은 공동조회 코드를 입력하면 함께 확인할 수 있습니다.
           </p>
 
           <div className="mt-5 grid gap-3">
-            <input name="inviteCode" className="rounded-2xl border border-slate-200 p-4 uppercase" placeholder="예: CARE-ABC123" />
-            <input name="memberName" className="rounded-2xl border border-slate-200 p-4" placeholder="내 이름" />
-            <input name="memberPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
+            <input name="inviteCode" className="rounded-2xl border border-[#E0EFEC] p-4 uppercase" placeholder="예: CARE-ABC123" />
+            <input name="memberName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="내 이름" />
+            <input name="memberPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
           </div>
 
-          <button className="mt-4 w-full rounded-3xl bg-slate-900 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#5F7C92] px-6 py-5 text-xl font-black text-[#2E504D]">
             가족 공동조회 참여
           </button>
         </form>
@@ -317,7 +317,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
           <h2 className="text-2xl font-black">새 초대 코드 만들기</h2>
 
           <form onSubmit={createInviteCode} className="mt-5 grid gap-3 md:grid-cols-[1fr_180px_180px_140px_auto]">
-            <select name="familyGroupId" className="rounded-2xl border border-slate-200 p-4">
+            <select name="familyGroupId" className="rounded-2xl border border-[#E0EFEC] p-4">
               {groups.length === 0 ? (
                 <option value="">가족 공간 없음</option>
               ) : (
@@ -329,7 +329,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
               )}
             </select>
 
-            <select name="invitedRole" className="rounded-2xl border border-slate-200 p-4">
+            <select name="invitedRole" className="rounded-2xl border border-[#E0EFEC] p-4">
               {familyRoleOptions
                 .filter((role) => role.code !== 'primary_guardian' && role.code !== 'ops')
                 .map((role) => (
@@ -339,7 +339,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                 ))}
             </select>
 
-            <select name="permissionLevel" className="rounded-2xl border border-slate-200 p-4">
+            <select name="permissionLevel" className="rounded-2xl border border-[#E0EFEC] p-4">
               {permissionLevelOptions.map((level) => (
                 <option key={level.code} value={level.code}>
                   {level.label}
@@ -347,9 +347,9 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
               ))}
             </select>
 
-            <input name="maxUses" className="rounded-2xl border border-slate-200 p-4" inputMode="numeric" defaultValue="5" />
+            <input name="maxUses" className="rounded-2xl border border-[#E0EFEC] p-4" inputMode="numeric" defaultValue="5" />
 
-            <button className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+            <button className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
               코드 생성
             </button>
           </form>
@@ -364,7 +364,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
         ) : groups.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 가족 공간이 없습니다.</div>
-            <p className="mt-2 text-slate-500">위에서 가족 공간을 먼저 만들어보세요.</p>
+            <p className="mt-2 text-[#7A9692]">위에서 가족 공간을 먼저 만들어보세요.</p>
           </div>
         ) : (
           groups.map((group) => {
@@ -382,7 +382,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                 </div>
 
                 <h3 className="mt-3 text-3xl font-black">{group.family_name}</h3>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-[#63807C]">
                   대표 보호자: {group.primary_guardian_name || '미입력'} · {group.primary_guardian_phone || '연락처 미입력'}
                 </p>
 
@@ -390,7 +390,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                   <h4 className="text-xl font-black">가족 구성원</h4>
 
                   {groupMembers.length === 0 ? (
-                    <p className="mt-3 text-sm text-slate-500">아직 구성원이 없습니다.</p>
+                    <p className="mt-3 text-sm text-[#7A9692]">아직 구성원이 없습니다.</p>
                   ) : (
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
                       {groupMembers.map((member) => (
@@ -402,7 +402,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                           </div>
 
                           <div className="mt-3 text-lg font-black">{member.member_name}</div>
-                          <p className="mt-1 text-sm text-slate-500">{member.member_phone || '연락처 미입력'}</p>
+                          <p className="mt-1 text-sm text-[#7A9692]">{member.member_phone || '연락처 미입력'}</p>
 
                           <div className="mt-3 flex flex-wrap gap-2 text-xs font-black">
                             {member.can_approve_costs ? <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-800">비용 승인</span> : null}
@@ -433,7 +433,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                   <h4 className="text-xl font-black">가족 공동조회 코드</h4>
 
                   {groupCodes.length === 0 ? (
-                    <p className="mt-3 text-sm text-slate-500">아직 초대 코드가 없습니다.</p>
+                    <p className="mt-3 text-sm text-[#7A9692]">아직 초대 코드가 없습니다.</p>
                   ) : (
                     <div className="mt-4 grid gap-3 md:grid-cols-2">
                       {groupCodes.map((code) => (
@@ -445,7 +445,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                           </div>
 
                           <div className="mt-3 select-all break-all text-2xl font-black">{code.invite_code}</div>
-                          <p className="mt-2 text-sm text-slate-500">
+                          <p className="mt-2 text-sm text-[#7A9692]">
                             사용 {code.used_count}/{code.max_uses}
                             {code.expires_at ? ` · 만료 ${new Date(code.expires_at).toLocaleDateString('ko-KR')}` : ''}
                           </p>
@@ -467,14 +467,14 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                 </section>
 
                 {groupEvents.length > 0 ? (
-                  <section className="mt-6 rounded-3xl bg-slate-900 p-5 text-white">
+                  <section className="mt-6 rounded-3xl bg-[#5F7C92] p-5 text-[#2E504D]">
                     <h4 className="text-xl font-black">가족 참여 기록</h4>
                     <div className="mt-4 space-y-3">
                       {groupEvents.slice(0, 8).map((event) => (
-                        <div key={event.id} className="rounded-2xl bg-white/10 p-4">
+                        <div key={event.id} className="rounded-2xl bg-white/70 p-4">
                           <div className="font-black">{event.title}</div>
-                          {event.description ? <p className="mt-1 text-sm text-slate-200">{event.description}</p> : null}
-                          <p className="mt-2 text-xs text-slate-400">{new Date(event.created_at).toLocaleString('ko-KR')}</p>
+                          {event.description ? <p className="mt-1 text-sm text-[#63807C]">{event.description}</p> : null}
+                          <p className="mt-2 text-xs text-[#92AAA6]">{new Date(event.created_at).toLocaleString('ko-KR')}</p>
                         </div>
                       ))}
                     </div>
@@ -492,7 +492,7 @@ export function FamilySharingBoard({ mode = 'family' }: { mode?: 'family' | 'ops
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -500,7 +500,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

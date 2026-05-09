@@ -89,7 +89,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">정기진료 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">정기진료 안심판</p>
         <div className="mt-2 text-5xl font-black">{summary.reassuranceState}</div>
         <div className="mt-5 grid gap-3 md:grid-cols-5">
           <Stat label="정기 케어" value={summary.routineTotal} />
@@ -101,7 +101,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
       </div>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -133,7 +133,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
         ) : openDrafts.length === 0 ? (
           <div className="mt-4 rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">확인할 다음 예약 후보가 없습니다.</div>
-            <p className="mt-2 text-slate-500">정기진료를 등록하면 자동으로 후보가 만들어집니다.</p>
+            <p className="mt-2 text-[#7A9692]">정기진료를 등록하면 자동으로 후보가 만들어집니다.</p>
           </div>
         ) : (
           <div className="mt-4 space-y-3">
@@ -147,11 +147,11 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                       {draft.suggested_date ? <Badge text={draft.suggested_date} /> : null}
                     </div>
                     <h3 className="mt-3 text-2xl font-black">{draft.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       병원: {draft.hospital_name || '미입력'} · 진료과: {draft.department || '미입력'} · 선호시간: {draft.preferred_time || '미입력'}
                     </p>
                     {draft.memo ? (
-                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {draft.memo}
                       </p>
                     ) : null}
@@ -172,7 +172,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                     </button>
                     <button
                       onClick={() => updateDraft(draft.id, 'booked')}
-                      className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white"
+                      className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]"
                     >
                       예약 완료
                     </button>
@@ -198,7 +198,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
         {loading ? null : routines.length === 0 ? (
           <div className="mt-4 rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">등록된 정기 케어가 없습니다.</div>
-            <p className="mt-2 text-slate-500">/care-routines 에서 정기진료를 등록해보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/care-routines 에서 정기진료를 등록해보세요.</p>
           </div>
         ) : (
           <div className="mt-4 space-y-3">
@@ -213,11 +213,11 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
                       {routine.next_due_date ? <Badge text={`다음: ${routine.next_due_date}`} /> : null}
                     </div>
                     <h3 className="mt-3 text-2xl font-black">{routine.title}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       {routine.elder_name} · {routine.hospital_name || '병원 미입력'} · {routine.department || '진료과 미입력'}
                     </p>
                     {routine.memo ? (
-                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-3 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {routine.memo}
                       </p>
                     ) : null}
@@ -252,7 +252,7 @@ export function RecurringCareBoard({ mode = 'family' }: { mode?: 'family' | 'ops
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -260,7 +260,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

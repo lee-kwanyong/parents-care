@@ -168,7 +168,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">알림 큐 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">알림 큐 안심판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.reassuranceState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -192,12 +192,12 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
 
         {mode === 'ops' ? (
-          <button onClick={generateFromSignals} className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+          <button onClick={generateFromSignals} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             현재 상태에서 알림 자동 생성
           </button>
         ) : null}
@@ -214,11 +214,11 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
           <h2 className="text-2xl font-black">수동 알림 만들기</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <input name="elderName" className="rounded-2xl border border-slate-200 p-4" placeholder="부모님" defaultValue="어머니" />
-            <input name="recipientName" className="rounded-2xl border border-slate-200 p-4" placeholder="받는 사람" />
-            <input name="recipientPhone" className="rounded-2xl border border-slate-200 p-4" placeholder="010-1234-5678" />
+            <input name="elderName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="부모님" defaultValue="어머니" />
+            <input name="recipientName" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="받는 사람" />
+            <input name="recipientPhone" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="010-1234-5678" />
 
-            <select name="recipientRole" className="rounded-2xl border border-slate-200 p-4">
+            <select name="recipientRole" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="guardian">보호자</option>
               <option value="parent">부모님</option>
               <option value="manager">매니저</option>
@@ -226,7 +226,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
               <option value="family">가족</option>
             </select>
 
-            <select name="channel" className="rounded-2xl border border-slate-200 p-4">
+            <select name="channel" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="app">앱</option>
               <option value="kakao">카카오 알림톡</option>
               <option value="sms">문자</option>
@@ -234,14 +234,14 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
               <option value="push">푸시</option>
             </select>
 
-            <select name="priority" className="rounded-2xl border border-slate-200 p-4">
+            <select name="priority" className="rounded-2xl border border-[#E0EFEC] p-4">
               <option value="normal">보통</option>
               <option value="high">중요</option>
               <option value="urgent">긴급</option>
               <option value="low">낮음</option>
             </select>
 
-            <select name="templateCode" className="rounded-2xl border border-slate-200 p-4 md:col-span-2">
+            <select name="templateCode" className="rounded-2xl border border-[#E0EFEC] p-4 md:col-span-2">
               {templates.length === 0 ? (
                 <option value="general">일반 알림</option>
               ) : (
@@ -253,14 +253,14 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
               )}
             </select>
 
-            <input name="meetingCode" className="rounded-2xl border border-slate-200 p-4" placeholder="만남 암호 예: 2580" />
+            <input name="meetingCode" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="만남 암호 예: 2580" />
           </div>
 
-          <input name="title" className="mt-4 w-full rounded-2xl border border-slate-200 p-4" placeholder="제목. 비워두면 템플릿 제목 사용" />
+          <input name="title" className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="제목. 비워두면 템플릿 제목 사용" />
 
-          <textarea name="body" rows={4} className="mt-4 w-full rounded-2xl border border-slate-200 p-4" placeholder="내용. 비워두면 템플릿 문구 사용" />
+          <textarea name="body" rows={4} className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="내용. 비워두면 템플릿 문구 사용" />
 
-          <button className="mt-4 w-full rounded-3xl bg-emerald-600 px-6 py-5 text-xl font-black text-white">
+          <button className="mt-4 w-full rounded-3xl bg-[#8CCFC3] px-6 py-5 text-xl font-black text-[#2E504D]">
             알림 만들기
           </button>
         </form>
@@ -274,7 +274,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
         ) : notifications.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 알림이 없습니다.</div>
-            {mode === 'ops' ? <p className="mt-2 text-slate-500">현재 상태에서 알림 자동 생성을 눌러보세요.</p> : null}
+            {mode === 'ops' ? <p className="mt-2 text-[#7A9692]">현재 상태에서 알림 자동 생성을 눌러보세요.</p> : null}
           </div>
         ) : (
           notifications.map((item) => {
@@ -292,9 +292,9 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
                     </div>
 
                     <h3 className="mt-3 text-2xl font-black">{item.title}</h3>
-                    <p className="mt-3 whitespace-pre-wrap text-base leading-7 text-slate-700">{item.body}</p>
+                    <p className="mt-3 whitespace-pre-wrap text-base leading-7 text-[#4E6D69]">{item.body}</p>
 
-                    <p className="mt-3 text-sm text-slate-500">
+                    <p className="mt-3 text-sm text-[#7A9692]">
                       대상: {item.elder_name} · 받는 사람: {item.recipient_name || '미입력'} · {item.recipient_phone || '연락처 미입력'}
                     </p>
 
@@ -311,7 +311,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
                           {itemEvents.slice(0, 5).map((event) => (
                             <div key={event.id} className="rounded-xl bg-white p-3 text-sm">
                               <div className="font-black">{event.title}</div>
-                              {event.description ? <p className="mt-1 text-slate-600">{event.description}</p> : null}
+                              {event.description ? <p className="mt-1 text-[#63807C]">{event.description}</p> : null}
                             </div>
                           ))}
                         </div>
@@ -324,7 +324,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
                       <button onClick={() => updateNotification(item.id, 'ready')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
                         발송 준비
                       </button>
-                      <button onClick={() => updateNotification(item.id, 'sent')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                      <button onClick={() => updateNotification(item.id, 'sent')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                         발송 완료
                       </button>
                       <button onClick={() => updateNotification(item.id, 'failed')} className="rounded-2xl bg-red-50 px-4 py-3 font-black text-red-700">
@@ -351,7 +351,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -359,7 +359,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

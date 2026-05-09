@@ -130,11 +130,11 @@ export function OpsCommandCenterBoard() {
               : 'bg-emerald-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">운영실 통합 관제</p>
+        <p className="text-sm font-black text-[#63807C]">운영실 통합 관제</p>
         <h2 className="mt-2 text-5xl font-black tracking-tight md:text-6xl">
           {summary.reassuranceState}
         </h2>
-        <p className="mt-5 max-w-3xl text-xl font-bold leading-9 text-slate-800">
+        <p className="mt-5 max-w-3xl text-xl font-bold leading-9 text-[#345A56]">
           {summary.summaryText}
         </p>
 
@@ -159,10 +159,10 @@ export function OpsCommandCenterBoard() {
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
-        <button onClick={saveSnapshot} className="rounded-2xl bg-emerald-600 px-5 py-4 font-black text-white">
+        <button onClick={saveSnapshot} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
           관제 스냅샷 저장
         </button>
         <Link href="/ops/cases" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
@@ -188,14 +188,14 @@ export function OpsCommandCenterBoard() {
               <div className="flex items-end justify-between gap-3">
                 <div>
                   <h2 className="text-2xl font-black">{labelOpsCategory(category)}</h2>
-                  <p className="mt-1 text-sm text-slate-500">
+                  <p className="mt-1 text-sm text-[#7A9692]">
                     {items.length}건
                   </p>
                 </div>
               </div>
 
               {items.length === 0 ? (
-                <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-slate-500">
+                <p className="mt-5 rounded-2xl bg-slate-50 p-4 text-[#7A9692]">
                   항목이 없습니다.
                 </p>
               ) : (
@@ -224,7 +224,7 @@ export function OpsCommandCenterBoard() {
                       <div className="mt-3 text-lg font-black">{signal.title}</div>
 
                       {signal.description ? (
-                        <p className="mt-2 text-sm leading-6 text-slate-600">{signal.description}</p>
+                        <p className="mt-2 text-sm leading-6 text-[#63807C]">{signal.description}</p>
                       ) : null}
                     </Link>
                   ))}
@@ -247,7 +247,7 @@ export function OpsCommandCenterBoard() {
                   <Badge text={`확인 ${snapshot.attention_count}`} />
                   <Badge text={new Date(snapshot.created_at).toLocaleString('ko-KR')} />
                 </div>
-                <p className="mt-2 text-sm leading-6 text-slate-700">
+                <p className="mt-2 text-sm leading-6 text-[#4E6D69]">
                   {snapshot.summary_text}
                 </p>
               </div>
@@ -262,7 +262,7 @@ export function OpsCommandCenterBoard() {
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -270,7 +270,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )

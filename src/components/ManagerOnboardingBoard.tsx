@@ -109,7 +109,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
           (summary.reassuranceState === '안심' ? 'bg-emerald-50' : 'bg-amber-50')
         }
       >
-        <p className="text-sm font-black text-slate-600">매니저 등록 안심판</p>
+        <p className="text-sm font-black text-[#63807C]">매니저 등록 안심판</p>
         <h2 className="mt-2 text-5xl font-black">{summary.reassuranceState}</h2>
 
         <div className="mt-5 grid gap-3 md:grid-cols-5">
@@ -133,7 +133,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
       </section>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <button onClick={load} className="rounded-2xl bg-slate-900 px-5 py-4 font-black text-white">
+        <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
           새로고침
         </button>
       </div>
@@ -152,7 +152,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
         ) : applications.length === 0 ? (
           <div className="rounded-3xl bg-white p-8 text-center shadow-sm">
             <div className="text-xl font-black">아직 매니저 지원서가 없습니다.</div>
-            <p className="mt-2 text-slate-500">/manager/apply 에서 지원서를 만들어보세요.</p>
+            <p className="mt-2 text-[#7A9692]">/manager/apply 에서 지원서를 만들어보세요.</p>
           </div>
         ) : (
           applications.map((application) => {
@@ -171,7 +171,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
                     </div>
 
                     <h3 className="mt-3 text-3xl font-black">{application.applicant_name}</h3>
-                    <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <p className="mt-2 text-sm leading-6 text-[#63807C]">
                       {application.applicant_phone} · 경력 {application.career_years || 0}년 · {application.address_text || '주소 미입력'}
                     </p>
 
@@ -188,7 +188,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
                     </p>
 
                     {application.career_summary ? (
-                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-slate-700">
+                      <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm leading-6 text-[#4E6D69]">
                         {application.career_summary}
                       </p>
                     ) : null}
@@ -200,7 +200,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
                           {appEvents.slice(0, 5).map((event) => (
                             <div key={event.id} className="rounded-xl bg-white p-3 text-sm">
                               <div className="font-black">{event.title}</div>
-                              {event.description ? <p className="mt-1 text-slate-600">{event.description}</p> : null}
+                              {event.description ? <p className="mt-1 text-[#63807C]">{event.description}</p> : null}
                             </div>
                           ))}
                         </div>
@@ -219,7 +219,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
                       <button onClick={() => updateStatus(application.id, 'training_pending')} className="rounded-2xl bg-amber-100 px-4 py-3 font-black text-amber-900">
                         교육 확인
                       </button>
-                      <button onClick={() => updateStatus(application.id, 'approved')} className="rounded-2xl bg-emerald-600 px-4 py-3 font-black text-white">
+                      <button onClick={() => updateStatus(application.id, 'approved')} className="rounded-2xl bg-[#8CCFC3] px-4 py-3 font-black text-[#2E504D]">
                         승인·신뢰카드 생성
                       </button>
                       <button onClick={() => updateStatus(application.id, 'waitlisted')} className="rounded-2xl bg-slate-100 px-4 py-3 font-black">
@@ -255,14 +255,14 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
                 </div>
 
                 <h3 className="mt-3 text-2xl font-black">{profile.manager_name}</h3>
-                <p className="mt-2 text-sm text-slate-600">{profile.trust_card_summary}</p>
+                <p className="mt-2 text-sm text-[#63807C]">{profile.trust_card_summary}</p>
 
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <InfoBox title="가능지역" items={profile.available_regions || []} />
                   <InfoBox title="전문분야" items={profile.specialties || []} />
                 </div>
 
-                <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm font-bold leading-6 text-slate-700">
+                <p className="mt-4 rounded-2xl bg-slate-50 p-4 text-sm font-bold leading-6 text-[#4E6D69]">
                   {profile.public_notes || '운영실 승인 후 활동 가능한 매니저입니다.'}
                 </p>
               </article>
@@ -277,7 +277,7 @@ export function ManagerOnboardingBoard({ mode = 'ops' }: { mode?: 'ops' | 'famil
 function Stat({ label, value }: { label: string; value: number }) {
   return (
     <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-slate-500">{label}</div>
+      <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-1 text-3xl font-black">{value}</div>
     </div>
   )
@@ -285,7 +285,7 @@ function Stat({ label, value }: { label: string; value: number }) {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
+    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-[#4E6D69]">
       {text}
     </span>
   )
@@ -298,12 +298,12 @@ function InfoBox({ title, items }: { title: string; items: string[] }) {
       <div className="mt-2 space-y-1">
         {items.length > 0 ? (
           items.map((item) => (
-            <p key={item} className="text-sm leading-6 text-slate-700">
+            <p key={item} className="text-sm leading-6 text-[#4E6D69]">
               • {item}
             </p>
           ))
         ) : (
-          <p className="text-sm text-slate-500">미입력</p>
+          <p className="text-sm text-[#7A9692]">미입력</p>
         )}
       </div>
     </div>

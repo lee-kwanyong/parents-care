@@ -204,15 +204,15 @@ export default function CareRequestPage() {
               'rounded-[2rem] border p-5 text-left transition md:p-6 ' +
               (selected === worry.code
                 ? 'border-emerald-500 bg-emerald-50 shadow-sm'
-                : 'border-slate-200 bg-white hover:bg-slate-50')
+                : 'border-[#E0EFEC] bg-white hover:bg-slate-50')
             }
           >
             <div className="flex items-start gap-4">
               <div className="text-4xl">{worry.emoji}</div>
               <div>
                 <h2 className="text-2xl font-black">{worry.title}</h2>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{worry.description}</p>
-                <p className="mt-3 rounded-2xl bg-white/70 p-3 text-sm leading-6 text-slate-500">
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{worry.description}</p>
+                <p className="mt-3 rounded-2xl bg-white/70 p-3 text-sm leading-6 text-[#7A9692]">
                   {worry.example}
                 </p>
               </div>
@@ -229,7 +229,7 @@ export default function CareRequestPage() {
           </div>
 
           <h2 className="mt-4 text-3xl font-black">어떻게 이어가면 좋을까요?</h2>
-          <p className="mt-2 text-base font-bold leading-7 text-slate-600">
+          <p className="mt-2 text-base font-bold leading-7 text-[#63807C]">
             앱 입력이 어렵다면 전화나 카톡으로 이어가면 됩니다.
           </p>
 
@@ -243,11 +243,11 @@ export default function CareRequestPage() {
                   'rounded-3xl border p-4 text-left transition ' +
                   (method === item.code
                     ? 'border-emerald-500 bg-emerald-50'
-                    : 'border-slate-200 bg-slate-50 hover:bg-white')
+                    : 'border-[#E0EFEC] bg-slate-50 hover:bg-white')
                 }
               >
                 <div className="text-lg font-black">{item.title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">{item.description}</p>
+                <p className="mt-2 text-sm leading-6 text-[#63807C]">{item.description}</p>
               </button>
             ))}
           </div>
@@ -258,42 +258,42 @@ export default function CareRequestPage() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">부모님</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">부모님</span>
               <input
                 value={elderName}
                 onChange={(event) => setElderName(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">보호자 이름</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">보호자 이름</span>
               <input
                 value={contactName}
                 onChange={(event) => setContactName(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 placeholder="예: 이관용"
               />
             </label>
 
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">연락처</span>
+              <span className="mb-2 block text-sm font-black text-[#4E6D69]">연락처</span>
               <input
                 value={contactPhone}
                 onChange={(event) => setContactPhone(event.target.value)}
-                className="tap-target w-full rounded-2xl border border-slate-200 p-4 outline-none focus:border-emerald-500"
+                className="tap-target w-full rounded-2xl border border-[#E0EFEC] p-4 outline-none focus:border-emerald-500"
                 placeholder="010-1234-5678"
               />
             </label>
           </div>
 
           <label className="mt-5 block">
-            <span className="mb-2 block text-sm font-black text-slate-700">상황 메모</span>
+            <span className="mb-2 block text-sm font-black text-[#4E6D69]">상황 메모</span>
             <textarea
               value={memo}
               onChange={(event) => setMemo(event.target.value)}
               rows={5}
-              className="w-full rounded-2xl border border-slate-200 p-4 leading-7 outline-none focus:border-emerald-500"
+              className="w-full rounded-2xl border border-[#E0EFEC] p-4 leading-7 outline-none focus:border-emerald-500"
               placeholder="예: 어머니가 무릎이 아프고 병원 예약 문자가 왔는데, 뭘 챙겨야 할지 모르겠습니다."
             />
           </label>
@@ -305,7 +305,7 @@ export default function CareRequestPage() {
               onChange={(event) => setSocialCareRequested(event.target.checked)}
               className="mt-1 h-5 w-5"
             />
-            <span className="text-sm font-bold leading-6 text-slate-700">
+            <span className="text-sm font-bold leading-6 text-[#4E6D69]">
               비용 부담이 있으면 공공지원·후원 쿠폰·지역 복지 연결도 함께 안내받고 싶습니다.
             </span>
           </label>

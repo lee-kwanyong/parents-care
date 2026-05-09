@@ -44,7 +44,7 @@ export default function OpsHomePage() {
           <br />
           먼저 처리해야 할까요?
         </h1>
-        <p className="mt-6 max-w-3xl text-xl font-bold leading-9 text-slate-200">
+        <p className="mt-6 max-w-3xl text-xl font-bold leading-9 text-[#63807C]">
           기능 메뉴를 찾기 전에 긴급, 확인 필요, 진행 중, 완료 상태를 먼저 확인합니다.
         </p>
       </CareCard>

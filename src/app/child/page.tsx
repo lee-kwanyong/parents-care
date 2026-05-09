@@ -78,7 +78,7 @@ export default function ChildHomePage() {
               <CareCard className="h-full transition hover:-translate-y-1 hover:shadow-md">
                 <div className="text-4xl">{action.emoji}</div>
                 <h3 className="mt-4 text-xl font-black">{action.title}</h3>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-600">{action.desc}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">{action.desc}</p>
               </CareCard>
             </Link>
           ))}
