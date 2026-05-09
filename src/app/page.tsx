@@ -46,7 +46,7 @@ const proofPoints = [
   },
   {
     value: '검증',
-    label: '매니저 매칭',
+    label: '매니저 연결',
     desc: '본인확인·신분확인·면접 후 배정'
   },
   {
@@ -111,12 +111,14 @@ const differenceCards = [
 ]
 
 export default function HomePage() {
+  const showInternalLinks = process.env.NEXT_PUBLIC_SHOW_INTERNAL_LINKS === 'true'
+
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F6FCFA_45%,#F7FBFF_100%)] text-[#24423F]">
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-4 shadow-[0_8px_24px_rgba(82,112,108,0.08)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#DCF8F1] text-2xl">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#DCF8F1] text-2xl text-[#159B84]">
               ♡
             </div>
             <div>
@@ -135,7 +137,7 @@ export default function HomePage() {
               ['사진·카톡 접수', '/care-intake'],
               ['자녀앱', '/child'],
               ['부모님앱', '/parent/today'],
-              ['데모', '/buyer-demo']
+              ['홈 화면 추가', '/install']
             ].map(([label, href]) => (
               <Link
                 key={href}
@@ -145,6 +147,30 @@ export default function HomePage() {
                 {label}
               </Link>
             ))}
+
+            {showInternalLinks ? (
+              <>
+                <Link
+                  href="/buyer-demo"
+                  className="rounded-full bg-[#EAF6FC] px-4 py-2 text-sm font-black text-[#456F88] ring-1 ring-[#D1EAF5]"
+                >
+                  바이어
+                </Link>
+                <Link
+                  href="/ops"
+                  className="rounded-full bg-[#FFF5DF] px-4 py-2 text-sm font-black text-[#886B35] ring-1 ring-[#F0DDB6]"
+                >
+                  운영실
+                </Link>
+              </>
+            ) : null}
+
+            <Link
+              href="/login"
+              className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
+            >
+              로그인
+            </Link>
           </nav>
         </div>
       </header>
@@ -152,7 +178,7 @@ export default function HomePage() {
       <section className="mx-auto grid max-w-7xl gap-8 px-5 py-10 md:py-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-black text-[#467C76] ring-1 ring-[#D7ECE8] shadow-[0_10px_30px_rgba(113,178,168,0.12)]">
-            <span className="h-2 w-2 rounded-full bg-[#73D6C5]" />
+            <span className="h-2 w-2 rounded-full bg-[#19B99A]" />
             40대 이상 보호자용 · 쉬운 부모님 케어
           </div>
 
@@ -169,7 +195,7 @@ export default function HomePage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/care-intake"
-              className="inline-flex items-center justify-center rounded-3xl bg-[#74D6C6] px-7 py-5 text-lg font-black text-[#113E39] shadow-[0_18px_45px_rgba(116,214,198,0.28)] transition hover:bg-[#65CDBD]"
+              className="inline-flex items-center justify-center rounded-3xl bg-[#19B99A] px-7 py-5 text-lg font-black text-white shadow-[0_18px_45px_rgba(25,185,154,0.28)] transition hover:bg-[#16A98D]"
             >
               사진·카톡으로 바로 맡기기
             </Link>
@@ -187,7 +213,7 @@ export default function HomePage() {
                 key={item.label}
                 className="rounded-[1.5rem] border border-[#E0EFEC] bg-white p-4 shadow-[0_12px_34px_rgba(125,169,162,0.10)]"
               >
-                <div className="text-2xl font-black text-[#39A997]">{item.value}</div>
+                <div className="text-2xl font-black text-[#19A98E]">{item.value}</div>
                 <div className="mt-1 text-sm font-black text-[#24423F]">{item.label}</div>
                 <p className="mt-2 text-xs font-bold leading-5 text-[#718A87]">{item.desc}</p>
               </div>
@@ -201,7 +227,7 @@ export default function HomePage() {
 
           <div className="relative rounded-[2rem] border border-[#DCEEEA] bg-white p-5 shadow-[0_24px_70px_rgba(125,169,162,0.18)]">
             <div className="rounded-[1.5rem] bg-[linear-gradient(135deg,#F1FBF8_0%,#F7FCFF_100%)] p-5">
-              <div className="text-sm font-black text-[#48A596]">
+              <div className="text-sm font-black text-[#219B85]">
                 무엇이 걱정되세요?
               </div>
 
@@ -227,7 +253,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              <div className="mt-5 rounded-2xl bg-[#A8F0DD] px-5 py-4 text-sm font-black leading-6 text-[#1A4B43]">
+              <div className="mt-5 rounded-2xl bg-[#B5F1E3] px-5 py-4 text-sm font-black leading-6 text-[#1A4B43]">
                 잘 모르겠으면 “뭘 해야 할지 모르겠어요”만 눌러도 됩니다.
               </div>
             </div>
@@ -254,7 +280,7 @@ export default function HomePage() {
               ['3', '운영실 정리', '운영실이 케어플랜과 다음 행동을 정리합니다.']
             ].map(([num, title, desc]) => (
               <div key={num} className="rounded-[1.5rem] bg-[#F6FCFA] p-5 ring-1 ring-[#E1F0EC]">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#74D6C6] text-xl font-black text-[#103E38]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#19B99A] text-xl font-black text-white">
                   {num}
                 </div>
                 <h3 className="mt-4 text-2xl font-black text-[#24423F]">{title}</h3>
@@ -356,16 +382,16 @@ export default function HomePage() {
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/buyer-demo"
-              className="rounded-3xl bg-white px-7 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
+              href="/care-request"
+              className="rounded-3xl bg-[#19B99A] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,185,154,0.22)]"
             >
-              바이어 데모 보기
+              부모님 걱정 맡기기
             </Link>
             <Link
-              href="/demo-start"
-              className="rounded-3xl bg-[#74D6C6] px-7 py-5 text-center text-lg font-black text-[#113E39]"
+              href="/care-intake"
+              className="rounded-3xl bg-white px-7 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
-              작동 데모 시작
+              사진·카톡으로 접수
             </Link>
           </div>
         </div>

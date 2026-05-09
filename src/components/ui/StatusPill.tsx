@@ -13,7 +13,7 @@ function cn(...values: Array<string | false | null | undefined>) {
 function toneClasses(tone: StatusTone) {
   switch (tone) {
     case 'green':
-      return 'bg-[#E5F8F4] text-[#3C706A] ring-1 ring-[#CBEAE4]'
+      return 'bg-[#E5F8F4] text-[#2F756B] ring-1 ring-[#CBEAE4]'
     case 'blue':
       return 'bg-[#EAF6FC] text-[#456F88] ring-1 ring-[#D1EAF5]'
     case 'amber':

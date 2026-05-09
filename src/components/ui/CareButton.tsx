@@ -31,25 +31,25 @@ function cn(...values: Array<string | false | null | undefined>) {
 function toneClasses(tone: CareButtonTone) {
   switch (tone) {
     case 'primary':
-      return 'bg-[#8CCFC3] text-[#244B48] hover:bg-[#7EC5B8] ring-1 ring-[#BFE5DF]'
+      return 'bg-[#19B99A] text-white hover:bg-[#16A98D] ring-1 ring-[#19B99A]/25'
     case 'soft':
-      return 'bg-[#F0FAF8] text-[#466B68] hover:bg-[#E5F5F2] ring-1 ring-[#D2E8E4]'
+      return 'bg-[#EAF8F5] text-[#315F59] hover:bg-[#DDF3EF] ring-1 ring-[#CFE9E4]'
     case 'white':
-      return 'bg-white text-[#466B68] hover:bg-[#FBFEFD] ring-1 ring-[#DCEBE8]'
+      return 'bg-white text-[#315F59] hover:bg-[#FBFEFD] ring-1 ring-[#DDEBE8]'
     case 'ghost':
-      return 'bg-transparent text-[#5B7B78] hover:bg-[#F0FAF8] ring-1 ring-transparent'
+      return 'bg-transparent text-[#587A76] hover:bg-[#F0FAF8] ring-1 ring-transparent'
     case 'dark':
-      return 'bg-[#DCEEF6] text-[#3F6177] hover:bg-[#CFE6F1] ring-1 ring-[#C2DCEB]'
+      return 'bg-[#DCEFF7] text-[#365E78] hover:bg-[#D1E9F4] ring-1 ring-[#C2DDEA]'
     case 'danger':
       return 'bg-[#F7D5D5] text-[#8A4A4A] hover:bg-[#F2C7C7] ring-1 ring-[#EEC4C4]'
     case 'amber':
       return 'bg-[#F8E9C9] text-[#735C31] hover:bg-[#F4DEB1] ring-1 ring-[#EAD3A7]'
     case 'blue':
-      return 'bg-[#DCEEF6] text-[#3F6177] hover:bg-[#CFE6F1] ring-1 ring-[#C2DCEB]'
+      return 'bg-[#DCEFF7] text-[#365E78] hover:bg-[#D1E9F4] ring-1 ring-[#C2DDEA]'
     case 'green':
-      return 'bg-[#E5F5F2] text-[#3F6865] hover:bg-[#D8EFEA] ring-1 ring-[#C9E5DF]'
+      return 'bg-[#E6F8F3] text-[#2D6A60] hover:bg-[#D8F1EC] ring-1 ring-[#C8E8E1]'
     default:
-      return 'bg-[#8CCFC3] text-[#244B48] hover:bg-[#7EC5B8] ring-1 ring-[#BFE5DF]'
+      return 'bg-[#19B99A] text-white hover:bg-[#16A98D] ring-1 ring-[#19B99A]/25'
   }
 }
 
@@ -82,8 +82,8 @@ export function CareButton({
 }: CareButtonProps) {
   const classes = cn(
     'inline-flex items-center justify-center gap-2 font-black tracking-[-0.01em] transition-all duration-150',
-    'shadow-[0_8px_24px_rgba(111,171,162,0.13)]',
-    'focus:outline-none focus:ring-2 focus:ring-[#BFE5DF] focus:ring-offset-2',
+    'shadow-[0_10px_28px_rgba(25,185,154,0.17)]',
+    'focus:outline-none focus:ring-2 focus:ring-[#A9E6DA] focus:ring-offset-2',
     disabled ? 'cursor-not-allowed opacity-60' : '',
     toneClasses(tone),
     sizeClasses(size),

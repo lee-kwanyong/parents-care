@@ -15,7 +15,7 @@ const defaultItems: QuickNavItem[] = [
 
 export function MobileQuickNav({ items = defaultItems }: { items?: QuickNavItem[] }) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#E0EFEC] bg-white/95 px-3 py-2 shadow-[0_-12px_35px_rgba(125,169,162,0.15)] backdrop-blur md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#E0EFEC] bg-white px-3 py-2 shadow-[0_-12px_35px_rgba(93,139,131,0.15)] md:hidden">
       <div className="mx-auto grid max-w-md grid-cols-4 gap-1">
         {items.slice(0, 4).map((item) => (
           <Link

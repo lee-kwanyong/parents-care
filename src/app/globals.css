@@ -84,3 +84,25 @@ div[class*="sticky"][class*="top-0"] {
   -webkit-backdrop-filter: none !important;
   box-shadow: 0 8px 24px rgba(82, 112, 108, 0.08);
 }
+
+/* production-public-ui-fix */
+:root {
+  --care-primary: #19b99a;
+  --care-primary-dark: #16a98d;
+  --care-text: #24423f;
+  --care-muted: #607d79;
+  --care-border: #e3f0ed;
+}
+
+body {
+  background: linear-gradient(180deg, #ffffff 0%, #f6fcfa 45%, #f7fbff 100%);
+}
+
+header[class*="sticky"][class*="top-0"],
+nav[class*="sticky"][class*="top-0"],
+div[class*="sticky"][class*="top-0"] {
+  background-color: #ffffff !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: 0 8px 24px rgba(82, 112, 108, 0.08);
+}
