@@ -1,3 +1,0 @@
-import { Card, CardTitle } from './Card'
-const features = [['사전 안심전화', '처음 만나는 매니저에 대한 부모님 불안감을 줄입니다.'], ['30초 요약 리포트', '바쁜 자녀가 긴 리포트를 읽지 않아도 오늘 핵심을 확인합니다.'], ['추가비용 사전승인', '택시비, 서류 발급비, 식사 배송비는 보호자 승인 후 진행합니다.'], ['같은 매니저 우선배정', '부모님이 익숙한 사람에게 도움받도록 관계형 케어를 만듭니다.'], ['가족 역할 배분', '첫째, 둘째, 배우자 간 해야 할 일을 자동으로 나눕니다.'], ['부담 없는 표현', '돌봄·감시 대신 도와드림·안심 소식 중심 문구를 씁니다.']]
-export function ComfortFeaturesPanel() { return <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{features.map(([title, description]) => <Card key={title}><CardTitle title={title} description={description} /></Card>)}</div> }

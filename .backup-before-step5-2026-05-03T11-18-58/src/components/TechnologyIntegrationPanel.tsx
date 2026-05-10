@@ -1,3 +1,0 @@
-import { integrations } from '@/lib/constants'
-import { Card, CardTitle } from './Card'
-export function TechnologyIntegrationPanel() { return <div className="grid gap-5 md:grid-cols-2">{integrations.map((item) => <Card key={item.code}><CardTitle eyebrow={item.status === 'ready' ? '구조 반영 완료' : item.status === 'needs_key' ? 'API 키 연결 예정' : '확장 예정'} title={item.title} description={item.purpose} /><div className="flex flex-wrap gap-2">{item.envKeys.length ? item.envKeys.map((key) => <span key={key} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-600">{key}</span>) : <span className="rounded-full bg-care-100 px-3 py-1 text-xs font-bold text-care-700">환경변수 불필요</span>}</div></Card>)}</div> }

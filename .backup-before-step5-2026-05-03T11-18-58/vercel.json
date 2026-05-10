@@ -1,5 +1,0 @@
-{
-  "crons": [
-    { "path": "/api/cron/safety-sweep", "schedule": "*/5 * * * *" }
-  ]
-}

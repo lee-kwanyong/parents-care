@@ -42,3 +42,9 @@ out/
 .env.*
 !.env.example
 !.env.vercel.example
+# Local backups generated during development
+.backup*/
+backup-before-*/
+*.bak
+*.backup
+# Local environment secrets

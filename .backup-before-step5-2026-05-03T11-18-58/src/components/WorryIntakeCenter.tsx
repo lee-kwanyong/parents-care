@@ -1,6 +1,0 @@
-import { worryLabels } from '@/lib/constants'
-import type { WorryCategory } from '@/lib/types'
-import { Card, CardTitle } from './Card'
-const categories = Object.keys(worryLabels) as WorryCategory[]
-const channelLabels = ['전화로 맡기기', '카톡으로 맡기기', '사진으로 맡기기', '직접 간단 입력']
-export function WorryIntakeCenter() { return <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]"><Card><CardTitle eyebrow="걱정 접수센터" title="무엇이 걱정되세요?" description="기능을 고르지 않아도 됩니다. 걱정을 누르면 운영실이 해결 플랜으로 정리합니다." /><div className="grid gap-3 sm:grid-cols-2">{categories.map((key) => <button key={key} className="rounded-3xl border border-slate-200 bg-white p-5 text-left text-lg font-black transition hover:border-care-500 hover:bg-care-50">{worryLabels[key]}{key === 'not_sure' ? <span className="mt-2 block text-sm font-semibold text-care-700">상황만 알려주시면 됩니다.</span> : null}</button>)}</div></Card><Card><CardTitle eyebrow="앱을 못 써도 이용 가능" title="접수 방식은 4가지" description="40대 이상 보호자가 가장 편한 방식으로 시작합니다." /><div className="space-y-3">{channelLabels.map((label) => <button key={label} className="w-full rounded-2xl bg-slate-100 px-5 py-4 text-left font-black hover:bg-care-100">{label}</button>)}</div><p className="mt-4 rounded-2xl bg-care-50 p-4 text-sm leading-6 text-care-900">예약 문자, 병원 카톡, 진료예약증 사진, 짧은 전화 설명만 있어도 운영실이 일정·준비물·케어팩으로 바꿉니다.</p></Card></div> }
