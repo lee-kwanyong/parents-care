@@ -312,6 +312,7 @@ export function OpsTodayDashboard() {
                   ['/manager/today', '현장 체크'],
                   ['/manager/earnings', '정산 예정'],
                   ['/buyer-demo', '바이어 데모'],
+                  ['/ops/demo-scenario', '원클릭 시나리오'],
                   ['/ops/flow-qa', '통합 흐름 점검'],
                   ['/deploy-readiness', '배포 점검']
                 ].map(([href, label]) => (
