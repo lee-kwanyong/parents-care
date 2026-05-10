@@ -1,5 +1,5 @@
-import { ManagerVettingBoard } from '../../../components/ManagerVettingBoard'
+import { ManagerStepVettingBoard } from '../../../components/ManagerStepVettingBoard'
 
 export default function ManagerVettingPage() {
-  return <ManagerVettingBoard mode="manager" />
+  return <ManagerStepVettingBoard mode="manager" />
 }
