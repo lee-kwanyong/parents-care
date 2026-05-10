@@ -1,5 +1,5 @@
 import { GuardianReportsBoard } from '../../../components/GuardianReportsBoard'
 
-export default function ChildCasesPage() {
+export default function ChildReportsPage() {
   return <GuardianReportsBoard />
 }

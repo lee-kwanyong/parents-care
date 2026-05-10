@@ -85,6 +85,21 @@ function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
+function arrayFrom(value: unknown): string[] {
+  if (Array.isArray(value)) return value.map(String).map((item) => item.trim()).filter(Boolean)
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value)
+      if (Array.isArray(parsed)) return parsed.map(String).map((item) => item.trim()).filter(Boolean)
+    } catch {
+      return value.split(',').map((item) => item.trim()).filter(Boolean)
+    }
+  }
+
+  return []
+}
+
 function won(value: number) {
   return Math.max(0, Math.round(value || 0))
 }
@@ -262,6 +277,7 @@ async function createDemoAssignment() {
           '개인차량 직접 유상운송은 기본 서비스에 포함되지 않습니다.'
         ],
         required_documents: ['영수증', '처방전', '세부내역서'],
+        guardian_questions: ['다음 외래 날짜 확인', '약 복용 시간 확인'],
         manager_trust_snapshot: {
           manager_profile_id: manager.id,
           trust_level: manager.trust_level,
@@ -279,6 +295,182 @@ async function createDemoAssignment() {
     manager,
     assignment: firstRow(insert),
     error: insert.error
+  }
+}
+
+function buildGuardianNextActions(assignment: AnyRow) {
+  const requiredDocuments = arrayFrom(assignment.required_documents)
+  const guardianQuestions = arrayFrom(assignment.guardian_questions)
+
+  const actions: Array<{
+    action_title: string
+    action_description: string
+    sort_order: number
+  }> = []
+
+  if (guardianQuestions.length > 0) {
+    actions.push({
+      action_title: '진료 후 확인할 질문 다시 보기',
+      action_description: guardianQuestions.join(' / '),
+      sort_order: 10
+    })
+  }
+
+  if (requiredDocuments.length > 0) {
+    actions.push({
+      action_title: '서류와 영수증 보관하기',
+      action_description: requiredDocuments.join(' / '),
+      sort_order: 20
+    })
+  }
+
+  actions.push({
+    action_title: '약 복용 시간 확인하기',
+    action_description: '약국에서 받은 복용 안내를 부모님과 한 번 더 확인해주세요.',
+    sort_order: 30
+  })
+
+  actions.push({
+    action_title: '다음 일정 확인하기',
+    action_description: '다음 외래, 검사, 서류 제출 일정이 있는지 확인해주세요.',
+    sort_order: 40
+  })
+
+  return actions
+}
+
+function buildSummary(assignment: AnyRow, memo: string) {
+  const elderName = assignment.elder_name || '부모님'
+  const title = assignment.title || '부모님 케어'
+  const managerName = assignment.manager_name || '케어파트너'
+
+  const base = `${elderName} ${title}이 완료됐습니다. ${managerName} 매니저가 현장 체크를 마쳤고, 특이사항과 가족이 할 일을 정리했습니다.`
+
+  if (memo) return `${base} 메모: ${memo}`
+
+  return base
+}
+
+async function createGuardianReport(input: {
+  assignment: AnyRow
+  memo: string
+}) {
+  const assignment = input.assignment
+  const memo = input.memo || text(assignment.report_memo)
+  const events = assignment.id ? await getEvents(assignment.id) : []
+  const nextActions = buildGuardianNextActions(assignment)
+  const summary30sec = buildSummary(assignment, memo)
+
+  const requiredDocuments = arrayFrom(assignment.required_documents)
+
+  const managerReport = await rest('manager_field_reports?on_conflict=assignment_id', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify([
+      {
+        assignment_id: assignment.id,
+        visit_summary: `${assignment.title || '현장 케어'} 완료`,
+        doctor_guidance: '진료 또는 업무 관련 안내는 보호자가 다시 확인해주세요.',
+        medication_summary: '약국·복약 확인이 필요한 경우 보호자에게 공유했습니다.',
+        document_summary: requiredDocuments.length > 0 ? requiredDocuments.join(' / ') : '필수 서류 없음',
+        meal_condition_summary: '식사 상태는 필요 시 별도 확인이 필요합니다.',
+        parent_condition: '현장 진행이 완료됐습니다. 특이사항은 리포트 메모를 확인해주세요.',
+        family_next_actions: nextActions.map((item) => item.action_title),
+        reassurance_state: '안심',
+        status: 'ready'
+      }
+    ])
+  })
+
+  const guardianReport = await rest('care_guardian_reports?on_conflict=assignment_id', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify([
+      {
+        assignment_id: assignment.id,
+        matching_request_id: assignment.matching_request_id || null,
+        elder_name: assignment.elder_name || '부모님',
+        guardian_name: null,
+        guardian_phone: null,
+        manager_name: assignment.manager_name || null,
+        report_title: `${assignment.elder_name || '부모님'} 케어 30초 요약`,
+        report_status: 'ready',
+        reassurance_state: '안심',
+        summary_30sec: summary30sec,
+        parent_condition: '현장 케어가 완료됐습니다.',
+        visit_result: `${assignment.title || '케어'} 완료`,
+        medication_result: '약국·복약 확인이 필요한 경우 현장 체크 기준으로 공유됐습니다.',
+        document_result: requiredDocuments.length > 0 ? requiredDocuments.join(' / ') : '필수 서류 없음',
+        meal_result: '식사 확인이 필요한 경우 별도 케어로 이어갈 수 있습니다.',
+        next_actions: nextActions.map((item) => item.action_title),
+        check_events: events.map((event: AnyRow) => ({
+          step_code: event.step_code,
+          step_title: event.step_title,
+          created_at: event.created_at
+        })),
+        report_memo: memo || null,
+        created_by_role: 'system'
+      }
+    ])
+  })
+
+  if (!guardianReport.ok) {
+    return {
+      ok: false,
+      error: guardianReport.error,
+      managerReport: managerReport.ok ? firstRow(managerReport) : null
+    }
+  }
+
+  const report = firstRow(guardianReport)
+
+  const actionRows = nextActions.map((action) => ({
+    care_report_id: report.id,
+    assignment_id: assignment.id,
+    action_title: action.action_title,
+    action_description: action.action_description,
+    action_status: 'open',
+    assigned_to_role: 'guardian',
+    sort_order: action.sort_order
+  }))
+
+  if (actionRows.length > 0) {
+    await rest('care_guardian_report_actions?on_conflict=care_report_id,action_title', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation,resolution=merge-duplicates' },
+      body: JSON.stringify(actionRows)
+    })
+  }
+
+  await rest('notification_outbox', {
+    method: 'POST',
+    body: JSON.stringify([
+      {
+        elder_name: assignment.elder_name || '부모님',
+        recipient_role: 'guardian',
+        recipient_name: null,
+        recipient_phone: null,
+        channel: 'app',
+        template_code: 'guardian_report_ready',
+        title: '부모님 케어 리포트가 도착했습니다',
+        body: `${assignment.elder_name || '부모님'} 케어 30초 요약이 준비됐습니다.`,
+        payload: {
+          report_id: report.id,
+          assignment_id: assignment.id,
+          url: '/child/reports'
+        },
+        priority: 'normal',
+        status: 'queued',
+        created_by_role: 'system',
+        dedupe_key: `guardian-report-${report.id}`
+      }
+    ])
+  })
+
+  return {
+    ok: true,
+    report,
+    managerReport: managerReport.ok ? firstRow(managerReport) : null
   }
 }
 
@@ -446,6 +638,7 @@ export async function POST(request: NextRequest) {
   }
 
   const patchedAssignment = firstRow(assignmentPatch)
+  let guardianReportResult: { ok: boolean; report?: AnyRow; error?: unknown } | null = null
 
   if (step.code === 'report_done') {
     await rest('care_manager_earnings?on_conflict=assignment_id', {
@@ -463,12 +656,21 @@ export async function POST(request: NextRequest) {
         }
       ])
     })
+
+    guardianReportResult = await createGuardianReport({
+      assignment: patchedAssignment,
+      memo
+    })
   }
 
   return NextResponse.json({
     ok: true,
-    message: `${step.title} 체크가 저장됐습니다.`,
+    message:
+      step.code === 'report_done'
+        ? '현장 체크와 보호자 30초 리포트가 저장됐습니다.'
+        : `${step.title} 체크가 저장됐습니다.`,
     event: firstRow(eventInsert),
-    assignment: patchedAssignment
+    assignment: patchedAssignment,
+    guardianReport: guardianReportResult
   })
 }
