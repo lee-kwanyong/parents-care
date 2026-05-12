@@ -16,7 +16,12 @@ const bottomLinks = [
   { href: '/parent/install', label: '설치 안내', desc: '앱처럼 사용' }
 ]
 
-export function ParentTodayNavigation({ children }: { children: ReactNode }) {
+type ParentNavigationProps = {
+  children: ReactNode
+  currentLabel?: string
+}
+
+export function ParentNavigation({ children, currentLabel = '부모님 화면' }: ParentNavigationProps) {
   return (
     <div className="min-h-screen bg-[#ECFFF7] text-[#24423F]">
       <header className="sticky top-0 z-40 border-b border-[#D8EEE7] bg-white/95 px-4 py-3 shadow-[0_10px_30px_rgba(93,139,131,0.08)] backdrop-blur">
@@ -26,7 +31,7 @@ export function ParentTodayNavigation({ children }: { children: ReactNode }) {
               부모님 케어
             </div>
             <div className="text-xs font-bold text-[#6C8883]">
-              오늘 일정 확인 화면
+              {currentLabel}
             </div>
           </Link>
 
@@ -88,4 +93,8 @@ export function ParentTodayNavigation({ children }: { children: ReactNode }) {
       </footer>
     </div>
   )
+}
+
+export function ParentTodayNavigation({ children }: { children: ReactNode }) {
+  return <ParentNavigation currentLabel="오늘 일정 확인 화면">{children}</ParentNavigation>
 }

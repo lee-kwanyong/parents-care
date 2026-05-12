@@ -6,7 +6,7 @@ import { PWAInstallPanel } from '@/components/PWAInstallPanel'
 
 export default function ParentInstallPage() {
   return (
-    <main className="min-h-screen bg-emerald-50 px-5 py-6 text-[#2F4948]">
+    <main className="bg-emerald-50 px-5 py-6 text-[#2F4948]">
       <section className="mx-auto max-w-xl space-y-5">
         <CareCard tone="white">
           <StatusPill text="부모님 폰 설치 안내" tone="green" />
