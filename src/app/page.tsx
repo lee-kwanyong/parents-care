@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PWARegister } from '@/components/PWARegister'
 
 const worryCards = [
   {
@@ -115,6 +116,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F6FCFA_45%,#F7FBFF_100%)] text-[#24423F]">
+      <PWARegister />
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-4 shadow-[0_8px_24px_rgba(82,112,108,0.08)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-3">
@@ -192,7 +194,7 @@ export default function HomePage() {
             앱이 어려워도 괜찮습니다. 사진, 카톡, 전화, 한 줄 메모만으로 병원·식사·약·서류·퇴원 후 케어를 운영실이 정리합니다.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href="/care-intake"
               className="inline-flex items-center justify-center rounded-3xl bg-[#19B99A] px-7 py-5 text-lg font-black text-white shadow-[0_18px_45px_rgba(25,185,154,0.28)] transition hover:bg-[#16A98D]"
@@ -204,6 +206,12 @@ export default function HomePage() {
               className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2] transition hover:bg-[#F2FAF8]"
             >
               걱정 선택하기
+            </Link>
+            <Link
+              href="/install"
+              className="inline-flex items-center justify-center rounded-3xl bg-[#193B38] px-7 py-5 text-lg font-black text-white shadow-[0_18px_45px_rgba(25,59,56,0.20)] transition hover:bg-[#24423F]"
+            >
+              홈 화면에 추가하기
             </Link>
           </div>
 
@@ -380,7 +388,7 @@ export default function HomePage() {
             부모님 걱정해결 케어는 이동·동행·기록·보호자 공유 중심의 안심형 케어 서비스입니다. 의료 판단과 처방 변경은 의료진의 영역입니다.
           </p>
 
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Link
               href="/care-request"
               className="rounded-3xl bg-[#19B99A] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,185,154,0.22)]"
@@ -392,6 +400,12 @@ export default function HomePage() {
               className="rounded-3xl bg-white px-7 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
               사진·카톡으로 접수
+            </Link>
+            <Link
+              href="/install"
+              className="rounded-3xl bg-[#193B38] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,59,56,0.18)]"
+            >
+              홈 화면에 추가하기
             </Link>
           </div>
         </div>
