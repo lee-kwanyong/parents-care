@@ -150,7 +150,7 @@ export function GuardianReportsBoard() {
                 매니저 현장 체크
               </Link>
               <Link href="/care-request" className="rounded-2xl bg-white px-5 py-4 text-center font-black text-[#426C68] ring-1 ring-[#CFE7E2]">
-                걱정 접수하기
+                안심케어 접수하기
               </Link>
             </div>
           </section>

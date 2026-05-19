@@ -30,7 +30,7 @@ const worryCards = [
   {
     emoji: '💬',
     title: '뭘 해야 할지 모르겠어요',
-    desc: '상황만 알려주면 운영실이 정리'
+    desc: '상황만 알려주면 운영실이 안심케어로 정리'
   }
 ]
 
@@ -38,7 +38,7 @@ const proofPoints = [
   {
     value: '3번',
     label: '안에 접수',
-    desc: '상황 설명 → 사진/메모 → 맡기기'
+    desc: '상황 설명 → 사진/메모 → 안심케어 시작'
   },
   {
     value: '사진·카톡',
@@ -85,7 +85,7 @@ const servicePacks = [
 ]
 
 const flowSteps = [
-  ['1', '걱정 접수', '전화·카톡·사진·한 줄 메모'],
+  ['1', '안심케어 접수', '전화·카톡·사진·한 줄 메모'],
   ['2', '케어플랜 정리', '병원·식사·약·서류 중 필요한 도움 정리'],
   ['3', '검증 연결', '검증 매니저 또는 케어 서비스 연결'],
   ['4', '보호자 공유', '출발·도착·진행상황·특이사항 알림'],
@@ -95,11 +95,11 @@ const flowSteps = [
 const differenceCards = [
   {
     title: '병원동행만이 아닙니다',
-    desc: '식사, 약, 서류, 퇴원 후 7일까지 부모님 걱정을 함께 정리합니다.'
+    desc: '식사, 약, 서류, 퇴원 후 7일까지 부모님 안심케어를 함께 정리합니다.'
   },
   {
     title: '매칭보다 케어플랜이 먼저입니다',
-    desc: '사용자는 기능을 고르는 게 아니라 걱정을 맡깁니다.'
+    desc: '사용자는 복잡한 기능을 고르는 게 아니라 부모님 상황을 알려주고 안심케어를 시작합니다.'
   },
   {
     title: '부모님 상태를 미리 공유합니다',
@@ -128,14 +128,14 @@ export default function HomePage() {
                 부모님 케어 플랫폼
               </div>
               <div className="text-xs font-bold text-[#6F8D89]">
-                부모님 걱정을 간단히 맡기는 앱
+                부모님 안심케어를 간단히 시작하는 앱
               </div>
             </div>
           </Link>
 
           <nav className="hidden items-center gap-2 lg:flex">
             {[
-              ['안심케어 시작하기', '/care-request'],
+              ['부모님 안심케어하기', '/care-request'],
               ['사진·카톡 접수', '/care-intake'],
               ['자녀앱', '/child'],
               ['부모님앱', '/parent/today'],
@@ -185,9 +185,9 @@ export default function HomePage() {
           </div>
 
           <h1 className="mt-6 text-5xl font-black leading-[1.03] tracking-[-0.06em] text-[#193B38] md:text-7xl">
-            부모님 걱정,
+            부모님 안심케어,
             <br />
-            쉽게 맡기세요.
+            쉽게 시작하세요.
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg font-bold leading-8 text-[#607D79] md:text-xl md:leading-9">
@@ -205,7 +205,7 @@ export default function HomePage() {
               href="/care-request"
               className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2] transition hover:bg-[#F2FAF8]"
             >
-              안심케어 시작하기
+              부모님 안심케어하기
             </Link>
             <Link
               href="/install"
@@ -236,7 +236,7 @@ export default function HomePage() {
           <div className="relative rounded-[2rem] border border-[#DCEEEA] bg-white p-5 shadow-[0_24px_70px_rgba(125,169,162,0.18)]">
             <div className="rounded-[1.5rem] bg-[linear-gradient(135deg,#F1FBF8_0%,#F7FCFF_100%)] p-5">
               <div className="text-sm font-black text-[#219B85]">
-                무엇이 걱정되세요?
+                어떤 안심케어가 필요하세요?
               </div>
 
               <div className="mt-4 grid gap-3">
@@ -313,7 +313,7 @@ export default function HomePage() {
             href="/care-request"
             className="rounded-3xl bg-[#DCEEFF] px-6 py-4 text-center text-base font-black text-[#3F627B] ring-1 ring-[#C7E1F3]"
           >
-            케어 요청하기
+            부모님 안심케어 신청하기
           </Link>
         </div>
 
@@ -342,7 +342,7 @@ export default function HomePage() {
             진행 흐름
           </div>
           <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] text-[#193B38]">
-            걱정이 케어 리포트가 되는 과정
+            상황이 안심케어 리포트가 되는 과정
           </h2>
 
           <div className="mt-7 grid gap-4 lg:grid-cols-5">
@@ -385,7 +385,7 @@ export default function HomePage() {
             의료행위를 대신하지 않습니다.
           </h2>
           <p className="mt-3 text-base font-bold leading-7 text-[#54726E]">
-            부모님 걱정해결 케어는 이동·동행·기록·보호자 공유 중심의 안심형 케어 서비스입니다. 의료 판단과 처방 변경은 의료진의 영역입니다.
+            부모님 안심케어는 이동·동행·기록·보호자 공유 중심의 안심형 케어 서비스입니다. 의료 판단과 처방 변경은 의료진의 영역입니다.
           </p>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
@@ -393,7 +393,7 @@ export default function HomePage() {
               href="/care-request"
               className="rounded-3xl bg-[#19B99A] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,185,154,0.22)]"
             >
-              안심케어 시작하기
+              부모님 안심케어하기
             </Link>
             <Link
               href="/care-intake"

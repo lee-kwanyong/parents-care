@@ -154,7 +154,7 @@ export function labelCareCaseStatus(status: string) {
 
 export function labelCaseLinkType(type: string) {
   const map: Record<string, string> = {
-    care_intake: '걱정 접수',
+    care_intake: '안심케어 접수',
     assisted_intake: '사진·카톡 접수',
     care_passport: '케어패스포트',
     daily_care: '밥·약·컨디션',
@@ -232,7 +232,7 @@ export function buildCareCaseAggregate(links: CareCaseLinkCandidate[] | CareCase
   const summaryText =
     links.length > 0
       ? `이 케이스에는 ${linkedLabels.join(', ')} 항목이 연결되어 있습니다. 현재 상태는 ${reassuranceState}입니다.`
-      : '아직 연결된 케어 항목이 없습니다. 운영실에서 걱정 접수, 케어패스포트, 매니저, 식사, 서류 등을 연결해야 합니다.'
+      : '아직 연결된 케어 항목이 없습니다. 운영실에서 안심케어 접수, 케어패스포트, 매니저, 식사, 서류 등을 연결해야 합니다.'
 
   const familyNextActions: string[] = []
 

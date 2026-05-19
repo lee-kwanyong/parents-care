@@ -92,7 +92,7 @@ export function OpsIntakeInboxBoard() {
   }
 
   function buildStatusConfirmMessage(item: IntakeItem, status: string) {
-    const title = item.summary_title || '부모님 걱정 접수'
+    const title = item.summary_title || '부모님 안심케어 접수'
     const elderName = item.elder_name || '부모님'
     const contactName = item.contact_name || '보호자'
 
@@ -194,7 +194,7 @@ export function OpsIntakeInboxBoard() {
           <div>
             <div className="text-sm font-black text-[#19A98E]">운영실</div>
             <h1 className="mt-2 text-4xl font-black tracking-[-0.05em] md:text-6xl">
-              부모님 걱정 접수함
+              부모님 안심케어 접수함
             </h1>
             <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#607D79]">
               보호자가 남긴 전화·카톡·사진·한 줄 메모 접수를 확인하고 케어 요청으로 정리합니다.
@@ -234,7 +234,7 @@ export function OpsIntakeInboxBoard() {
             <Stat label="열린 접수" value={summary.open} />
             <Stat label="긴급" value={summary.urgent} />
             <Stat label="변환 완료" value={summary.converted} />
-            <Stat label="걱정 접수" value={summary.assisted_count} />
+            <Stat label="안심케어 접수" value={summary.assisted_count} />
           </div>
         </section>
 
@@ -272,7 +272,7 @@ export function OpsIntakeInboxBoard() {
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                   <div>
                     <div className="flex flex-wrap gap-2">
-                      <Badge text={item.source === 'care_assisted_intake_requests' ? '걱정 접수' : '사진·카톡'} />
+                      <Badge text={item.source === 'care_assisted_intake_requests' ? '안심케어 접수' : '사진·카톡'} />
                       <Badge text={labelChannel(item.channel)} />
                       <Badge text={labelStatus(item.status)} />
                       <Badge text={item.priority === 'high' || item.priority === 'urgent' ? '우선 확인' : '보통'} />

@@ -22,7 +22,7 @@ type AppFrameProps = {
 
 const publicNav = [
   { href: '/', label: '홈' },
-  { href: '/care-request', label: '걱정 맡기기' },
+  { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/child', label: '자녀앱' },
   { href: '/parent/today', label: '부모님앱' },

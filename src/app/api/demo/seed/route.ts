@@ -210,7 +210,7 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const runLabel = text(body.runLabel) || '부모님 걱정해결 케어 데모'
+  const runLabel = text(body.runLabel) || '부모님 안심케어 데모'
   const results: SafeResult[] = []
   const createdObjects: Record<string, any> = {}
   const failedObjects: SafeResult[] = []

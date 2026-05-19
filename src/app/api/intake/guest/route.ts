@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
 
     const recommendation = recommendCarePack(worry, memo)
     const summary =
-      '비로그인 걱정 접수: ' +
+      '비로그인 안심케어 접수: ' +
       recommendation.title +
       ' / 연락: ' +
       (contactName || '이름 미입력') +
@@ -117,7 +117,7 @@ export async function POST(request: NextRequest) {
         {
           care_intake_entry_id: saved.id,
           event_type: 'guest_worry_request_created',
-          title: '비로그인 보호자 걱정 접수',
+          title: '비로그인 보호자 안심케어 접수',
           description: recommendation.title,
           actor_role: 'family',
           severity: worry === 'emergency' ? 'urgent' : 'info'
@@ -128,7 +128,7 @@ export async function POST(request: NextRequest) {
         {
           channel: 'app',
           template_code: 'guest_worry_request_received',
-          title: '부모님 걱정 접수 완료',
+          title: '부모님 안심케어 접수 완료',
           body: '운영실이 확인 후 해결 플랜으로 정리합니다.',
           payload: {
             intake_id: saved.id,
@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '걱정 접수 처리 중 오류가 발생했습니다.',
+        message: '안심케어 접수 처리 중 오류가 발생했습니다.',
         detail: error instanceof Error ? error.message : String(error)
       },
       { status: 500 }

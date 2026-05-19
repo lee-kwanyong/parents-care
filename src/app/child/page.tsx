@@ -14,7 +14,7 @@ const primaryActions = [
   },
   {
     href: '/care-request',
-    title: '부모님 걱정 맡기기',
+    title: '부모님 안심케어하기',
     desc: '잘 몰라도 운영실이 정리합니다',
     emoji: '💬'
   },

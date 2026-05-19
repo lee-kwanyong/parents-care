@@ -110,7 +110,7 @@ function normalizeItem(row: AnyRow, source: IntakeSource) {
     text(row.title) ||
     text(row.worry_type) ||
     text(row.category) ||
-    (rawText ? rawText.slice(0, 44) : `${elderName} 걱정 접수`)
+    (rawText ? rawText.slice(0, 44) : `${elderName} 안심케어 접수`)
 
   const status = text(row.ops_status) || text(row.status) || 'received'
   const priority = text(row.priority) || (row.social_care_requested ? 'high' : 'normal')

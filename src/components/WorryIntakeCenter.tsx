@@ -16,14 +16,14 @@ export function WorryIntakeCenter({ error }: { error?: string }) {
     <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
       <Card>
         <CardTitle
-          eyebrow="걱정 접수센터"
-          title="무엇이 걱정되세요?"
+          eyebrow="안심케어 접수센터"
+          title="어떤 안심케어가 필요하세요?"
           description="기능을 찾지 않아도 됩니다. 걱정을 누르면 운영실이 해결 플랜으로 정리합니다."
         />
         {error ? <p className="mb-4 rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-700">{error}</p> : null}
         <form action={createWorryRequestFormAction} className="space-y-6">
           <fieldset>
-            <legend className="mb-3 text-sm font-black text-[#4E6D69]">1. 걱정 선택</legend>
+            <legend className="mb-3 text-sm font-black text-[#4E6D69]">1. 안심케어 시작</legend>
             <div className="grid gap-3 sm:grid-cols-2">
               {categories.map((key) => (
                 <label key={key} className="cursor-pointer rounded-3xl border border-[#E0EFEC] bg-white p-5 text-left transition hover:border-care-500 hover:bg-care-50 has-[:checked]:border-care-600 has-[:checked]:bg-care-50">
@@ -76,7 +76,7 @@ export function WorryIntakeCenter({ error }: { error?: string }) {
           </label>
 
           <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-[#2E504D] shadow-soft hover:bg-care-700">
-            부모님 걱정 맡기기
+            부모님 안심케어하기
           </button>
         </form>
       </Card>
@@ -86,7 +86,7 @@ export function WorryIntakeCenter({ error }: { error?: string }) {
         <ol className="space-y-3 text-sm leading-6 text-[#4E6D69]">
           <li className="rounded-2xl bg-slate-100 p-4"><strong>1. 로그인 확인</strong><br />로그인이 없으면 로그인 화면으로 보냅니다.</li>
           <li className="rounded-2xl bg-slate-100 p-4"><strong>2. 가족 공간 생성</strong><br />처음 이용자도 자동으로 우리 가족 공간을 만듭니다.</li>
-          <li className="rounded-2xl bg-slate-100 p-4"><strong>3. 걱정 접수 저장</strong><br />care_intake_entries와 운영 이벤트가 같이 기록됩니다.</li>
+          <li className="rounded-2xl bg-slate-100 p-4"><strong>3. 안심케어 접수 저장</strong><br />care_intake_entries와 운영 이벤트가 같이 기록됩니다.</li>
           <li className="rounded-2xl bg-slate-100 p-4"><strong>4. 운영실 연결</strong><br />전화·카톡·사진 접수도 같은 흐름으로 처리합니다.</li>
         </ol>
       </Card>

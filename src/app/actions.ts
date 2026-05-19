@@ -132,7 +132,7 @@ export async function createWorryRequestAction(_: unknown, formData: FormData) {
     contact_phone_input: parsed.data.contactPhone || null
   })
 
-  return error ? { ok: false, message: error.message } : { ok: true, message: '걱정 접수가 완료되었습니다.', data }
+  return error ? { ok: false, message: error.message } : { ok: true, message: '안심케어 접수가 완료되었습니다.', data }
 }
 
 export async function saveCarePassportAction(_: unknown, formData: FormData) {

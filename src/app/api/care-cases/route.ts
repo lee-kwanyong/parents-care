@@ -107,7 +107,7 @@ async function collectLatestCareLinks() {
       linkCandidate({
         linkType: 'care_intake',
         row,
-        label: row.raw_text || row.recommended_pack_code || '부모님 걱정 접수',
+        label: row.raw_text || row.recommended_pack_code || '부모님 안심케어 접수',
         status: row.ops_status || 'new',
         url: '/ops/worry-center'
       })

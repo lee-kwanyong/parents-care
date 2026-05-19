@@ -9,7 +9,7 @@ export default async function OnboardingPage({ searchParams }: { searchParams?: 
   if (!user) redirect('/login?next=/onboarding')
   const params = searchParams ? await searchParams : {}
   return (
-    <AppShell title="가족 공간 만들기" subtitle="처음 한 번만 보호자 이름과 가족 이름을 확인합니다. 이후에는 걱정 접수가 자동으로 이 가족 공간에 저장됩니다.">
+    <AppShell title="가족 공간 만들기" subtitle="처음 한 번만 보호자 이름과 가족 이름을 확인합니다. 이후에는 안심케어 접수가 자동으로 이 가족 공간에 저장됩니다.">
       <Card>
         <CardTitle eyebrow="1분 설정" title="우리 가족 케어 공간" description="복잡한 설정 없이 바로 시작합니다." />
         {params.error ? <p className="mb-4 rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-700">{params.error}</p> : null}

@@ -200,7 +200,7 @@ export function OpsTodayDashboard() {
                 items={data?.recent?.intakes || []}
                 render={(item) => (
                   <>
-                    <div className="text-lg font-black">{item.summary_title || '부모님 걱정 접수'}</div>
+                    <div className="text-lg font-black">{item.summary_title || '부모님 안심케어 접수'}</div>
                     <p className="mt-1 text-sm font-bold text-[#607D79]">
                       {item.elder_name || '부모님'} · {item.contact_name || '보호자'} · {item.ops_status || item.status}
                     </p>
@@ -305,7 +305,7 @@ export function OpsTodayDashboard() {
               <h2 className="text-3xl font-black tracking-[-0.04em]">주요 화면 바로가기</h2>
               <div className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {[
-                  ['/ops/intake-inbox', '부모님 걱정 접수함'],
+                  ['/ops/intake-inbox', '부모님 안심케어 접수함'],
                   ['/ops/care-cases', '케어 케이스'],
                   ['/ops/manager-vetting', '매니저 최초 검증'],
                   ['/ops/manager-offers', '매니저 알림·수락'],

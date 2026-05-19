@@ -93,7 +93,7 @@ const worries: WorryOption[] = [
   {
     code: 'not_sure',
     title: '뭘 해야 할지 모르겠어요',
-    description: '상황만 알려주시면 운영실이 필요한 도움을 정리합니다.',
+    description: '상황만 알려주시면 운영실이 필요한 안심케어를 정리합니다.',
     example: '예: 정확히 뭘 신청해야 할지 모르겠어요.',
     emoji: '💬',
     rawText: '뭘 해야 할지 모르겠어요. 상황을 듣고 필요한 병원, 밥, 약, 서류, 퇴원 후 케어를 정리해주세요.'
@@ -269,7 +269,7 @@ export default function CareRequestPage() {
   }
 
   return (
-    <AppFrame title="안심케어 시작하기" subtitle="부모님 상황을 말하면 필요한 도움을 정리합니다">
+    <AppFrame title="부모님 안심케어하기" subtitle="부모님 상황을 말하면 필요한 도움을 정리합니다">
       <SectionHeader
         eyebrow="안심케어 챗봇"
         title={
@@ -475,7 +475,7 @@ export default function CareRequestPage() {
         ) : null}
 
         <CareButton type="submit" disabled={saving} size="xl" className="md:w-full">
-          {saving ? '접수 중...' : '안심케어 접수하기'}
+          {saving ? '접수 중...' : '부모님 안심케어 신청하기'}
         </CareButton>
       </form>
     </AppFrame>

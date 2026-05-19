@@ -12,7 +12,7 @@ export default function OpsCasesPage() {
               통합 케어 케이스 보드
             </h1>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
-              걱정 접수, 매니저 현장, 식사, 약, 서류, 정기진료, 퇴원, 사회공헌, 비용승인을 하나의 케이스로 묶습니다.
+              안심케어 접수, 매니저 현장, 식사, 약, 서류, 정기진료, 퇴원, 사회공헌, 비용승인을 하나의 케이스로 묶습니다.
             </p>
           </div>
 

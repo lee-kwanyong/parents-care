@@ -45,7 +45,7 @@ export type OpsCommandSummary = {
 export function labelOpsSourceType(type: string) {
   const map: Record<string, string> = {
     care_case: '통합 케이스',
-    care_intake: '걱정 접수',
+    care_intake: '안심케어 접수',
     assisted_intake: '사진·카톡 접수',
     daily_care: '밥·약·컨디션',
     family_task: '가족 할 일',
@@ -168,7 +168,7 @@ function buildAction(signal: OpsCommandSignal) {
   }
 
   if (signal.sourceType === 'care_intake') {
-    return '걱정 접수를 케어플랜으로 정리하세요.'
+    return '안심케어 접수를 케어플랜으로 정리하세요.'
   }
 
   if (signal.sourceType === 'family_task') {

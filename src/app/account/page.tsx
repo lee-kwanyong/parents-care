@@ -12,7 +12,7 @@ export default async function AccountPage() {
   const familyResult = supabase ? await supabase.rpc('current_user_family_id') : { data: null }
 
   return (
-    <AppShell title="내 계정과 가족 공간" subtitle="부모님 걱정 접수, 케어팩, 사회공헌 연결이 이 가족 공간에 저장됩니다.">
+    <AppShell title="내 계정과 가족 공간" subtitle="부모님 안심케어 접수, 케어팩, 사회공헌 연결이 이 가족 공간에 저장됩니다.">
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardTitle eyebrow="로그인됨" title={user.email ?? '보호자'} description="Supabase Auth 세션이 연결되어 있습니다." />

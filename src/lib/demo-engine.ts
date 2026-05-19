@@ -18,7 +18,7 @@ export const demoRoles: Array<{
   {
     code: 'guardian',
     label: '보호자',
-    description: '부모님 걱정 접수, 오늘의 안심판, 가족 할 일, 리포트 확인',
+    description: '부모님 안심케어 접수, 오늘의 안심판, 가족 할 일, 리포트 확인',
     homePath: '/child'
   },
   {
@@ -71,7 +71,7 @@ export const demoAccounts = [
 export const demoScenarioSteps: DemoStep[] = [
   {
     order: 1,
-    title: '보호자 걱정 접수',
+    title: '보호자 안심케어 접수',
     description: '병원에 혼자 못 가세요를 선택하고 걱정을 맡깁니다.',
     path: '/care-request',
     role: 'guardian',

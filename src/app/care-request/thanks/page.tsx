@@ -54,7 +54,7 @@ export default async function CareRequestThanksPage({
             운영실에서 플랜 만들기
           </Link>
           <Link href="/care-request" className="rounded-2xl bg-slate-100 px-5 py-4 text-center font-black">
-            또 다른 걱정 접수
+            또 다른 안심케어 접수
           </Link>
           <Link href="/" className="rounded-2xl bg-slate-100 px-5 py-4 text-center font-black">
             홈으로

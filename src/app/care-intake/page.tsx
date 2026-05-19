@@ -120,7 +120,7 @@ export default function CareIntakePage() {
         description="병원 예약 문자, 카톡 내용, 약 봉투, 영수증, 처방전 사진만 올려도 운영실이 부모님 걱정을 정리합니다."
         actions={
           <CareButton href="/care-request" tone="soft">
-            걱정 선택으로 돌아가기
+            안심케어 시작으로 돌아가기
           </CareButton>
         }
       />
@@ -265,7 +265,7 @@ export default function CareIntakePage() {
           size="xl"
           className="md:w-full"
         >
-          {saving ? '접수 중...' : '사진·카톡으로 부모님 걱정 맡기기'}
+          {saving ? '접수 중...' : '사진·카톡으로 부모님 안심케어하기'}
         </CareButton>
       </form>
 

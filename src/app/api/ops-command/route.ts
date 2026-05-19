@@ -126,7 +126,7 @@ async function collectOpsSignals() {
       signal({
         row,
         sourceType: 'care_intake',
-        title: row.raw_text || row.recommended_pack_code || '부모님 걱정 접수',
+        title: row.raw_text || row.recommended_pack_code || '부모님 안심케어 접수',
         statusLabel: row.ops_status || 'new',
         url: '/ops/worry-center'
       })

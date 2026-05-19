@@ -58,7 +58,7 @@ export function DemoStartBoard() {
       const response = await fetch('/api/demo/seed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ secret, runLabel: '부모님 걱정해결 케어 데모 데이터' })
+        body: JSON.stringify({ secret, runLabel: '부모님 안심케어 데모 데이터' })
       })
 
       const data = await response.json()
@@ -92,7 +92,7 @@ export function DemoStartBoard() {
         </h1>
 
         <p className="mt-5 max-w-3xl text-lg font-bold leading-8 text-[#63807C]">
-          보호자 걱정 접수부터 사진·카톡 접수, 운영실 처리, 검증 매니저 매칭, 부모님 큰 글씨 화면, 리포트, 평가까지 한 번에 시연합니다.
+          보호자 안심케어 접수부터 사진·카톡 접수, 운영실 처리, 검증 매니저 매칭, 부모님 큰 글씨 화면, 리포트, 평가까지 한 번에 시연합니다.
         </p>
       </section>
 

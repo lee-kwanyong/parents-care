@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const supabase = await createServerSupabaseClient()
 
   if (!supabase) {
-    return NextResponse.json({ ok: true, mode: 'demo', message: '걱정 접수 API 데모', received: body })
+    return NextResponse.json({ ok: true, mode: 'demo', message: '안심케어 접수 API 데모', received: body })
   }
 
   const { data: userData } = await supabase.auth.getUser()

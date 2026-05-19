@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 
 const navItems = [
   ['/', '홈'],
-  ['/care-request', '걱정 접수'],
+  ['/care-request', '안심케어 접수'],
   ['/care-packs', '케어팩'],
   ['/care-passport', '케어패스포트'],
   ['/care-meal', '안심밥상'],

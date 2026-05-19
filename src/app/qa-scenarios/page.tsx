@@ -16,14 +16,14 @@ export default function QAScenariosPage() {
             실제 흐름을 확인합니다.
           </>
         }
-        description="부모님 걱정 접수, 사진·카톡, 매니저 검증, 비용승인, 부모님 화면, 평가까지 핵심 흐름을 확인합니다."
+        description="부모님 안심케어 접수, 사진·카톡, 매니저 검증, 비용승인, 부모님 화면, 평가까지 핵심 흐름을 확인합니다."
         actions={
           <>
             <CareButton href="/ops/qa" tone="dark">
               운영실 QA
             </CareButton>
             <CareButton href="/care-request" tone="primary">
-              걱정 접수 테스트
+              안심케어 접수 테스트
             </CareButton>
           </>
         }

@@ -309,7 +309,7 @@ export function BuyerDemoBoard() {
       <section className="mt-10 rounded-[2rem] bg-[#5F7C92] p-6 text-[#2E504D] md:p-8">
         <h2 className="text-3xl font-black">바이어에게 보여줄 핵심 문장</h2>
         <p className="mt-5 max-w-4xl text-xl font-black leading-9 text-blue-200">
-          “이 데모는 전국 운영 전 단계의 MVP입니다. 보호자 걱정 접수, 운영실 정리, 검증 매니저 매칭, 부모님 화면, 리포트, 평가가 실제 DB에 저장되고 화면에서 확인됩니다.”
+          “이 데모는 전국 운영 전 단계의 MVP입니다. 보호자 안심케어 접수, 운영실 정리, 검증 매니저 매칭, 부모님 화면, 리포트, 평가가 실제 DB에 저장되고 화면에서 확인됩니다.”
         </p>
       </section>
     </div>

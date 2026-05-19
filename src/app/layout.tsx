@@ -3,7 +3,7 @@ import './globals.css'
 
 export const metadata: Metadata = {
   title: '부모님 케어 플랫폼',
-  description: '부모님 걱정을 쉽게 맡기는 부모님 케어 플랫폼',
+  description: '부모님 안심케어를 쉽게 시작하는 부모님 케어 플랫폼',
   manifest: '/manifest.webmanifest'
 }
 

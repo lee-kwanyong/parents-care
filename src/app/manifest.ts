@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: '부모님 케어 플랫폼',
     short_name: '부모님케어',
-    description: '부모님 걱정을 쉽게 맡기는 부모님 케어 플랫폼',
+    description: '부모님 안심케어를 쉽게 시작하는 부모님 케어 플랫폼',
     start_url: '/',
     scope: '/',
     display: 'standalone',
@@ -27,9 +27,9 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       {
-        name: '부모님 걱정 맡기기',
-        short_name: '걱정 맡기기',
-        description: '부모님 걱정을 간단히 접수합니다.',
+        name: '부모님 안심케어하기',
+        short_name: '부모님 안심케어하기',
+        description: '부모님 안심케어를 간단히 시작합니다.',
         url: '/care-request',
         icons: [
           {

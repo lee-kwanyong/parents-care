@@ -205,7 +205,7 @@ export async function POST(request: NextRequest) {
 
   const summaryTitle =
     worryType ||
-    (rawText ? rawText.slice(0, 36) : `${elderName} 걱정 접수`)
+    (rawText ? rawText.slice(0, 36) : `${elderName} 안심케어 접수`)
 
   const row = {
     elder_name: elderName,
@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    message: '부모님 걱정 접수가 저장됐습니다.',
+    message: '부모님 안심케어 접수가 저장됐습니다.',
     item
   })
 }

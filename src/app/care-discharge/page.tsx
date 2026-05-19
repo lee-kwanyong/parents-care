@@ -147,7 +147,7 @@ export default function CareDischargePage() {
             <StatusPill text="걱정되는 것" tone="slate" />
           </div>
 
-          <h2 className="mt-4 text-3xl font-black">특히 무엇이 걱정되세요?</h2>
+          <h2 className="mt-4 text-3xl font-black">특히 어떤 안심케어가 필요하세요?</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {worryOptions.map((item) => (

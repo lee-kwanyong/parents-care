@@ -201,7 +201,7 @@ function buildNextActions(checks: FlowCheck[]) {
 
   if (checks.some((check) => check.label === '보호자 접수 데이터' && check.status !== 'pass')) {
     actions.push({
-      title: '보호자 걱정 접수를 먼저 생성하세요',
+      title: '보호자 안심케어 접수를 먼저 생성하세요',
       description: '/care-request에서 테스트 접수를 만들면 운영 흐름을 확인할 수 있습니다.',
       href: '/care-request',
       priority: 'high'

@@ -36,7 +36,7 @@ const roleOptions: Array<{
   {
     role: 'guardian',
     label: '보호자',
-    description: '부모님 걱정 접수와 자녀앱 화면을 확인합니다.',
+    description: '부모님 안심케어 접수와 자녀앱 화면을 확인합니다.',
     homePath: '/child',
     placeholder: 'guardian-2580'
   }

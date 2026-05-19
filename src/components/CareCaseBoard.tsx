@@ -180,7 +180,7 @@ export function CareCaseBoard({ mode = 'family' }: { mode?: 'family' | 'ops' }) 
         <form onSubmit={createCase} className="mt-8 rounded-3xl bg-white p-6 shadow-sm">
           <h2 className="text-2xl font-black">통합 케어 케이스 만들기</h2>
           <p className="mt-2 text-sm leading-6 text-[#63807C]">
-            최근 걱정 접수, 사진 접수, 케어패스포트, 식사, 약, 서류, 매니저, 비용승인, 30초 요약을 하나의 케이스로 묶습니다.
+            최근 안심케어 접수, 사진 접수, 케어패스포트, 식사, 약, 서류, 매니저, 비용승인, 30초 요약을 하나의 케이스로 묶습니다.
           </p>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">

@@ -207,7 +207,7 @@ export function FamilyPlanStatus({ intakeId }: { intakeId: string }) {
               부모님 상태 등록
             </Link>
             <Link href="/care-request" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
-              또 다른 걱정 접수
+              또 다른 안심케어 접수
             </Link>
             <Link href="/" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
               홈으로

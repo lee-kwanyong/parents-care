@@ -45,7 +45,7 @@ export type TodayReassuranceSummary = {
 export function labelTodaySourceType(type: string) {
   const map: Record<string, string> = {
     care_case: '통합 케이스',
-    care_intake: '걱정 접수',
+    care_intake: '안심케어 접수',
     assisted_intake: '사진·카톡 접수',
     care_passport: '케어패스포트',
     daily_care: '밥·약·컨디션',
@@ -123,7 +123,7 @@ function buildActionForSource(source: TodayCareSource) {
   }
 
   if (source.sourceType === 'assisted_intake' || source.sourceType === 'care_intake') {
-    return '운영실이 정리 중인 부모님 걱정 접수를 확인해주세요.'
+    return '운영실이 정리 중인 부모님 안심케어 접수를 확인해주세요.'
   }
 
   if (source.sourceType === 'social_support') {
@@ -173,7 +173,7 @@ export function buildTodayReassuranceSummary(sources: TodayCareSource[]): TodayR
         ? `오늘 확인이 필요한 항목이 ${attention.length}개 있습니다. 가족 할 일과 비용 승인, 식사·약 확인을 먼저 봐주세요.`
         : sources.length > 0
           ? '오늘 큰 문제 없이 안심 상태입니다. 필요한 진행상황만 확인하면 됩니다.'
-          : '아직 오늘 확인된 데이터가 없습니다. 부모님 걱정 접수나 상태 확인을 시작해보세요.'
+          : '아직 오늘 확인된 데이터가 없습니다. 부모님 안심케어 접수나 상태 확인을 시작해보세요.'
 
   const familyNextActions =
     topReasons.length > 0
