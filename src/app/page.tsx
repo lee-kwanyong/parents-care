@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { PWARegister } from '@/components/PWARegister'
+import { BrandLogo } from '@/components/BrandLogo'
 
 const worryCards = [
   {
@@ -119,19 +120,7 @@ export default function HomePage() {
       <PWARegister />
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-4 shadow-[0_8px_24px_rgba(82,112,108,0.08)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#DCF8F1] text-2xl text-[#159B84]">
-              ♡
-            </div>
-            <div>
-              <div className="text-lg font-black tracking-[-0.02em]">
-                부모님 케어 플랫폼
-              </div>
-              <div className="text-xs font-bold text-[#6F8D89]">
-                부모님 안심케어를 간단히 시작하는 앱
-              </div>
-            </div>
-          </Link>
+          <BrandLogo title="부모님 안심케어" subtitle="부모님 안심케어를 간단히 시작하는 앱" />
 
           <nav className="hidden items-center gap-2 lg:flex">
             {[

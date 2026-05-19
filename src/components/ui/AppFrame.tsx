@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { MobileQuickNav } from './MobileQuickNav'
 import { DemoRoleBanner } from '../DemoRoleBanner'
 import { PWARegister } from '../PWARegister'
+import { BrandLogo } from '../BrandLogo'
 
 type QuickNavItem = {
   href: string
@@ -61,7 +62,7 @@ export function AppFrame({
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-3 shadow-[0_8px_24px_rgba(82,112,108,0.08)] md:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               {backHref ? (
                 <Link
                   href={backHref}
@@ -71,22 +72,12 @@ export function AppFrame({
                 </Link>
               ) : null}
 
-              <Link
-                href="/"
-                aria-label="부모님 안심케어 홈"
-                className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#DCF8F1] ring-1 ring-[#DDEEEA]"
-              >
-                <img src="/icons/parents-care-icon.svg" alt="부모님 안심케어 로고" className="h-8 w-8 rounded-xl" />
-              </Link>
-
-              <Link href="/" className="truncate text-base font-black tracking-[-0.02em] text-[#244F49] md:text-lg">
-                {title}
-              </Link>
+              <BrandLogo
+                title={title}
+                subtitle={subtitle || '부모님 안심케어를 쉽게 시작하는 케어 플랫폼'}
+                compact
+              />
             </div>
-
-            <p className="mt-1 truncate text-xs font-bold text-[#78928E]">
-              {subtitle || '부모님 안심케어를 쉽게 시작하는 케어 플랫폼'}
-            </p>
           </div>
 
           <nav className="hidden flex-wrap gap-2 lg:flex">

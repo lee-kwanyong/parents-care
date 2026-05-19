@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
+import { BrandLogo } from './BrandLogo'
 
 const topLinks = [
   { href: '/', label: '홈' },
@@ -26,14 +27,7 @@ export function ParentNavigation({ children, currentLabel = '부모님 안심 �
     <div className="min-h-screen bg-[#ECFFF7] text-[#24423F]">
       <header className="sticky top-0 z-40 border-b border-[#D8EEE7] bg-white/95 px-4 py-3 shadow-[0_10px_30px_rgba(93,139,131,0.08)] backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <Link href="/" className="block">
-            <div className="text-lg font-black tracking-[-0.03em] text-[#24423F]">
-              부모님 안심케어
-            </div>
-            <div className="text-xs font-bold text-[#6C8883]">
-              {currentLabel}
-            </div>
-          </Link>
+          <BrandLogo title="부모님 안심케어" subtitle={currentLabel} compact />
 
           <nav aria-label="부모님 안심 화면 이동" className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
             {topLinks.map((link) => (
