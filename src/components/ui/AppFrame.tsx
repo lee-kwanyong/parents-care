@@ -24,16 +24,18 @@ const publicNav = [
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
-  { href: '/child', label: '자녀앱' },
   { href: '/parent/today', label: '부모님앱' },
   { href: '/manager/register', label: '매니저 등록' },
+  { href: '/manager', label: '매니저앱' },
+  { href: '/ops/matching', label: '매칭관리' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
 const internalNav = [
-  { href: '/manager', label: '매니저앱' },
   { href: '/ops', label: '운영실' },
   { href: '/ops/matching', label: '매칭관리' },
+  { href: '/manager', label: '매니저앱' },
+  { href: '/manager/register', label: '매니저 등록' },
   { href: '/demo-start', label: '데모' },
   { href: '/buyer-demo', label: '바이어' },
   { href: '/deploy-readiness', label: '배포 점검' }

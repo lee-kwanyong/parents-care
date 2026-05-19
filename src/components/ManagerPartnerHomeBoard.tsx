@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { AppFrame } from '@/components/ui/AppFrame'
 
 type AnyRow = Record<string, any>
 
@@ -112,7 +113,7 @@ export function ManagerPartnerHomeBoard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F7FCFB] px-5 py-6 text-[#24423F]">
+    <AppFrame title="매니저 앱" subtitle="제안·배정·정산 관리 화면" showMobileNav={false}>
       <section className="mx-auto max-w-5xl">
         <header className="rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF6_0%,#F4FAFF_100%)] p-6 shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -283,7 +284,7 @@ export function ManagerPartnerHomeBoard() {
           </>
         )}
       </section>
-    </main>
+    </AppFrame>
   )
 }
 

@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from 'react'
 import Link from 'next/link'
+import { AppFrame } from '@/components/ui/AppFrame'
 
 export function ManagerEasyApplyBoard() {
   const [form, setForm] = useState({
@@ -71,7 +72,7 @@ export function ManagerEasyApplyBoard() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F7FCFB] px-5 py-8 text-[#24423F]">
+    <AppFrame title="매니저 등록" subtitle="검증 매니저 풀 등록 화면" showMobileNav={false}>
       <section className="mx-auto max-w-5xl">
         <header className="mb-8">
           <div className="text-sm font-black text-[#19A98E]">매니저 등록</div>
@@ -154,7 +155,7 @@ export function ManagerEasyApplyBoard() {
           ) : null}
         </form>
       </section>
-    </main>
+    </AppFrame>
   )
 }
 
