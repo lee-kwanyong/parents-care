@@ -35,50 +35,50 @@ export const parentDailyCareButtons: Array<{
     checkType: 'meal',
     careLabel: '점심 식사',
     status: 'done',
-    title: '점심 먹었어요',
-    description: '자녀에게 식사 확인을 보냅니다.'
+    title: '점심 잘 먹었어요',
+    description: '자녀에게 식사 안심 알림을 보냅니다.'
   },
   {
     checkType: 'meal',
     careLabel: '점심 식사',
     status: 'not_done',
-    title: '아직 안 먹었어요',
-    description: '식사 확인 필요로 표시됩니다.'
+    title: '아직 식사 전이에요',
+    description: '식사 안심 확인이 필요하다고 표시됩니다.'
   },
   {
     checkType: 'medication',
     careLabel: '오늘 약',
     status: 'done',
-    title: '약 먹었어요',
-    description: '복약 확인을 보냅니다.'
+    title: '약 잘 먹었어요',
+    description: '자녀에게 복약 안심 알림을 보냅니다.'
   },
   {
     checkType: 'medication',
     careLabel: '오늘 약',
     status: 'not_done',
-    title: '약 아직 안 먹었어요',
-    description: '복약 확인 필요로 표시됩니다.'
+    title: '약 아직 식사 전이에요',
+    description: '복약 안심 확인이 필요하다고 표시됩니다.'
   },
   {
     checkType: 'condition',
     careLabel: '오늘 컨디션',
     status: 'done',
-    title: '괜찮아요',
-    description: '오늘 컨디션이 괜찮다고 표시됩니다.'
+    title: '컨디션 괜찮아요',
+    description: '오늘 컨디션이 괜찮다고 안심 알림을 보냅니다.'
   },
   {
     checkType: 'emergency',
-    careLabel: '도움 요청',
+    careLabel: '안심케어 요청',
     status: 'needs_help',
     title: '도움이 필요해요',
-    description: '자녀와 운영실 확인이 필요합니다.'
+    description: '자녀와 운영실에 바로 확인 요청을 보냅니다.'
   },
   {
     checkType: 'safe_return',
     careLabel: '안전 귀가',
     status: 'done',
     title: '집에 잘 도착했어요',
-    description: '안전 종료로 표시됩니다.'
+    description: '안전하게 도착했다고 표시됩니다.'
   }
 ]
 

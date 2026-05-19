@@ -3,16 +3,16 @@ import type { ReactNode } from 'react'
 
 const topLinks = [
   { href: '/', label: '홈' },
-  { href: '/parent/today', label: '오늘 일정' },
-  { href: '/child/reports', label: '보호자 리포트' },
-  { href: '/care-request', label: '도움 요청' },
+  { href: '/parent/today', label: '오늘 안심' },
+  { href: '/child/reports', label: '보호자 확인' },
+  { href: '/care-request', label: '안심케어 요청' },
   { href: '/parent/install', label: '앱 설치' }
 ]
 
 const bottomLinks = [
   { href: '/', label: '홈으로', desc: '처음 화면' },
-  { href: '/parent/today', label: '오늘 일정', desc: '만나는 분 확인' },
-  { href: '/child/reports', label: '리포트', desc: '보호자 확인' },
+  { href: '/parent/today', label: '오늘 안심', desc: '오시는 분 확인' },
+  { href: '/child/reports', label: '보호자 확인', desc: '자녀가 보는 리포트' },
   { href: '/parent/install', label: '설치 안내', desc: '앱처럼 사용' }
 ]
 
@@ -21,21 +21,21 @@ type ParentNavigationProps = {
   currentLabel?: string
 }
 
-export function ParentNavigation({ children, currentLabel = '부모님 화면' }: ParentNavigationProps) {
+export function ParentNavigation({ children, currentLabel = '부모님 안심 화면' }: ParentNavigationProps) {
   return (
     <div className="min-h-screen bg-[#ECFFF7] text-[#24423F]">
       <header className="sticky top-0 z-40 border-b border-[#D8EEE7] bg-white/95 px-4 py-3 shadow-[0_10px_30px_rgba(93,139,131,0.08)] backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <Link href="/" className="block">
             <div className="text-lg font-black tracking-[-0.03em] text-[#24423F]">
-              부모님 케어
+              부모님 안심케어
             </div>
             <div className="text-xs font-bold text-[#6C8883]">
               {currentLabel}
             </div>
           </Link>
 
-          <nav aria-label="부모님 화면 이동" className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
+          <nav aria-label="부모님 안심 화면 이동" className="flex gap-2 overflow-x-auto pb-1 md:pb-0">
             {topLinks.map((link) => (
               <Link
                 key={link.href}
@@ -54,7 +54,7 @@ export function ParentNavigation({ children, currentLabel = '부모님 화면' }
       <footer className="mx-auto max-w-5xl px-4 pb-8 pt-4">
         <section className="rounded-[2rem] border border-[#D8EEE7] bg-white p-5 shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
           <div className="mb-4 text-xl font-black tracking-[-0.03em]">
-            다른 화면으로 이동하기
+            필요한 화면으로 이동하기
           </div>
 
           <div className="grid gap-3 md:grid-cols-4">
@@ -75,19 +75,19 @@ export function ParentNavigation({ children, currentLabel = '부모님 화면' }
               href="tel:119"
               className="rounded-2xl bg-[#FFE9EB] p-5 text-center text-lg font-black text-[#965D65] ring-1 ring-[#F2C9CE]"
             >
-              긴급하면 119
+              긴급할 땐 119
             </a>
 
             <Link
               href="/care-request"
               className="rounded-2xl bg-[#19B99A] p-5 text-center text-lg font-black text-white"
             >
-              보호자에게 도움 요청
+              보호자에게 안심케어 요청
             </Link>
           </div>
 
           <p className="mt-4 text-center text-xs font-bold leading-5 text-[#8AA29E]">
-            이 화면은 부모님이 보기 쉽게 큰 글씨와 큰 버튼을 기준으로 만들었습니다.
+            이 화면은 부모님이 보기 쉽게 큰 글씨와 큰 버튼으로 만들었습니다.
           </p>
         </section>
       </footer>
@@ -96,5 +96,5 @@ export function ParentNavigation({ children, currentLabel = '부모님 화면' }
 }
 
 export function ParentTodayNavigation({ children }: { children: ReactNode }) {
-  return <ParentNavigation currentLabel="오늘 일정 확인 화면">{children}</ParentNavigation>
+  return <ParentNavigation currentLabel="오늘 안심 확인 화면">{children}</ParentNavigation>
 }

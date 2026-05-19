@@ -37,7 +37,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
         throw new Error(data.message || '저장 중 오류가 발생했습니다.')
       }
 
-      setMessage(`${input.title} 확인을 보냈습니다.`)
+      setMessage(`${input.title} 안심 알림을 보냈습니다.`)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '저장 중 오류가 발생했습니다.')
     } finally {
@@ -47,9 +47,9 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
 
   return (
     <section className="mt-5 rounded-[2rem] bg-white p-6 shadow-sm">
-      <h2 className="text-3xl font-black">오늘 확인</h2>
+      <h2 className="text-3xl font-black">오늘 안심 확인</h2>
       <p className="mt-2 text-lg font-bold text-[#63807C]">
-        누르면 자녀와 운영실에서 확인할 수 있어요.
+        버튼을 누르면 자녀와 운영실에 안심 알림이 전달돼요.
       </p>
 
       {message ? (
