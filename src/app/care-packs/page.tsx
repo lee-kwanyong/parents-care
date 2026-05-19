@@ -34,7 +34,7 @@ export default function CarePacksPage() {
 
         <div className="mt-8 flex flex-wrap gap-3">
           <Link href="/care-request" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
-            안심케어 접수하기
+            부모님 안심케어 신청하기
           </Link>
           <Link href="/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 플랜 만들기
