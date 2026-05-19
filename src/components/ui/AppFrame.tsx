@@ -26,12 +26,14 @@ const publicNav = [
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/child', label: '자녀앱' },
   { href: '/parent/today', label: '부모님앱' },
+  { href: '/manager/register', label: '매니저 등록' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
 const internalNav = [
   { href: '/manager', label: '매니저앱' },
   { href: '/ops', label: '운영실' },
+  { href: '/ops/matching', label: '매칭관리' },
   { href: '/demo-start', label: '데모' },
   { href: '/buyer-demo', label: '바이어' },
   { href: '/deploy-readiness', label: '배포 점검' }
@@ -39,7 +41,7 @@ const internalNav = [
 
 export function AppFrame({
   children,
-  title = '부모님 케어',
+  title = '부모님 안심케어',
   subtitle,
   backHref,
   navItems,
@@ -67,13 +69,21 @@ export function AppFrame({
                 </Link>
               ) : null}
 
+              <Link
+                href="/"
+                aria-label="부모님 안심케어 홈"
+                className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#DCF8F1] ring-1 ring-[#DDEEEA]"
+              >
+                <img src="/icons/parents-care-icon.svg" alt="부모님 안심케어 로고" className="h-8 w-8 rounded-xl" />
+              </Link>
+
               <Link href="/" className="truncate text-base font-black tracking-[-0.02em] text-[#244F49] md:text-lg">
                 {title}
               </Link>
             </div>
 
             <p className="mt-1 truncate text-xs font-bold text-[#78928E]">
-              {subtitle || '부모님 걱정을 쉽게 맡기는 케어 플랫폼'}
+              {subtitle || '부모님 안심케어를 쉽게 시작하는 케어 플랫폼'}
             </p>
           </div>
 
