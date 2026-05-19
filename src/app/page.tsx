@@ -38,7 +38,7 @@ const proofPoints = [
   {
     value: '3번',
     label: '안에 접수',
-    desc: '걱정 선택 → 사진/메모 → 맡기기'
+    desc: '상황 설명 → 사진/메모 → 맡기기'
   },
   {
     value: '사진·카톡',
@@ -135,7 +135,7 @@ export default function HomePage() {
 
           <nav className="hidden items-center gap-2 lg:flex">
             {[
-              ['걱정 맡기기', '/care-request'],
+              ['안심케어 시작하기', '/care-request'],
               ['사진·카톡 접수', '/care-intake'],
               ['자녀앱', '/child'],
               ['부모님앱', '/parent/today'],
@@ -205,7 +205,7 @@ export default function HomePage() {
               href="/care-request"
               className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2] transition hover:bg-[#F2FAF8]"
             >
-              걱정 선택하기
+              안심케어 시작하기
             </Link>
             <Link
               href="/install"
@@ -283,7 +283,7 @@ export default function HomePage() {
 
           <div className="mt-7 grid gap-4 md:grid-cols-3">
             {[
-              ['1', '걱정 선택', '병원, 밥, 약, 퇴원 후, 서류 중 하나만 고릅니다.'],
+              ['1', '안심케어 시작', '병원, 밥, 약, 퇴원 후, 서류 중 하나만 고릅니다.'],
               ['2', '사진·카톡 첨부', '예약 문자, 약 봉투, 영수증을 그대로 올립니다.'],
               ['3', '운영실 정리', '운영실이 케어플랜과 다음 행동을 정리합니다.']
             ].map(([num, title, desc]) => (
@@ -393,7 +393,7 @@ export default function HomePage() {
               href="/care-request"
               className="rounded-3xl bg-[#19B99A] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,185,154,0.22)]"
             >
-              부모님 걱정 맡기기
+              안심케어 시작하기
             </Link>
             <Link
               href="/care-intake"

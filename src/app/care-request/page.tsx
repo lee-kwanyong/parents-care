@@ -26,6 +26,13 @@ type WorryOption = {
   rawText: string
 }
 
+type ContactMethod = 'phone' | 'kakao' | 'photo' | 'text'
+
+type ChatMessage = {
+  role: 'assistant' | 'user'
+  text: string
+}
+
 const worries: WorryOption[] = [
   {
     code: 'hospital',
@@ -116,20 +123,106 @@ const contactMethods = [
   }
 ] as const
 
+const quickPrompts = [
+  '어머니 병원 예약이 있는데 혼자 가기 어려우세요.',
+  '아버지가 약을 잘 챙겨 드시는지 모르겠어요.',
+  '퇴원 후 식사와 통증 확인이 걱정돼요.',
+  '보험서류와 영수증을 챙겨야 해요.',
+  '정확히 뭘 신청해야 할지 모르겠어요.'
+]
+
+function detectWorryCode(text: string): WorryCode {
+  const value = text.toLowerCase()
+
+  if (/(병원|진료|예약|검사|외래|수납|접수|동행|응급|수술)/.test(value)) return 'hospital'
+  if (/(밥|식사|끼니|도시락|반찬|회복식|영양|당뇨식|저염식)/.test(value)) return 'meal'
+  if (/(약|복용|복약|약봉투|혈압약|당뇨약|처방)/.test(value)) return 'medication'
+  if (/(퇴원|회복|낙상|통증|수술 후|집에서|재활)/.test(value)) return 'discharge'
+  if (/(서류|보험|실손|영수증|처방전|세부내역서|통원확인서)/.test(value)) return 'documents'
+  if (/(정기|반복|매달|매주|일정|캘린더|다음 예약)/.test(value)) return 'routine'
+  if (/(비용|부담|무료|복지|지원|후원|돌봄 공백|공공)/.test(value)) return 'social'
+
+  return 'not_sure'
+}
+
+function detectMethod(text: string): ContactMethod | null {
+  const value = text.toLowerCase()
+
+  if (/(전화|통화|연락)/.test(value)) return 'phone'
+  if (/(카톡|카카오|문자)/.test(value)) return 'kakao'
+  if (/(사진|촬영|예약증|약봉투|영수증)/.test(value)) return 'photo'
+  if (/(메모|글|텍스트|한 줄)/.test(value)) return 'text'
+
+  return null
+}
+
+function extractPhone(text: string) {
+  const match = text.match(/01[016789][\s.-]?\d{3,4}[\s.-]?\d{4}/)
+  return match ? match[0] : ''
+}
+
+function makeBotReply(worry: WorryOption, text: string) {
+  const hasPhone = Boolean(extractPhone(text))
+
+  return [
+    `말씀해주신 내용은 “${worry.title}” 쪽 안심케어로 정리할 수 있어요.`,
+    '아래 접수 영역에 상황을 반영했습니다.',
+    hasPhone ? '연락처도 함께 확인했습니다.' : '연락받을 보호자 정보만 입력하면 운영실이 다음 할 일을 정리할 수 있어요.'
+  ].join('\n')
+}
+
 export default function CareRequestPage() {
   const [selected, setSelected] = useState<WorryCode>('not_sure')
   const [elderName, setElderName] = useState('어머니')
   const [contactName, setContactName] = useState('')
   const [contactPhone, setContactPhone] = useState('')
-  const [method, setMethod] = useState<'phone' | 'kakao' | 'photo' | 'text'>('phone')
+  const [method, setMethod] = useState<ContactMethod>('phone')
   const [memo, setMemo] = useState('')
   const [socialCareRequested, setSocialCareRequested] = useState(false)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState('')
+  const [chatInput, setChatInput] = useState('')
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    {
+      role: 'assistant',
+      text: '안녕하세요. 안심케어 챗봇입니다. 부모님 상황을 한 줄로 알려주시면 병원·식사·약·서류·퇴원 후 케어 중 필요한 도움을 먼저 정리해드릴게요.'
+    }
+  ])
 
   const selectedWorry = useMemo(() => {
     return worries.find((item) => item.code === selected) || worries[worries.length - 1]
   }, [selected])
+
+  function sendChat(text: string) {
+    const cleanText = text.trim()
+    if (!cleanText) return
+
+    const worryCode = detectWorryCode(cleanText)
+    const worry = worries.find((item) => item.code === worryCode) || worries[worries.length - 1]
+    const nextMethod = detectMethod(cleanText)
+    const phone = extractPhone(cleanText)
+
+    setSelected(worry.code)
+    setMemo((current) => (current ? `${current}\n${cleanText}` : cleanText))
+
+    if (nextMethod) setMethod(nextMethod)
+    if (phone) setContactPhone(phone)
+    if (/(비용|부담|무료|복지|지원|후원|돌봄 공백|공공)/.test(cleanText)) {
+      setSocialCareRequested(true)
+    }
+
+    setChatMessages((current) => [
+      ...current,
+      { role: 'user', text: cleanText },
+      { role: 'assistant', text: makeBotReply(worry, cleanText) }
+    ])
+    setChatInput('')
+  }
+
+  function submitChat(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    sendChat(chatInput)
+  }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -163,36 +256,100 @@ export default function CareRequestPage() {
       const data = await response.json()
 
       if (!response.ok || !data.ok) {
-        throw new Error(data.message || '걱정 접수 중 오류가 발생했습니다.')
+        throw new Error(data.message || '안심케어 접수 중 오류가 발생했습니다.')
       }
 
-      setMessage('부모님 걱정이 접수됐습니다. 운영실이 필요한 도움을 정리합니다.')
+      setMessage('안심케어가 접수됐습니다. 운영실이 필요한 도움을 정리합니다.')
       setMemo('')
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '걱정 접수 중 오류가 발생했습니다.')
+      setMessage(error instanceof Error ? error.message : '안심케어 접수 중 오류가 발생했습니다.')
     } finally {
       setSaving(false)
     }
   }
 
   return (
-    <AppFrame title="부모님 걱정 맡기기" subtitle="기능을 고르지 말고 걱정을 선택하세요">
+    <AppFrame title="안심케어 시작하기" subtitle="부모님 상황을 말하면 필요한 도움을 정리합니다">
       <SectionHeader
-        eyebrow="걱정 접수센터"
+        eyebrow="안심케어 챗봇"
         title={
           <>
-            무엇이
+            부모님 상황을 말하면
             <br />
-            걱정되세요?
+            필요한 도움을 정리합니다.
           </>
         }
-        description="정확히 몰라도 괜찮습니다. 가장 비슷한 걱정만 누르면 운영실이 케어 플랜으로 정리합니다."
+        description="정확히 몰라도 괜찮습니다. 챗봇에 한 줄로 상황을 남기면 운영실 접수에 필요한 항목을 먼저 채워드립니다."
         actions={
           <CareButton href="/care-intake" tone="dark">
             사진·카톡으로 바로 맡기기
           </CareButton>
         }
       />
+
+      <CareCard tone="green" className="mt-8">
+        <div className="flex flex-wrap items-center gap-2">
+          <StatusPill text="챗봇 접수" tone="green" />
+          <StatusPill text="자동 분류" tone="slate" />
+          <StatusPill text={selectedWorry.title} tone="blue" />
+        </div>
+
+        <h2 className="mt-4 text-3xl font-black">안심케어 챗봇</h2>
+        <p className="mt-2 text-base font-bold leading-7 text-[#4E6D69]">
+          부모님 상황을 적으면 필요한 케어 유형, 연락 방식, 메모가 아래 접수 폼에 자동 반영됩니다.
+        </p>
+
+        <div className="mt-5 max-h-[28rem] space-y-3 overflow-y-auto rounded-[1.5rem] bg-white p-4">
+          {chatMessages.map((item, index) => (
+            <div
+              key={`${item.role}-${index}`}
+              className={
+                'flex ' + (item.role === 'user' ? 'justify-end' : 'justify-start')
+              }
+            >
+              <div
+                className={
+                  'max-w-[85%] whitespace-pre-line rounded-3xl px-4 py-3 text-sm font-bold leading-6 ' +
+                  (item.role === 'user'
+                    ? 'bg-[#19B99A] text-white'
+                    : 'bg-[#F3FAF8] text-[#24423F]')
+                }
+              >
+                {item.text}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {quickPrompts.map((prompt) => (
+            <button
+              key={prompt}
+              type="button"
+              onClick={() => sendChat(prompt)}
+              className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#426C68] ring-1 ring-[#CFE7E2] transition hover:bg-[#F2FAF8]"
+            >
+              {prompt}
+            </button>
+          ))}
+        </div>
+
+        <form onSubmit={submitChat} className="mt-4 flex flex-col gap-3 md:flex-row">
+          <textarea
+            value={chatInput}
+            onChange={(event) => setChatInput(event.target.value)}
+            rows={2}
+            className="min-h-[4.5rem] flex-1 rounded-3xl border border-[#CFE7E2] bg-white p-4 font-bold leading-7 outline-none focus:border-emerald-500"
+            placeholder="예: 어머니가 무릎이 아프고 병원 예약 문자가 왔는데 혼자 가기 어려워요."
+          />
+          <button
+            type="submit"
+            className="rounded-3xl bg-[#193B38] px-6 py-4 text-base font-black text-white transition hover:bg-[#24423F]"
+          >
+            챗봇에게 보내기
+          </button>
+        </form>
+      </CareCard>
 
       <section className="mt-8 grid gap-4 md:grid-cols-2">
         {worries.map((worry) => (
@@ -224,7 +381,7 @@ export default function CareRequestPage() {
       <form onSubmit={submit} className="mt-8 space-y-6">
         <CareCard tone="white">
           <div className="flex flex-wrap items-center gap-2">
-            <StatusPill text="선택한 걱정" tone="green" />
+            <StatusPill text="추천 안심케어" tone="green" />
             <StatusPill text={selectedWorry.title} tone="slate" />
           </div>
 
@@ -318,7 +475,7 @@ export default function CareRequestPage() {
         ) : null}
 
         <CareButton type="submit" disabled={saving} size="xl" className="md:w-full">
-          {saving ? '접수 중...' : '부모님 걱정 맡기기'}
+          {saving ? '접수 중...' : '안심케어 접수하기'}
         </CareButton>
       </form>
     </AppFrame>
