@@ -10,6 +10,11 @@ function safeNext(value: string | null) {
   return value
 }
 
+function withAuthDone(path: string) {
+  const separator = path.includes('?') ? '&' : '?'
+  return `${path}${separator}auth=done`
+}
+
 export default function AuthCallbackPage() {
   const [message, setMessage] = useState('로그인 정보를 확인하는 중입니다...')
 
@@ -22,29 +27,35 @@ export default function AuthCallbackPage() {
         const next = safeNext(url.searchParams.get('next'))
 
         if (code) {
-          const { data, error } = await supabase.auth.exchangeCodeForSession(code)
-
+          const { error } = await supabase.auth.exchangeCodeForSession(code)
           if (error) throw error
-
-          if (data.session) {
-            const provider = String(data.session.user.app_metadata?.provider || 'easy')
-
-            await fetch('/api/auth/profile', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + data.session.access_token
-              },
-              body: JSON.stringify({
-                userRole: 'guardian',
-                loginMethod: provider === 'google' || provider === 'kakao' ? provider : 'easy'
-              })
-            }).catch(() => null)
-          }
         }
 
-        setMessage('로그인이 완료됐습니다. 보호자 화면으로 이동합니다.')
-        window.location.href = next
+        const { data } = await supabase.auth.getSession()
+        const session = data.session
+
+        if (session) {
+          const provider = String(session.user.app_metadata?.provider || 'easy')
+
+          await fetch('/api/auth/profile', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + session.access_token
+            },
+            body: JSON.stringify({
+              userRole: 'guardian',
+              loginMethod: provider === 'google' || provider === 'kakao' ? provider : 'easy'
+            })
+          }).catch(() => null)
+
+          setMessage('로그인이 완료됐습니다. 보호자 화면으로 이동합니다.')
+          window.location.replace(withAuthDone(next))
+          return
+        }
+
+        setMessage('로그인 세션을 확인하지 못했습니다. 다시 로그인해주세요.')
+        window.location.replace('/signup/guardian?auth=failed')
       } catch (error) {
         setMessage(error instanceof Error ? error.message : '로그인 처리 중 오류가 발생했습니다.')
       }

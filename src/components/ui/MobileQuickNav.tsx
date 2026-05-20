@@ -16,6 +16,13 @@ const appSelectItems: QuickNavItem[] = [
   { href: '/', label: '홈', emoji: '🏠' }
 ]
 
+const guardianSignupItems: QuickNavItem[] = [
+  { href: '/signup/guardian', label: '가입', emoji: '👨‍👩‍👧' },
+  { href: '/parent/login', label: '부모님', emoji: '🔢' },
+  { href: '/child/matching', label: '매칭', emoji: '🔗' },
+  { href: '/app', label: '앱선택', emoji: '📱' }
+]
+
 const guardianItems: QuickNavItem[] = [
   { href: '/care-request', label: '신청', emoji: '🟢' },
   { href: '/child/matching', label: '매칭', emoji: '🔗' },
@@ -39,10 +46,10 @@ const managerItems: QuickNavItem[] = [
 
 function pickItems(pathname: string) {
   if (pathname === '/app') return appSelectItems
+  if (pathname.startsWith('/signup/guardian')) return guardianSignupItems
   if (pathname.startsWith('/parent')) return parentItems
   if (pathname.startsWith('/manager')) return managerItems
   if (pathname.startsWith('/signup/manager')) return managerItems
-  if (pathname.startsWith('/signup/guardian')) return guardianItems
   if (pathname.startsWith('/child')) return guardianItems
   if (pathname.startsWith('/care-request')) return guardianItems
   if (pathname.startsWith('/care-intake')) return guardianItems
