@@ -37,10 +37,7 @@ const internalNav = [
   { href: '/ops/managers', label: '매니저관리' },
   { href: '/ops/matching', label: '매칭관리' },
   { href: '/manager', label: '매니저앱' },
-  { href: '/manager/register', label: '매니저 등록' },
-  { href: '/demo-start', label: '데모' },
-  { href: '/buyer-demo', label: '바이어' },
-  { href: '/deploy-readiness', label: '배포 점검' }
+  { href: '/manager/register', label: '매니저 등록' }
 ]
 
 export function AppFrame({
@@ -52,13 +49,13 @@ export function AppFrame({
   showMobileNav = true,
   className = ''
 }: AppFrameProps) {
-  const showInternalLinks = process.env.NEXT_PUBLIC_SHOW_INTERNAL_LINKS === 'true'
-  const nav = showInternalLinks ? [...publicNav, ...internalNav] : publicNav
+  const showInternalLinks = false
+  const nav = publicNav
 
   return (
     <main className={`min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F5FCFA_42%,#F7FBFF_100%)] pb-28 text-[#243F3B] md:pb-10 ${className}`}>
       <PWARegister />
-      {showInternalLinks ? <DemoRoleBanner /> : null}
+      {false ? <DemoRoleBanner /> : null}
 
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-3 shadow-[0_8px_24px_rgba(82,112,108,0.08)] md:px-8">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">

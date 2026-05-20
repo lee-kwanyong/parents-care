@@ -5,7 +5,7 @@ export function HomeMobileActions() {
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#E0EFEC] bg-white/95 px-3 py-2 shadow-[0_-12px_35px_rgba(93,139,131,0.15)] backdrop-blur md:hidden">
       <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
         <Link
-          href="/login?role=child&next=/care-request"
+          href="/care-request"
           className="rounded-2xl bg-[#19B99A] px-3 py-3 text-center text-xs font-black text-white"
         >
           <span className="block text-xl leading-none">🟢</span>

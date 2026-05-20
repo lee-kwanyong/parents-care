@@ -13,7 +13,7 @@ const managerSteps = [
     desc: '자격, 경력, 개인정보 취급 동의, 의료행위 금지 원칙을 확인합니다.'
   },
   {
-    title: '3. 후보 제안 수신',
+    title: '3. 제안 수신',
     desc: '지역과 가능한 업무가 맞는 부모님 안심케어 제안을 받습니다.'
   },
   {
@@ -38,6 +38,12 @@ export function HomeManagerPanel() {
     function openFromHash() {
       if (window.location.hash === '#manager-app') {
         setOpen(true)
+        setTimeout(() => {
+          document.getElementById('manager-app')?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          })
+        }, 50)
       }
     }
 

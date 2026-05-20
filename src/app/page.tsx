@@ -268,6 +268,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomeManagerPanel />
+
       <section className="mx-auto max-w-7xl px-5 pb-8">
         <div className="rounded-[2rem] border border-[#DDEEEA] bg-white p-6 shadow-[0_18px_50px_rgba(125,169,162,0.12)] md:p-8">
           <div className="inline-flex rounded-full bg-[#EAF7F4] px-4 py-2 text-sm font-black text-[#4B8079]">
@@ -377,8 +379,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
-      <HomeManagerPanel />
 
       <section className="mx-auto max-w-7xl px-5 py-8 pb-16">
         <div className="rounded-[2rem] bg-[linear-gradient(135deg,#DFF8F2_0%,#EAF6FF_100%)] p-6 shadow-[0_18px_50px_rgba(125,169,162,0.14)] md:p-8">
