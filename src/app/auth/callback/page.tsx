@@ -27,6 +27,8 @@ export default function AuthCallbackPage() {
           if (error) throw error
 
           if (data.session) {
+            const provider = String(data.session.user.app_metadata?.provider || 'easy')
+
             await fetch('/api/auth/profile', {
               method: 'POST',
               headers: {
@@ -35,13 +37,13 @@ export default function AuthCallbackPage() {
               },
               body: JSON.stringify({
                 userRole: 'guardian',
-                loginMethod: 'easy'
+                loginMethod: provider === 'google' || provider === 'kakao' ? provider : 'easy'
               })
             }).catch(() => null)
           }
         }
 
-        setMessage('로그인이 완료됐습니다. 화면으로 이동합니다.')
+        setMessage('로그인이 완료됐습니다. 보호자 화면으로 이동합니다.')
         window.location.href = next
       } catch (error) {
         setMessage(error instanceof Error ? error.message : '로그인 처리 중 오류가 발생했습니다.')

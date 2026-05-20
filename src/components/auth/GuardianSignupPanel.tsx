@@ -9,6 +9,25 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 type AuthProvider = 'google' | 'kakao'
 
+function GoogleIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+      <path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.3-1.5 3.9-5.4 3.9-3.2 0-5.9-2.7-5.9-6s2.7-6 5.9-6c1.8 0 3 .8 3.7 1.4l2.5-2.4C16.6 3.5 14.5 2.6 12 2.6 6.8 2.6 2.6 6.8 2.6 12S6.8 21.4 12 21.4c6.1 0 9.1-4.3 9.1-10.3 0-.7-.1-1.2-.2-1.7H12Z" />
+      <path fill="#34A853" d="M3.7 7.4l3.2 2.3C7.8 7.7 9.7 6 12 6c1.8 0 3 .8 3.7 1.4l2.5-2.4C16.6 3.5 14.5 2.6 12 2.6c-3.6 0-6.8 2-8.3 4.8Z" />
+      <path fill="#4A90E2" d="M12 21.4c2.4 0 4.5-.8 6-2.4l-2.8-2.3c-.8.6-1.8 1-3.2 1-3.8 0-5.2-2.6-5.5-3.8l-3.1 2.4c1.5 2.9 4.6 5.1 8.6 5.1Z" />
+      <path fill="#FBBC05" d="M6.5 13.9c-.2-.5-.3-1.1-.3-1.9 0-.7.1-1.4.3-1.9L3.4 7.7C2.8 8.9 2.6 10.3 2.6 12c0 1.7.4 3.1.9 4.3l3-2.4Z" />
+    </svg>
+  )
+}
+
+function KakaoIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+      <path fill="#191919" d="M12 3C6.48 3 2 6.54 2 10.9c0 2.83 1.88 5.32 4.72 6.72l-1.01 3.7a.46.46 0 0 0 .68.51l4.48-2.96c.37.04.75.06 1.13.06 5.52 0 10-3.54 10-7.9S17.52 3 12 3Z" />
+    </svg>
+  )
+}
+
 export function GuardianSignupPanel() {
   const [form, setForm] = useState({
     name: '',
@@ -22,6 +41,9 @@ export function GuardianSignupPanel() {
   const [message, setMessage] = useState('')
   const [inviteCode, setInviteCode] = useState('')
   const [saving, setSaving] = useState(false)
+
+  const inputClass =
+    'h-12 w-full rounded-2xl border border-[#D6EAE4] bg-white px-4 text-[15px] font-bold text-[#173B38] outline-none placeholder:text-[#8BA5A0] focus:border-[#19B99A] focus:ring-2 focus:ring-[#C7F1E7]'
 
   function update(key: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -79,11 +101,12 @@ export function GuardianSignupPanel() {
         provider,
         options: {
           redirectTo,
-          queryParams: provider === 'google'
-            ? {
-                prompt: 'select_account'
-              }
-            : undefined
+          queryParams:
+            provider === 'google'
+              ? {
+                  prompt: 'select_account'
+                }
+              : undefined
         }
       })
 
@@ -105,6 +128,10 @@ export function GuardianSignupPanel() {
     try {
       if (!form.email || !form.password) {
         throw new Error('이메일과 비밀번호를 입력해주세요.')
+      }
+
+      if (form.password.length < 8) {
+        throw new Error('비밀번호는 8자 이상을 권장합니다.')
       }
 
       const supabase = createSupabaseBrowserClient()
@@ -217,14 +244,14 @@ export function GuardianSignupPanel() {
   }
 
   return (
-    <div className="space-y-6">
-      <CareCard tone="white">
+    <div className="space-y-4">
+      <CareCard tone="white" className="p-4 md:p-5">
         <div className="flex flex-wrap gap-2">
           <StatusPill text="보호자 회원가입" tone="green" />
           <StatusPill text="자녀는 결제 회원" tone="slate" />
         </div>
 
-        <h2 className="mt-4 text-3xl font-black">
+        <h2 className="mt-3 text-2xl font-black md:text-3xl">
           보호자 먼저 회원가입하세요.
         </h2>
 
@@ -233,18 +260,19 @@ export function GuardianSignupPanel() {
         </p>
 
         {session ? (
-          <div className="mt-5 rounded-2xl bg-[#EAFBF6] p-4 font-black text-[#2F756B]">
+          <div className="mt-4 rounded-2xl bg-[#EAFBF6] p-3 text-sm font-black text-[#2F756B]">
             보호자 로그인 완료: {session.user.email || form.name || '보호자'}
           </div>
         ) : (
           <>
-            <div className="mt-6 grid gap-3 md:grid-cols-2">
+            <div className="mt-4 grid gap-2 md:grid-cols-2">
               <button
                 type="button"
                 onClick={() => startOAuth('google')}
                 disabled={saving}
-                className="rounded-3xl bg-white px-5 py-5 text-lg font-black text-[#24423F] ring-1 ring-[#DDEEEA] disabled:opacity-60"
+                className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-white px-4 text-sm font-black text-[#24423F] ring-1 ring-[#DDEEEA] disabled:opacity-60"
               >
+                <GoogleIcon />
                 Google로 시작하기
               </button>
 
@@ -252,24 +280,25 @@ export function GuardianSignupPanel() {
                 type="button"
                 onClick={() => startOAuth('kakao')}
                 disabled={saving}
-                className="rounded-3xl bg-[#FEE500] px-5 py-5 text-lg font-black text-[#3C1E1E] disabled:opacity-60"
+                className="flex h-12 items-center justify-center gap-2 rounded-2xl bg-[#FEE500] px-4 text-sm font-black text-[#191919] disabled:opacity-60"
               >
+                <KakaoIcon />
                 카카오로 시작하기
               </button>
             </div>
 
-            <form onSubmit={emailSignup} className="mt-6 space-y-4">
+            <form onSubmit={emailSignup} className="mt-4 space-y-3">
               <div className="grid gap-3 md:grid-cols-2">
-                <Input label="보호자 이름" value={form.name} onChange={(value) => update('name', value)} placeholder="예: 홍길동" />
-                <Input label="보호자 휴대폰" value={form.phone} onChange={(value) => update('phone', value)} placeholder="010-0000-0000" />
-                <Input label="이메일" value={form.email} onChange={(value) => update('email', value)} placeholder="email@example.com" type="email" />
-                <Input label="비밀번호" value={form.password} onChange={(value) => update('password', value)} placeholder="8자 이상 권장" type="password" />
+                <Input label="보호자 이름" value={form.name} onChange={(value) => update('name', value)} placeholder="예: 홍길동" inputClass={inputClass} />
+                <Input label="보호자 휴대폰" value={form.phone} onChange={(value) => update('phone', value)} placeholder="010-0000-0000" inputClass={inputClass} />
+                <Input label="이메일" value={form.email} onChange={(value) => update('email', value)} placeholder="email@example.com" type="email" inputClass={inputClass} />
+                <Input label="비밀번호" value={form.password} onChange={(value) => update('password', value)} placeholder="8자 이상 권장" type="password" inputClass={inputClass} />
               </div>
 
               <button
                 type="submit"
                 disabled={saving}
-                className="w-full rounded-3xl bg-[#19B99A] px-6 py-5 text-xl font-black text-white shadow-[0_18px_45px_rgba(25,185,154,0.25)] disabled:opacity-60"
+                className="h-12 w-full rounded-2xl bg-[#19B99A] px-4 text-base font-black text-white shadow-[0_12px_30px_rgba(25,185,154,0.20)] disabled:opacity-60"
               >
                 {saving ? '처리 중...' : '이메일로 회원가입 / 로그인'}
               </button>
@@ -281,20 +310,20 @@ export function GuardianSignupPanel() {
           <button
             type="button"
             onClick={signOut}
-            className="mt-4 rounded-2xl bg-slate-100 px-5 py-3 text-sm font-black text-[#426C68]"
+            className="mt-3 rounded-2xl bg-slate-100 px-4 py-2 text-sm font-black text-[#426C68]"
           >
             로그아웃
           </button>
         ) : null}
       </CareCard>
 
-      <CareCard tone={session ? 'green' : 'amber'}>
+      <CareCard tone={session ? 'green' : 'amber'} className="p-4 md:p-5">
         <div className="flex flex-wrap gap-2">
           <StatusPill text="부모님 초대" tone="green" />
           <StatusPill text="4자리 코드" tone="slate" />
         </div>
 
-        <h2 className="mt-4 text-3xl font-black">
+        <h2 className="mt-3 text-2xl font-black md:text-3xl">
           부모님은 4자리 코드만 입력합니다.
         </h2>
 
@@ -302,16 +331,16 @@ export function GuardianSignupPanel() {
           보호자 회원가입이 끝나면 부모님 전용 4자리 초대코드를 만들 수 있습니다.
         </p>
 
-        <form onSubmit={createParentInvite} className="mt-6 space-y-5">
+        <form onSubmit={createParentInvite} className="mt-4 space-y-3">
           <div className="grid gap-3 md:grid-cols-2">
-            <Input label="부모님 호칭" value={form.parentName} onChange={(value) => update('parentName', value)} placeholder="예: 어머니" />
-            <Input label="부모님 휴대폰" value={form.parentPhone} onChange={(value) => update('parentPhone', value)} placeholder="010-0000-0000" />
+            <Input label="부모님 호칭" value={form.parentName} onChange={(value) => update('parentName', value)} placeholder="예: 어머니" inputClass={inputClass} />
+            <Input label="부모님 휴대폰" value={form.parentPhone} onChange={(value) => update('parentPhone', value)} placeholder="010-0000-0000" inputClass={inputClass} />
           </div>
 
           {inviteCode ? (
-            <div className="rounded-2xl bg-white p-5 ring-1 ring-[#D3ECE6]">
+            <div className="rounded-2xl bg-white p-4 ring-1 ring-[#D3ECE6]">
               <div className="text-sm font-black text-[#2F756B]">부모님 4자리 접속코드</div>
-              <div className="mt-2 text-5xl font-black tracking-widest text-[#193B38]">
+              <div className="mt-1 text-4xl font-black tracking-widest text-[#193B38]">
                 {inviteCode}
               </div>
               <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
@@ -321,7 +350,7 @@ export function GuardianSignupPanel() {
           ) : null}
 
           {message ? (
-            <div className="rounded-2xl bg-[#FFF5DF] p-4 font-black text-[#886B35]">
+            <div className="rounded-2xl bg-[#FFF5DF] p-3 text-sm font-black leading-6 text-[#886B35]">
               {message}
             </div>
           ) : null}
@@ -329,34 +358,34 @@ export function GuardianSignupPanel() {
           <button
             type="submit"
             disabled={saving || !session}
-            className="w-full rounded-3xl bg-[#193B38] px-6 py-5 text-xl font-black text-white shadow-[0_18px_45px_rgba(25,59,56,0.20)] disabled:opacity-50"
+            className="h-12 w-full rounded-2xl bg-[#193B38] px-4 text-base font-black text-white shadow-[0_12px_30px_rgba(25,59,56,0.16)] disabled:opacity-50"
           >
             {saving ? '생성 중...' : '부모님 4자리 코드 생성'}
           </button>
         </form>
 
         {inviteCode ? (
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
+          <div className="mt-4 grid gap-2 md:grid-cols-3">
             <button
               type="button"
               onClick={copyInvite}
-              className="rounded-3xl bg-[#19B99A] px-5 py-4 font-black text-white"
+              className="rounded-2xl bg-[#19B99A] px-4 py-3 text-sm font-black text-white"
             >
-              부모님 초대 문구 복사
+              초대 문구 복사
             </button>
 
             <Link
               href="/care-request"
-              className="rounded-3xl bg-white px-5 py-4 text-center font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
+              className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
-              안심케어 신청하기
+              안심케어 신청
             </Link>
 
             <Link
               href="/child/reports"
-              className="rounded-3xl bg-white px-5 py-4 text-center font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
+              className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
-              보호자 리포트 보기
+              리포트 보기
             </Link>
           </div>
         ) : null}
@@ -370,17 +399,19 @@ function Input({
   value,
   onChange,
   placeholder,
+  inputClass,
   type = 'text'
 }: {
   label: string
   value: string
   onChange: (value: string) => void
   placeholder: string
+  inputClass: string
   type?: string
 }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-sm font-black text-[#4E6D69]">
+      <span className="mb-1.5 block text-sm font-black text-[#4E6D69]">
         {label}
       </span>
       <input
@@ -388,7 +419,7 @@ function Input({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-[#E0EFEC] p-4 font-bold outline-none focus:border-emerald-500"
+        className={inputClass}
       />
     </label>
   )
