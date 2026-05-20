@@ -70,7 +70,7 @@ export function HomeManagerPanel() {
         <div className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <div>
             <div className="inline-flex rounded-full bg-white px-4 py-2 text-sm font-black text-[#2F756B] ring-1 ring-[#DDEEEA]">
-              매니저 앱
+              케어파트너
             </div>
 
             <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#193B38] md:text-5xl">
@@ -90,27 +90,27 @@ export function HomeManagerPanel() {
                 onClick={openPanel}
                 className="rounded-3xl bg-[#193B38] px-7 py-5 text-lg font-black text-white shadow-[0_14px_34px_rgba(25,59,56,0.18)]"
               >
-                매니저 앱 자세히 보기
+                케어파트너 자세히 보기
               </button>
 
               <Link
-                href="/manager/register"
+                href="/manager"
                 className="rounded-3xl bg-[#19B99A] px-7 py-5 text-center text-lg font-black text-white shadow-[0_14px_34px_rgba(25,185,154,0.22)]"
               >
-                매니저 등록하기
+                케어파트너에서 등록하기
               </Link>
 
               <Link
                 href="/manager"
                 className="rounded-3xl bg-white px-7 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
               >
-                매니저 앱 열기
+                케어파트너 열기
               </Link>
             </div>
           </div>
 
           <div className="rounded-[2rem] bg-white p-5 ring-1 ring-[#E3EFEC]">
-            <div className="text-sm font-black text-[#19A98E]">매니저 앱에서 하는 일</div>
+            <div className="text-sm font-black text-[#19A98E]">케어파트너에서 하는 일</div>
 
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {managerFeatures.map((feature) => (

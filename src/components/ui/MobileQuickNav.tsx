@@ -10,9 +10,9 @@ type QuickNavItem = {
 }
 
 const appSelectItems: QuickNavItem[] = [
-  { href: '/parent/today', label: '부모님앱', emoji: '👵' },
-  { href: '/care-request', label: '자녀앱', emoji: '👨‍👩‍👧' },
-  { href: '/manager', label: '매니저앱', emoji: '🧑‍⚕️' },
+  { href: '/parent/today', label: '부모님 안심', emoji: '👵' },
+  { href: '/care-request', label: '보호자 케어', emoji: '👨‍👩‍👧' },
+  { href: '/manager', label: '케어파트너', emoji: '🧑‍⚕️' },
   { href: '/', label: '홈', emoji: '🏠' }
 ]
 

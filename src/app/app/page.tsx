@@ -7,26 +7,26 @@ const apps = [
   {
     href: '/login?role=parent&next=/parent/today',
     emoji: '👵',
-    title: '부모님이 쓰는 앱',
+    title: '부모님 안심',
     subtitle: '큰 글씨 · 큰 버튼',
     desc: '오늘 안심 확인, 자녀 전화, 긴급 도움 요청, 방문 매니저 확인만 간단히 봅니다.',
-    cta: '부모님앱 열기'
+    cta: '부모님 안심 열기'
   },
   {
     href: '/login?role=child&next=/care-request',
     emoji: '👨‍👩‍👧',
-    title: '자녀가 쓰는 앱',
+    title: '보호자 케어',
     subtitle: '신청 · 확인 · 리포트',
     desc: '부모님 안심케어를 신청하고, 운영실 진행상황과 보호자 리포트를 확인합니다.',
-    cta: '자녀앱 열기'
+    cta: '보호자 케어 열기'
   },
   {
     href: '/login?role=manager&next=/manager',
     emoji: '🧑‍⚕️',
-    title: '매니저가 쓰는 앱',
+    title: '케어파트너',
     subtitle: '제안 · 배정 · 완료',
     desc: '새 제안을 확인하고, 수락/거절, 현장 시작, 완료, 정산 예정까지 관리합니다.',
-    cta: '매니저앱 열기'
+    cta: '케어파트너 열기'
   }
 ]
 
@@ -84,10 +84,10 @@ export default function AppSelectPage() {
             보호자 리포트 보기
           </Link>
           <Link
-            href="/manager/register"
+            href="/manager"
             className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
           >
-            매니저 등록하기
+            케어파트너에서 등록하기
           </Link>
           <Link
             href="/install"

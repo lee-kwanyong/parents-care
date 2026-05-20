@@ -128,10 +128,9 @@ export default function HomePage() {
             {[
               ['부모님 안심케어하기', '/care-request'],
               ['사진·카톡 접수', '/care-intake'],
-              ['자녀앱', '/child'],
-              ['부모님앱', '/parent/today'],
-              ['매니저 앱', '#manager-app'],
-              ['매니저 등록', '/manager/register'],
+              ['보호자 케어', '/child'],
+              ['부모님 안심', '/parent/today'],
+              ['케어파트너', '#manager-app'],
               ['홈 화면 추가', '/install']
             ].map(([label, href]) => (
               <Link

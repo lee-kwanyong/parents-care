@@ -27,7 +27,7 @@ const publicNav = [
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/login?role=child&next=/child/reports', label: '보호자리포트' },
-  { href: '/login?role=parent&next=/parent/today', label: '부모님앱' },
+  { href: '/login?role=parent&next=/parent/today', label: '부모님 안심' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
@@ -36,7 +36,7 @@ const internalNav = [
   { href: '/ops/intake', label: '운영접수' },
   { href: '/ops/managers', label: '매니저관리' },
   { href: '/ops/matching', label: '매칭관리' },
-  { href: '/manager', label: '매니저앱' },
+  { href: '/manager', label: '케어파트너' },
   { href: '/manager/register', label: '매니저 등록' }
 ]
 
