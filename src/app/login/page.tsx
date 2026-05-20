@@ -1,6 +1,9 @@
+import { Suspense } from 'react'
 import { AppFrame } from '@/components/ui/AppFrame'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RoleAccessPanel } from '@/components/RoleAccessPanel'
+
+export const dynamic = 'force-dynamic'
 
 export default function LoginPage() {
   return (
@@ -18,7 +21,15 @@ export default function LoginPage() {
       />
 
       <div className="mt-8">
-        <RoleAccessPanel />
+        <Suspense
+          fallback={
+            <div className="rounded-[1.8rem] border border-[#E3EFEC] bg-white p-6 font-black text-[#426C68] shadow-[0_16px_44px_rgba(93,139,131,0.10)]">
+              접속 화면을 준비하는 중입니다...
+            </div>
+          }
+        >
+          <RoleAccessPanel />
+        </Suspense>
       </div>
     </AppFrame>
   )
