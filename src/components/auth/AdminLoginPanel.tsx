@@ -4,6 +4,14 @@ import { FormEvent, useState } from 'react'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
 
+function safeNext(value: string | null) {
+  if (!value) return '/ops'
+  if (!value.startsWith('/')) return '/ops'
+  if (value.startsWith('//')) return '/ops'
+
+  return value
+}
+
 export function AdminLoginPanel() {
   const [code, setCode] = useState('')
   const [message, setMessage] = useState('')
@@ -30,7 +38,10 @@ export function AdminLoginPanel() {
         throw new Error(result.message || '운영실 접속 중 오류가 발생했습니다.')
       }
 
-      window.location.href = '/ops'
+      const params = new URLSearchParams(window.location.search)
+      const nextPath = safeNext(params.get('next'))
+
+      window.location.href = nextPath || result.home || '/ops'
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '운영실 접속 중 오류가 발생했습니다.')
     } finally {
@@ -50,7 +61,7 @@ export function AdminLoginPanel() {
       </h2>
 
       <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-        접수, 매칭, 매니저 승인, 리포트, 정산 관리를 위한 별도 관리자 화면입니다.
+        접수, 매칭, 케어파트너 승인, 리포트, 알림센터는 관리자만 접근할 수 있습니다.
       </p>
 
       <form onSubmit={submit} className="mt-6 space-y-5">
@@ -75,6 +86,11 @@ export function AdminLoginPanel() {
           {saving ? '접속 중...' : '운영실 들어가기'}
         </button>
       </form>
+
+      <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-6 text-[#607D79] ring-1 ring-[#E3EFEC]">
+        관리자 코드는 Vercel 환경변수 <span className="font-black">PARENTS_CARE_ADMIN_CODE</span> 값입니다.
+        값이 없으면 기본값은 <span className="font-black">admin2580</span> 입니다.
+      </div>
     </CareCard>
   )
 }
