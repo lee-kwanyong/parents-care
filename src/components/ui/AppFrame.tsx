@@ -29,6 +29,7 @@ const publicNav = [
   { href: '/manager/register', label: '매니저 등록' },
   { href: '/manager', label: '매니저앱' },
   { href: '/ops/intake', label: '운영접수' },
+  { href: '/ops/managers', label: '매니저관리' },
   { href: '/ops/matching', label: '매칭관리' },
   { href: '/install', label: '홈 화면 추가' }
 ]
@@ -36,6 +37,7 @@ const publicNav = [
 const internalNav = [
   { href: '/ops', label: '운영실' },
   { href: '/ops/intake', label: '운영접수' },
+  { href: '/ops/managers', label: '매니저관리' },
   { href: '/ops/matching', label: '매칭관리' },
   { href: '/manager', label: '매니저앱' },
   { href: '/manager/register', label: '매니저 등록' },
