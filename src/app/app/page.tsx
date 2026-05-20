@@ -5,28 +5,28 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const apps = [
   {
-    href: '/parent/today',
+    href: '/parent/login',
     emoji: '👵',
     title: '부모님 안심',
-    subtitle: '큰 글씨 · 큰 버튼',
-    desc: '오늘 안심 확인, 자녀 전화, 긴급 도움 요청, 방문 케어파트너 확인만 간단히 봅니다.',
+    subtitle: '4자리 코드 · 큰 버튼',
+    desc: '회원가입 없이 자녀가 알려준 4자리 코드로 오늘 안심 확인 화면에 들어갑니다.',
     cta: '부모님 안심 열기'
   },
   {
-    href: '/care-request',
+    href: '/signup/guardian',
     emoji: '👨‍👩‍👧',
     title: '보호자 케어',
-    subtitle: '신청 · 확인 · 리포트',
-    desc: '부모님 안심케어를 신청하고, 운영실 진행상황과 보호자 리포트를 확인합니다.',
-    cta: '보호자 케어 열기'
+    subtitle: '가입 · 초대 · 리포트',
+    desc: '보호자가 가입하고 부모님께 4자리 코드를 보내 안심케어를 시작합니다.',
+    cta: '보호자 케어 시작'
   },
   {
-    href: '/manager',
+    href: '/signup/manager',
     emoji: '🧑‍⚕️',
     title: '케어파트너',
-    subtitle: '제안 · 배정 · 완료',
-    desc: '새 제안을 확인하고, 수락/거절, 현장 시작, 완료, 정산 예정까지 관리합니다.',
-    cta: '케어파트너 열기'
+    subtitle: '지원 · 검증 · 배정',
+    desc: '부모님 안심케어 현장 업무를 수행할 케어파트너로 지원합니다.',
+    cta: '케어파트너 지원'
   }
 ]
 
@@ -34,7 +34,7 @@ export default function AppSelectPage() {
   return (
     <AppFrame
       title="앱 선택"
-      subtitle="접속코드 없이 부모님·보호자·케어파트너 화면으로 바로 들어갑니다"
+      subtitle="부모님·보호자·케어파트너가 각자 필요한 화면으로 들어갑니다"
     >
       <section className="mx-auto max-w-5xl">
         <CareCard tone="green">
@@ -48,7 +48,7 @@ export default function AppSelectPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#4E6D69] md:text-lg">
-            부모님 안심케어는 하나의 앱 안에서 부모님, 보호자, 케어파트너가 각자 다른 화면을 사용합니다.
+            부모님은 회원가입 없이 4자리 코드로, 보호자는 회원가입 후 초대코드로, 케어파트너는 별도 지원으로 시작합니다.
           </p>
         </CareCard>
 
@@ -78,16 +78,16 @@ export default function AppSelectPage() {
 
         <section className="mt-6 grid gap-4 md:grid-cols-3">
           <Link
+            href="/parent/login"
+            className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
+          >
+            부모님 4자리 접속
+          </Link>
+          <Link
             href="/child/reports"
             className="rounded-[1.5rem] bg-[#F1FAFE] p-5 text-center font-black text-[#365E78] ring-1 ring-[#DDEDF5]"
           >
             보호자 리포트 보기
-          </Link>
-          <Link
-            href="/manager"
-            className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
-          >
-            케어파트너 화면
           </Link>
           <Link
             href="/install"

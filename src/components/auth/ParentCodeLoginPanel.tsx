@@ -16,11 +16,11 @@ export function ParentCodeLoginPanel() {
     setMessage('')
 
     try {
-      const response = await fetch('/api/session-lite', {
+      const response = await fetch('/api/parent-invite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'parent_code_login',
+          action: 'parent_login',
           code
         })
       })
@@ -43,7 +43,7 @@ export function ParentCodeLoginPanel() {
     <CareCard tone="green">
       <div className="flex flex-wrap gap-2">
         <StatusPill text="부모님 전용" tone="green" />
-        <StatusPill text="4자리 코드" tone="slate" />
+        <StatusPill text="회원가입 없음" tone="slate" />
       </div>
 
       <h2 className="mt-4 text-4xl font-black tracking-[-0.05em]">

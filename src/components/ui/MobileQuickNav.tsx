@@ -10,48 +10,42 @@ type QuickNavItem = {
 }
 
 const appSelectItems: QuickNavItem[] = [
-  { href: '/parent/today', label: '부모님 안심', emoji: '👵' },
-  { href: '/care-request', label: '보호자 케어', emoji: '👨‍👩‍👧' },
-  { href: '/manager', label: '케어파트너', emoji: '🧑‍⚕️' },
+  { href: '/parent/login', label: '부모님', emoji: '👵' },
+  { href: '/signup/guardian', label: '보호자', emoji: '👨‍👩‍👧' },
+  { href: '/signup/manager', label: '파트너', emoji: '🧑‍⚕️' },
   { href: '/', label: '홈', emoji: '🏠' }
 ]
 
-const childItems: QuickNavItem[] = [
+const guardianItems: QuickNavItem[] = [
   { href: '/app', label: '앱선택', emoji: '📱' },
+  { href: '/signup/guardian', label: '가입', emoji: '👨‍👩‍👧' },
   { href: '/care-request', label: '신청', emoji: '🟢' },
-  { href: '/child/reports', label: '리포트', emoji: '📋' },
-  { href: '/parent/today', label: '부모님', emoji: '👵' }
+  { href: '/child/reports', label: '리포트', emoji: '📋' }
 ]
 
 const parentItems: QuickNavItem[] = [
   { href: '/app', label: '앱선택', emoji: '📱' },
+  { href: '/parent/login', label: '코드접속', emoji: '🔢' },
   { href: '/parent/today', label: '오늘안심', emoji: '🟢' },
-  { href: 'tel:01012345678', label: '자녀전화', emoji: '☎️' },
-  { href: '/parent/install', label: '앱설치', emoji: '⬇️' }
+  { href: 'tel:01012345678', label: '자녀전화', emoji: '☎️' }
 ]
 
 const managerItems: QuickNavItem[] = [
   { href: '/app', label: '앱선택', emoji: '📱' },
+  { href: '/signup/manager', label: '지원', emoji: '📝' },
   { href: '/manager', label: '제안', emoji: '📩' },
-  { href: '/manager/register', label: '등록', emoji: '📝' },
   { href: '/manager/install', label: '앱설치', emoji: '⬇️' }
-]
-
-const opsItems: QuickNavItem[] = [
-  { href: '/ops', label: '운영실', emoji: '🧭' },
-  { href: '/ops/intake', label: '접수', emoji: '📥' },
-  { href: '/ops/managers', label: '매니저', emoji: '🧑‍⚕️' },
-  { href: '/ops/matching', label: '매칭', emoji: '🔗' }
 ]
 
 function pickItems(pathname: string) {
   if (pathname === '/app') return appSelectItems
   if (pathname.startsWith('/parent')) return parentItems
   if (pathname.startsWith('/manager')) return managerItems
-  if (pathname.startsWith('/ops')) return opsItems
-  if (pathname.startsWith('/child')) return childItems
-  if (pathname.startsWith('/care-request')) return childItems
-  if (pathname.startsWith('/care-intake')) return childItems
+  if (pathname.startsWith('/signup/manager')) return managerItems
+  if (pathname.startsWith('/signup/guardian')) return guardianItems
+  if (pathname.startsWith('/child')) return guardianItems
+  if (pathname.startsWith('/care-request')) return guardianItems
+  if (pathname.startsWith('/care-intake')) return guardianItems
 
   return appSelectItems
 }

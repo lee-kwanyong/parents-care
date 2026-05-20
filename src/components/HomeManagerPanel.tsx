@@ -121,7 +121,7 @@ export function HomeManagerPanel() {
             </div>
 
             <div className="mt-5 rounded-2xl bg-[#EAFBF6] p-4 text-sm font-bold leading-6 text-[#2F756B]">
-              매니저 등록 후 운영실 검증을 통과하면 매칭 후보로 등록되고, 제안 링크를 통해 본인에게 온 일감만 확인할 수 있습니다.
+              케어파트너 후 운영실 검증을 통과하면 매칭 후보로 등록되고, 제안 링크를 통해 본인에게 온 일감만 확인할 수 있습니다.
             </div>
           </div>
         </div>

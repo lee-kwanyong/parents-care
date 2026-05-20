@@ -100,30 +100,6 @@ export async function POST(request: NextRequest) {
     return response
   }
 
-  if (action === 'parent_code_login') {
-    const code = text(body.code)
-
-    if (!/^\d{4}$/.test(code)) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: '부모님 접속코드 4자리를 입력해주세요.'
-        },
-        { status: 400 }
-      )
-    }
-
-    const response = NextResponse.json({
-      ok: true,
-      message: '부모님 안심 화면으로 접속합니다.',
-      role: 'parent',
-      home: roleHome.parent
-    })
-
-    setSession(response, 'parent', '부모님')
-    return response
-  }
-
   if (action === 'manager_login') {
     const phone = text(body.phone)
 

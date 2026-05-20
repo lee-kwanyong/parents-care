@@ -1,19 +1,9 @@
 'use client'
 
-import { FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import Link from 'next/link'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
-
-function makeParentCode(parentPhone: string) {
-  const digits = parentPhone.replace(/\D/g, '')
-
-  if (digits.length >= 4) {
-    return digits.slice(-4)
-  }
-
-  return '2580'
-}
 
 export function GuardianSignupPanel() {
   const [form, setForm] = useState({
@@ -23,10 +13,8 @@ export function GuardianSignupPanel() {
     parentPhone: ''
   })
   const [message, setMessage] = useState('')
+  const [inviteCode, setInviteCode] = useState('')
   const [saving, setSaving] = useState(false)
-  const [done, setDone] = useState(false)
-
-  const parentCode = useMemo(() => makeParentCode(form.parentPhone), [form.parentPhone])
 
   function update(key: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -38,13 +26,15 @@ export function GuardianSignupPanel() {
     setMessage('')
 
     try {
-      const response = await fetch('/api/session-lite', {
+      const response = await fetch('/api/parent-invite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          action: 'guardian_signup',
-          name: form.name,
-          phone: form.phone
+          action: 'create_invite',
+          guardianName: form.name,
+          guardianPhone: form.phone,
+          parentName: form.parentName,
+          parentPhone: form.parentPhone
         })
       })
 
@@ -54,8 +44,8 @@ export function GuardianSignupPanel() {
         throw new Error(result.message || '회원가입 중 오류가 발생했습니다.')
       }
 
-      setDone(true)
-      setMessage('보호자 회원가입이 완료됐습니다. 부모님께 4자리 접속코드를 전달할 수 있습니다.')
+      setInviteCode(result.invite.invite_code)
+      setMessage('보호자 회원가입과 부모님 초대코드 생성이 완료됐습니다.')
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '회원가입 중 오류가 발생했습니다.')
     } finally {
@@ -64,14 +54,15 @@ export function GuardianSignupPanel() {
   }
 
   async function copyInvite() {
+    const code = inviteCode || '----'
     const message = `[부모님 안심케어] ${form.parentName || '부모님'} 전용 화면 접속 안내
 
 아래 주소로 들어가서 4자리 코드를 입력해주세요.
 
 주소: https://parents-care.net/parent/login
-접속코드: ${parentCode}
+접속코드: ${code}
 
-식사, 약, 컨디션, 자녀 전화, 긴급 도움 요청을 큰 버튼으로 사용할 수 있어요.`
+회원가입 없이 식사, 약, 컨디션, 자녀 전화, 긴급 도움 요청을 큰 버튼으로 사용할 수 있어요.`
 
     try {
       await navigator.clipboard.writeText(message)
@@ -85,7 +76,7 @@ export function GuardianSignupPanel() {
     <CareCard tone="white">
       <div className="flex flex-wrap gap-2">
         <StatusPill text="보호자 회원가입" tone="green" />
-        <StatusPill text="부모님 초대 가능" tone="slate" />
+        <StatusPill text="부모님 초대코드 생성" tone="slate" />
       </div>
 
       <h2 className="mt-4 text-3xl font-black">
@@ -93,46 +84,28 @@ export function GuardianSignupPanel() {
       </h2>
 
       <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-        보호자는 안심케어 신청, 운영실 진행 확인, 보호자 리포트 확인을 합니다.
+        보호자는 안심케어 신청, 운영실 진행 확인, 보호자 리포트 확인을 합니다. 부모님은 회원가입 없이 4자리 코드로 들어갑니다.
       </p>
 
       <form onSubmit={submit} className="mt-6 space-y-5">
         <div className="grid gap-3 md:grid-cols-2">
-          <Input
-            label="보호자 이름"
-            value={form.name}
-            onChange={(value) => update('name', value)}
-            placeholder="예: 홍길동"
-          />
-          <Input
-            label="보호자 휴대폰"
-            value={form.phone}
-            onChange={(value) => update('phone', value)}
-            placeholder="010-0000-0000"
-          />
-          <Input
-            label="부모님 호칭"
-            value={form.parentName}
-            onChange={(value) => update('parentName', value)}
-            placeholder="예: 어머니"
-          />
-          <Input
-            label="부모님 휴대폰"
-            value={form.parentPhone}
-            onChange={(value) => update('parentPhone', value)}
-            placeholder="010-0000-0000"
-          />
+          <Input label="보호자 이름" value={form.name} onChange={(value) => update('name', value)} placeholder="예: 홍길동" />
+          <Input label="보호자 휴대폰" value={form.phone} onChange={(value) => update('phone', value)} placeholder="010-0000-0000" />
+          <Input label="부모님 호칭" value={form.parentName} onChange={(value) => update('parentName', value)} placeholder="예: 어머니" />
+          <Input label="부모님 휴대폰" value={form.parentPhone} onChange={(value) => update('parentPhone', value)} placeholder="010-0000-0000" />
         </div>
 
-        <div className="rounded-2xl bg-[#F0FBF7] p-5 ring-1 ring-[#D3ECE6]">
-          <div className="text-sm font-black text-[#2F756B]">부모님 4자리 접속코드</div>
-          <div className="mt-2 text-5xl font-black tracking-widest text-[#193B38]">
-            {parentCode}
+        {inviteCode ? (
+          <div className="rounded-2xl bg-[#F0FBF7] p-5 ring-1 ring-[#D3ECE6]">
+            <div className="text-sm font-black text-[#2F756B]">부모님 4자리 접속코드</div>
+            <div className="mt-2 text-5xl font-black tracking-widest text-[#193B38]">
+              {inviteCode}
+            </div>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
+              부모님은 이 코드로 회원가입 없이 /parent/login에서 들어갈 수 있습니다.
+            </p>
           </div>
-          <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
-            부모님은 이 코드로 /parent/login에서 간단히 들어갈 수 있습니다.
-          </p>
-        </div>
+        ) : null}
 
         {message ? (
           <div className="rounded-2xl bg-[#FFF5DF] p-4 font-black text-[#886B35]">
@@ -145,11 +118,11 @@ export function GuardianSignupPanel() {
           disabled={saving}
           className="w-full rounded-3xl bg-[#19B99A] px-6 py-5 text-xl font-black text-white shadow-[0_18px_45px_rgba(25,185,154,0.25)] disabled:opacity-60"
         >
-          {saving ? '가입 중...' : '보호자 회원가입'}
+          {saving ? '가입 중...' : '보호자 회원가입 + 부모님 코드 생성'}
         </button>
       </form>
 
-      {done ? (
+      {inviteCode ? (
         <div className="mt-5 grid gap-3 md:grid-cols-3">
           <button
             type="button"
