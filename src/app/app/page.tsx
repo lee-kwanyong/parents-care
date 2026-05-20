@@ -5,7 +5,7 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const apps = [
   {
-    href: '/parent/today',
+    href: '/login?role=parent&next=/parent/today',
     emoji: '👵',
     title: '부모님이 쓰는 앱',
     subtitle: '큰 글씨 · 큰 버튼',
@@ -13,7 +13,7 @@ const apps = [
     cta: '부모님앱 열기'
   },
   {
-    href: '/care-request',
+    href: '/login?role=child&next=/care-request',
     emoji: '👨‍👩‍👧',
     title: '자녀가 쓰는 앱',
     subtitle: '신청 · 확인 · 리포트',
@@ -21,7 +21,7 @@ const apps = [
     cta: '자녀앱 열기'
   },
   {
-    href: '/manager',
+    href: '/login?role=manager&next=/manager',
     emoji: '🧑‍⚕️',
     title: '매니저가 쓰는 앱',
     subtitle: '제안 · 배정 · 완료',

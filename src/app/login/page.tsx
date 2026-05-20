@@ -1,35 +1,24 @@
-import { EasyAuthPanel } from '@/components/EasyAuthPanel'
 import { AppFrame } from '@/components/ui/AppFrame'
-import { CareButton } from '@/components/ui/CareButton'
 import { SectionHeader } from '@/components/ui/SectionHeader'
+import { RoleAccessPanel } from '@/components/RoleAccessPanel'
 
 export default function LoginPage() {
   return (
-    <AppFrame title="로그인" subtitle="카카오·휴대폰·이메일 중 편한 방식으로 시작하세요">
+    <AppFrame title="앱 접속" subtitle="부모님·자녀·매니저·운영실 역할별로 들어갑니다">
       <SectionHeader
-        eyebrow="쉬운 로그인"
+        eyebrow="역할별 접속"
         title={
           <>
-            복잡한 가입 없이
+            필요한 앱으로
             <br />
-            바로 시작하세요.
+            바로 들어가세요.
           </>
         }
-        description="40대 이상 보호자가 어렵지 않게 시작할 수 있도록 카카오, 휴대폰, 이메일 링크 방식을 먼저 보여줍니다."
-        actions={
-          <>
-            <CareButton href="/child" tone="soft">
-              둘러보기
-            </CareButton>
-            <CareButton href="/signup" tone="dark">
-              회원가입 화면
-            </CareButton>
-          </>
-        }
+        description="부모님앱, 자녀앱, 매니저앱, 운영실 화면을 접속 코드로 구분합니다."
       />
 
       <div className="mt-8">
-        <EasyAuthPanel defaultMode="kakao" nextPath="/child" />
+        <RoleAccessPanel />
       </div>
     </AppFrame>
   )
