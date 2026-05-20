@@ -24,8 +24,8 @@ export function HomeMobileActions() {
           href="/app"
           className="rounded-2xl bg-[#F4FAF9] px-3 py-3 text-center text-xs font-black text-[#426C68] ring-1 ring-[#DDEDE9]"
         >
-          <span className="block text-xl leading-none">📱</span>
-          <span className="mt-1 block">앱선택</span>
+          <span className="block text-xl leading-none">☰</span>
+          <span className="mt-1 block">메뉴</span>
         </Link>
       </div>
     </nav>
