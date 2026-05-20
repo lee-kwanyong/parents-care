@@ -8,6 +8,7 @@ function safeNext(value: string | null) {
   if (!value) return '/ops'
   if (!value.startsWith('/')) return '/ops'
   if (value.startsWith('//')) return '/ops'
+  if (value.startsWith('/admin')) return '/ops'
 
   return value
 }
