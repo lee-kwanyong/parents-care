@@ -3,38 +3,41 @@ import { AppFrame } from '@/components/ui/AppFrame'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
 
-const apps = [
+const loginOptions = [
   {
-    href: '/parent/today',
-    emoji: '👵',
-    title: '부모님 안심',
-    desc: '큰 글씨와 큰 버튼으로 오늘 안심 확인, 자녀 전화, 긴급 도움 요청을 합니다.',
-    button: '부모님 안심 열기'
-  },
-  {
-    href: '/care-request',
+    href: '/signup/guardian',
     emoji: '👨‍👩‍👧',
-    title: '보호자 케어',
-    desc: '부모님 안심케어를 신청하고 보호자 리포트를 확인합니다.',
-    button: '보호자 케어 열기'
+    title: '보호자 회원가입',
+    desc: '부모님 안심케어를 신청하고 리포트를 확인합니다.'
   },
   {
-    href: '/manager',
+    href: '/parent/login',
+    emoji: '👵',
+    title: '부모님 4자리 접속',
+    desc: '자녀가 알려준 4자리 코드로 부모님 안심 화면에 들어갑니다.'
+  },
+  {
+    href: '/signup/manager',
     emoji: '🧑‍⚕️',
-    title: '케어파트너',
-    desc: '제안 확인, 수락/거절, 현장 시작/완료, 정산 예정까지 관리합니다.',
-    button: '케어파트너 열기'
+    title: '케어파트너 지원',
+    desc: '검증 후 부모님 안심케어 매칭 후보로 등록됩니다.'
+  },
+  {
+    href: '/admin',
+    emoji: '🧭',
+    title: '운영실 Admin',
+    desc: '접수, 매칭, 매니저 검증을 관리하는 관리자 화면입니다.'
   }
 ]
 
 export default function LoginPage() {
   return (
-    <AppFrame title="앱 선택" subtitle="접속코드 없이 필요한 화면으로 바로 들어갑니다">
+    <AppFrame title="로그인·회원가입" subtitle="역할에 맞는 화면으로 시작하세요">
       <section className="mx-auto max-w-5xl">
         <CareCard tone="green">
-          <div className="flex flex-wrap items-center gap-2">
-            <StatusPill text="모바일 앱" tone="green" />
-            <StatusPill text="접속코드 없음" tone="slate" />
+          <div className="flex flex-wrap gap-2">
+            <StatusPill text="시작하기" tone="green" />
+            <StatusPill text="역할별 화면" tone="slate" />
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
@@ -42,53 +45,21 @@ export default function LoginPage() {
             <br />
             들어가시나요?
           </h1>
-
-          <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#4E6D69] md:text-lg">
-            부모님, 보호자, 케어파트너가 각자 필요한 화면으로 바로 들어갑니다.
-          </p>
         </CareCard>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {apps.map((app) => (
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          {loginOptions.map((item) => (
             <Link
-              key={app.href}
-              href={app.href}
-              className="block rounded-[2rem] border border-[#E3EFEC] bg-white p-6 shadow-[0_16px_44px_rgba(93,139,131,0.10)] transition hover:-translate-y-1 hover:bg-[#F8FCFB]"
+              key={item.href}
+              href={item.href}
+              className="rounded-[2rem] border border-[#E3EFEC] bg-white p-6 shadow-[0_16px_44px_rgba(93,139,131,0.10)] transition hover:-translate-y-1 hover:bg-[#F8FCFB]"
             >
-              <div className="text-5xl">{app.emoji}</div>
-              <h2 className="mt-5 text-3xl font-black tracking-[-0.04em] text-[#24423F]">
-                {app.title}
-              </h2>
-              <p className="mt-3 min-h-24 text-sm font-bold leading-6 text-[#607D79]">
-                {app.desc}
-              </p>
-              <div className="mt-5 rounded-2xl bg-[#19B99A] px-5 py-4 text-center text-base font-black text-white">
-                {app.button}
-              </div>
+              <div className="text-5xl">{item.emoji}</div>
+              <h2 className="mt-5 text-3xl font-black">{item.title}</h2>
+              <p className="mt-3 text-sm font-bold leading-6 text-[#607D79]">{item.desc}</p>
             </Link>
           ))}
         </div>
-
-        <section className="mt-6 grid gap-4 md:grid-cols-3">
-          <Link
-            href="/app"
-            className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
-          >
-            앱 선택 홈
-          </Link>
-          <Link
-            href="/child/reports"
-            className="rounded-[1.5rem] bg-[#F1FAFE] p-5 text-center font-black text-[#365E78] ring-1 ring-[#DDEDF5]"
-          >
-            보호자 리포트
-          </Link>
-          <Link
-            href="/install"
-            className="rounded-[1.5rem] bg-[#FFF9EF] p-5 text-center font-black text-[#7A673C] ring-1 ring-[#F0E0C4]"
-          >
-            홈 화면 추가
-          </Link>
-        </section>
       </section>
     </AppFrame>
   )

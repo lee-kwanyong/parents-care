@@ -26,18 +26,14 @@ const publicNav = [
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
-  { href: '/child/reports', label: '보호자리포트' },
-  { href: '/parent/today', label: '부모님 안심' },
+  { href: '/signup/guardian', label: '보호자 가입' },
+  { href: '/parent/login', label: '부모님 접속' },
+  { href: '/signup/manager', label: '케어파트너' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
 const internalNav = [
-  { href: '/ops', label: '운영실' },
-  { href: '/ops/intake', label: '운영접수' },
-  { href: '/ops/managers', label: '매니저관리' },
-  { href: '/ops/matching', label: '매칭관리' },
-  { href: '/manager', label: '케어파트너' },
-  { href: '/manager/register', label: '매니저 등록' }
+  { href: '/admin', label: '운영실 Admin' }
 ]
 
 export function AppFrame({
