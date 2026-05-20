@@ -253,6 +253,98 @@ async function createDemoPartnerAndWork() {
   }
 }
 
+
+async function createAssignmentFromOfferRow(offer: AnyRow, manager: AnyRow) {
+  const matchingRequestId = String(offer.matching_request_id || '')
+  const managerProfileId = String(manager.id || '')
+
+  if (matchingRequestId && managerProfileId) {
+    const existing = await rest(
+      'manager_field_assignments?select=*&matching_request_id=eq.' +
+        encodeURIComponent(matchingRequestId) +
+        '&manager_profile_id=eq.' +
+        encodeURIComponent(managerProfileId) +
+        '&limit=1'
+    )
+
+    if (existing.ok && Array.isArray(existing.data) && existing.data[0]) {
+      await rest('care_manager_match_offers?id=eq.' + encodeURIComponent(String(offer.id)), {
+        method: 'PATCH',
+        body: JSON.stringify({
+          offer_status: 'assigned',
+          assigned_at: new Date().toISOString()
+        })
+      })
+
+      return {
+        ok: true,
+        assignment: existing.data[0]
+      }
+    }
+  }
+
+  const snapshot = offer.request_snapshot || {}
+
+  const assignmentResult = await rest('manager_field_assignments', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify([
+      {
+        matching_request_id: offer.matching_request_id,
+        manager_profile_id: manager.id,
+        elder_name: snapshot.elder_name || '부모님',
+        manager_name: manager.manager_name,
+        manager_phone: manager.manager_phone,
+        assignment_type: snapshot.request_type || 'hospital_visit',
+        title: snapshot.request_title || '부모님 안심케어 배정',
+        appointment_date: snapshot.appointment_date || null,
+        appointment_time: snapshot.appointment_time || null,
+        meeting_location: snapshot.meeting_location || null,
+        meeting_code: '2580',
+        transport_mode: 'hospital_meet',
+        vehicle_owned: Boolean(manager.vehicle_owned),
+        direct_transport_included: false,
+        transport_policy_acknowledged: true,
+        status: 'assigned',
+        checkin_status: 'not_started',
+        expected_fee: won(offer.expected_fee || 35000),
+        estimated_minutes: Number(offer.estimated_minutes || 120),
+        safety_notes: ['검증 완료 케어파트너입니다.', '개인차량 직접 유상운송은 기본 서비스에 포함되지 않습니다.'],
+        matching_gate_checked: true,
+        created_by_role: 'ops',
+        manager_trust_snapshot: {
+          manager_profile_id: manager.id,
+          trust_level: manager.trust_level,
+          identity_verified: manager.identity_verified,
+          trust_card_summary: manager.trust_card_summary
+        }
+      }
+    ])
+  })
+
+  if (!assignmentResult.ok) {
+    return {
+      ok: false,
+      error: assignmentResult.error
+    }
+  }
+
+  const assignment = firstRow(assignmentResult)
+
+  await rest('care_manager_match_offers?id=eq.' + encodeURIComponent(String(offer.id)), {
+    method: 'PATCH',
+    body: JSON.stringify({
+      offer_status: 'assigned',
+      assigned_at: new Date().toISOString()
+    })
+  })
+
+  return {
+    ok: true,
+    assignment
+  }
+}
+
 export async function GET(request: NextRequest) {
   const managerProfileId = text(request.nextUrl.searchParams.get('managerProfileId'))
   const manager = await getManagerProfile(managerProfileId)
@@ -422,10 +514,34 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const offer = firstRow(result)
+
+    if (status === 'accepted') {
+      const assignmentResult = await createAssignmentFromOfferRow(offer, manager)
+
+      if (!assignmentResult.ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            message: '제안은 수락했지만 배정 생성 중 오류가 발생했습니다.',
+            detail: assignmentResult.error
+          },
+          { status: 500 }
+        )
+      }
+
+      return NextResponse.json({
+        ok: true,
+        message: '제안을 수락하고 오늘 배정으로 만들었습니다.',
+        offer,
+        assignment: assignmentResult.assignment
+      })
+    }
+
     return NextResponse.json({
       ok: true,
-      message: status === 'accepted' ? '제안을 수락했습니다.' : '제안을 거절했습니다.',
-      offer: firstRow(result)
+      message: '제안을 거절했습니다.',
+      offer
     })
   }
 
