@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import { PWARegister } from '@/components/PWARegister'
 import { BrandLogo } from '@/components/BrandLogo'
+import { HomeManagerPanel } from '@/components/HomeManagerPanel'
+import { HomeMobileActions } from '@/components/HomeMobileActions'
 
 const worryCards = [
   {
@@ -116,7 +118,7 @@ export default function HomePage() {
   const showInternalLinks = process.env.NEXT_PUBLIC_SHOW_INTERNAL_LINKS === 'true'
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F6FCFA_45%,#F7FBFF_100%)] text-[#24423F]">
+    <main className="min-h-screen pb-28 md:pb-0 bg-[linear-gradient(180deg,#FFFFFF_0%,#F6FCFA_45%,#F7FBFF_100%)] text-[#24423F]">
       <PWARegister />
       <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-4 shadow-[0_8px_24px_rgba(82,112,108,0.08)]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
@@ -128,6 +130,8 @@ export default function HomePage() {
               ['사진·카톡 접수', '/care-intake'],
               ['자녀앱', '/child'],
               ['부모님앱', '/parent/today'],
+              ['매니저 앱', '#manager-app'],
+              ['매니저 등록', '/manager/register'],
               ['홈 화면 추가', '/install']
             ].map(([label, href]) => (
               <Link
@@ -374,6 +378,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomeManagerPanel />
+
       <section className="mx-auto max-w-7xl px-5 py-8 pb-16">
         <div className="rounded-[2rem] bg-[linear-gradient(135deg,#DFF8F2_0%,#EAF6FF_100%)] p-6 shadow-[0_18px_50px_rgba(125,169,162,0.14)] md:p-8">
           <h2 className="text-3xl font-black tracking-[-0.03em] text-[#193B38]">
@@ -405,6 +411,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      <HomeMobileActions />
     </main>
   )
 }

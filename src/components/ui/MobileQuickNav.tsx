@@ -70,6 +70,7 @@ export function MobileQuickNav({ items }: { items?: QuickNavItem[] }) {
           const active =
             item.href !== '/' &&
             item.href !== '/app' &&
+            item.href.startsWith('/') &&
             pathname.startsWith(item.href.replace(/\?.*$/, ''))
 
           return (

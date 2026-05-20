@@ -26,13 +26,8 @@ const publicNav = [
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
-  { href: '/parent/today', label: '부모님앱' },
   { href: '/child/reports', label: '보호자리포트' },
-  { href: '/manager/register', label: '매니저 등록' },
-  { href: '/manager', label: '매니저앱' },
-  { href: '/ops/intake', label: '운영접수' },
-  { href: '/ops/managers', label: '매니저관리' },
-  { href: '/ops/matching', label: '매칭관리' },
+  { href: '/parent/today', label: '부모님앱' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
