@@ -128,6 +128,8 @@ export default function HomePage() {
             {[
               ['부모님 안심케어하기', '/care-request'],
               ['사진·카톡 접수', '/care-intake'],
+              ['케어 범위', '/care-scope'],
+              ['신뢰 기준', '/trust'],
               ['보호자 케어', '/child'],
               ['부모님 안심', '/parent/today'],
               ['케어파트너', '#manager-app'],
@@ -210,6 +212,12 @@ export default function HomePage() {
               className="inline-flex items-center justify-center rounded-3xl bg-[#193B38] px-7 py-5 text-lg font-black text-white shadow-[0_18px_45px_rgba(25,59,56,0.20)] transition hover:bg-[#24423F]"
             >
               앱 선택하기
+            </Link>
+            <Link
+              href="/care-scope"
+              className="inline-flex items-center justify-center rounded-3xl bg-white px-7 py-5 text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2] transition hover:bg-[#F2FAF8]"
+            >
+              케어 범위 보기
             </Link>
             <Link
               href="/install"

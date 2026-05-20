@@ -6,6 +6,8 @@ import { CareButton } from '@/components/ui/CareButton'
 import { CareCard } from '@/components/ui/CareCard'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { CareScopeGuide } from '@/components/CareScopeGuide'
+import { TrustSafetyGuide } from '@/components/TrustSafetyGuide'
 import { CareRequestSummaryCard } from '@/components/CareRequestSummaryCard'
 
 type WorryCode =
@@ -287,6 +289,11 @@ export default function CareRequestPage() {
           </CareButton>
         }
       />
+
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+        <CareScopeGuide compact />
+        <TrustSafetyGuide compact />
+      </div>
 
       <CareCard tone="green" className="mt-8">
         <div className="flex flex-wrap items-center gap-2">

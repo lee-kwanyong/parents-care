@@ -7,6 +7,8 @@ import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
 import { CarePartnerTrustCard } from '@/components/CarePartnerTrustCard'
 import { CareRequestSummaryCard } from '@/components/CareRequestSummaryCard'
+import { GuardianChoiceGuide } from '@/components/GuardianChoiceGuide'
+import { TrustSafetyGuide } from '@/components/TrustSafetyGuide'
 
 type AnyRow = Record<string, any>
 
@@ -229,6 +231,11 @@ export function GuardianMatchingBoard() {
             <p className="text-lg font-black">매칭 정보를 불러오는 중...</p>
           </CareCard>
         ) : null}
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <GuardianChoiceGuide compact />
+          <TrustSafetyGuide compact />
+        </div>
 
         <section className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <CareCard tone="white">
