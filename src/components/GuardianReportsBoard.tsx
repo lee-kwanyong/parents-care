@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { AppFrame } from '@/components/ui/AppFrame'
+import { GuardianCareReviewPanel } from '@/components/GuardianCareReviewPanel'
 
 type Report = Record<string, any>
 type Action = Record<string, any>
@@ -192,6 +193,13 @@ export function GuardianReportsBoard() {
                     확인 완료: {formatDate(latestReport.viewed_by_guardian_at)}
                   </div>
                 )}
+
+                <GuardianCareReviewPanel
+                  reportId={latestReport.id}
+                  assignmentId={latestReport.assignment_id}
+                  managerName={latestReport.manager_name}
+                  elderName={latestReport.elder_name}
+                />
               </article>
             ) : null}
 

@@ -6,6 +6,7 @@ import { AppFrame } from '@/components/ui/AppFrame'
 import { CareButton } from '@/components/ui/CareButton'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { CareRequestSummaryCard } from '@/components/CareRequestSummaryCard'
 
 type AnyRow = Record<string, any>
 
@@ -377,11 +378,8 @@ export function OpsIntakeBoard() {
                   <Info label="접수채널" value={selected.channel || '-'} />
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
-                  <div className="text-sm font-black text-[#718A87]">상황 메모</div>
-                  <p className="mt-2 whitespace-pre-line text-base font-bold leading-7 text-[#24423F]">
-                    {selected.raw_text || '상황 메모가 없습니다.'}
-                  </p>
+                <div className="mt-5">
+                  <CareRequestSummaryCard intake={selected} compact />
                 </div>
 
                 <div className="mt-5 grid gap-3 md:grid-cols-3">

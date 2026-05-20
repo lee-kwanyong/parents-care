@@ -6,6 +6,8 @@ import { AppFrame } from '@/components/ui/AppFrame'
 import { CareButton } from '@/components/ui/CareButton'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { CarePartnerTrustCard } from '@/components/CarePartnerTrustCard'
+import { CareRequestSummaryCard } from '@/components/CareRequestSummaryCard'
 
 type AnyRow = Record<string, any>
 
@@ -378,11 +380,8 @@ export function OpsManagerMatchingBoard() {
             </p>
 
             {selectedRequest ? (
-              <div className="mt-4 rounded-2xl bg-white p-4">
-                <div className="text-lg font-black">{selectedRequest.request_title}</div>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
-                  {selectedRequest.region_text || '지역 미정'} · {selectedRequest.appointment_time || '시간 협의'}
-                </p>
+              <div className="mt-4 space-y-3">
+                <CareRequestSummaryCard request={selectedRequest} compact />
               </div>
             ) : null}
 
@@ -413,6 +412,10 @@ export function OpsManagerMatchingBoard() {
                     <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
                       {offer.manager_phone || '연락처 없음'}
                     </p>
+
+                    <div className="mt-4">
+                      <CarePartnerTrustCard offer={offer} compact />
+                    </div>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {(offer.offer_reasons || []).map((reason: string) => (
                         <span key={reason} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#5B7774] ring-1 ring-[#E2EFEC]">

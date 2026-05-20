@@ -6,6 +6,7 @@ import { CareButton } from '@/components/ui/CareButton'
 import { CareCard } from '@/components/ui/CareCard'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { CareRequestSummaryCard } from '@/components/CareRequestSummaryCard'
 
 type WorryCode =
   | 'hospital'
@@ -379,6 +380,22 @@ export default function CareRequestPage() {
       </section>
 
       <form onSubmit={submit} className="mt-8 space-y-6">
+        <CareRequestSummaryCard
+          request={{
+            request_title: selectedWorry.title,
+            request_type: selected,
+            elder_name: elderName,
+            guardian_name: contactName,
+            guardian_phone: contactPhone,
+            region_text: '상담 후 확인',
+            meeting_location: method === 'phone' ? '전화 상담' : method === 'kakao' ? '카톡 상담' : '상담 후 확인',
+            required_specialties: [selectedWorry.title],
+            required_service_scopes: [selectedWorry.description],
+            raw_text: memo || selectedWorry.rawText
+          }}
+          compact
+        />
+
         <CareCard tone="white">
           <div className="flex flex-wrap items-center gap-2">
             <StatusPill text="추천 안심케어" tone="green" />
