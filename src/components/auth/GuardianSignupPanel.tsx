@@ -290,7 +290,7 @@ export function GuardianSignupPanel() {
 
 아래 주소로 들어가서 4자리 코드를 입력해주세요.
 
-주소: https://parents-care.net/parent/login
+부모님 접속 화면:\nhttps://parents-care.net/parent/login
 접속코드: ${code}
 
 회원가입 없이 식사, 약, 컨디션, 자녀 전화, 긴급 도움 요청을 큰 버튼으로 사용할 수 있어요.`
@@ -435,7 +435,7 @@ export function GuardianSignupPanel() {
                   {inviteCode}
                 </div>
                 <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
-                  부모님은 이 코드로 회원가입 없이 /parent/login에서 들어갑니다.
+                  부모님은 회원가입 없이 ‘부모님 접속 화면’에서 이 4자리 코드만 입력하면 연결됩니다.
                 </p>
               </div>
             ) : null}

@@ -53,7 +53,7 @@ export function ParentCodeLoginPanel() {
       </h2>
 
       <p className="mt-3 text-base font-bold leading-7 text-[#4E6D69]">
-        자녀가 알려준 4자리 숫자를 입력하면 부모님 안심 화면으로 들어갑니다.
+        자녀가 보내준 4자리 숫자만 입력하면 부모님 안심 화면으로 바로 연결됩니다.
       </p>
 
       <form onSubmit={submit} className="mt-6 space-y-5">
