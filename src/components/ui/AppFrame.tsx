@@ -26,13 +26,13 @@ const publicNav = [
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
-  { href: '/login?role=child&next=/child/reports', label: '보호자리포트' },
-  { href: '/login?role=parent&next=/parent/today', label: '부모님 안심' },
+  { href: '/child/reports', label: '보호자리포트' },
+  { href: '/parent/today', label: '부모님 안심' },
   { href: '/install', label: '홈 화면 추가' }
 ]
 
 const internalNav = [
-  { href: '/login?role=ops&next=/ops', label: '운영실' },
+  { href: '/ops', label: '운영실' },
   { href: '/ops/intake', label: '운영접수' },
   { href: '/ops/managers', label: '매니저관리' },
   { href: '/ops/matching', label: '매칭관리' },
@@ -90,10 +90,10 @@ export function AppFrame({
             ))}
 
             <Link
-              href="/login"
+              href="/app"
               className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
             >
-              로그인
+              앱 선택
             </Link>
           </nav>
         </div>

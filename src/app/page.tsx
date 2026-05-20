@@ -160,10 +160,10 @@ export default function HomePage() {
             ) : null}
 
             <Link
-              href="/login"
+              href="/app"
               className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
             >
-              로그인
+              앱 선택
             </Link>
           </nav>
         </div>

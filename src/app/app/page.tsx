@@ -5,15 +5,15 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const apps = [
   {
-    href: '/login?role=parent&next=/parent/today',
+    href: '/parent/today',
     emoji: '👵',
     title: '부모님 안심',
     subtitle: '큰 글씨 · 큰 버튼',
-    desc: '오늘 안심 확인, 자녀 전화, 긴급 도움 요청, 방문 매니저 확인만 간단히 봅니다.',
+    desc: '오늘 안심 확인, 자녀 전화, 긴급 도움 요청, 방문 케어파트너 확인만 간단히 봅니다.',
     cta: '부모님 안심 열기'
   },
   {
-    href: '/login?role=child&next=/care-request',
+    href: '/care-request',
     emoji: '👨‍👩‍👧',
     title: '보호자 케어',
     subtitle: '신청 · 확인 · 리포트',
@@ -21,7 +21,7 @@ const apps = [
     cta: '보호자 케어 열기'
   },
   {
-    href: '/login?role=manager&next=/manager',
+    href: '/manager',
     emoji: '🧑‍⚕️',
     title: '케어파트너',
     subtitle: '제안 · 배정 · 완료',
@@ -34,7 +34,7 @@ export default function AppSelectPage() {
   return (
     <AppFrame
       title="앱 선택"
-      subtitle="부모님·자녀·매니저가 각자 필요한 화면으로 들어갑니다"
+      subtitle="접속코드 없이 부모님·보호자·케어파트너 화면으로 바로 들어갑니다"
     >
       <section className="mx-auto max-w-5xl">
         <CareCard tone="green">
@@ -48,7 +48,7 @@ export default function AppSelectPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#4E6D69] md:text-lg">
-            부모님 안심케어는 하나의 앱 안에서 부모님, 자녀, 매니저가 각자 다른 화면을 사용합니다.
+            부모님 안심케어는 하나의 앱 안에서 부모님, 보호자, 케어파트너가 각자 다른 화면을 사용합니다.
           </p>
         </CareCard>
 
@@ -87,7 +87,7 @@ export default function AppSelectPage() {
             href="/manager"
             className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
           >
-            케어파트너에서 등록하기
+            케어파트너 화면
           </Link>
           <Link
             href="/install"
