@@ -147,7 +147,7 @@ export function OpsDashboardBoard() {
             <CareButton href="/ops/intake">운영접수 보기</CareButton>
             <CareButton href="/ops/matching" tone="dark">매칭관리 보기</CareButton>
             <CareButton href="/ops/managers" tone="dark">매니저관리 보기</CareButton>
-            <CareButton href="/ops/notifications" tone="dark">알림센터 보기</CareButton>
+            <CareButton href="/admin/health" tone="dark">시스템 점검센터 보기</CareButton>
           </div>
         </CareCard>
 
