@@ -5,18 +5,11 @@ function isAdmin(request: NextRequest) {
   return role === 'admin'
 }
 
-function isApiPath(pathname: string) {
-  return pathname.startsWith('/api/')
-}
+export function proxy(request: NextRequest) {
+  if (isAdmin(request)) {
+    return NextResponse.next()
+  }
 
-function adminRedirect(request: NextRequest) {
-  const url = new URL('/admin', request.url)
-  url.searchParams.set('next', request.nextUrl.pathname + request.nextUrl.search)
-
-  return NextResponse.redirect(url)
-}
-
-function unauthorizedJson() {
   return NextResponse.json(
     {
       ok: false,
@@ -26,26 +19,12 @@ function unauthorizedJson() {
   )
 }
 
-export function proxy(request: NextRequest) {
-  const pathname = request.nextUrl.pathname
-
-  if (isAdmin(request)) {
-    return NextResponse.next()
-  }
-
-  if (isApiPath(pathname)) {
-    return unauthorizedJson()
-  }
-
-  return adminRedirect(request)
-}
-
 export const config = {
   matcher: [
-    '/ops/:path*',
     '/api/ops-dashboard/:path*',
     '/api/ops-intake/:path*',
     '/api/ops-notifications/:path*',
-    '/api/manager-matching/:path*'
+    '/api/manager-matching/:path*',
+    '/api/manager-easy-vetting/:path*'
   ]
 }
