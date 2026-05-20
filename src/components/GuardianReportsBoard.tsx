@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { AppFrame } from '@/components/ui/AppFrame'
 
 type Report = Record<string, any>
 type Action = Record<string, any>
@@ -94,7 +95,7 @@ export function GuardianReportsBoard() {
   const latestReport = reports[0] || null
 
   return (
-    <main className="min-h-screen bg-[#F7FCFB] px-5 py-8 text-[#24423F]">
+    <AppFrame title="보호자 리포트" subtitle="부모님 안심케어 결과와 가족이 할 일을 확인합니다" showMobileNav={false}>
       <section className="mx-auto max-w-6xl">
         <header className="rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF6_0%,#F4FAFF_100%)] p-6 shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
@@ -104,7 +105,7 @@ export function GuardianReportsBoard() {
                 30초 요약
               </h1>
               <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#607D79] md:text-lg md:leading-8">
-                부모님 케어가 끝나면 현장 체크 내용을 바탕으로 결과와 가족이 할 일을 정리합니다.
+                부모님 안심케어가 끝나면 현장 체크 내용을 바탕으로 결과와 가족이 할 일을 정리합니다.
               </p>
             </div>
 
@@ -270,7 +271,7 @@ export function GuardianReportsBoard() {
           </section>
         )}
       </section>
-    </main>
+    </AppFrame>
   )
 }
 

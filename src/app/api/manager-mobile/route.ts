@@ -345,6 +345,130 @@ async function createAssignmentFromOfferRow(offer: AnyRow, manager: AnyRow) {
   }
 }
 
+
+async function getMatchingRequestForReport(matchingRequestId: string) {
+  if (!matchingRequestId) return null
+
+  const result = await rest(
+    'care_manager_matching_requests?select=*&id=eq.' +
+      encodeURIComponent(matchingRequestId) +
+      '&limit=1'
+  )
+
+  return result.ok && Array.isArray(result.data) ? result.data[0] : null
+}
+
+async function createGuardianReportFromAssignment(assignment: AnyRow, manager: AnyRow) {
+  const existing = await rest(
+    'care_guardian_reports?select=*&assignment_id=eq.' +
+      encodeURIComponent(String(assignment.id)) +
+      '&limit=1'
+  )
+
+  if (existing.ok && Array.isArray(existing.data) && existing.data[0]) {
+    return {
+      ok: true,
+      report: existing.data[0],
+      created: false
+    }
+  }
+
+  const matchingRequest = await getMatchingRequestForReport(String(assignment.matching_request_id || ''))
+  const elderName = assignment.elder_name || matchingRequest?.elder_name || '부모님'
+  const guardianName = matchingRequest?.guardian_name || '보호자'
+  const guardianPhone = matchingRequest?.guardian_phone || ''
+  const managerName = assignment.manager_name || manager.manager_name || '안심케어 매니저'
+  const title = assignment.title || matchingRequest?.request_title || `${elderName} 안심케어 리포트`
+  const completedAt = assignment.completed_at || new Date().toISOString()
+
+  const reportInsert = await rest('care_guardian_reports', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify([
+      {
+        assignment_id: assignment.id,
+        elder_name: elderName,
+        guardian_name: guardianName,
+        guardian_phone: guardianPhone,
+        manager_name: managerName,
+        report_title: `${title} 완료 리포트`,
+        report_status: 'ready',
+        reassurance_state: '안심',
+        summary_30sec: `${managerName}가 ${elderName} 안심케어를 완료했습니다. 방문/동행 상황은 특이사항 없이 정리됐고, 보호자가 확인할 다음 할 일을 아래에 남겼습니다.`,
+        parent_condition: '현장 확인 결과 큰 특이사항은 없습니다. 불편 사항이 있으면 보호자와 운영실이 추가 확인합니다.',
+        visit_result: `${assignment.appointment_time || '협의된 시간'} 일정 기준으로 안심케어가 완료됐습니다.`,
+        medication_result: '약이나 복약 관련 내용은 필요 시 보호자가 추가 확인해주세요.',
+        document_result: '영수증, 처방전, 보험서류 등은 필요 시 보호자에게 전달하거나 추가 확인합니다.',
+        meal_result: '식사 상태는 부모님 안심 확인 버튼 또는 보호자 확인으로 이어집니다.',
+        next_actions: [
+          '보호자는 리포트를 확인해주세요.',
+          '다음 병원 일정이나 약 복용 여부를 확인해주세요.',
+          '추가 도움이 필요하면 안심케어를 다시 신청해주세요.'
+        ],
+        check_events: [
+          {
+            label: '안심케어 완료',
+            occurred_at: completedAt,
+            actor: managerName
+          }
+        ],
+        report_memo: '매니저 현장 완료 후 자동 생성된 보호자 리포트입니다.'
+      }
+    ])
+  })
+
+  if (!reportInsert.ok) {
+    return {
+      ok: false,
+      error: reportInsert.error
+    }
+  }
+
+  const report = firstRow(reportInsert)
+
+  const actions = [
+    {
+      care_report_id: report.id,
+      assignment_id: assignment.id,
+      action_title: '리포트 확인하기',
+      action_description: '오늘 안심케어 결과와 부모님 상태를 확인해주세요.',
+      action_status: 'open',
+      assigned_to_role: 'guardian',
+      sort_order: 1
+    },
+    {
+      care_report_id: report.id,
+      assignment_id: assignment.id,
+      action_title: '다음 일정 확인하기',
+      action_description: '다음 병원 일정, 약 복용, 서류 필요 여부를 확인해주세요.',
+      action_status: 'open',
+      assigned_to_role: 'guardian',
+      sort_order: 2
+    },
+    {
+      care_report_id: report.id,
+      assignment_id: assignment.id,
+      action_title: '추가 안심케어 필요 여부 판단',
+      action_description: '추가 동행, 식사, 약, 서류 도움이 필요하면 새 안심케어를 신청해주세요.',
+      action_status: 'open',
+      assigned_to_role: 'guardian',
+      sort_order: 3
+    }
+  ]
+
+  await rest('care_guardian_report_actions', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify(actions)
+  })
+
+  return {
+    ok: true,
+    report,
+    created: true
+  }
+}
+
 export async function GET(request: NextRequest) {
   const managerProfileId = text(request.nextUrl.searchParams.get('managerProfileId'))
   const manager = await getManagerProfile(managerProfileId)
@@ -666,6 +790,8 @@ export async function POST(request: NextRequest) {
 
     const assignment = firstRow(result)
 
+    let guardianReport: AnyRow | null = null
+
     if (action === 'complete_assignment') {
       await rest('care_manager_earnings?on_conflict=assignment_id', {
         method: 'POST',
@@ -682,12 +808,23 @@ export async function POST(request: NextRequest) {
           }
         ])
       })
+
+      const reportResult = await createGuardianReportFromAssignment(assignment, manager)
+
+      if (reportResult.ok) {
+        guardianReport = reportResult.report
+      }
     }
 
     return NextResponse.json({
       ok: true,
-      message: action === 'start_assignment' ? '현장 수행을 시작했습니다.' : '현장 수행을 완료하고 정산 예정에 반영했습니다.',
-      assignment
+      message: action === 'start_assignment'
+        ? '현장 수행을 시작했습니다.'
+        : guardianReport
+          ? '현장 수행을 완료하고 보호자 리포트까지 생성했습니다.'
+          : '현장 수행을 완료하고 정산 예정에 반영했습니다.',
+      assignment,
+      guardianReport
     })
   }
 
