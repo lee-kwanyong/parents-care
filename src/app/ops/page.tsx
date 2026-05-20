@@ -1,5 +1,5 @@
-import { OpsTodayDashboard } from '../../components/OpsTodayDashboard'
+import { OpsDashboardBoard } from '../../components/OpsDashboardBoard'
 
 export default function OpsPage() {
-  return <OpsTodayDashboard />
+  return <OpsDashboardBoard />
 }
