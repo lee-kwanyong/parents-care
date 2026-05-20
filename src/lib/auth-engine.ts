@@ -6,7 +6,7 @@ export type CareAuthProfile = {
   display_name: string | null
   phone: string | null
   email: string | null
-  preferred_login_method: 'easy' | 'kakao' | 'phone' | 'email_magic' | 'email_password'
+  preferred_login_method: 'easy' | 'google' | 'kakao' | 'phone' | 'email_magic' | 'email_password'
   user_role: CareAuthRole
   onboarding_status: 'started' | 'profile_ready' | 'family_ready' | 'completed'
   easy_mode: boolean

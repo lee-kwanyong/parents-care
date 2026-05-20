@@ -168,7 +168,7 @@ export async function POST(request: NextRequest) {
   const userRole = ['guardian', 'family', 'parent', 'manager', 'ops'].includes(roleValue) ? roleValue : 'guardian'
 
   const methodValue = text(body.loginMethod) || 'easy'
-  const loginMethod = ['easy', 'kakao', 'phone', 'email_magic', 'email_password'].includes(methodValue)
+  const loginMethod = ['easy', 'google', 'kakao', 'phone', 'email_magic', 'email_password'].includes(methodValue)
     ? methodValue
     : 'easy'
 
