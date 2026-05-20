@@ -26,6 +26,7 @@ const publicNav = [
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
+  { href: '/pricing', label: '금액 안내' },
   { href: '/signup/guardian', label: '보호자 가입' },
   { href: '/parent/login', label: '부모님 접속' },
   { href: '/signup/manager', label: '케어파트너' },

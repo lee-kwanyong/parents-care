@@ -6,6 +6,7 @@ import type { Session } from '@supabase/supabase-js'
 import { createSupabaseBrowserClient } from '@/lib/supabase-auth-client'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
+import { PricingGuide } from '@/components/PricingGuide'
 
 type AuthProvider = 'google' | 'kakao'
 
@@ -317,6 +318,8 @@ export function GuardianSignupPanel() {
           </button>
         ) : null}
       </CareCard>
+
+      <PricingGuide compact />
 
       <CareCard tone={session ? 'green' : 'amber'} className="p-4 md:p-5">
         <div className="flex flex-wrap gap-2">
