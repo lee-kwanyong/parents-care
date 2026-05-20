@@ -28,6 +28,7 @@ const publicNav = [
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/pricing', label: '금액 안내' },
   { href: '/signup/guardian', label: '보호자 가입' },
+  { href: '/child/matching', label: '매칭 확인' },
   { href: '/parent/login', label: '부모님 접속' },
   { href: '/signup/manager', label: '케어파트너' },
   { href: '/install', label: '홈 화면 추가' }

@@ -386,10 +386,10 @@ export function GuardianSignupPanel() {
             </Link>
 
             <Link
-              href="/child/reports"
+              href="/child/matching"
               className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
-              리포트 보기
+              매칭 확인
             </Link>
           </div>
         ) : null}

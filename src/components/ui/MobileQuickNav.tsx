@@ -17,24 +17,24 @@ const appSelectItems: QuickNavItem[] = [
 ]
 
 const guardianItems: QuickNavItem[] = [
-  { href: '/app', label: '앱선택', emoji: '📱' },
-  { href: '/signup/guardian', label: '가입', emoji: '👨‍👩‍👧' },
   { href: '/care-request', label: '신청', emoji: '🟢' },
-  { href: '/child/reports', label: '리포트', emoji: '📋' }
+  { href: '/child/matching', label: '매칭', emoji: '🔗' },
+  { href: '/child/reports', label: '리포트', emoji: '📋' },
+  { href: '/app', label: '앱선택', emoji: '📱' }
 ]
 
 const parentItems: QuickNavItem[] = [
-  { href: '/app', label: '앱선택', emoji: '📱' },
   { href: '/parent/login', label: '코드접속', emoji: '🔢' },
   { href: '/parent/today', label: '오늘안심', emoji: '🟢' },
-  { href: 'tel:01012345678', label: '자녀전화', emoji: '☎️' }
+  { href: 'tel:01012345678', label: '자녀전화', emoji: '☎️' },
+  { href: '/app', label: '앱선택', emoji: '📱' }
 ]
 
 const managerItems: QuickNavItem[] = [
-  { href: '/app', label: '앱선택', emoji: '📱' },
   { href: '/signup/manager', label: '지원', emoji: '📝' },
   { href: '/manager', label: '제안', emoji: '📩' },
-  { href: '/manager/install', label: '앱설치', emoji: '⬇️' }
+  { href: '/manager/install', label: '앱설치', emoji: '⬇️' },
+  { href: '/app', label: '앱선택', emoji: '📱' }
 ]
 
 function pickItems(pathname: string) {
