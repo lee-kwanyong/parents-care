@@ -141,9 +141,9 @@ export function ManagerPartnerHomeBoard() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button onClick={load} className="rounded-2xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]">
-                새로고침
-              </button>
+<button onClick={() => load()} className="rounded-2xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]">
+  새로고침
+</button>
               <Link href="/manager/install" className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
                 안드로이드 설치
               </Link>
