@@ -1,5 +1,5 @@
-import { OpsNotificationsBoard } from '../../../components/OpsNotificationsBoard'
+import { OpsNotificationCenter } from '@/components/OpsNotificationCenter'
 
 export default function OpsNotificationsPage() {
-  return <OpsNotificationsBoard />
+  return <OpsNotificationCenter />
 }

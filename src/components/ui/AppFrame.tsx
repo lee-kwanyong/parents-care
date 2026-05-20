@@ -35,6 +35,7 @@ const publicNav = [
 ]
 
 const internalNav = [
+  { href: '/ops/notifications', label: '알림센터' },
   { href: '/admin', label: '운영실 Admin' }
 ]
 
