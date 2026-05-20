@@ -4,6 +4,7 @@ import { MobileQuickNav } from './MobileQuickNav'
 import { DemoRoleBanner } from '../DemoRoleBanner'
 import { PWARegister } from '../PWARegister'
 import { BrandLogo } from '../BrandLogo'
+import { LoginStatusBadge } from '@/components/auth/LoginStatusBadge'
 
 type QuickNavItem = {
   href: string
@@ -79,24 +80,28 @@ export function AppFrame({
             </div>
           </div>
 
-          <nav className="hidden max-w-5xl flex-wrap justify-end gap-2 lg:flex">
-            {nav.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black text-[#5B7774] transition hover:bg-[#E5F8F4]"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="flex flex-col gap-2 lg:items-end">
+            <LoginStatusBadge />
 
-            <Link
-              href="/app"
-              className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
-            >
-              앱 선택
-            </Link>
-          </nav>
+            <nav className="hidden max-w-5xl flex-wrap justify-end gap-2 lg:flex">
+              {nav.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black text-[#5B7774] transition hover:bg-[#E5F8F4]"
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              <Link
+                href="/app"
+                className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
+              >
+                메뉴
+              </Link>
+            </nav>
+          </div>
         </div>
       </header>
 

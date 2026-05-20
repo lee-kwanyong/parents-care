@@ -40,7 +40,7 @@ function clearSession(response: NextResponse) {
 
 export async function GET(request: NextRequest) {
   const role = request.cookies.get('pc_role')?.value || ''
-  const name = request.cookies.get('pc_name')?.value || ''
+  const name = request.cookies.get('pc_name')?.value || request.cookies.get('pc_parent_name')?.value || ''
 
   if (!isRole(role)) {
     return NextResponse.json({
