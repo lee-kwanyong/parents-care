@@ -18,6 +18,10 @@ function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
+function bool(value: unknown) {
+  return value === true || value === 'true' || value === 'on' || value === '1'
+}
+
 function arrayFrom(value: unknown) {
   if (Array.isArray(value)) {
     return value.map(String).map((item) => item.trim()).filter(Boolean)
@@ -153,6 +157,197 @@ async function updateIntakeStatus(id: string, status: string, priority?: string)
   })
 }
 
+
+async function getManagers() {
+  const result = await rest(
+    'care_manager_profiles?select=*&profile_status=eq.active&identity_verified=eq.true&direct_transport_included=eq.false&order=created_at.desc&limit=200'
+  )
+
+  return result.ok && Array.isArray(result.data) ? result.data : []
+}
+
+function containsAny(source: string, values: string[]) {
+  const normalized = source.replace(/\s/g, '').toLowerCase()
+
+  return values.some((value) => {
+    const item = String(value || '').replace(/\s/g, '').toLowerCase()
+    return Boolean(item) && (normalized.includes(item) || item.includes(normalized))
+  })
+}
+
+function scoreManager(request: AnyRow, manager: AnyRow) {
+  const requestRegion = text(request.region_text)
+  const requiredSpecialties = Array.isArray(request.required_specialties) ? request.required_specialties : []
+  const requiredScopes = Array.isArray(request.required_service_scopes) ? request.required_service_scopes : []
+  const managerRegions = Array.isArray(manager.available_regions) ? manager.available_regions : []
+  const managerSpecialties = Array.isArray(manager.specialties) ? manager.specialties : []
+  const managerScopes = Array.isArray(manager.service_scopes) ? manager.service_scopes : []
+
+  let score = 45
+  const reasons: string[] = []
+
+  if (manager.identity_verified) {
+    score += 15
+    reasons.push('본인확인 완료')
+  }
+
+  if (requestRegion && containsAny(requestRegion, managerRegions)) {
+    score += 22
+    reasons.push('활동지역 일치')
+  }
+
+  const specialtyHits = requiredSpecialties.filter((item: string) => containsAny(item, managerSpecialties))
+  if (specialtyHits.length > 0) {
+    score += Math.min(20, specialtyHits.length * 8)
+    reasons.push('필요 역량 일치')
+  }
+
+  const scopeHits = requiredScopes.filter((item: string) => containsAny(item, managerScopes))
+  if (scopeHits.length > 0) {
+    score += Math.min(15, scopeHits.length * 5)
+    reasons.push('수행업무 일치')
+  }
+
+  if (manager.trust_level === 'premium') {
+    score += 8
+    reasons.push('상위 신뢰등급')
+  } else if (manager.trust_level === 'standard') {
+    score += 5
+    reasons.push('표준 신뢰등급')
+  }
+
+  if (request.medication_attention_needed && containsAny('복약', managerSpecialties.concat(managerScopes))) {
+    score += 5
+    reasons.push('복약 확인 가능')
+  }
+
+  if (request.mobility_support_needed && containsAny('동행', managerSpecialties.concat(managerScopes))) {
+    score += 5
+    reasons.push('이동·동행 보조 가능')
+  }
+
+  if (manager.direct_transport_included) {
+    score -= 30
+    reasons.push('유상운송 정책 확인 필요')
+  }
+
+  return {
+    score: Math.max(0, Math.min(100, Math.round(score))),
+    reasons: reasons.length > 0 ? Array.from(new Set(reasons)) : ['검증 매니저']
+  }
+}
+
+function expectedFee(request: AnyRow) {
+  const type = text(request.request_type)
+
+  if (type === 'hospital_visit') return 39000
+  if (type === 'discharge_care') return 49000
+  if (type === 'document_help') return 25000
+  if (type === 'meal_check') return 29000
+  if (type === 'medication_check') return 29000
+
+  return 35000
+}
+
+function requestSnapshot(request: AnyRow) {
+  return {
+    elder_name: request.elder_name,
+    guardian_name: request.guardian_name,
+    guardian_phone: request.guardian_phone,
+    request_title: request.request_title,
+    request_type: request.request_type,
+    region_text: request.region_text,
+    hospital_name: request.hospital_name,
+    appointment_date: request.appointment_date,
+    appointment_time: request.appointment_time,
+    meeting_location: request.meeting_location,
+    required_specialties: request.required_specialties,
+    required_service_scopes: request.required_service_scopes
+  }
+}
+
+function managerSnapshot(manager: AnyRow) {
+  return {
+    manager_name: manager.manager_name,
+    manager_phone: manager.manager_phone,
+    trust_level: manager.trust_level,
+    identity_verified: manager.identity_verified,
+    available_regions: manager.available_regions,
+    specialties: manager.specialties,
+    service_scopes: manager.service_scopes,
+    trust_card_summary: manager.trust_card_summary
+  }
+}
+
+async function generateOffersForRequest(matchingRequest: AnyRow, topN = 5) {
+  const managers = await getManagers()
+
+  const scored = managers
+    .map((manager) => {
+      const score = scoreManager(matchingRequest, manager)
+
+      return {
+        manager,
+        ...score
+      }
+    })
+    .filter((item) => item.score >= 45)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, topN)
+
+  if (scored.length === 0) {
+    return {
+      ok: false,
+      message: '조건에 맞는 검증 매니저가 없습니다. 먼저 매니저 등록/검증을 진행하세요.',
+      offers: []
+    }
+  }
+
+  const rows = scored.map(({ manager, score, reasons }) => ({
+    matching_request_id: matchingRequest.id,
+    manager_profile_id: manager.id,
+    manager_name: manager.manager_name,
+    manager_phone: manager.manager_phone,
+    offer_status: 'sent',
+    offer_score: score,
+    offer_reasons: reasons,
+    expected_fee: expectedFee(matchingRequest),
+    estimated_minutes: matchingRequest.request_type === 'hospital_visit' ? 120 : 90,
+    response_deadline: new Date(Date.now() + 1000 * 60 * 30).toISOString(),
+    request_snapshot: requestSnapshot(matchingRequest),
+    manager_snapshot: managerSnapshot(manager)
+  }))
+
+  const offerInsert = await rest('care_manager_match_offers?on_conflict=matching_request_id,manager_profile_id', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation,resolution=merge-duplicates' },
+    body: JSON.stringify(rows)
+  })
+
+  if (!offerInsert.ok) {
+    return {
+      ok: false,
+      message: '후보 매니저 제안 생성 중 오류가 발생했습니다.',
+      detail: offerInsert.error,
+      offers: []
+    }
+  }
+
+  await rest('care_manager_matching_requests?id=eq.' + encodeURIComponent(matchingRequest.id), {
+    method: 'PATCH',
+    body: JSON.stringify({
+      matching_status: 'candidate_generated',
+      updated_at: new Date().toISOString()
+    })
+  })
+
+  return {
+    ok: true,
+    message: `${rows.length}명의 후보 매니저 제안을 만들었습니다.`,
+    offers: Array.isArray(offerInsert.data) ? offerInsert.data : []
+  }
+}
+
 export async function GET() {
   const [intakeResult, matchingResult] = await Promise.all([
     rest('care_assisted_intake_requests?select=*&order=created_at.desc&limit=200'),
@@ -283,11 +478,26 @@ export async function POST(request: NextRequest) {
 
     await updateIntakeStatus(intakeId, 'matching_requested', text(body.priority) || text(intake.priority))
 
+    let offerResult: AnyRow | null = null
+
+    if (bool(body.generateOffers)) {
+      offerResult = await generateOffersForRequest(matchingRequest, Number(body.topN || 5))
+    }
+
+    const offerCount = Array.isArray(offerResult?.offers) ? offerResult.offers.length : 0
+    const offerMessage = bool(body.generateOffers)
+      ? offerResult?.ok
+        ? ` 후보 매니저 ${offerCount}명에게 제안을 만들었습니다.`
+        : ` 다만 후보 생성은 실패했습니다: ${offerResult?.message || '조건에 맞는 매니저가 없습니다.'}`
+      : ''
+
     return NextResponse.json({
       ok: true,
-      message: '접수 건을 매칭 요청으로 전환했습니다.',
+      message: '접수 건을 매칭 요청으로 전환했습니다.' + offerMessage,
       intake,
-      matchingRequest
+      matchingRequest,
+      offers: offerResult?.offers || [],
+      offerResult
     })
   }
 

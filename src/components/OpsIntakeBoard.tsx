@@ -207,9 +207,14 @@ export function OpsIntakeBoard() {
 
     if (!selected) return
 
+    const submitter = (event.nativeEvent as any).submitter as HTMLButtonElement | null
+    const generateOffers = submitter?.value === 'with_offers'
+
     await postAction({
       action: 'create_matching_request',
       intakeId: selected.id,
+      generateOffers,
+      topN: 5,
       ...form
     })
   }
@@ -250,7 +255,7 @@ export function OpsIntakeBoard() {
             </h1>
 
             <p className="mt-4 text-base font-bold leading-7 text-[#4E6D69]">
-              안심케어 시작하기에서 들어온 신청을 확인하고, 필요한 정보를 보완한 뒤 매니저 매칭 요청으로 전환합니다.
+              안심케어 시작하기에서 들어온 신청을 확인하고, 필요한 정보를 보완한 뒤 매칭 요청과 후보 매니저 제안까지 한 번에 생성합니다.
             </p>
 
             <div className="mt-5 flex flex-wrap gap-3">
@@ -455,19 +460,31 @@ export function OpsIntakeBoard() {
                   <Input label="필요 역량" value={form.requiredSpecialties} onChange={(value) => update('requiredSpecialties', value)} placeholder="예: 병원동행, 약국·복약 확인" />
                   <Input label="필요 업무" value={form.requiredServiceScopes} onChange={(value) => update('requiredServiceScopes', value)} placeholder="예: 접수·수납 도움, 약국 동행, 귀가 확인" />
 
-                  <button
-                    type="submit"
-                    disabled={working}
-                    className="w-full rounded-3xl bg-[#19B99A] px-6 py-5 text-lg font-black text-white disabled:opacity-60"
-                  >
-                    {working ? '전환 중...' : '매칭 요청으로 전환'}
-                  </button>
+                  <div className="grid gap-3 md:grid-cols-2">
+                    <button
+                      type="submit"
+                      value="request_only"
+                      disabled={working}
+                      className="rounded-3xl bg-white px-6 py-5 text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2] disabled:opacity-60"
+                    >
+                      {working ? '전환 중...' : '매칭 요청만 만들기'}
+                    </button>
+
+                    <button
+                      type="submit"
+                      value="with_offers"
+                      disabled={working}
+                      className="rounded-3xl bg-[#19B99A] px-6 py-5 text-lg font-black text-white disabled:opacity-60"
+                    >
+                      {working ? '후보 생성 중...' : '매칭 요청 만들고 후보 생성'}
+                    </button>
+                  </div>
 
                   <Link
                     href="/ops/matching"
                     className="block rounded-3xl bg-white px-6 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
                   >
-                    매칭관리에서 후보 생성하기
+                    매칭관리에서 자세히 보기
                   </Link>
                 </form>
               </CareCard>
