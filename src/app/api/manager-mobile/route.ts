@@ -76,7 +76,17 @@ function won(value: number) {
   return Math.max(0, Math.round(value || 0))
 }
 
-async function getFirstVerifiedManager() {
+async function getManagerProfile(managerProfileId?: string) {
+  if (managerProfileId) {
+    const result = await rest(
+      'care_manager_profiles?select=*&id=eq.' +
+        encodeURIComponent(managerProfileId) +
+        '&limit=1'
+    )
+
+    return result.ok && Array.isArray(result.data) ? result.data[0] : null
+  }
+
   const result = await rest(
     'care_manager_profiles?select=*&profile_status=eq.active&identity_verified=eq.true&direct_transport_included=eq.false&order=created_at.desc&limit=1'
   )
@@ -243,8 +253,9 @@ async function createDemoPartnerAndWork() {
   }
 }
 
-export async function GET() {
-  const manager = await getFirstVerifiedManager()
+export async function GET(request: NextRequest) {
+  const managerProfileId = text(request.nextUrl.searchParams.get('managerProfileId'))
+  const manager = await getManagerProfile(managerProfileId)
 
   if (!manager) {
     return NextResponse.json({
@@ -325,7 +336,8 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  const manager = await getFirstVerifiedManager()
+  const managerProfileId = text(body.managerProfileId)
+  const manager = await getManagerProfile(managerProfileId)
 
   if (!manager) {
     return NextResponse.json(

@@ -58,6 +58,38 @@ function labelOffer(status: string) {
   return map[status] || status || '제안'
 }
 
+function managerOfferLink(offer: AnyRow) {
+  const base =
+    typeof window === 'undefined'
+      ? 'https://parents-care.net'
+      : window.location.origin
+
+  return `${base}/manager?managerProfileId=${encodeURIComponent(offer.manager_profile_id || '')}`
+}
+
+function offerMessage(offer: AnyRow) {
+  const snapshot = offer.request_snapshot || {}
+  const title = snapshot.request_title || '부모님 안심케어 제안'
+  const region = snapshot.region_text || '지역 협의'
+  const appointment = snapshot.appointment_time || snapshot.appointment_date || '일정 협의'
+  const minutes = offer.estimated_minutes || 90
+  const fee = Number(offer.expected_fee || 0).toLocaleString('ko-KR')
+  const link = managerOfferLink(offer)
+
+  return [
+    '[부모님 안심케어] 새 케어 제안이 도착했습니다.',
+    '',
+    `내용: ${title}`,
+    `지역: ${region}`,
+    `일정: ${appointment}`,
+    `예상 소요: ${minutes}분`,
+    `예상 정산: ${fee}원`,
+    '',
+    '확인 후 수락/거절해주세요.',
+    link
+  ].join('\n')
+}
+
 export function OpsManagerMatchingBoard() {
   const [data, setData] = useState<MatchingDashboard | null>(null)
   const [loading, setLoading] = useState(true)
@@ -135,6 +167,15 @@ export function OpsManagerMatchingBoard() {
       setMessage(error instanceof Error ? error.message : '처리 중 오류가 발생했습니다.')
     } finally {
       setCreating(false)
+    }
+  }
+
+  async function copyText(value: string, label: string) {
+    try {
+      await navigator.clipboard.writeText(value)
+      setMessage(`${label}를 복사했습니다.`)
+    } catch {
+      setMessage(`${label}: ${value}`)
     }
   }
 
@@ -378,6 +419,31 @@ export function OpsManagerMatchingBoard() {
                           {reason}
                         </span>
                       ))}
+                    </div>
+
+                    <div className="mt-4 grid gap-2 md:grid-cols-3">
+                      <button
+                        type="button"
+                        onClick={() => copyText(managerOfferLink(offer), '제안 링크')}
+                        className="rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
+                      >
+                        제안 링크 복사
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => copyText(offerMessage(offer), '카톡·문자 문구')}
+                        className="rounded-2xl bg-[#EAFBF6] px-4 py-3 text-sm font-black text-[#2F756B] ring-1 ring-[#CFE7E2]"
+                      >
+                        카톡·문자 문구 복사
+                      </button>
+
+                      <Link
+                        href={`/manager?managerProfileId=${encodeURIComponent(offer.manager_profile_id || '')}`}
+                        className="rounded-2xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white"
+                      >
+                        매니저 화면 열기
+                      </Link>
                     </div>
                   </div>
                 ))

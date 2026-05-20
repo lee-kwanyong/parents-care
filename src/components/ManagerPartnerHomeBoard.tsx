@@ -51,13 +51,18 @@ export function ManagerPartnerHomeBoard() {
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(true)
   const [memo, setMemo] = useState('')
+  const [managerProfileId, setManagerProfileId] = useState('')
 
-  async function load() {
+  async function load(inputManagerProfileId = managerProfileId) {
     setLoading(true)
     setMessage('')
 
     try {
-      const response = await fetch('/api/manager-mobile', { cache: 'no-store' })
+      const query = inputManagerProfileId
+        ? `?managerProfileId=${encodeURIComponent(inputManagerProfileId)}`
+        : ''
+
+      const response = await fetch('/api/manager-mobile' + query, { cache: 'no-store' })
       const result = await response.json()
 
       if (!response.ok || !result.ok) {
@@ -79,7 +84,10 @@ export function ManagerPartnerHomeBoard() {
       const response = await fetch('/api/manager-mobile', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          managerProfileId: managerProfileId || undefined,
+          ...payload
+        })
       })
 
       const result = await response.json()
@@ -96,7 +104,12 @@ export function ManagerPartnerHomeBoard() {
   }
 
   useEffect(() => {
-    load()
+    const params = new URLSearchParams(window.location.search)
+    const id = params.get('managerProfileId') || ''
+
+    setManagerProfileId(id)
+    load(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const manager = data?.manager
@@ -137,6 +150,12 @@ export function ManagerPartnerHomeBoard() {
             </div>
           </div>
         </header>
+
+        {managerProfileId ? (
+          <div className="mt-5 rounded-2xl bg-[#EAFBF6] p-4 font-black text-[#2F756B]">
+            개인 제안 링크로 접속했습니다. 이 매니저에게 온 제안만 표시됩니다.
+          </div>
+        ) : null}
 
         {message ? (
           <div className="mt-5 rounded-2xl bg-[#FFF5DF] p-4 font-black text-[#886B35]">
