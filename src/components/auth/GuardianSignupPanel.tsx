@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { Session } from '@supabase/supabase-js'
 import { createSupabaseBrowserClient } from '@/lib/supabase-auth-client'
+import { getAuthCallbackUrl } from '@/lib/site-url'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
 import { PricingGuide } from '@/components/PricingGuide'
@@ -97,7 +98,7 @@ export function GuardianSignupPanel() {
 
     try {
       const supabase = createSupabaseBrowserClient()
-      const redirectTo = `${window.location.origin}/auth/callback?next=${encodeURIComponent('/signup/guardian')}`
+      const redirectTo = getAuthCallbackUrl('/signup/guardian')
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -148,7 +149,7 @@ export function GuardianSignupPanel() {
           email: form.email,
           password: form.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent('/signup/guardian')}`,
+            emailRedirectTo: getAuthCallbackUrl('/signup/guardian'),
             data: {
               display_name: form.name || '보호자',
               user_role: 'guardian'
