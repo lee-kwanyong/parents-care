@@ -186,7 +186,7 @@ export function GuardianSignupPanel() {
 
     try {
       if (!session) {
-        throw new Error('먼저 보호자 회원가입 또는 로그인을 완료해주세요.')
+        throw new Error('먼저 보호자 가입 또는 로그인을 완료해주세요.')
       }
 
       const response = await fetch('/api/parent-invite', {
@@ -247,16 +247,16 @@ export function GuardianSignupPanel() {
     <div className="space-y-4">
       <CareCard tone="white" className="p-4 md:p-5">
         <div className="flex flex-wrap gap-2">
-          <StatusPill text="보호자 회원가입" tone="green" />
-          <StatusPill text="자녀는 결제 회원" tone="slate" />
+          <StatusPill text="보호자 가입" tone="green" />
+          <StatusPill text="보호자 간편가입" tone="slate" />
         </div>
 
         <h2 className="mt-3 text-2xl font-black md:text-3xl">
-          보호자 먼저 회원가입하세요.
+          간편하게 가입하고 바로 이용하세요!
         </h2>
 
         <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-          부모님은 회원가입하지 않습니다. 돈을 내고 신청·리포트를 확인하는 보호자만 회원가입합니다.
+          부모님은 직접 가입하지 않으셔도 됩니다. 보호자가 가입 후 4자리 코드를 보내드리면 바로 연결됩니다.
         </p>
 
         {session ? (
@@ -328,7 +328,7 @@ export function GuardianSignupPanel() {
         </h2>
 
         <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-          보호자 회원가입이 끝나면 부모님 전용 4자리 초대코드를 만들 수 있습니다.
+          보호자 가입이 끝나면 부모님 전용 4자리 초대코드를 만들 수 있습니다.
         </p>
 
         <form onSubmit={createParentInvite} className="mt-4 space-y-3">
