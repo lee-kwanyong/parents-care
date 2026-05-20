@@ -37,6 +37,7 @@ export function GuardianSignupPanel() {
     parentName: '어머니',
     parentPhone: ''
   })
+
   const [session, setSession] = useState<Session | null>(null)
   const [message, setMessage] = useState('')
   const [inviteCode, setInviteCode] = useState('')
@@ -186,7 +187,7 @@ export function GuardianSignupPanel() {
 
     try {
       if (!session) {
-        throw new Error('먼저 보호자 가입 또는 로그인을 완료해주세요.')
+        throw new Error('먼저 보호자 회원가입 또는 로그인을 완료해주세요.')
       }
 
       const response = await fetch('/api/parent-invite', {
@@ -248,7 +249,7 @@ export function GuardianSignupPanel() {
       <CareCard tone="white" className="p-4 md:p-5">
         <div className="flex flex-wrap gap-2">
           <StatusPill text="보호자 가입" tone="green" />
-          <StatusPill text="보호자 간편가입" tone="slate" />
+          <StatusPill text="간편 시작" tone="slate" />
         </div>
 
         <h2 className="mt-3 text-2xl font-black md:text-3xl">
