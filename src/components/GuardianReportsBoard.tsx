@@ -95,7 +95,7 @@ export function GuardianReportsBoard() {
   const latestReport = reports[0] || null
 
   return (
-    <AppFrame title="보호자 리포트" subtitle="부모님 안심케어 결과와 가족이 할 일을 확인합니다" showMobileNav={false}>
+    <AppFrame title="보호자 리포트" subtitle="부모님 안심케어 결과와 가족이 할 일을 확인합니다">
       <section className="mx-auto max-w-6xl">
         <header className="rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF6_0%,#F4FAFF_100%)] p-6 shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">

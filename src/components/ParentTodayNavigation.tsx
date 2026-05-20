@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { BrandLogo } from './BrandLogo'
+import { MobileQuickNav } from './ui/MobileQuickNav'
 
 const topLinks = [
   { href: '/', label: '홈' },
@@ -24,7 +25,7 @@ type ParentNavigationProps = {
 
 export function ParentNavigation({ children, currentLabel = '부모님 안심 화면' }: ParentNavigationProps) {
   return (
-    <div className="min-h-screen bg-[#ECFFF7] text-[#24423F]">
+    <div className="min-h-screen bg-[#ECFFF7] pb-24 text-[#24423F]">
       <header className="sticky top-0 z-40 border-b border-[#D8EEE7] bg-white/95 px-4 py-3 shadow-[0_10px_30px_rgba(93,139,131,0.08)] backdrop-blur">
         <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <BrandLogo title="부모님 안심케어" subtitle={currentLabel} compact />
@@ -85,6 +86,7 @@ export function ParentNavigation({ children, currentLabel = '부모님 안심 �
           </p>
         </section>
       </footer>
+      <MobileQuickNav />
     </div>
   )
 }

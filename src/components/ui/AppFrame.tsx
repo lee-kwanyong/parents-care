@@ -22,6 +22,7 @@ type AppFrameProps = {
 }
 
 const publicNav = [
+  { href: '/app', label: '앱 선택' },
   { href: '/', label: '홈' },
   { href: '/care-request', label: '부모님 안심케어하기' },
   { href: '/care-intake', label: '사진·카톡' },
@@ -60,7 +61,7 @@ export function AppFrame({
   const nav = showInternalLinks ? [...publicNav, ...internalNav] : publicNav
 
   return (
-    <main className={`min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F5FCFA_42%,#F7FBFF_100%)] pb-24 text-[#243F3B] md:pb-10 ${className}`}>
+    <main className={`min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F5FCFA_42%,#F7FBFF_100%)] pb-28 text-[#243F3B] md:pb-10 ${className}`}>
       <PWARegister />
       {showInternalLinks ? <DemoRoleBanner /> : null}
 
@@ -85,7 +86,7 @@ export function AppFrame({
             </div>
           </div>
 
-          <nav className="hidden flex-wrap gap-2 lg:flex">
+          <nav className="hidden max-w-5xl flex-wrap justify-end gap-2 lg:flex">
             {nav.map((item) => (
               <Link
                 key={item.href}

@@ -72,7 +72,7 @@ export function ManagerEasyApplyBoard() {
   }
 
   return (
-    <AppFrame title="매니저 등록" subtitle="검증 매니저 풀 등록 화면" showMobileNav={false}>
+    <AppFrame title="매니저 등록" subtitle="검증 매니저 풀 등록 화면">
       <section className="mx-auto max-w-5xl">
         <header className="mb-8">
           <div className="text-sm font-black text-[#19A98E]">매니저 등록</div>
