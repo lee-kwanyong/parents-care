@@ -78,12 +78,12 @@ export function AppFrame({
           <div className="hidden flex-col items-end gap-2 lg:flex">
             <LoginStatusBadge />
 
-            <nav className="flex flex-nowrap items-center justify-end gap-2">
+            <nav className="flex min-w-0 flex-nowrap items-center justify-end gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {primaryNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="whitespace-nowrap rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black text-[#5B7774] transition hover:bg-[#E5F8F4]"
+                  className="shrink-0 whitespace-nowrap rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black leading-none text-[#5B7774] transition hover:bg-[#E5F8F4] [word-break:keep-all]"
                 >
                   {item.label}
                 </Link>
@@ -100,7 +100,7 @@ export function AppFrame({
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block rounded-2xl px-4 py-3 text-sm font-black text-[#426C68] transition hover:bg-[#F4FAF9]"
+                      className="block whitespace-nowrap rounded-2xl px-4 py-3 text-sm font-black text-[#426C68] transition hover:bg-[#F4FAF9] [word-break:keep-all]"
                     >
                       {item.label}
                     </Link>

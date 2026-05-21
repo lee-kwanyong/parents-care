@@ -1,14 +1,14 @@
 import Link from 'next/link'
 
 const headerLinks = [
-  { label: '부모님 안심케어하기', href: '#hero' },
-  { label: '사진·카톡 접수', href: '#photo-kakao' },
-  { label: '케어 범위', href: '#care-scope' },
-  { label: '신뢰 기준', href: '#trust' },
-  { label: '보호자 케어', href: '#guardian-care' },
-  { label: '부모님 안심', href: '#parent-safe' },
-  { label: '케어파트너', href: '#care-partner' },
-  { label: '홈 화면 추가', href: '#install-guide' },
+  { label: '안심케어', href: '#hero' },
+  { label: '사진·카톡', href: '#photo-kakao' },
+  { label: '케어범위', href: '#care-scope' },
+  { label: '신뢰기준', href: '#trust' },
+  { label: '보호자', href: '#guardian-care' },
+  { label: '부모님', href: '#parent-safe' },
+  { label: '파트너', href: '#care-partner' },
+  { label: '홈추가', href: '#install-guide' },
 ]
 
 const careNeeds = [
@@ -55,9 +55,11 @@ function PillLink({ href, label }: { href: string; label: string }) {
   return (
     <Link
       href={href}
-      className="inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full border border-[#D9ECE6] bg-[#F4FBF8] px-5 py-3 text-sm font-semibold leading-none text-[#2D5B54] transition hover:border-[#23C7A9] hover:bg-white hover:text-[#173B36]"
+      className="inline-flex shrink-0 touch-manipulation items-center justify-center rounded-full border border-[#D9ECE6] bg-[#F4FBF8] px-4 py-2.5 text-sm font-bold leading-none text-[#2D5B54] transition hover:border-[#23C7A9] hover:bg-white hover:text-[#173B36]"
     >
-      {label}
+      <span className="block whitespace-nowrap [word-break:keep-all]">
+        {label}
+      </span>
     </Link>
   )
 }
@@ -104,13 +106,13 @@ export default function HomePage() {
           </Link>
 
           <div className="hidden min-w-0 flex-1 lg:block">
-            <div className="flex items-center justify-end gap-2 overflow-x-auto whitespace-nowrap pb-1">
+            <div className="flex min-w-0 items-center justify-end gap-2 overflow-x-auto whitespace-nowrap pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {headerLinks.map((item) => (
                 <PillLink key={item.label} href={item.href} label={item.label} />
               ))}
               <Link
                 href="/app"
-                className="relative z-[80] inline-flex shrink-0 touch-manipulation items-center justify-center rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold leading-none text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] transition hover:opacity-90 active:scale-[0.98]"
+                className="relative z-[80] inline-flex shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold leading-none text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] transition hover:opacity-90 active:scale-[0.98] [word-break:keep-all]"
               >
                 메뉴
               </Link>
@@ -119,7 +121,7 @@ export default function HomePage() {
 
           <Link
             href="/app"
-            className="relative z-[80] ml-auto inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] active:scale-[0.98] lg:hidden"
+            className="relative z-[80] ml-auto inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] active:scale-[0.98] [word-break:keep-all] lg:hidden"
           >
             메뉴
           </Link>

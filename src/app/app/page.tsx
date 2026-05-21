@@ -145,20 +145,7 @@ export default function AppSelectPage() {
             ))}
           </div>
         </section>
-
-        <CareCard tone="amber" className="p-4 md:p-5">
-          <div className="text-lg font-black">카카오 로그인이 안 될 때</div>
-          <p className="mt-2 text-sm font-bold leading-6 text-[#6F5B31]">
-            KOE205가 보이면 Kakao Developers의 REST API 키, Client Secret, Redirect URI, Web 플랫폼 도메인을 확인하세요.
-          </p>
-          <Link
-            href="/kakao-checklist"
-            className="mt-4 inline-flex rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#8A6C35] ring-1 ring-[#F0E0C4]"
-          >
-            KOE205 체크리스트 보기
-          </Link>
-        </CareCard>
-      </section>
+</section>
     </AppFrame>
   )
 }
