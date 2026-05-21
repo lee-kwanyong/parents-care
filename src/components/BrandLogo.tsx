@@ -20,7 +20,7 @@ export function BrandLogo({
     <Link href={href} aria-label="부모님 안심케어 홈" className="flex min-w-0 items-center gap-3">
       <span className={`flex ${boxSize} shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#DCF8F1] shadow-[0_8px_22px_rgba(25,185,154,0.16)] ring-1 ring-[#DDEEEA]`}>
         <img
-          src="/icons/parents-care-logo.svg"
+          src="/icons/parents-care-logo.jpg"
           alt="부모님 안심케어 로고"
           className={`${imageSize} rounded-2xl object-cover`}
         />

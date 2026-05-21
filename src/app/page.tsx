@@ -93,7 +93,7 @@ export default function HomePage() {
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
           <Link href="/" className="flex shrink-0 items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#24C6A8] text-2xl text-white shadow-[0_10px_24px_rgba(36,198,168,0.28)]">
-              <img src="/icons/parents-care-logo.svg" alt="부모님 안심케어 로고" className="h-12 w-12 rounded-2xl object-cover" />
+              <img src="/icons/parents-care-logo.jpg" alt="부모님 안심케어 로고" className="h-12 w-12 rounded-2xl object-cover" />
             </div>
             <div className="min-w-0">
               <div className="truncate text-[28px] font-black tracking-[-0.04em] text-[#173B36] sm:text-3xl">
