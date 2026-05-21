@@ -165,7 +165,7 @@ export default function HomePage() {
               href="/app"
               className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
             >
-              앱 선택
+              메뉴
             </Link>
           </nav>
         </div>
@@ -211,7 +211,7 @@ export default function HomePage() {
               href="/app"
               className="inline-flex items-center justify-center rounded-3xl bg-[#193B38] px-7 py-5 text-lg font-black text-white shadow-[0_18px_45px_rgba(25,59,56,0.20)] transition hover:bg-[#24423F]"
             >
-              앱 선택하기
+              메뉴하기
             </Link>
             <Link
               href="/care-scope"

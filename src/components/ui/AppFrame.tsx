@@ -30,13 +30,14 @@ const primaryNav = [
 ]
 
 const menuNav = [
-  { href: '/app', label: '앱 선택' },
+  { href: '/app', label: '메뉴' },
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/care-scope', label: '케어 범위' },
   { href: '/trust', label: '신뢰 기준' },
   { href: '/pricing', label: '금액 안내' },
   { href: '/signup/manager', label: '케어파트너' },
   { href: '/install', label: '홈 화면 추가' },
+  { href: '/kakao-checklist', label: '카카오 설정' },
   { href: '/admin', label: '운영실 Admin' }
 ]
 

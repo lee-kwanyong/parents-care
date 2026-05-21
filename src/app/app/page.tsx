@@ -3,100 +3,217 @@ import { AppFrame } from '@/components/ui/AppFrame'
 import { CareCard } from '@/components/ui/CareCard'
 import { StatusPill } from '@/components/ui/StatusPill'
 
-const apps = [
-  {
-    href: '/parent/login',
-    emoji: '👵',
-    title: '부모님 안심',
-    subtitle: '4자리 코드 · 큰 버튼',
-    desc: '회원가입 없이 자녀가 보내준 4자리 코드로 오늘 안심 화면에 들어갑니다.',
-    cta: '부모님 안심 열기'
-  },
+const mainMenus = [
   {
     href: '/signup/guardian',
-    emoji: '👨‍👩‍👧',
-    title: '보호자 케어',
-    subtitle: '가입 · 초대 · 리포트',
-    desc: '보호자가 가입하고 부모님께 4자리 코드를 보내 안심케어를 시작합니다.',
-    cta: '보호자 케어 시작'
+    icon: '👨‍👩‍👧',
+    title: '보호자 가입',
+    desc: '보호자가 가입하고 부모님 4자리 코드를 만듭니다.',
+    badge: '시작'
+  },
+  {
+    href: '/parent/login',
+    icon: '🔢',
+    title: '부모님 4자리 접속',
+    desc: '부모님은 회원가입 없이 4자리 코드만 입력합니다.',
+    badge: '부모님'
+  },
+  {
+    href: '/care-request',
+    icon: '💚',
+    title: '안심케어 신청',
+    desc: '병원·식사·약·서류 걱정을 운영실에 맡깁니다.',
+    badge: '신청'
+  },
+  {
+    href: '/child/matching',
+    icon: '🔗',
+    title: '매칭 확인',
+    desc: '추천 케어파트너와 신뢰카드를 확인합니다.',
+    badge: '보호자'
+  }
+]
+
+const subMenus = [
+  {
+    href: '/child/reports',
+    icon: '📋',
+    title: '보호자 리포트',
+    desc: '오늘 진행 결과와 다음 할 일을 확인합니다.'
   },
   {
     href: '/signup/manager',
-    emoji: '🧑‍⚕️',
-    title: '케어파트너',
-    subtitle: '지원 · 검증 · 배정',
-    desc: '부모님 안심케어 현장 업무를 수행할 케어파트너로 지원합니다.',
-    cta: '케어파트너 지원'
+    icon: '🧑‍⚕️',
+    title: '케어파트너 지원',
+    desc: '케어파트너로 활동을 신청합니다.'
+  },
+  {
+    href: '/manager',
+    icon: '📩',
+    title: '케어파트너 화면',
+    desc: '제안 확인, 수락, 현장 체크를 진행합니다.'
+  },
+  {
+    href: '/care-scope',
+    icon: '🧭',
+    title: '케어 범위',
+    desc: '포함되는 일과 포함되지 않는 일을 확인합니다.'
+  },
+  {
+    href: '/trust',
+    icon: '🛡️',
+    title: '신뢰 기준',
+    desc: '검증, 리포트, 후기 기준을 확인합니다.'
+  },
+  {
+    href: '/install',
+    icon: '⬇️',
+    title: '홈 화면 추가',
+    desc: '모바일에서 앱처럼 바로 실행합니다.'
+  }
+]
+
+const adminMenus = [
+  {
+    href: '/admin',
+    icon: '🔐',
+    title: '운영실 Admin',
+    desc: '관리자 코드로 운영실에 접속합니다.'
+  },
+  {
+    href: '/ops',
+    icon: '🧭',
+    title: '운영실 대시보드',
+    desc: '접수, 매칭, 리포트, 알림센터를 관리합니다.'
   }
 ]
 
 export default function AppSelectPage() {
   return (
     <AppFrame
-      title="앱 선택"
-      subtitle="부모님·보호자·케어파트너가 각자 필요한 화면으로 들어갑니다"
+      title="메뉴"
+      subtitle="부모님 안심케어에서 필요한 화면을 선택하세요"
     >
-      <section className="mx-auto max-w-5xl">
-        <CareCard tone="green">
+      <section className="mx-auto max-w-6xl space-y-6 pb-20 md:pb-0">
+        <CareCard tone="green" className="p-5 md:p-7">
           <div className="flex flex-wrap items-center gap-2">
-            <StatusPill text="모바일 앱" tone="green" />
-            <StatusPill text="3가지 사용자 모드" tone="slate" />
+            <StatusPill text="메뉴" tone="green" />
+            <StatusPill text="보호자·부모님·케어파트너" tone="slate" />
           </div>
 
-          <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
-            누가 사용하시나요?
+          <h1 className="mt-4 text-4xl font-black leading-tight tracking-[-0.05em] md:text-6xl">
+            필요한 화면으로
+            <br />
+            바로 이동하세요.
           </h1>
 
           <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#4E6D69] md:text-lg">
-            부모님은 회원가입 없이 4자리 코드로, 보호자는 회원가입 후 초대코드로, 케어파트너는 별도 지원으로 시작합니다.
+            보호자는 가입 후 부모님을 초대하고, 부모님은 4자리 코드만 입력합니다.
+            케어파트너와 운영실은 각각 별도 화면에서 진행합니다.
           </p>
         </CareCard>
 
-        <div className="mt-6 grid gap-4 md:grid-cols-3">
-          {apps.map((app) => (
-            <Link
-              key={app.href}
-              href={app.href}
-              className="block rounded-[2rem] border border-[#E3EFEC] bg-white p-6 shadow-[0_16px_44px_rgba(93,139,131,0.10)] transition hover:-translate-y-1 hover:bg-[#F8FCFB]"
-            >
-              <div className="text-5xl">{app.emoji}</div>
-              <div className="mt-5 inline-flex rounded-full bg-[#F2FAF8] px-3 py-1 text-xs font-black text-[#5B7774] ring-1 ring-[#DDEEEA]">
-                {app.subtitle}
-              </div>
-              <h2 className="mt-4 text-3xl font-black tracking-[-0.04em] text-[#24423F]">
-                {app.title}
-              </h2>
-              <p className="mt-3 min-h-24 text-sm font-bold leading-6 text-[#607D79]">
-                {app.desc}
-              </p>
-              <div className="mt-5 rounded-2xl bg-[#19B99A] px-5 py-4 text-center text-base font-black text-white">
-                {app.cta}
-              </div>
-            </Link>
-          ))}
-        </div>
+        <section>
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="text-2xl font-black text-[#24423F]">자주 쓰는 메뉴</h2>
+            <span className="text-sm font-bold text-[#78908C]">모바일 추천</span>
+          </div>
 
-        <section className="mt-6 grid gap-4 md:grid-cols-3">
-          <Link
-            href="/parent/login"
-            className="rounded-[1.5rem] bg-[#F0FBF7] p-5 text-center font-black text-[#2F756B] ring-1 ring-[#D3ECE6]"
-          >
-            부모님 4자리 접속
-          </Link>
-          <Link
-            href="/child/reports"
-            className="rounded-[1.5rem] bg-[#F1FAFE] p-5 text-center font-black text-[#365E78] ring-1 ring-[#DDEDF5]"
-          >
-            보호자 리포트 보기
-          </Link>
-          <Link
-            href="/install"
-            className="rounded-[1.5rem] bg-[#FFF9EF] p-5 text-center font-black text-[#7A673C] ring-1 ring-[#F0E0C4]"
-          >
-            홈 화면에 추가하기
-          </Link>
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {mainMenus.map((item) => (
+              <MenuCard key={item.href} item={item} primary />
+            ))}
+          </div>
         </section>
+
+        <section>
+          <h2 className="mb-3 text-2xl font-black text-[#24423F]">전체 메뉴</h2>
+
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {subMenus.map((item) => (
+              <MenuCard key={item.href} item={item} />
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <h2 className="mb-3 text-2xl font-black text-[#24423F]">운영실</h2>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            {adminMenus.map((item) => (
+              <MenuCard key={item.href} item={item} admin />
+            ))}
+          </div>
+        </section>
+
+        <CareCard tone="amber" className="p-4 md:p-5">
+          <div className="text-lg font-black">카카오 로그인이 안 될 때</div>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#6F5B31]">
+            KOE205가 보이면 Kakao Developers의 REST API 키, Client Secret, Redirect URI, Web 플랫폼 도메인을 확인하세요.
+          </p>
+          <Link
+            href="/kakao-checklist"
+            className="mt-4 inline-flex rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#8A6C35] ring-1 ring-[#F0E0C4]"
+          >
+            KOE205 체크리스트 보기
+          </Link>
+        </CareCard>
       </section>
     </AppFrame>
+  )
+}
+
+function MenuCard({
+  item,
+  primary = false,
+  admin = false
+}: {
+  item: {
+    href: string
+    icon: string
+    title: string
+    desc: string
+    badge?: string
+  }
+  primary?: boolean
+  admin?: boolean
+}) {
+  return (
+    <Link
+      href={item.href}
+      className={
+        'block rounded-[1.5rem] border p-4 shadow-[0_10px_28px_rgba(93,139,131,0.08)] transition hover:-translate-y-0.5 ' +
+        (primary
+          ? 'border-[#CDEFE7] bg-[#F3FFFB]'
+          : admin
+            ? 'border-[#F0E0C4] bg-[#FFF9EF]'
+            : 'border-[#E3EFEC] bg-white')
+      }
+    >
+      <div className="flex items-start gap-3">
+        <div
+          className={
+            'flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-2xl ' +
+            (primary ? 'bg-[#DFF8F1]' : admin ? 'bg-white' : 'bg-[#F4FAF9]')
+          }
+        >
+          {item.icon}
+        </div>
+
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-lg font-black text-[#24423F]">{item.title}</h3>
+            {item.badge ? (
+              <span className="rounded-full bg-white px-2.5 py-1 text-[11px] font-black text-[#2F756B] ring-1 ring-[#D3ECE6]">
+                {item.badge}
+              </span>
+            ) : null}
+          </div>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
+            {item.desc}
+          </p>
+        </div>
+      </div>
+    </Link>
   )
 }
