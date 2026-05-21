@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { MobileQuickNav } from './MobileQuickNav'
-import { DemoRoleBanner } from '../DemoRoleBanner'
 import { PWARegister } from '../PWARegister'
 import { BrandLogo } from '../BrandLogo'
 import { LoginStatusBadge } from '@/components/auth/LoginStatusBadge'
@@ -22,23 +21,22 @@ type AppFrameProps = {
   className?: string
 }
 
-const publicNav = [
-  { href: '/app', label: '앱 선택' },
+const primaryNav = [
   { href: '/', label: '홈' },
-  { href: '/care-request', label: '부모님 안심케어하기' },
+  { href: '/care-request', label: '안심케어' },
+  { href: '/signup/guardian', label: '보호자 가입' },
+  { href: '/child/matching', label: '매칭' },
+  { href: '/parent/login', label: '부모님 접속' }
+]
+
+const menuNav = [
+  { href: '/app', label: '앱 선택' },
   { href: '/care-intake', label: '사진·카톡' },
   { href: '/care-scope', label: '케어 범위' },
   { href: '/trust', label: '신뢰 기준' },
   { href: '/pricing', label: '금액 안내' },
-  { href: '/signup/guardian', label: '보호자 가입' },
-  { href: '/child/matching', label: '매칭 확인' },
-  { href: '/parent/login', label: '부모님 접속' },
   { href: '/signup/manager', label: '케어파트너' },
-  { href: '/install', label: '홈 화면 추가' }
-]
-
-const internalNav = [
-  { href: '/ops/notifications', label: '알림센터' },
+  { href: '/install', label: '홈 화면 추가' },
   { href: '/admin', label: '운영실 Admin' }
 ]
 
@@ -51,22 +49,18 @@ export function AppFrame({
   showMobileNav = true,
   className = ''
 }: AppFrameProps) {
-  const showInternalLinks = false
-  const nav = publicNav
-
   return (
     <main className={`min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F5FCFA_42%,#F7FBFF_100%)] pb-28 text-[#243F3B] md:pb-10 ${className}`}>
       <PWARegister />
-      {false ? <DemoRoleBanner /> : null}
 
-      <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white px-5 py-3 shadow-[0_8px_24px_rgba(82,112,108,0.08)] md:px-8">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <header className="sticky top-0 z-40 border-b border-[#E3F0ED] bg-white/95 px-4 py-2 shadow-[0_8px_24px_rgba(82,112,108,0.08)] backdrop-blur md:px-8">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-3">
               {backHref ? (
                 <Link
                   href={backHref}
-                  className="rounded-full bg-[#F3FBF9] px-3 py-1 text-sm font-black text-[#5D7774] ring-1 ring-[#DCECE8]"
+                  className="shrink-0 rounded-full bg-[#F3FBF9] px-3 py-1 text-sm font-black text-[#5D7774] ring-1 ring-[#DCECE8]"
                 >
                   이전
                 </Link>
@@ -80,32 +74,57 @@ export function AppFrame({
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 lg:items-end">
+          <div className="hidden flex-col items-end gap-2 lg:flex">
             <LoginStatusBadge />
 
-            <nav className="hidden max-w-5xl flex-wrap justify-end gap-2 lg:flex">
-              {nav.map((item) => (
+            <nav className="flex flex-nowrap items-center justify-end gap-2">
+              {primaryNav.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black text-[#5B7774] transition hover:bg-[#E5F8F4]"
+                  className="whitespace-nowrap rounded-full bg-[#F4FAF9] px-4 py-2 text-sm font-black text-[#5B7774] transition hover:bg-[#E5F8F4]"
                 >
                   {item.label}
                 </Link>
               ))}
 
-              <Link
-                href="/app"
-                className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]"
-              >
-                메뉴
-              </Link>
+              <details className="group relative">
+                <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] transition hover:bg-[#16A98D]">
+                  <span className="text-base leading-none">☰</span>
+                  메뉴
+                </summary>
+
+                <div className="absolute right-0 mt-2 w-56 rounded-3xl border border-[#E3EFEC] bg-white p-2 shadow-[0_18px_50px_rgba(93,139,131,0.18)]">
+                  {menuNav.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block rounded-2xl px-4 py-3 text-sm font-black text-[#426C68] transition hover:bg-[#F4FAF9]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </details>
             </nav>
           </div>
+
+          <div className="flex shrink-0 items-center gap-2 lg:hidden">
+            <Link
+              href="/app"
+              className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)]"
+            >
+              ☰ 메뉴
+            </Link>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-2 max-w-7xl lg:hidden">
+          <LoginStatusBadge />
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-5 py-6 md:px-8 md:py-8">
+      <div className="mx-auto max-w-7xl px-5 py-5 md:px-8 md:py-8">
         {children}
       </div>
 

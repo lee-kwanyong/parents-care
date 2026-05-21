@@ -10,7 +10,6 @@ type LoginStatus = {
   loggedIn: boolean
   role: string | null
   name: string
-  email: string
 }
 
 function roleLabel(role: string | null) {
@@ -38,6 +37,7 @@ function nameFromSession(session: Session | null) {
   if (!session) return ''
 
   const metadata = session.user.user_metadata || {}
+
   const name =
     cleanName(metadata.display_name) ||
     cleanName(metadata.full_name) ||
@@ -67,19 +67,10 @@ function greeting(status: LoginStatus) {
   const role = status.role || 'guardian'
   const name = status.name || roleLabel(role)
 
-  if (role === 'parent') {
-    return `${name}님, 오늘도 안심 화면에 연결됐어요.`
-  }
-
-  if (role === 'manager') {
-    return `${name}님, 오늘도 좋은 케어 부탁드려요.`
-  }
-
-  if (role === 'admin') {
-    return `${name}님, 운영실 접속 중입니다.`
-  }
-
-  return `${name}님, 오늘도 부모님을 잘 챙기시는군요.`
+  if (role === 'parent') return `${name}님 안심 연결됨`
+  if (role === 'manager') return `${name}님 케어파트너 접속`
+  if (role === 'admin') return `${name}님 운영실 접속`
+  return `${name}님 환영합니다`
 }
 
 export function LoginStatusBadge() {
@@ -87,10 +78,8 @@ export function LoginStatusBadge() {
     loading: true,
     loggedIn: false,
     role: null,
-    name: '',
-    email: ''
+    name: ''
   })
-  const [message, setMessage] = useState('')
 
   async function loadStatus() {
     let apiSession: any = null
@@ -126,20 +115,15 @@ export function LoginStatusBadge() {
       nameFromSession(supabaseSession) ||
       roleLabel(role)
 
-    const email = supabaseSession?.user.email || ''
-
     setStatus({
       loading: false,
       loggedIn: Boolean(apiSession?.loggedIn || apiSession?.role || supabaseSession),
       role,
-      name,
-      email
+      name
     })
   }
 
   async function logout() {
-    setMessage('')
-
     try {
       try {
         const supabase = createSupabaseBrowserClient()
@@ -158,13 +142,10 @@ export function LoginStatusBadge() {
         loading: false,
         loggedIn: false,
         role: null,
-        name: '',
-        email: ''
+        name: ''
       })
-
-      setMessage('로그아웃했습니다.')
     } catch {
-      setMessage('로그아웃 중 오류가 발생했습니다.')
+      return undefined
     }
   }
 
@@ -199,30 +180,29 @@ export function LoginStatusBadge() {
 
   if (status.loading) {
     return (
-      <div className="max-w-full rounded-2xl bg-[#F4FAF9] px-4 py-2 text-xs font-black text-[#7D9894] ring-1 ring-[#E3EFEC]">
-        로그인 상태 확인 중...
+      <div className="rounded-full bg-[#F4FAF9] px-3 py-2 text-xs font-black text-[#7D9894] ring-1 ring-[#E3EFEC]">
+        확인 중
       </div>
     )
   }
 
   if (!status.loggedIn) {
     return (
-      <div className="flex max-w-full flex-wrap items-center gap-2 rounded-2xl bg-[#F4FAF9] px-3 py-2 text-xs font-black text-[#5B7774] ring-1 ring-[#E3EFEC]">
-        <span className="hidden sm:inline">로그인하면 진행상태를 확인할 수 있어요.</span>
+      <div className="flex items-center gap-2 rounded-full bg-[#F4FAF9] px-2 py-2 text-xs font-black text-[#5B7774] ring-1 ring-[#E3EFEC]">
+        <span className="hidden xl:inline">진행상태 확인 가능</span>
         <Link
           href="/signup/guardian"
           className="rounded-full bg-[#19B99A] px-3 py-1.5 text-xs font-black text-white"
         >
           로그인·가입
         </Link>
-        {message ? <span className="text-[#8A6C35]">{message}</span> : null}
       </div>
     )
   }
 
   return (
-    <div className="flex max-w-full flex-wrap items-center gap-2 rounded-2xl bg-[#EAFBF6] px-3 py-2 text-xs font-black text-[#2F756B] ring-1 ring-[#CBEAE4]">
-      <span className="max-w-[18rem] truncate">
+    <div className="flex items-center gap-2 rounded-full bg-[#EAFBF6] px-3 py-2 text-xs font-black text-[#2F756B] ring-1 ring-[#CBEAE4]">
+      <span className="max-w-[11rem] truncate">
         {greeting(status)}
       </span>
 
