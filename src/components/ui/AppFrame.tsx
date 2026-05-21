@@ -113,7 +113,7 @@ export function AppFrame({
           <div className="flex shrink-0 items-center gap-2 lg:hidden">
             <Link
               href="/app"
-              className="rounded-full bg-[#19B99A] px-4 py-2 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)]"
+              className="relative z-[80] inline-flex min-h-11 touch-manipulation items-center justify-center rounded-full bg-[#19B99A] px-5 py-3 text-sm font-black text-white shadow-[0_8px_20px_rgba(25,185,154,0.18)] active:scale-[0.98]"
             >
               ☰ 메뉴
             </Link>
