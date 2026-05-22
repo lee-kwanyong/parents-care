@@ -5,6 +5,7 @@ const headerLinks = [
   { label: '사진·카톡', href: '/care-intake' },
   { label: '케어범위', href: '/care-scope' },
   { label: '신뢰기준', href: '/trust' },
+  { label: '금액', href: '/pricing' },
   { label: '보호자', href: '/signup/guardian' },
   { label: '부모님', href: '/parent/login' },
   { label: '파트너', href: '/signup/manager' },
