@@ -48,3 +48,12 @@ backup-before-*/
 *.bak
 *.backup
 # Local environment secrets
+
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Temporary backup files
+*.bak
+*.bak.*
