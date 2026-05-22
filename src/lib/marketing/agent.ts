@@ -186,3 +186,7 @@ export async function runAutonomousAgent() {
   await logEvent('autonomous_agent_completed', { content, followups });
   return { ok: true, content, followups };
 }
+
+export async function runAgentTick() {
+  return runAutonomousAgent();
+}

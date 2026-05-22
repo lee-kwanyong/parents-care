@@ -1,14 +1,14 @@
 import Link from 'next/link'
 
 const headerLinks = [
-  { label: '안심케어', href: '#hero' },
-  { label: '사진·카톡', href: '#photo-kakao' },
-  { label: '케어범위', href: '#care-scope' },
-  { label: '신뢰기준', href: '#trust' },
-  { label: '보호자', href: '#guardian-care' },
-  { label: '부모님', href: '#parent-safe' },
-  { label: '파트너', href: '#care-partner' },
-  { label: '홈추가', href: '#install-guide' },
+  { label: '걱정접수', href: '/care-request' },
+  { label: '사진·카톡', href: '/care-intake' },
+  { label: '케어범위', href: '/care-scope' },
+  { label: '신뢰기준', href: '/trust' },
+  { label: '보호자', href: '/login' },
+  { label: '부모님', href: '/parent/login' },
+  { label: '파트너', href: '/signup/manager' },
+  { label: '홈추가', href: '/install' },
 ]
 
 const careNeeds = [
@@ -151,21 +151,21 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="#photo-kakao"
+                href="/care-intake"
                 className="inline-flex min-h-[60px] items-center justify-center rounded-[22px] bg-[#23C7A9] px-7 text-lg font-black text-white shadow-[0_14px_30px_rgba(35,199,169,0.25)] transition hover:-translate-y-0.5 hover:opacity-95"
               >
                 사진·카톡으로 바로 맡기기
               </Link>
 
               <Link
-                href="#guardian-care"
+                href="/care-request"
                 className="inline-flex min-h-[60px] items-center justify-center rounded-[22px] border border-[#CFE7E0] bg-white px-7 text-lg font-black text-[#204A44] transition hover:border-[#23C7A9] hover:bg-[#F7FFFC]"
               >
                 부모님 안심케어하기
               </Link>
 
               <Link
-                href="#install-guide"
+                href="/install"
                 className="inline-flex min-h-[60px] items-center justify-center rounded-[22px] border border-[#CFE7E0] bg-white px-7 text-lg font-black text-[#204A44] transition hover:border-[#23C7A9] hover:bg-[#F7FFFC]"
               >
                 홈 화면에 추가하기
