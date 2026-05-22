@@ -5,7 +5,7 @@ const headerLinks = [
   { label: '사진·카톡', href: '/care-intake' },
   { label: '케어범위', href: '/care-scope' },
   { label: '신뢰기준', href: '/trust' },
-  { label: '보호자', href: '/login' },
+  { label: '보호자', href: '/signup/guardian' },
   { label: '부모님', href: '/parent/login' },
   { label: '파트너', href: '/signup/manager' },
   { label: '홈추가', href: '/install' },
@@ -111,6 +111,12 @@ export default function HomePage() {
                 <PillLink key={item.label} href={item.href} label={item.label} />
               ))}
               <Link
+                href="/login"
+                className="inline-flex shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[#23C7A9] bg-white px-5 py-3 text-sm font-bold leading-none text-[#159A84] shadow-[0_8px_20px_rgba(35,199,169,0.10)] transition hover:bg-[#F0FFFB] active:scale-[0.98] [word-break:keep-all]"
+              >
+                로그인
+              </Link>
+              <Link
                 href="/app"
                 className="relative z-[80] inline-flex shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold leading-none text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] transition hover:opacity-90 active:scale-[0.98] [word-break:keep-all]"
               >
@@ -118,13 +124,20 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-
-          <Link
-            href="/app"
-            className="relative z-[80] ml-auto inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] active:scale-[0.98] [word-break:keep-all] lg:hidden"
-          >
-            메뉴
-          </Link>
+          <div className="ml-auto flex shrink-0 items-center gap-2 lg:hidden">
+            <Link
+              href="/login"
+              className="relative z-[80] inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[#23C7A9] bg-white px-4 py-3 text-sm font-bold text-[#159A84] shadow-[0_8px_20px_rgba(35,199,169,0.10)] active:scale-[0.98] [word-break:keep-all]"
+            >
+              로그인
+            </Link>
+            <Link
+              href="/app"
+              className="relative z-[80] inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] active:scale-[0.98] [word-break:keep-all]"
+            >
+              메뉴
+            </Link>
+          </div>
         </div>
       </header>
 
