@@ -3,6 +3,14 @@
     {
       "path": "/api/agent/full-autopilot",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/naver-five",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/autoloop",
+      "schedule": "0 0 * * *"
     }
   ]
 }

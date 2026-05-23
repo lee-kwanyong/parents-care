@@ -8,17 +8,22 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "predeploy:check": "npm run typecheck && npm run build",
-    "deploy:health-note": "echo 'Run npm run predeploy:check, then open /deploy-readiness after npm run dev or Vercel deployment.'"
+    "deploy:health-note": "echo 'Run npm run predeploy:check, then open /deploy-readiness after npm run dev or Vercel deployment.'",
+    "render:videos": "node scripts/render-autoloop-videos.mjs",
+    "autoloop:once": "node scripts/self-video-autoloop-once.mjs",
+    "autoloop:worker": "node scripts/self-video-worker-loop.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.106.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.4.2",
     "next": "^16.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "resend": "^6.12.3",
+    "sharp": "^0.34.5",
     "zod": "^3.24.2"
   },
   "devDependencies": {

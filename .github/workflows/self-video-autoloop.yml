@@ -1,0 +1,39 @@
+name: Parents Care Self Video Autoloop
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 09:30 KST
+    - cron: "30 0 * * *"
+
+jobs:
+  render-and-publish:
+    runs-on: macos-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+      BASE_URL: ${{ secrets.BASE_URL }}
+      MARKETING_VIDEO_BUCKET: marketing-videos
+      DRY_RUN: ${{ secrets.DRY_RUN }}
+      PUBLISH_AFTER_VIDEO: "true"
+      RENDER_VIDEO_LIMIT: "10"
+      MAC_TTS_VOICE: Yuna
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install ffmpeg
+        run: brew install ffmpeg
+
+      - name: Run autoloop + render videos + publish
+        run: npm run autoloop:once
