@@ -80,8 +80,8 @@ export async function GET(
       .map((line, i) => `<text x="90" y="${430 + i * 42}" font-size="32" font-weight="600" fill="#274960">${escapeXml(line)}</text>`)
       .join("");
 
-    const bulletSvg = bullets
-      .map((b, i) => {
+    const bulletSvg = (bullets as string[])
+      .map((b: string, i: number) => {
         const y = 610 + i * 72;
         return `
           <circle cx="112" cy="${y - 10}" r="16" fill="#4fd1b3" opacity="0.95" />

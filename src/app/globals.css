@@ -107,6 +107,8 @@ div[class*="sticky"][class*="top-0"] {
   box-shadow: 0 8px 24px rgba(82, 112, 108, 0.08);
 }
 
+
+
 /* header-text-no-cut-fix */
 header[class*="sticky"][class*="top-0"] {
   height: auto !important;
