@@ -186,15 +186,28 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-10 grid gap-4 xl:grid-cols-2">
               {statCards.map((card) => (
                 <div
                   key={card.title}
-                  className="rounded-[24px] border border-[#DCEDE7] bg-[#FBFEFD] p-5 shadow-[0_8px_20px_rgba(20,82,70,0.04)]"
+                  className="group min-h-[132px] rounded-[26px] border border-[#DCEDE7] bg-[#FBFEFD] p-5 shadow-[0_12px_28px_rgba(20,82,70,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(20,82,70,0.10)] sm:p-6"
                 >
-                  <div className="text-4xl font-black tracking-[-0.04em] text-[#15A68D]">{card.value}</div>
-                  <div className="mt-2 text-xl font-black tracking-[-0.03em] text-[#173B36]">{card.title}</div>
-                  <p className="mt-2 text-sm leading-6 text-[#607B74]">{card.desc}</p>
+                  <div className="flex h-full flex-col justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                        <span className="text-3xl font-black leading-none tracking-[-0.04em] text-[#15A68D] sm:text-4xl">
+                          {card.value}
+                        </span>
+                        <span className="text-lg font-black leading-snug tracking-[-0.03em] text-[#173B36] sm:text-xl">
+                          {card.title}
+                        </span>
+                      </div>
+                      <p className="mt-3 text-sm font-semibold leading-7 text-[#607B74] [word-break:keep-all]">
+                        {card.desc}
+                      </p>
+                    </div>
+                    <div className="h-1.5 w-12 rounded-full bg-[#B5F1E3] transition group-hover:w-16" />
+                  </div>
                 </div>
               ))}
             </div>
