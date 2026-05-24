@@ -36,11 +36,25 @@ export function GuardianChoiceGuide({ compact = false }: { compact?: boolean }) 
         케어파트너를 선택할 때 이렇게 확인하세요.
       </h3>
 
-      <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-5">
-        {choiceItems.map((item) => (
-          <div key={item.title} className="rounded-2xl bg-white p-4 ring-1 ring-[#DDEDF5]">
-            <div className="text-sm font-black text-[#365E78]">{item.title}</div>
-            <p className="mt-2 text-xs font-bold leading-5 text-[#607D79]">{item.desc}</p>
+      <div className="mt-6 grid gap-3">
+        {choiceItems.map((item, index) => (
+          <div
+            key={item.title}
+            className="group rounded-[24px] border border-[#D8ECE8] bg-white/95 p-4 shadow-[0_10px_28px_rgba(20,82,70,0.06)] transition hover:-translate-y-0.5 hover:border-[#25C7A8] hover:shadow-[0_16px_36px_rgba(20,82,70,0.10)] sm:p-5"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
+              <div className="flex shrink-0 items-center gap-3 sm:w-[190px]">
+                <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[#E9FBF6] text-sm font-black text-[#16A58D] ring-1 ring-[#CDEBE4]">
+                  {index + 1}
+                </span>
+                <h3 className="text-base font-black leading-snug tracking-[-0.03em] text-[#17423D] [word-break:keep-all]">
+                  {item.title}
+                </h3>
+              </div>
+              <p className="flex-1 text-sm font-bold leading-7 text-[#5D7772] [word-break:keep-all]">
+                {item.desc}
+              </p>
+            </div>
           </div>
         ))}
       </div>
