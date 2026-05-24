@@ -4,8 +4,6 @@ const headerLinks = [
   { label: '걱정접수', href: '/care-request' },
   { label: '사진·카톡', href: '/care-intake' },
   { label: '케어범위', href: '/care-scope' },
-  { label: '신뢰기준', href: '/trust' },
-  { label: '금액', href: '/pricing' },
   { label: '보호자', href: '/signup/guardian' },
   { label: '부모님', href: '/parent/login' },
   { label: '파트너', href: '/signup/manager' },
@@ -46,10 +44,10 @@ const careNeeds = [
 ]
 
 const statCards = [
-  { value: '3분', title: '안에 접수', desc: '상황 설명 → 사진/메모 → 안심케어 시작' },
-  { value: '사진·카톡', title: '접수 가능', desc: '앱 입력이 어려워도 맡길 수 있어요' },
-  { value: '검증', title: '매니저 연결', desc: '본인 확인·신분확인 후 접수 배정' },
-  { value: '30초', title: '요약 리포트', desc: '부모님 상태와 다음 할 일 확인' },
+  { value: '3분', title: '안에 접수', desc: '상황 설명 → 사진/메모 → 안심케어 시작', href: '/care-request' },
+  { value: '사진·카톡', title: '접수 가능', desc: '앱 입력이 어려워도 맡길 수 있어요', href: '/care-intake' },
+  { value: '검증', title: '매니저 연결', desc: '본인 확인·신분확인 후 접수 배정', href: '/trust' },
+  { value: '30초', title: '요약 리포트', desc: '부모님 상태와 다음 할 일 확인', href: '/child/reports' },
 ]
 
 function PillLink({ href, label }: { href: string; label: string }) {
@@ -188,27 +186,31 @@ export default function HomePage() {
 
             <div className="mt-10 grid gap-4 xl:grid-cols-2">
               {statCards.map((card) => (
-                <div
+                <Link
                   key={card.title}
-                  className="group min-h-[132px] rounded-[26px] border border-[#DCEDE7] bg-[#FBFEFD] p-5 shadow-[0_12px_28px_rgba(20,82,70,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_42px_rgba(20,82,70,0.10)] sm:p-6"
+                  href={card.href}
+                  className="group flex min-h-[132px] flex-col justify-between rounded-[26px] border border-[#DCEDE7] bg-[#FBFEFD] p-5 shadow-[0_12px_28px_rgba(20,82,70,0.06)] transition hover:-translate-y-0.5 hover:border-[#23C7A9] hover:shadow-[0_18px_42px_rgba(20,82,70,0.10)] focus:outline-none focus:ring-4 focus:ring-[#B5F1E3] sm:p-6"
                 >
-                  <div className="flex h-full flex-col justify-between gap-4">
-                    <div className="min-w-0">
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-3xl font-black leading-none tracking-[-0.04em] text-[#15A68D] sm:text-4xl">
-                          {card.value}
-                        </span>
-                        <span className="text-lg font-black leading-snug tracking-[-0.03em] text-[#173B36] sm:text-xl">
-                          {card.title}
-                        </span>
-                      </div>
-                      <p className="mt-3 text-sm font-semibold leading-7 text-[#607B74] [word-break:keep-all]">
-                        {card.desc}
-                      </p>
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+                      <span className="text-3xl font-black leading-none tracking-[-0.04em] text-[#15A68D] sm:text-4xl">
+                        {card.value}
+                      </span>
+                      <span className="text-lg font-black leading-snug tracking-[-0.03em] text-[#173B36] sm:text-xl">
+                        {card.title}
+                      </span>
                     </div>
-                    <div className="h-1.5 w-12 rounded-full bg-[#B5F1E3] transition group-hover:w-16" />
+                    <p className="mt-3 text-sm font-semibold leading-7 text-[#607B74] [word-break:keep-all]">
+                      {card.desc}
+                    </p>
                   </div>
-                </div>
+                  <div className="mt-4 flex items-center justify-between gap-3">
+                    <div className="h-1.5 w-12 rounded-full bg-[#B5F1E3] transition group-hover:w-16" />
+                    <span className="text-xs font-black text-[#159A84] transition group-hover:translate-x-1">
+                      바로가기 →
+                    </span>
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
