@@ -88,10 +88,6 @@ export function AdminLoginPanel() {
         </button>
       </form>
 
-      <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-6 text-[#607D79] ring-1 ring-[#E3EFEC]">
-        관리자 코드는 Vercel 환경변수 <span className="font-black">PARENTS_CARE_ADMIN_CODE</span> 값입니다.
-        값이 없으면 기본값은 <span className="font-black">admin2580</span> 입니다.
-      </div>
     </CareCard>
   )
 }
