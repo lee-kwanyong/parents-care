@@ -182,3 +182,44 @@ main h2 {
   }
 }
 /* /header-text-no-cut-fix */
+
+/* global-header-compact-dropdown-fix */
+header[data-global-header="true"] {
+  height: auto !important;
+  min-height: unset !important;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] > div {
+  flex-wrap: nowrap !important;
+  row-gap: 0 !important;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] nav {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  flex-wrap: nowrap !important;
+  justify-content: flex-end !important;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] a,
+header[data-global-header="true"] button {
+  white-space: nowrap !important;
+  text-overflow: clip !important;
+}
+
+header[data-global-header="true"] [data-global-menu-panel="true"] {
+  position: absolute !important;
+  right: 0 !important;
+  width: min(22rem, calc(100vw - 1.5rem)) !important;
+  max-width: calc(100vw - 1.5rem) !important;
+  overflow: hidden !important;
+}
+
+header[data-global-header="true"] [data-global-menu-panel="true"] a {
+  white-space: normal !important;
+}
+/* /global-header-compact-dropdown-fix */
