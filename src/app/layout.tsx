@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
+
+import { GlobalHeader } from '@/components/GlobalHeader'
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
   description: 'AI 안부온과 케어파트너 연결로 부모님 안부를 매일 확인하는 안심관리 플랫폼',
@@ -18,5 +20,12 @@ export const viewport: Viewport = {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="ko"><body>{children}</body></html>
+  return (
+    <html lang="ko">
+      <body>
+        <GlobalHeader />
+        {children}
+      </body>
+    </html>
+  )
 }

@@ -88,57 +88,7 @@ function SectionCard({
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-[linear-gradient(180deg,#F7FCFA_0%,#EEF7F4_100%)] text-[#173B36]">
-      <header className="sticky top-0 z-40 border-b border-[#E3F1EC] bg-white/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6 lg:px-8">
-          <Link href="/" className="flex shrink-0 items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#24C6A8] text-2xl text-white shadow-[0_10px_24px_rgba(36,198,168,0.28)]">
-              <img src="/icons/parents-care-logo.jpg" alt="부모님 안심케어 로고" className="h-12 w-12 rounded-2xl object-cover" />
-            </div>
-            <div className="min-w-0">
-              <div className="truncate text-[28px] font-black tracking-[-0.04em] text-[#173B36] sm:text-3xl">
-                부모님 안심케어
-              </div>
-              <div className="truncate text-sm font-medium text-[#6A8780]">
-                부모님 안심케어를 간단히 시작하세요.
-              </div>
-            </div>
-          </Link>
-
-          <div className="hidden min-w-0 flex-1 lg:block">
-            <div className="flex min-w-0 items-center justify-end gap-2 overflow-x-auto whitespace-nowrap pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              {headerLinks.map((item) => (
-                <PillLink key={item.label} href={item.href} label={item.label} />
-              ))}
-              <Link
-                href="/login"
-                className="inline-flex shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[#23C7A9] bg-white px-5 py-3 text-sm font-bold leading-none text-[#159A84] shadow-[0_8px_20px_rgba(35,199,169,0.10)] transition hover:bg-[#F0FFFB] active:scale-[0.98] [word-break:keep-all]"
-              >
-                로그인
-              </Link>
-              <Link
-                href="/app"
-                className="relative z-[80] inline-flex shrink-0 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold leading-none text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] transition hover:opacity-90 active:scale-[0.98] [word-break:keep-all]"
-              >
-                메뉴
-              </Link>
-            </div>
-          </div>
-          <div className="ml-auto flex shrink-0 items-center gap-2 lg:hidden">
-            <Link
-              href="/login"
-              className="relative z-[80] inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full border border-[#23C7A9] bg-white px-4 py-3 text-sm font-bold text-[#159A84] shadow-[0_8px_20px_rgba(35,199,169,0.10)] active:scale-[0.98] [word-break:keep-all]"
-            >
-              로그인
-            </Link>
-            <Link
-              href="/app"
-              className="relative z-[80] inline-flex min-h-11 touch-manipulation items-center justify-center whitespace-nowrap rounded-full bg-[#23C7A9] px-5 py-3 text-sm font-bold text-white shadow-[0_8px_20px_rgba(35,199,169,0.26)] active:scale-[0.98] [word-break:keep-all]"
-            >
-              메뉴
-            </Link>
-          </div>
-        </div>
-      </header>
+      
 
       <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         <section
