@@ -1,12 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { parentDailyCareButtons } from '@/lib/daily-care-engine'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
+
+const groupOrder = ['식사', '약', '몸', '기분', '활동', '도움'] as const
 
 export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?: string }) {
   const [message, setMessage] = useState('')
   const [savingKey, setSavingKey] = useState('')
+
+  const grouped = useMemo(() => {
+    return groupOrder.map((group) => ({
+      group,
+      buttons: parentDailyCareButtons.filter((button) => button.group === group)
+    }))
+  }, [])
 
   async function sendCheckin(input: {
     checkType: DailyCareType
@@ -14,7 +23,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
     status: DailyCareStatus
     title: string
   }) {
-    const key = `${input.checkType}-${input.status}-${input.careLabel}`
+    const key = `${input.checkType}-${input.status}-${input.careLabel}-${input.title}`
     setSavingKey(key)
     setMessage('')
 
@@ -37,7 +46,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
         throw new Error(data.message || '저장 중 오류가 발생했습니다.')
       }
 
-      setMessage(`${input.title} 안심 알림을 보냈습니다.`)
+      setMessage(`${input.title} 확인을 보냈습니다.`)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '저장 중 오류가 발생했습니다.')
     } finally {
@@ -46,47 +55,64 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
   }
 
   return (
-    <section className="mt-5 rounded-[2rem] bg-white p-6 shadow-sm">
-      <h2 className="text-3xl font-black">오늘 안심 확인</h2>
-      <p className="mt-2 text-lg font-bold text-[#63807C]">
-        버튼을 누르면 자녀와 운영실에 안심 알림이 전달돼요.
-      </p>
+    <section className="rounded-[2rem] bg-white p-5 shadow-[0_16px_44px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-6">
+      <div className="flex flex-col gap-2">
+        <p className="text-sm font-black text-[#13A88F]">안부온 오늘 체크</p>
+        <h2 className="text-3xl font-black tracking-[-0.05em] text-[#173B36] sm:text-4xl">
+          버튼만 눌러주세요
+        </h2>
+        <p className="text-base font-bold leading-7 text-[#637B76]">
+          식사, 약, 몸 상태, 기분을 누르면 보호자에게 오늘 안부가 전달됩니다.
+        </p>
+      </div>
 
       {message ? (
-        <p className="mt-4 rounded-2xl bg-emerald-50 p-4 text-lg font-black text-emerald-900">
+        <p className="mt-5 rounded-2xl bg-[#E8FAF5] p-4 text-lg font-black text-[#126F61]">
           {message}
         </p>
       ) : null}
 
-      <div className="mt-4 grid gap-3">
-        {parentDailyCareButtons.map((button) => {
-          const key = `${button.checkType}-${button.status}-${button.careLabel}`
-          const isSaving = savingKey === key
-          const danger = button.status === 'needs_help'
-          const caution = button.status === 'not_done'
+      <div className="mt-5 space-y-5">
+        {grouped.map(({ group, buttons }) => (
+          <div key={group}>
+            <div className="mb-2 text-sm font-black text-[#55736E]">{group}</div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {buttons.map((button) => {
+                const key = `${button.checkType}-${button.status}-${button.careLabel}-${button.title}`
+                const isSaving = savingKey === key
 
-          return (
-            <button
-              key={key}
-              type="button"
-              disabled={Boolean(savingKey)}
-              onClick={() => sendCheckin(button)}
-              className={
-                'rounded-3xl px-6 py-5 text-left text-2xl font-black disabled:opacity-60 ' +
-                (danger
-                  ? 'bg-[#F2B8B8] text-[#2E504D]'
-                  : caution
-                    ? 'bg-amber-100 text-amber-950'
-                    : 'bg-emerald-100 text-emerald-950')
-              }
-            >
-              {isSaving ? '보내는 중...' : button.title}
-              <span className="mt-1 block text-base font-bold opacity-80">
-                {button.description}
-              </span>
-            </button>
-          )
-        })}
+                const toneClass =
+                  button.tone === 'danger'
+                    ? 'border-[#F3BBBB] bg-[#FFF1F1] text-[#8A2525]'
+                    : button.tone === 'caution'
+                      ? 'border-[#F4D8A5] bg-[#FFF8E8] text-[#795313]'
+                      : button.tone === 'neutral'
+                        ? 'border-[#D8ECE8] bg-[#F7FBFF] text-[#234B68]'
+                        : 'border-[#CDEFE5] bg-[#EFFFF9] text-[#116D5F]'
+
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    disabled={Boolean(savingKey)}
+                    onClick={() => sendCheckin(button)}
+                    className={
+                      'min-h-[104px] rounded-[1.5rem] border p-4 text-left shadow-sm transition hover:-translate-y-0.5 disabled:opacity-60 ' +
+                      toneClass
+                    }
+                  >
+                    <span className="block text-2xl font-black leading-tight tracking-[-0.04em]">
+                      {isSaving ? '보내는 중...' : button.title}
+                    </span>
+                    <span className="mt-2 block text-sm font-bold leading-6 opacity-80">
+                      {button.description}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   )

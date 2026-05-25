@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
         care_label: careLabel,
         status,
         actor_role: 'parent',
-        source: 'parent_big_button',
+        source: 'anbuon_parent_big_button',
         memo: memo || null,
         occurred_at: new Date().toISOString()
       }
@@ -92,7 +92,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '일상 케어 확인 저장 중 오류가 발생했습니다.',
+        message: '안부온 확인 저장 중 오류가 발생했습니다.',
         detail: insert.error
       },
       { status: 500 }

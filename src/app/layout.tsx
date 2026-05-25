@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: '부모님 안심케어',
-  description: '부모님 안심케어를 쉽게 시작하는 부모님 케어 플랫폼',
+  title: '안부웍스 | 부모님 안심케어',
+  description: 'AI 안부온과 케어파트너 연결로 부모님 안부를 매일 확인하는 안심관리 플랫폼',
   manifest: '/manifest.webmanifest',
   icons: {
     icon: '/icons/parents-care-icon.svg',

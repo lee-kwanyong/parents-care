@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { labelDailyCareStatus, labelDailyCareType } from '@/lib/daily-care-engine'
-import type { DailyCareCheckin } from '@/lib/daily-care-engine'
+import type { DailyCareCheckin, AnbuSignalState } from '@/lib/daily-care-engine'
 
 type StatusData = {
   ok: boolean
@@ -11,14 +11,22 @@ type StatusData = {
   items?: DailyCareCheckin[]
   summary?: {
     reassuranceState: '안심' | '확인 필요' | '긴급'
+    signalState: AnbuSignalState
+    signalScore: number
+    signalReasons: string[]
+    guardianSummary: string
     total: number
     latest: DailyCareCheckin[]
-    hasEmergency: boolean
-    mealNeedsCheck: boolean
-    medicationNeedsCheck: boolean
-    safeReturnDone: boolean
     familyNextActions: string[]
+    latestResponseAt: string | null
+    aiDisclaimer: string
   }
+}
+
+function stateClass(state?: AnbuSignalState) {
+  if (state === '확인 필요') return 'bg-[#FFF1F1] text-[#842525] ring-[#F2B8B8]'
+  if (state === '주의') return 'bg-[#FFF8E8] text-[#735212] ring-[#F0D299]'
+  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
 }
 
 export default function ChildDailyCarePage() {
@@ -48,20 +56,23 @@ export default function ChildDailyCarePage() {
   const summary = data?.summary
 
   return (
-    <main className="min-h-screen bg-slate-50 px-5 py-8 text-[#2E504D]">
-      <section className="mx-auto max-w-5xl">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+      <section className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-sm font-black text-emerald-700">자녀앱</p>
-            <h1 className="mt-2 text-3xl font-black md:text-5xl">
-              밥·약·컨디션 확인
+            <p className="text-sm font-black text-[#13A88F]">안부웍스 · 안부온</p>
+            <h1 className="mt-2 text-4xl font-black tracking-[-0.07em] md:text-6xl">
+              보호자 알림 화면
             </h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-[#63807C]">
-              부모님이 큰 버튼으로 누른 식사, 약, 컨디션, 도움 요청을 확인합니다.
+            <p className="mt-4 max-w-3xl text-lg font-bold leading-8 text-[#637B76]">
+              부모님의 식사, 약, 몸 상태, 기분, 활동 응답을 모아 오늘 상태를 정상/주의/확인 필요로 보여줍니다.
             </p>
           </div>
 
-          <button onClick={load} className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <button
+            onClick={load}
+            className="rounded-2xl bg-[#123F38] px-5 py-4 font-black text-white shadow-sm"
+          >
             새로고침
           </button>
         </div>
@@ -71,68 +82,119 @@ export default function ChildDailyCarePage() {
             불러오는 중...
           </div>
         ) : !data?.ok ? (
-          <div className="mt-8 rounded-3xl bg-red-50 p-6 text-red-800">
+          <div className="mt-8 rounded-3xl bg-red-50 p-6 text-red-800 ring-1 ring-red-100">
             <h2 className="text-xl font-black">상태를 불러오지 못했습니다</h2>
             <p className="mt-2">{data?.message}</p>
           </div>
         ) : (
           <>
-            <div
-              className={
-                'mt-8 rounded-3xl p-6 ' +
-                (summary?.reassuranceState === '긴급'
-                  ? 'bg-red-50'
-                  : summary?.reassuranceState === '확인 필요'
-                    ? 'bg-amber-50'
-                    : 'bg-emerald-50')
-              }
-            >
-              <p className="text-sm font-black text-[#63807C]">오늘의 안심판</p>
-              <div className="mt-2 text-5xl font-black">{summary?.reassuranceState || '확인 필요'}</div>
-              <div className="mt-5 grid gap-3 md:grid-cols-3">
-                <StatusCard label="식사" value={summary?.mealNeedsCheck ? '확인 필요' : '확인됨'} />
-                <StatusCard label="약" value={summary?.medicationNeedsCheck ? '확인 필요' : '확인됨'} />
-                <StatusCard label="귀가" value={summary?.safeReturnDone ? '확인됨' : '미확인'} />
-              </div>
-            </div>
-
-            <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm">
-              <h2 className="text-2xl font-black">가족이 할 일</h2>
-              <div className="mt-4 space-y-3">
-                {(summary?.familyNextActions || []).map((item, index) => (
-                  <div key={item} className="rounded-2xl bg-slate-50 p-4 text-lg font-black">
-                    {index + 1}. {item}
+            <section className={'mt-8 rounded-[2rem] p-6 ring-1 ' + stateClass(summary?.signalState)}>
+              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+                <div>
+                  <p className="text-sm font-black opacity-75">오늘 부모님 상태</p>
+                  <div className="mt-3 text-5xl font-black tracking-[-0.08em] md:text-7xl">
+                    {summary?.signalState || '확인 필요'}
                   </div>
-                ))}
+                  <p className="mt-5 max-w-2xl text-lg font-bold leading-8">
+                    {summary?.guardianSummary}
+                  </p>
+                </div>
+
+                <div className="rounded-[1.75rem] bg-white/75 p-5">
+                  <div className="text-sm font-black opacity-70">안부온 확인 점수</div>
+                  <div className="mt-2 flex items-end gap-2">
+                    <span className="text-6xl font-black tracking-[-0.08em]">
+                      {summary?.signalScore ?? 0}
+                    </span>
+                    <span className="pb-2 text-lg font-black">/ 100</span>
+                  </div>
+                  <p className="mt-3 text-sm font-bold leading-6 opacity-75">
+                    점수는 안부 확인을 돕는 참고 신호입니다.
+                  </p>
+                </div>
               </div>
             </section>
 
-            <section className="mt-6 rounded-3xl bg-white p-6 shadow-sm">
-              <h2 className="text-2xl font-black">최근 확인 기록</h2>
-              <div className="mt-4 space-y-3">
+            <div className="mt-6 grid gap-5 lg:grid-cols-2">
+              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+                <h2 className="text-2xl font-black">확인된 신호</h2>
+                <div className="mt-4 space-y-3">
+                  {(summary?.signalReasons || []).map((reason) => (
+                    <div key={reason} className="rounded-2xl bg-[#F5FBF9] p-4 text-base font-black leading-7">
+                      {reason}
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+                <h2 className="text-2xl font-black">다음 행동</h2>
+                <div className="mt-4 space-y-3">
+                  {(summary?.familyNextActions || []).map((item, index) => (
+                    <div key={item} className="rounded-2xl bg-[#F7FBFF] p-4 text-base font-black leading-7">
+                      {index + 1}. {item}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <Link href="tel:01012345678" className="rounded-2xl bg-[#123F38] px-4 py-4 text-center font-black text-white">
+                    부모님께 전화
+                  </Link>
+                  <Link href="/care-request" className="rounded-2xl bg-[#20C5A8] px-4 py-4 text-center font-black text-white">
+                    운영실 확인 요청
+                  </Link>
+                  <Link href="/child/matching" className="rounded-2xl bg-[#EFFFF9] px-4 py-4 text-center font-black text-[#116D5F]">
+                    케어파트너 연결
+                  </Link>
+                  <Link href="/child/reports" className="rounded-2xl bg-[#F7FBFF] px-4 py-4 text-center font-black text-[#234B68]">
+                    리포트 보기
+                  </Link>
+                </div>
+              </section>
+            </div>
+
+            <section className="mt-6 rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h2 className="text-2xl font-black">최근 안부 기록</h2>
+                  <p className="mt-2 text-sm font-bold text-[#637B76]">
+                    마지막 응답: {summary?.latestResponseAt ? new Date(summary.latestResponseAt).toLocaleString('ko-KR') : '응답 없음'}
+                  </p>
+                </div>
+                <Link href="/parent/today" className="rounded-2xl bg-[#F1FBF8] px-4 py-3 text-sm font-black text-[#11977F]">
+                  부모님 화면 보기
+                </Link>
+              </div>
+
+              <div className="mt-5 grid gap-3 md:grid-cols-2">
                 {(data.items || []).slice(0, 20).map((item) => (
-                  <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
+                  <div key={item.id || `${item.check_type}-${item.care_label}-${item.occurred_at}`} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E2F1ED]">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge text={labelDailyCareType(item.check_type)} />
                       <Badge text={labelDailyCareStatus(item.status)} />
-                      <span className="text-sm text-[#7A9692]">
+                      <span className="text-xs font-bold text-[#7A9692]">
                         {item.occurred_at ? new Date(item.occurred_at).toLocaleString('ko-KR') : ''}
                       </span>
                     </div>
-                    <div className="mt-2 text-lg font-black">{item.care_label}</div>
-                    {item.memo ? <p className="mt-1 text-sm text-[#63807C]">{item.memo}</p> : null}
+                    <div className="mt-3 text-lg font-black">{item.care_label}</div>
+                    {item.memo ? <p className="mt-1 text-sm font-bold text-[#637B76]">{item.memo}</p> : null}
                   </div>
                 ))}
               </div>
             </section>
+
+            <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              {summary?.aiDisclaimer}
+            </p>
           </>
         )}
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/parent/today" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
-            부모님 화면 보기
+          <Link href="/anbuon" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 font-black text-[#116D5F]">
+            안부온 소개
           </Link>
-          <Link href="/child" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
+          <Link href="/child" className="rounded-2xl bg-white px-5 py-4 font-black ring-1 ring-[#D8EEE8]">
             자녀 홈
           </Link>
         </div>
@@ -141,18 +203,9 @@ export default function ChildDailyCarePage() {
   )
 }
 
-function StatusCard({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl bg-white p-4">
-      <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-2xl font-black">{value}</div>
-    </div>
-  )
-}
-
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69]">
+    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#4E6D69] ring-1 ring-[#DCEDE7]">
       {text}
     </span>
   )
