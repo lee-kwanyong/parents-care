@@ -183,6 +183,7 @@ main h2 {
 }
 /* /header-text-no-cut-fix */
 
+
 /* global-header-compact-dropdown-fix */
 header[data-global-header="true"] {
   height: auto !important;
@@ -193,15 +194,6 @@ header[data-global-header="true"] {
 header[data-global-header="true"] > div {
   flex-wrap: nowrap !important;
   row-gap: 0 !important;
-  overflow: visible !important;
-}
-
-header[data-global-header="true"] nav {
-  flex: 0 0 auto !important;
-  width: auto !important;
-  min-width: 0 !important;
-  flex-wrap: nowrap !important;
-  justify-content: flex-end !important;
   overflow: visible !important;
 }
 
