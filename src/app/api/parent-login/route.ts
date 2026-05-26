@@ -69,7 +69,7 @@ async function findInvite(code: string) {
     const result = await rest(query)
     if (!result.ok) continue
 
-    const row = Array.isArray(result.data) ? (result.data[0] as Record<string, any> | undefined) : undefined
+    const row = Array.isArray(result.data) ? (result.data[0] as Record<string, unknown> | undefined) : undefined
     if (!row) continue
 
     const inviteStatus = String(row.invite_status || row.status || 'active').toLowerCase()

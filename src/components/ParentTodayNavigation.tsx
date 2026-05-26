@@ -3,9 +3,9 @@ import type { ReactNode } from 'react'
 
 const bottomLinks = [
   { href: '/', label: '홈으로', desc: '처음 화면' },
-  { href: '/parent/today', label: '오늘 일정', desc: '만나는 분 확인' },
+  { href: '/parent/today', label: '오늘 안부', desc: '식사·약 확인' },
   { href: '/child/reports', label: '리포트', desc: '보호자 확인' },
-  { href: '/parent/install', label: '설치 안내', desc: '앱처럼 사용' }
+  { href: '/install', label: '설치 안내', desc: '앱처럼 사용' }
 ]
 
 type ParentNavigationProps = {
@@ -52,10 +52,6 @@ export function ParentNavigation({ children }: ParentNavigationProps) {
               보호자에게 도움 요청
             </Link>
           </div>
-
-          <p className="mt-4 text-center text-xs font-bold leading-5 text-[#8AA29E]">
-            이 화면은 부모님이 보기 쉽게 큰 글씨와 큰 버튼을 기준으로 만들었습니다.
-          </p>
         </section>
       </footer>
     </div>
@@ -63,5 +59,5 @@ export function ParentNavigation({ children }: ParentNavigationProps) {
 }
 
 export function ParentTodayNavigation({ children }: { children: ReactNode }) {
-  return <ParentNavigation currentLabel="오늘 일정 확인 화면">{children}</ParentNavigation>
+  return <ParentNavigation currentLabel="오늘 안부 확인 화면">{children}</ParentNavigation>
 }

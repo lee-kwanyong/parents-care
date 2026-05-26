@@ -137,15 +137,6 @@ export default function InstallPage() {
           ))}
         </div>
 
-        <div className="mt-5 rounded-[2rem] bg-[#123F38] p-6 text-white">
-          <p className="text-sm font-black text-[#9DF4DD]">
-            부모님께 안내할 때
-          </p>
-          <p className="mt-3 text-xl font-black leading-9 tracking-[-0.04em]">
-            “홈 화면에 추가해두면 앞으로는 아이콘만 눌러서 안부 체크를 할 수 있어요.”
-          </p>
-        </div>
-
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <Link
             href="/parent/login"
