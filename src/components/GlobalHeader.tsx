@@ -9,6 +9,8 @@ const outsideLinks = [
 ]
 
 const menuLinks = [
+  { href: '/settings/permissions', label: '앱 권한', desc: '알림·위치·접근성 설정' },
+
   { href: '/', label: '홈', desc: '처음 화면' },
   { href: '/anbuon', label: '안부온', desc: 'AI 안부확인' },
   { href: '/family-link', label: '부모님 연결', desc: '자녀와 부모님 연결하기' },

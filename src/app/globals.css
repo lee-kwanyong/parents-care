@@ -720,3 +720,31 @@ header[data-global-header="true"] > div {
   }
 }
 /* /emergency-deploy-mobile-fix */
+
+/* anbuworks-permission-accessibility */
+html.anbu-large-text {
+  font-size: 18px;
+}
+
+html.anbu-high-contrast body {
+  background: #ffffff !important;
+}
+
+html.anbu-high-contrast a,
+html.anbu-high-contrast button {
+  text-decoration-thickness: 2px;
+}
+
+html.anbu-high-contrast * {
+  border-color: rgba(15, 54, 49, 0.28) !important;
+}
+
+html.anbu-reduce-motion *,
+html.anbu-reduce-motion *::before,
+html.anbu-reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+  transition-duration: 0.001ms !important;
+}
+/* /anbuworks-permission-accessibility */
