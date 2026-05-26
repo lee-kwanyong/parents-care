@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
+import { isSixDigitParentCode, normalizeParentCode } from '@/lib/parent-code'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -57,25 +58,43 @@ async function rest(path: string, init?: RequestInit) {
 }
 
 async function findParentInvite(inviteCode: string) {
-  const result = await rest(
-    'care_parent_invites?select=*&invite_code=eq.' +
-      encodeURIComponent(inviteCode) +
-      '&invite_status=eq.active&order=created_at.desc&limit=1'
-  )
+  const select = encodeURIComponent('*')
+  const code = encodeURIComponent(inviteCode)
 
-  if (!result.ok) return null
-  return Array.isArray(result.data) ? result.data[0] : null
+  const queries = [
+    `care_parent_invites?select=${select}&invite_code=eq.${code}&invite_status=eq.active&order=created_at.desc&limit=1`,
+    `care_parent_invites?select=${select}&invite_code=eq.${code}&status=eq.active&order=created_at.desc&limit=1`,
+    `care_parent_invites?select=${select}&invite_code=eq.${code}&order=created_at.desc&limit=1`
+  ]
+
+  for (const query of queries) {
+    const result = await rest(query)
+
+    if (!result.ok) continue
+
+    const row = Array.isArray(result.data) ? result.data[0] : null
+
+    if (!row) continue
+
+    const status = String(row.invite_status || row.status || 'active').toLowerCase()
+
+    if (status === 'active' || status === 'issued' || status === 'ready') {
+      return row
+    }
+  }
+
+  return null
 }
 
 export async function POST(request: NextRequest) {
   const role = request.cookies.get('pc_role')?.value || ''
-  const inviteCode = request.cookies.get('pc_parent_invite_code')?.value || ''
+  const inviteCode = normalizeParentCode(request.cookies.get('pc_parent_invite_code')?.value || '')
 
-  if (role !== 'parent' || !inviteCode) {
+  if (role !== 'parent' || !isSixDigitParentCode(inviteCode)) {
     return NextResponse.json(
       {
         ok: false,
-        message: '먼저 부모님 4자리 코드로 접속해주세요.'
+        message: '먼저 부모님 6자리 코드로 접속해주세요.'
       },
       { status: 401 }
     )
@@ -87,7 +106,7 @@ export async function POST(request: NextRequest) {
     const response = NextResponse.json(
       {
         ok: false,
-        message: '부모님 연결 정보가 만료됐습니다. 자녀에게 4자리 코드를 다시 받아주세요.'
+        message: '부모님 연결 정보가 만료됐습니다. 자녀에게 6자리 코드를 다시 받아주세요.'
       },
       { status: 401 }
     )
@@ -104,6 +123,7 @@ export async function POST(request: NextRequest) {
 
   const elderName =
     text(invite.parent_name) ||
+    text(invite.elder_name) ||
     text(request.cookies.get('pc_parent_name')?.value) ||
     '부모님'
 

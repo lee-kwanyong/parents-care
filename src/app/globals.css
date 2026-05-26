@@ -215,3 +215,140 @@ header[data-global-header="true"] [data-global-menu-panel="true"] a {
   white-space: normal !important;
 }
 /* /global-header-compact-dropdown-fix */
+
+/* mobile-layout-hardening-fix */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+  max-width: 100%;
+}
+
+main,
+section,
+article,
+aside,
+div,
+nav,
+header,
+footer {
+  min-width: 0;
+}
+
+input,
+textarea,
+select,
+button,
+a {
+  max-width: 100%;
+}
+
+header[data-global-header="true"] {
+  width: 100%;
+  max-width: 100vw;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] > div {
+  width: 100%;
+  max-width: 80rem;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] [data-global-menu-panel="true"] {
+  max-width: calc(100vw - 1rem) !important;
+}
+
+@media (max-width: 640px) {
+  body {
+    min-width: 0 !important;
+  }
+
+  main {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    padding-left: max(1rem, env(safe-area-inset-left)) !important;
+    padding-right: max(1rem, env(safe-area-inset-right)) !important;
+  }
+
+  main > section,
+  main > div {
+    width: 100%;
+    max-width: calc(100vw - 2rem) !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  [class*="grid-cols-2"],
+  [class*="grid-cols-3"],
+  [class*="grid-cols-4"],
+  [class*="sm:grid-cols-2"],
+  [class*="md:grid-cols-2"],
+  [class*="md:grid-cols-3"],
+  [class*="lg:grid-cols-2"],
+  [class*="lg:grid-cols-3"],
+  [class*="xl:grid-cols-2"],
+  [class*="xl:grid-cols-3"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  [class*="max-w-"] {
+    max-width: 100% !important;
+  }
+
+  [class*="min-w-"] {
+    min-width: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3 {
+    line-height: 1.12 !important;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  p,
+  span,
+  label,
+  button,
+  a {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+  }
+
+  header[data-global-header="true"] > div {
+    gap: 0.5rem !important;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  header[data-global-header="true"] [data-global-menu-panel="true"] {
+    position: absolute !important;
+    right: 0 !important;
+    width: calc(100vw - 1rem) !important;
+    max-height: 78vh !important;
+  }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="number"],
+  textarea {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+/* /mobile-layout-hardening-fix */
