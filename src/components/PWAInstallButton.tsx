@@ -94,18 +94,10 @@ export function PWAInstallButton({
             </div>
 
             <div className="mt-3 space-y-2 text-xs font-bold leading-6 text-[#5F7772]">
-              <p>
-                설치 버튼이 바로 뜨지 않으면 브라우저 메뉴에서 직접 추가할 수 있습니다.
-              </p>
-              <p>
-                Android Chrome: 오른쪽 위 메뉴 → 앱 설치 또는 홈 화면에 추가
-              </p>
-              <p>
-                iPhone Safari: 공유 버튼 → 홈 화면에 추가
-              </p>
-              <p>
-                PC Chrome: 주소창 오른쪽 설치 아이콘 또는 브라우저 메뉴에서 앱 설치
-              </p>
+              <p>설치 버튼이 바로 뜨지 않으면 브라우저 메뉴에서 직접 추가할 수 있습니다.</p>
+              <p>Android Chrome: 오른쪽 위 메뉴 → 앱 설치 또는 홈 화면에 추가</p>
+              <p>iPhone Safari: 공유 버튼 → 홈 화면에 추가</p>
+              <p>PC Chrome: 주소창 오른쪽 설치 아이콘 또는 브라우저 메뉴에서 앱 설치</p>
             </div>
 
             <button

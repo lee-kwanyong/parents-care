@@ -14,7 +14,7 @@ function supabaseBaseUrl() {
 }
 
 function serviceKey() {
-  return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  return process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 }
 
 function text(value: unknown) {
@@ -26,7 +26,11 @@ async function rest(path: string, init?: RequestInit) {
   const key = serviceKey()
 
   if (!base || !key) {
-    return { ok: false, data: null as any, error: 'Supabase env is missing' }
+    return {
+      ok: false,
+      data: null as unknown,
+      error: 'NEXT_PUBLIC_SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다.'
+    }
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
@@ -41,7 +45,7 @@ async function rest(path: string, init?: RequestInit) {
   })
 
   const bodyText = await response.text()
-  let parsed: any = null
+  let parsed: unknown = null
 
   try {
     parsed = bodyText ? JSON.parse(bodyText) : null
@@ -49,26 +53,11 @@ async function rest(path: string, init?: RequestInit) {
     parsed = bodyText
   }
 
-  return { ok: response.ok, data: parsed, error: response.ok ? null : parsed || bodyText }
-}
-
-async function insertCheckin(payload: Record<string, unknown>) {
-  const withFamilyCode = await rest('daily_care_checkins', {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([payload])
-  })
-
-  if (withFamilyCode.ok) return withFamilyCode
-
-  const fallbackPayload = { ...payload }
-  delete fallbackPayload.family_code
-
-  return rest('daily_care_checkins', {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([fallbackPayload])
-  })
+  return {
+    ok: response.ok,
+    data: parsed,
+    error: response.ok ? null : parsed || bodyText
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -80,10 +69,7 @@ export async function POST(request: NextRequest) {
 
   if (role !== 'parent' || !familyCode) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: '먼저 부모님 연결코드로 접속해주세요.'
-      },
+      { ok: false, message: '먼저 부모님 연결코드로 접속해주세요.' },
       { status: 401 }
     )
   }
@@ -108,24 +94,30 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: 'status가 올바르지 않습니다.' }, { status: 400 })
   }
 
-  const insert = await insertCheckin({
-    family_code: familyCode,
-    elder_name: elderName,
-    check_type: checkType,
-    care_label: careLabel,
-    status,
-    actor_role: 'parent',
-    source: 'anbuon_parent_big_button',
-    memo: memo || null,
-    occurred_at: new Date().toISOString()
+  const inserted = await rest('daily_care_checkins', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify([
+      {
+        family_code: familyCode,
+        elder_name: elderName,
+        check_type: checkType,
+        care_label: careLabel,
+        status,
+        actor_role: 'parent',
+        source: 'anbuon_parent_big_button',
+        memo: memo || null,
+        occurred_at: new Date().toISOString()
+      }
+    ])
   })
 
-  if (!insert.ok) {
+  if (!inserted.ok) {
     return NextResponse.json(
       {
         ok: false,
-        message: '안부온 확인 저장 중 오류가 발생했습니다.',
-        detail: insert.error
+        message: '안부온 확인 저장에 실패했습니다. /setup/supabase에서 DB 설정을 확인해주세요.',
+        detail: inserted.error
       },
       { status: 500 }
     )
@@ -133,6 +125,6 @@ export async function POST(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
-    checkin: Array.isArray(insert.data) ? insert.data[0] : insert.data
+    checkin: Array.isArray(inserted.data) ? inserted.data[0] : inserted.data
   })
 }

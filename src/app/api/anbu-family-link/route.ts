@@ -18,7 +18,7 @@ function supabaseBaseUrl() {
 }
 
 function serviceKey() {
-  return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  return process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 }
 
 async function rest(path: string, init?: RequestInit) {
@@ -26,7 +26,11 @@ async function rest(path: string, init?: RequestInit) {
   const key = serviceKey()
 
   if (!base || !key) {
-    return { ok: false, data: null as any, error: 'Supabase env is missing' }
+    return {
+      ok: false,
+      data: null as unknown,
+      error: 'NEXT_PUBLIC_SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다.'
+    }
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
@@ -41,7 +45,7 @@ async function rest(path: string, init?: RequestInit) {
   })
 
   const bodyText = await response.text()
-  let parsed: any = null
+  let parsed: unknown = null
 
   try {
     parsed = bodyText ? JSON.parse(bodyText) : null
@@ -49,7 +53,36 @@ async function rest(path: string, init?: RequestInit) {
     parsed = bodyText
   }
 
-  return { ok: response.ok, data: parsed, error: response.ok ? null : parsed || bodyText }
+  return {
+    ok: response.ok,
+    data: parsed,
+    error: response.ok ? null : parsed || bodyText
+  }
+}
+
+async function createFamilyLink(payload: Record<string, unknown>) {
+  for (let i = 0; i < 5; i += 1) {
+    const familyCode = i === 0 && typeof payload.family_code === 'string'
+      ? payload.family_code
+      : createCode()
+
+    const result = await rest('anbu_family_links', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify([{ ...payload, family_code: familyCode }])
+    })
+
+    if (result.ok) {
+      return { ...result, familyCode }
+    }
+  }
+
+  return {
+    ok: false,
+    familyCode: '',
+    data: null,
+    error: '연결코드 생성에 실패했습니다. 잠시 후 다시 시도해주세요.'
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -57,40 +90,40 @@ export async function POST(request: NextRequest) {
   const action = text(body.action)
 
   if (action === 'create') {
-    const familyCode = text(body.familyCode) || createCode()
-    const parentName = text(body.parentName) || '부모님'
     const guardianName = text(body.guardianName) || '보호자'
     const guardianPhone = text(body.guardianPhone)
+    const parentName = text(body.parentName) || '부모님'
     const parentPhone = text(body.parentPhone)
 
-    const payload = {
-      family_code: familyCode,
+    const created = await createFamilyLink({
+      family_code: text(body.familyCode) || createCode(),
       guardian_name: guardianName,
       guardian_phone: guardianPhone || null,
       parent_name: parentName,
       parent_phone: parentPhone || null,
       consent_status: 'pending',
       link_status: 'active'
-    }
-
-    const inserted = await rest('anbu_family_links', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify([payload])
     })
+
+    if (!created.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: 'Supabase 서버 저장에 실패했습니다. /setup/supabase에서 DB 설정을 먼저 확인해주세요.',
+          detail: created.error
+        },
+        { status: 500 }
+      )
+    }
 
     const response = NextResponse.json({
       ok: true,
-      familyCode,
-      mode: inserted.ok ? 'supabase' : 'local-fallback',
-      message: inserted.ok
-        ? '부모님 연결코드가 저장되었습니다.'
-        : 'Supabase 테이블이 아직 없어서 브라우저 기준으로 코드가 생성되었습니다. SQL 마이그레이션을 실행하면 서버 저장이 됩니다.',
-      detail: inserted.ok ? null : inserted.error
+      familyCode: created.familyCode,
+      message: '부모님 연결코드가 서버에 저장되었습니다.'
     })
 
     response.cookies.set('anbu_role', 'guardian', { path: '/', sameSite: 'lax' })
-    response.cookies.set('anbu_family_code', familyCode, { path: '/', sameSite: 'lax' })
+    response.cookies.set('anbu_family_code', created.familyCode, { path: '/', sameSite: 'lax' })
     response.cookies.set('pc_guardian_phone', guardianPhone || '', { path: '/', sameSite: 'lax' })
 
     return response
@@ -100,36 +133,54 @@ export async function POST(request: NextRequest) {
     const familyCode = text(body.familyCode)
 
     if (!/^\d{4,6}$/.test(familyCode)) {
-      return NextResponse.json({ ok: false, message: '4자리 또는 6자리 연결코드를 입력해주세요.' }, { status: 400 })
+      return NextResponse.json(
+        { ok: false, message: '4자리 또는 6자리 연결코드를 입력해주세요.' },
+        { status: 400 }
+      )
     }
 
-    const parentName = text(body.parentName) || '부모님'
     const found = await rest(
       'anbu_family_links?select=id,parent_name,family_code,link_status&family_code=eq.' +
         encodeURIComponent(familyCode) +
         '&link_status=eq.active&limit=1'
     )
 
-    if (found.ok && Array.isArray(found.data) && found.data.length === 0) {
-      return NextResponse.json({ ok: false, message: '연결코드를 찾지 못했습니다. 보호자에게 코드를 다시 확인해주세요.' }, { status: 404 })
+    if (!found.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: 'Supabase 연결 확인이 필요합니다. /setup/supabase에서 DB 설정을 먼저 확인해주세요.',
+          detail: found.error
+        },
+        { status: 500 }
+      )
     }
 
-    if (found.ok && Array.isArray(found.data) && found.data[0]?.parent_name) {
-      await rest('anbu_family_links?family_code=eq.' + encodeURIComponent(familyCode), {
-        method: 'PATCH',
-        headers: { Prefer: 'return=representation' },
-        body: JSON.stringify({
-          parent_name: parentName,
-          consent_status: 'agreed',
-          parent_joined_at: new Date().toISOString()
-        })
-      })
+    const rows = Array.isArray(found.data) ? found.data : []
+
+    if (rows.length === 0) {
+      return NextResponse.json(
+        { ok: false, message: '연결코드를 찾지 못했습니다. 보호자에게 코드를 다시 확인해주세요.' },
+        { status: 404 }
+      )
     }
+
+    const parentName = text(body.parentName) || '부모님'
+
+    await rest('anbu_family_links?family_code=eq.' + encodeURIComponent(familyCode), {
+      method: 'PATCH',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({
+        parent_name: parentName,
+        consent_status: 'agreed',
+        parent_joined_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+    })
 
     const response = NextResponse.json({
       ok: true,
       familyCode,
-      mode: found.ok ? 'supabase' : 'local-fallback',
       message: '부모님 연결이 완료되었습니다.'
     })
 
@@ -142,5 +193,8 @@ export async function POST(request: NextRequest) {
     return response
   }
 
-  return NextResponse.json({ ok: false, message: '지원하지 않는 요청입니다.' }, { status: 400 })
+  return NextResponse.json(
+    { ok: false, message: '지원하지 않는 요청입니다.' },
+    { status: 400 }
+  )
 }
