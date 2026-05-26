@@ -1,84 +1,167 @@
-import Link from 'next/link'
-import { AppFrame } from '@/components/ui/AppFrame'
-import { CareButton } from '@/components/ui/CareButton'
-import { CareCard } from '@/components/ui/CareCard'
-import { SectionHeader } from '@/components/ui/SectionHeader'
-import { StatusPill } from '@/components/ui/StatusPill'
-import { PWAInstallPanel } from '@/components/PWAInstallPanel'
+'use client'
 
-const quickLinks = [
-  ['/child', '자녀앱 홈'],
-  ['/care-intake', '사진·카톡 맡기기'],
-  ['/child/today', '오늘의 안심판'],
-  ['/child/tasks', '가족 할 일'],
-  ['/parent/install', '부모님 폰 설치 안내']
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+
+type BeforeInstallPromptEvent = Event & {
+  prompt: () => Promise<void>
+  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform?: string }>
+}
+
+const guides = [
+  {
+    title: 'iPhone Safari에서 추가하기',
+    desc: 'Safari로 접속한 뒤 하단 공유 버튼을 누르고, “홈 화면에 추가”를 선택하세요.',
+    badge: 'iPhone'
+  },
+  {
+    title: 'Android Chrome에서 추가하기',
+    desc: 'Chrome 오른쪽 위 메뉴를 누르고, “앱 설치” 또는 “홈 화면에 추가”를 선택하세요.',
+    badge: 'Android'
+  },
+  {
+    title: '네이버앱·기타 브라우저 사용 중이라면',
+    desc: '설치 메뉴가 바로 보이지 않을 수 있습니다. Safari 또는 Chrome으로 parents-care.net에 접속한 뒤 추가하면 가장 안정적입니다.',
+    badge: '안내'
+  },
+  {
+    title: 'PC Chrome에서 설치하기',
+    desc: '주소창 오른쪽 설치 아이콘을 누르거나, 브라우저 메뉴에서 “페이지를 앱으로 설치”를 선택하세요.',
+    badge: 'PC'
+  }
 ]
 
 export default function InstallPage() {
+  const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null)
+  const [message, setMessage] = useState('')
+
+  useEffect(() => {
+    function onBeforeInstallPrompt(event: Event) {
+      event.preventDefault()
+      setPromptEvent(event as BeforeInstallPromptEvent)
+    }
+
+    function onInstalled() {
+      setMessage('홈 화면에 추가되었습니다.')
+      setPromptEvent(null)
+    }
+
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+    window.addEventListener('appinstalled', onInstalled)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+      window.removeEventListener('appinstalled', onInstalled)
+    }
+  }, [])
+
+  async function installApp() {
+    if (!promptEvent) {
+      setMessage('이 브라우저에서는 자동 설치 버튼이 뜨지 않습니다. 아래 안내대로 브라우저 메뉴에서 직접 추가해주세요.')
+      return
+    }
+
+    await promptEvent.prompt()
+    const choice = await promptEvent.userChoice.catch(() => null)
+
+    if (choice?.outcome === 'accepted') {
+      setMessage('설치가 시작되었습니다.')
+    } else {
+      setMessage('설치가 취소되었습니다. 필요하면 다시 눌러주세요.')
+    }
+
+    setPromptEvent(null)
+  }
+
   return (
-    <AppFrame title="홈 화면에 추가" subtitle="부모님 케어를 앱처럼 사용하세요">
-      <SectionHeader
-        eyebrow="설치 안내"
-        title={
-          <>
-            앱처럼 열리게
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F2FFFB_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
+      <section className="mx-auto max-w-4xl">
+        <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+            홈 화면에 추가
+          </div>
+
+          <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
+            부모님 안심케어를
             <br />
-            홈 화면에 추가하세요.
-          </>
-        }
-        description="설치가 어렵지 않도록 자녀용과 부모님용을 분리했습니다. 자녀는 오늘의 안심판 중심, 부모님은 큰 글씨 화면 중심으로 씁니다."
-        actions={
-          <>
-            <CareButton href="/child" tone="primary">
-              자녀앱 열기
-            </CareButton>
-            <CareButton href="/parent/install" tone="dark">
-              부모님 폰 안내
-            </CareButton>
-          </>
-        }
-      />
+            앱처럼 사용하세요.
+          </h1>
 
-      <div className="mt-8">
-        <PWAInstallPanel mode="guardian" />
-      </div>
-
-      <section className="mt-8 grid gap-4 md:grid-cols-3">
-        <CareCard tone="green">
-          <StatusPill text="자녀용" tone="green" />
-          <h2 className="mt-4 text-2xl font-black">오늘의 안심판</h2>
-          <p className="mt-3 text-sm font-bold leading-6">
-            안심 / 확인 필요 / 긴급과 가족 할 일 3개를 먼저 확인합니다.
+          <p className="mt-5 max-w-3xl text-lg font-bold leading-8 text-[#637B76]">
+            홈 화면에 추가하면 브라우저 주소를 매번 입력하지 않아도 바로 접속할 수 있습니다.
+            설치 버튼이 바로 뜨지 않는 브라우저에서는 아래 방법대로 직접 추가해주세요.
           </p>
-        </CareCard>
 
-        <CareCard tone="blue">
-          <StatusPill text="부모님용" tone="blue" />
-          <h2 className="mt-4 text-2xl font-black">큰 글씨 화면</h2>
-          <p className="mt-3 text-sm font-bold leading-6">
-            오늘 일정, 만남 암호, 자녀 전화, 도움 요청만 보여줍니다.
-          </p>
-        </CareCard>
+          <div className="mt-7 grid gap-3 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={installApp}
+              className="rounded-[1.5rem] bg-[#123F38] px-6 py-5 text-center text-lg font-black text-white shadow-sm"
+            >
+              설치 버튼 확인하기
+            </button>
 
-        <CareCard tone="amber">
-          <StatusPill text="대체 가능" tone="amber" />
-          <h2 className="mt-4 text-2xl font-black">전화·카톡·사진</h2>
-          <p className="mt-3 text-sm font-bold leading-6">
-            앱 입력이 어려우면 전화, 카톡, 사진으로 맡길 수 있습니다.
-          </p>
-        </CareCard>
-      </section>
-
-      <section className="mt-8 rounded-[2rem] bg-white p-5 shadow-sm md:p-7">
-        <h2 className="text-2xl font-black">바로 열기</h2>
-        <div className="mt-4 flex flex-wrap gap-3">
-          {quickLinks.map(([href, label]) => (
-            <Link key={href} href={href} className="rounded-2xl bg-slate-100 px-4 py-3 text-sm font-black hover:bg-emerald-50">
-              {label}
+            <Link
+              href="/"
+              className="rounded-[1.5rem] bg-[#EFFFF9] px-6 py-5 text-center text-lg font-black text-[#116D5F] shadow-sm ring-1 ring-[#CDEFE5]"
+            >
+              홈으로 돌아가기
             </Link>
+          </div>
+
+          {message ? (
+            <div className="mt-5 rounded-[1.5rem] bg-[#FFF8E8] p-5 text-base font-black leading-7 text-[#735212] ring-1 ring-[#F0D299]">
+              {message}
+            </div>
+          ) : null}
+        </div>
+
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          {guides.map((guide) => (
+            <article
+              key={guide.title}
+              className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]"
+            >
+              <div className="inline-flex rounded-full bg-[#F2FAF8] px-3 py-1 text-xs font-black text-[#159B84] ring-1 ring-[#DDEEEA]">
+                {guide.badge}
+              </div>
+
+              <h2 className="mt-4 text-2xl font-black tracking-[-0.05em] text-[#173B36]">
+                {guide.title}
+              </h2>
+
+              <p className="mt-3 text-base font-bold leading-8 text-[#637B76]">
+                {guide.desc}
+              </p>
+            </article>
           ))}
         </div>
+
+        <div className="mt-5 rounded-[2rem] bg-[#123F38] p-6 text-white">
+          <p className="text-sm font-black text-[#9DF4DD]">
+            부모님께 안내할 때
+          </p>
+          <p className="mt-3 text-xl font-black leading-9 tracking-[-0.04em]">
+            “홈 화면에 추가해두면 앞으로는 아이콘만 눌러서 안부 체크를 할 수 있어요.”
+          </p>
+        </div>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <Link
+            href="/parent/login"
+            className="rounded-[1.5rem] bg-white px-6 py-5 text-center text-lg font-black text-[#173B36] shadow-sm ring-1 ring-[#D8EEE8]"
+          >
+            부모님 6자리 코드 입력
+          </Link>
+
+          <Link
+            href="/family-link"
+            className="rounded-[1.5rem] bg-white px-6 py-5 text-center text-lg font-black text-[#173B36] shadow-sm ring-1 ring-[#D8EEE8]"
+          >
+            부모님 연결 방법 보기
+          </Link>
+        </div>
       </section>
-    </AppFrame>
+    </main>
   )
 }
