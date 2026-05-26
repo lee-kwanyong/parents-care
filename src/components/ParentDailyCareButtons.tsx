@@ -7,7 +7,7 @@ import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
 
 const groupOrder = ['식사', '약', '몸', '기분', '활동', '도움'] as const
 
-export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?: string }) {
+export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?: string }) {
   const [message, setMessage] = useState('')
   const [savingKey, setSavingKey] = useState('')
   const [loginRequired, setLoginRequired] = useState(false)
@@ -47,7 +47,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
 
       if (response.status === 401) {
         setLoginRequired(true)
-        throw new Error(data.message || '먼저 부모님 6자리 코드로 접속해주세요.')
+        throw new Error(data.message || '먼저 부모님 연결코드로 접속해주세요.')
       }
 
       if (!response.ok || !data.ok) {
@@ -76,7 +76,9 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
 
       {message ? (
         <div className="mt-5 rounded-2xl bg-[#E8FAF5] p-4">
-          <p className="text-lg font-black text-[#126F61]">{message}</p>
+          <p className="text-lg font-black text-[#126F61]">
+            {message}
+          </p>
 
           {loginRequired ? (
             <div className="mt-3 flex flex-wrap gap-2">
@@ -84,7 +86,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
                 href="/parent/login"
                 className="rounded-xl bg-[#193B38] px-4 py-2 text-sm font-black text-white"
               >
-                부모님 6자리 코드 입력
+                부모님 연결코드 입력
               </Link>
               <Link
                 href="/family-link"

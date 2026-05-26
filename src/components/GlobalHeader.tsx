@@ -9,6 +9,14 @@ const outsideLinks = [
 ]
 
 const menuLinks = [
+  { href: '/parent/login', label: '부모님 코드입력', desc: '부모님 안부온 접속' },
+  { href: '/anbu-routines', label: '안부 루틴', desc: '식사·약·응답 없음 알림' },
+  { href: '/child/weekly-report', label: '주간 리포트', desc: '상태 변화 자동 요약' },
+  { href: '/ops/anbu-control', label: '운영실 관제', desc: '확인 필요 신호 처리' },
+  { href: '/care-partner/apply', label: '케어파트너 모집', desc: '요양보호사·동행 파트너 등록' },
+  { href: '/privacy-consent', label: '개인정보 동의', desc: '안부 정보 공유 동의' },
+  { href: '/pricing', label: '요금제', desc: '구독·사람 연결 수익모델' },
+  { href: '/platform-roadmap', label: '플랫폼 구조', desc: '투자자 설명 흐름' },
   { href: '/settings/permissions', label: '앱 권한', desc: '알림·위치·접근성 설정' },
 
   { href: '/', label: '홈', desc: '처음 화면' },

@@ -157,12 +157,11 @@ function includesAny(text: string, words: string[]) {
 }
 
 function unique(items: string[]) {
-  return Array.from(new Set(items)).slice(0, 6)
+  return Array.from(new Set(items)).slice(0, 8)
 }
 
 export function buildDailyCareSummary(checkins: DailyCareCheckin[]) {
   const now = Date.now()
-
   const last24h = checkins
     .filter((item) => {
       const time = toTime(item.occurred_at || item.created_at)
@@ -206,6 +205,7 @@ export function buildDailyCareSummary(checkins: DailyCareCheckin[]) {
   const mealNeedsCheck = latest.some((item) => item.check_type === 'meal' && item.status === 'not_done')
   const medicationNeedsCheck = latest.some((item) => item.check_type === 'medication' && item.status === 'not_done')
   const conditionNeedsCheck = latest.some((item) => item.check_type === 'condition' && item.status === 'needs_help')
+  const safeReturnDone = latest.some((item) => item.check_type === 'safe_return' && item.status === 'done')
 
   const moodNeedsCheck = latest.some((item) => {
     const text = `${item.care_label} ${item.memo || ''}`
@@ -253,10 +253,20 @@ export function buildDailyCareSummary(checkins: DailyCareCheckin[]) {
   }
 
   const signalState: AnbuSignalState =
-    signalScore >= 60 ? '확인 필요' : signalScore >= 30 ? '주의' : '정상'
+    signalScore >= 60
+      ? '확인 필요'
+      : signalScore >= 30
+        ? '주의'
+        : '정상'
 
   const reassuranceState: ReassuranceState =
-    hasEmergency ? '긴급' : signalState === '정상' ? '안심' : '확인 필요'
+    hasEmergency
+      ? '긴급'
+      : signalState === '확인 필요'
+        ? '확인 필요'
+        : signalState === '주의'
+          ? '확인 필요'
+          : '안심'
 
   if (nextActions.length === 0) {
     nextActions.push('지금은 바로 확인할 일이 없습니다.')
@@ -283,6 +293,7 @@ export function buildDailyCareSummary(checkins: DailyCareCheckin[]) {
     conditionNeedsCheck,
     moodNeedsCheck,
     activityNeedsCheck,
+    safeReturnDone,
     familyNextActions: unique(nextActions).slice(0, 4),
     latestResponseAt: latestTime ? new Date(latestTime).toISOString() : null,
     aiDisclaimer: '안부온 점수는 의료 진단이 아니라 안부 확인을 돕는 참고 신호입니다. 응급상황은 119에 연락하세요.'
