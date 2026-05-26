@@ -69,7 +69,7 @@ async function rest(path: string, init?: RequestInit) {
 }
 
 function makeCode() {
-  return String(Math.floor(1000 + Math.random() * 9000))
+  return String(Math.floor(100000 + Math.random() * 900000))
 }
 
 async function findInviteByCode(code: string) {
@@ -193,11 +193,11 @@ export async function POST(request: NextRequest) {
   if (action === 'parent_login') {
     const code = text(body.code)
 
-    if (!/^\d{4}$/.test(code)) {
+    if (!/^\d{6}$/.test(code)) {
       return NextResponse.json(
         {
           ok: false,
-          message: '4자리 숫자 코드를 입력해주세요.'
+          message: '6자리 숫자 코드를 입력해주세요.'
         },
         { status: 400 }
       )

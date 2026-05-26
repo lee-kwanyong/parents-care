@@ -748,3 +748,43 @@ html.anbu-reduce-motion *::after {
   transition-duration: 0.001ms !important;
 }
 /* /anbuworks-permission-accessibility */
+
+/* global-header-pricing-login-outside-fix */
+header[data-global-header="true"] {
+  height: auto !important;
+  min-height: unset !important;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] > div {
+  flex-wrap: nowrap !important;
+  row-gap: 0 !important;
+  overflow: visible !important;
+}
+
+header[data-global-header="true"] a,
+header[data-global-header="true"] button {
+  white-space: nowrap !important;
+  text-overflow: clip !important;
+}
+
+header[data-global-header="true"] [data-global-menu-panel="true"] {
+  position: absolute !important;
+  right: 0 !important;
+  width: min(22rem, calc(100vw - 1.5rem)) !important;
+  max-width: calc(100vw - 1.5rem) !important;
+  overflow: hidden !important;
+}
+
+header[data-global-header="true"] [data-global-menu-panel="true"] a,
+header[data-global-header="true"] [data-global-menu-panel="true"] button {
+  white-space: normal !important;
+}
+
+@media (max-width: 380px) {
+  header[data-global-header="true"] > div {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+}
+/* /global-header-pricing-login-outside-fix */

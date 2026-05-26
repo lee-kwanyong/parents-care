@@ -8,14 +8,14 @@ const mainMenus = [
     href: '/signup/guardian',
     icon: '👨‍👩‍👧',
     title: '보호자 가입',
-    desc: '보호자가 가입하고 부모님 4자리 코드를 만듭니다.',
+    desc: '보호자가 가입하고 부모님 6자리 코드를 만듭니다.',
     badge: '시작'
   },
   {
     href: '/parent/login',
     icon: '🔢',
-    title: '부모님 4자리 접속',
-    desc: '부모님은 회원가입 없이 4자리 코드만 입력합니다.',
+    title: '부모님 6자리 접속',
+    desc: '부모님은 회원가입 없이 6자리 코드만 입력합니다.',
     badge: '부모님'
   },
   {
@@ -115,7 +115,7 @@ export default function AppSelectPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#4E6D69] md:text-lg">
-            보호자는 가입 후 부모님을 초대하고, 부모님은 4자리 코드만 입력합니다.
+            보호자는 가입 후 부모님을 초대하고, 부모님은 6자리 코드만 입력합니다.
             케어파트너와 운영실은 각각 별도 화면에서 진행합니다.
           </p>
         </CareCard>

@@ -169,7 +169,7 @@ function NavIcon({ item }: { item: QuickNavItem }) {
 
 export function MobileQuickNav({ items }: { items?: QuickNavItem[] }) {
   const pathname = usePathname()
-  const navItems = (items && items.length > 0 ? items : pickItems(pathname)).slice(0, 4)
+  const navItems = (items && items.length > 0 ? items : pickItems(pathname)).slice(0, 6)
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-[#E0EFEC] bg-white/95 px-3 py-2 shadow-[0_-12px_35px_rgba(93,139,131,0.15)] backdrop-blur md:hidden">

@@ -85,7 +85,7 @@ export function GuardianSignupPanel() {
       setSession(currentSession)
 
       if (currentSession && showLoginMessage) {
-        setAuthMessage('로그인 완료. 이제 부모님 4자리 코드를 만들 수 있습니다.')
+        setAuthMessage('로그인 완료. 이제 부모님 6자리 코드를 만들 수 있습니다.')
         scrollToInvite()
       }
 
@@ -116,7 +116,7 @@ export function GuardianSignupPanel() {
       setSession(currentSession)
 
       if (currentSession) {
-        setAuthMessage('로그인 완료. 이제 부모님 4자리 코드를 만들 수 있습니다.')
+        setAuthMessage('로그인 완료. 이제 부모님 6자리 코드를 만들 수 있습니다.')
       }
     })
 
@@ -219,7 +219,7 @@ export function GuardianSignupPanel() {
         if (signUpData.session) {
           await syncGuardianProfile(signUpData.session, 'email_password')
           setSession(signUpData.session)
-          setAuthMessage('이메일 회원가입이 완료됐습니다. 이제 부모님 4자리 코드를 만들 수 있습니다.')
+          setAuthMessage('이메일 회원가입이 완료됐습니다. 이제 부모님 6자리 코드를 만들 수 있습니다.')
           scrollToInvite()
         } else {
           setAuthMessage('회원가입 확인 메일을 보냈습니다. 메일함에서 인증 링크를 누른 뒤 다시 들어오세요.')
@@ -231,7 +231,7 @@ export function GuardianSignupPanel() {
       if (signInData.session) {
         await syncGuardianProfile(signInData.session, 'email_password')
         setSession(signInData.session)
-        setAuthMessage('로그인 완료. 이제 부모님 4자리 코드를 만들 수 있습니다.')
+        setAuthMessage('로그인 완료. 이제 부모님 6자리 코드를 만들 수 있습니다.')
         scrollToInvite()
       } else {
         setAuthMessage('로그인 요청은 처리됐지만 세션을 확인하지 못했습니다. 새로고침 후 다시 확인해주세요.')
@@ -288,7 +288,7 @@ export function GuardianSignupPanel() {
     const code = inviteCode || '----'
     const message = `[부모님 안심케어] ${form.parentName || '부모님'} 전용 화면 접속 안내
 
-아래 주소로 들어가서 4자리 코드를 입력해주세요.
+아래 주소로 들어가서 6자리 코드를 입력해주세요.
 
 부모님 접속 화면:\nhttps://parents-care.net/parent/login
 접속코드: ${code}
@@ -325,14 +325,14 @@ export function GuardianSignupPanel() {
         </h2>
 
         <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-          부모님은 직접 가입하지 않으셔도 됩니다. 보호자가 가입 후 4자리 코드를 보내드리면 바로 연결됩니다.
+          부모님은 직접 가입하지 않으셔도 됩니다. 보호자가 가입 후 6자리 코드를 보내드리면 바로 연결됩니다.
         </p>
 
         {session ? (
           <div className="mt-4 rounded-2xl bg-[#EAFBF6] p-4 text-sm font-black leading-6 text-[#2F756B]">
             <div>로그인 완료</div>
             <div className="mt-1 text-[#4E6D69]">
-              {getSessionName(session)}님, 이제 부모님 4자리 코드를 만들 수 있습니다.
+              {getSessionName(session)}님, 이제 부모님 6자리 코드를 만들 수 있습니다.
             </div>
           </div>
         ) : (
@@ -408,15 +408,15 @@ export function GuardianSignupPanel() {
         <CareCard tone={session ? 'green' : 'amber'} className="p-4 md:p-5">
           <div className="flex flex-wrap gap-2">
             <StatusPill text="부모님 초대" tone="green" />
-            <StatusPill text="4자리 코드" tone="slate" />
+            <StatusPill text="6자리 코드" tone="slate" />
           </div>
 
           <h2 className="mt-3 text-2xl font-black md:text-3xl">
-            부모님은 4자리 코드만 입력합니다.
+            부모님은 6자리 코드만 입력합니다.
           </h2>
 
           <p className="mt-2 text-sm font-bold leading-6 text-[#63807C]">
-            보호자 가입이 끝나면 부모님 전용 4자리 초대코드를 만들 수 있습니다.
+            보호자 가입이 끝나면 부모님 전용 6자리 초대코드를 만들 수 있습니다.
           </p>
 
           <form onSubmit={createParentInvite} className="mt-4 space-y-3">
@@ -430,12 +430,12 @@ export function GuardianSignupPanel() {
 
             {inviteCode ? (
               <div className="rounded-2xl bg-white p-4 ring-1 ring-[#D3ECE6]">
-                <div className="text-sm font-black text-[#2F756B]">부모님 4자리 접속코드</div>
+                <div className="text-sm font-black text-[#2F756B]">부모님 6자리 접속코드</div>
                 <div className="mt-1 text-4xl font-black tracking-widest text-[#193B38]">
                   {inviteCode}
                 </div>
                 <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
-                  부모님은 회원가입 없이 ‘부모님 접속 화면’에서 이 4자리 코드만 입력하면 연결됩니다.
+                  부모님은 회원가입 없이 ‘부모님 접속 화면’에서 이 6자리 코드만 입력하면 연결됩니다.
                 </p>
               </div>
             ) : null}
@@ -451,7 +451,7 @@ export function GuardianSignupPanel() {
               disabled={saving || !session}
               className="h-12 w-full rounded-2xl bg-[#193B38] px-4 text-base font-black text-white shadow-[0_12px_30px_rgba(25,59,56,0.16)] disabled:opacity-50"
             >
-              {saving ? '생성 중...' : '부모님 4자리 코드 생성'}
+              {saving ? '생성 중...' : '부모님 6자리 코드 생성'}
             </button>
           </form>
 

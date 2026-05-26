@@ -13,8 +13,8 @@ const loginOptions = [
   {
     href: '/parent/login',
     emoji: '👵',
-    title: '부모님 4자리 접속',
-    desc: '자녀가 알려준 4자리 코드로 부모님 안심 화면에 들어갑니다.'
+    title: '부모님 6자리 접속',
+    desc: '자녀가 알려준 6자리 코드로 부모님 안심 화면에 들어갑니다.'
   },
   {
     href: '/signup/manager',

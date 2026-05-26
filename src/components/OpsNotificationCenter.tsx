@@ -254,7 +254,7 @@ function inviteTemplate(invite: AnyRow): TemplateItem {
   const body = `[부모님 안심케어]
 ${parentName} 전용 화면 접속 안내입니다.
 
-아래 주소로 들어가서 4자리 코드를 입력해주세요.
+아래 주소로 들어가서 6자리 코드를 입력해주세요.
 
 주소:
 ${origin()}/parent/login
@@ -267,7 +267,7 @@ ${code}
   return {
     id: `invite-${invite.id}`,
     category: '부모님',
-    title: '부모님 4자리 코드 안내',
+    title: '부모님 6자리 코드 안내',
     subtitle: `${parentName} · 코드 ${code}`,
     phone: invite.parent_phone || '',
     body,

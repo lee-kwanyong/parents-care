@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 const requiredTables = [
   {
     name: 'care_parent_invites',
-    label: '부모님 4자리 초대코드'
+    label: '부모님 6자리 초대코드'
   },
   {
     name: 'care_assisted_intake_requests',
@@ -50,7 +50,7 @@ const routeChecks = [
   { path: '/', label: '홈' },
   { path: '/app', label: '메뉴' },
   { path: '/signup/guardian', label: '보호자 가입' },
-  { path: '/parent/login', label: '부모님 4자리 접속' },
+  { path: '/parent/login', label: '부모님 6자리 접속' },
   { path: '/care-request', label: '안심케어 신청' },
   { path: '/child/matching', label: '보호자 매칭 확인' },
   { path: '/child/reports', label: '보호자 리포트' },
@@ -200,8 +200,8 @@ export async function GET(request: NextRequest) {
       '보호자 Google 로그인 테스트',
       '보호자 Kakao 로그인 테스트',
       '이메일 회원가입 테스트',
-      '부모님 4자리 코드 생성',
-      '부모님 4자리 코드 접속',
+      '부모님 6자리 코드 생성',
+      '부모님 6자리 코드 접속',
       '안심케어 신청',
       '운영실 접수함 확인',
       '케어파트너 후보 생성',
