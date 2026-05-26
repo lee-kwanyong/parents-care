@@ -84,7 +84,7 @@ export function GlobalHeader() {
 
                 <div
                   data-global-menu-panel="true"
-                  className="absolute right-0 top-[calc(100%+10px)] z-[90] w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden rounded-[1.5rem] border border-[#DCEDE7] bg-white shadow-[0_18px_48px_rgba(20,82,70,0.16)]"
+                  className="fixed right-3 top-[5.25rem] z-[90] w-[min(18.5rem,calc(100vw-1.5rem))] overflow-hidden rounded-[1.5rem] border border-[#DCEDE7] bg-white shadow-[0_18px_48px_rgba(20,82,70,0.16)] sm:absolute sm:right-0 sm:top-[calc(100%+10px)] sm:w-[22rem]"
                 >
                   <div className="border-b border-[#E7F2EF] px-4 py-3">
                     <div className="text-sm font-black text-[#159B84]">
