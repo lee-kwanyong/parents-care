@@ -10,6 +10,8 @@ const outsideLinks = [
 ]
 
 const menuLinks = [
+  { href: '/setup/notifications', label: '알림 설정', desc: 'SMS·앱알림·알림톡 설정' },
+
   { href: '/', label: '홈', desc: '처음 화면' },
   { href: '/anbuon', label: '안부온', desc: 'AI 안부확인' },
   { href: '/family-link', label: '부모님 연결', desc: '자녀·부모님 코드 연결' },

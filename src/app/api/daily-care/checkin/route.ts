@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { notifyGuardianForCheckin } from '@/lib/anbu-notification-service'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
 
 export const dynamic = 'force-dynamic'
@@ -123,8 +124,22 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  const notification = await notifyGuardianForCheckin({
+    familyCode,
+    elderName,
+    checkType,
+    careLabel,
+    status,
+    memo
+  }).catch((error) => ({
+    ok: false,
+    status: 'notification_error',
+    message: error instanceof Error ? error.message : '알림 처리 중 오류가 발생했습니다.'
+  }))
+
   return NextResponse.json({
     ok: true,
-    checkin: Array.isArray(inserted.data) ? inserted.data[0] : inserted.data
+    checkin: Array.isArray(inserted.data) ? inserted.data[0] : inserted.data,
+    notification
   })
 }
