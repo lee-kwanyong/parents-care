@@ -1,3 +1,14 @@
-import { AppShell } from '@/components/AppShell'
-import { Card, CardTitle } from '@/components/Card'
-export default function Page() { return <AppShell title="매니저 심사·배정" subtitle="운영실이 매니저 승인과 배정 추천을 관리합니다."><Card><CardTitle title="배정 추천" description="케어패스포트, 전문분야, 가능지역, 위험 플래그, 같은 매니저 선호를 반영합니다." /></Card></AppShell> }
+import { OpsPartnerConsole } from '@/components/OpsPartnerConsole'
+
+export const metadata = {
+  title: '케어 배정 관리 | 안부웍스 운영실',
+  description: '케어파트너를 부모님 연결코드에 배정합니다.'
+}
+
+export default function OpsAssignmentsPage() {
+  return (
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)]">
+      <OpsPartnerConsole mode="assignments" />
+    </main>
+  )
+}

@@ -10,6 +10,10 @@ const outsideLinks = [
 ]
 
 const menuLinks = [
+  { href: '/ops/partners', label: '파트너 승인', desc: '운영실 검증·승인·거절' },
+  { href: '/ops/assignments', label: '배정 관리', desc: '부모님 연결코드에 파트너 배정' },
+  { href: '/child/assignments', label: '배정 현황', desc: '보호자 케어파트너 확인' },
+  { href: '/setup/partners', label: '파트너 DB 설정', desc: '파트너·배정 테이블 설정' },
   { href: '/setup/notifications', label: '알림 설정', desc: 'SMS·앱알림·알림톡 설정' },
 
   { href: '/', label: '홈', desc: '처음 화면' },
