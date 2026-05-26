@@ -54,11 +54,6 @@ export default async function ParentTodayPage() {
               </Link>
             </div>
           </div>
-
-          <div className="mt-5 rounded-[2rem] bg-[#F7FBFF] p-5 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#DCEDE7]">
-            안부온은 부모님 본인 동의 후 자녀에게 안부 기록을 전달하는 기능입니다.
-            응급상황은 119 또는 의료기관에 연락하세요.
-          </div>
         </section>
       </main>
     )
@@ -94,12 +89,6 @@ export default async function ParentTodayPage() {
         <ParentDailyCareButtons elderName={parentName} />
 
         <div className="grid gap-3">
-          <Link
-            href="tel:01012345678"
-            className="rounded-[1.5rem] bg-[#123F38] px-6 py-5 text-center text-xl font-black text-white shadow-sm"
-          >
-            자녀에게 전화
-          </Link>
           <Link
             href="tel:119"
             className="rounded-[1.5rem] bg-[#FFE7E7] px-6 py-5 text-center text-xl font-black text-[#8A2525] shadow-sm"

@@ -9,14 +9,10 @@ type StatusData = {
   message?: string
   items?: DailyCareCheckin[]
   summary?: {
-    reassuranceState: '안심' | '확인 필요' | '긴급'
     signalState: AnbuSignalState
     signalScore: number
     signalReasons: string[]
     guardianSummary: string
-    familyNextActions: string[]
-    total: number
-    latestResponseAt: string | null
     aiDisclaimer: string
   }
 }
@@ -29,7 +25,7 @@ export default function OpsDailyCarePage() {
     setLoading(true)
     try {
       const response = await fetch('/api/daily-care/status', { cache: 'no-store' })
-      const result = await response.json()
+      const result = (await response.json()) as StatusData
       setData(result)
     } catch (error) {
       setData({
@@ -65,7 +61,7 @@ export default function OpsDailyCarePage() {
         : 'bg-[#EFFFF9] text-[#116D5F]'
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_58%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_58%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -103,28 +99,13 @@ export default function OpsDailyCarePage() {
         ) : (
           <>
             <section className={'mt-8 rounded-[2rem] p-6 shadow-sm ' + stateTone}>
-              <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-                <div>
-                  <p className="text-sm font-black opacity-75">현재 우선순위</p>
-                  <div className="mt-2 text-5xl font-black tracking-[-0.08em]">
-                    {data.summary?.signalState}
-                  </div>
-                  <p className="mt-4 text-lg font-bold leading-8">
-                    {data.summary?.guardianSummary}
-                  </p>
-                </div>
-
-                <div className="rounded-[1.75rem] bg-white/75 p-5">
-                  <div className="text-sm font-black opacity-75">운영실 확인 이유</div>
-                  <div className="mt-3 grid gap-2">
-                    {(data.summary?.signalReasons || []).map((reason) => (
-                      <div key={reason} className="rounded-2xl bg-white/80 p-3 text-sm font-black">
-                        {reason}
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <p className="text-sm font-black opacity-75">현재 우선순위</p>
+              <div className="mt-2 text-5xl font-black tracking-[-0.08em]">
+                {data.summary?.signalState}
               </div>
+              <p className="mt-4 text-lg font-bold leading-8">
+                {data.summary?.guardianSummary}
+              </p>
             </section>
 
             <section className="mt-8 grid gap-3">

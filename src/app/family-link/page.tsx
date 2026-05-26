@@ -1,5 +1,20 @@
 import Link from 'next/link'
 
+const steps = [
+  {
+    title: '1. 보호자가 코드 생성',
+    desc: '보호자 화면에서 부모님용 6자리 숫자 코드를 만듭니다.'
+  },
+  {
+    title: '2. 부모님이 코드 입력',
+    desc: '부모님은 ‘부모님 6자리 코드 입력’ 버튼을 눌러 코드를 입력합니다.'
+  },
+  {
+    title: '3. 안부 체크 전송',
+    desc: '식사, 약, 몸 상태 버튼을 누르면 보호자 화면에 표시됩니다.'
+  }
+]
+
 export default function FamilyLinkPage() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
@@ -21,20 +36,7 @@ export default function FamilyLinkPage() {
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {[
-              {
-                title: '1. 보호자가 코드 생성',
-                desc: '보호자 화면에서 부모님용 6자리 숫자 코드를 만듭니다.'
-              },
-              {
-                title: '2. 부모님이 코드 입력',
-                desc: '부모님은 /parent/login에서 6자리 코드를 입력합니다.'
-              },
-              {
-                title: '3. 안부 체크 전송',
-                desc: '식사, 약, 몸 상태 버튼을 누르면 보호자 화면에 표시됩니다.'
-              }
-            ].map((item) => (
+            {steps.map((item) => (
               <div key={item.title} className="rounded-[1.75rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
                 <h2 className="text-xl font-black tracking-[-0.04em]">{item.title}</h2>
                 <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{item.desc}</p>

@@ -10,13 +10,10 @@ type StatusData = {
   message?: string
   items?: DailyCareCheckin[]
   summary?: {
-    reassuranceState: '안심' | '확인 필요' | '긴급'
     signalState: AnbuSignalState
     signalScore: number
     signalReasons: string[]
     guardianSummary: string
-    total: number
-    latest: DailyCareCheckin[]
     familyNextActions: string[]
     latestResponseAt: string | null
     aiDisclaimer: string
@@ -37,7 +34,7 @@ export default function ChildDailyCarePage() {
     setLoading(true)
     try {
       const response = await fetch('/api/daily-care/status', { cache: 'no-store' })
-      const result = await response.json()
+      const result = (await response.json()) as StatusData
       setData(result)
     } catch (error) {
       setData({
@@ -56,7 +53,7 @@ export default function ChildDailyCarePage() {
   const summary = data?.summary
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
       <section className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -65,7 +62,7 @@ export default function ChildDailyCarePage() {
               보호자 알림 화면
             </h1>
             <p className="mt-4 max-w-3xl text-lg font-bold leading-8 text-[#637B76]">
-              부모님의 식사, 약, 몸 상태, 기분, 활동 응답을 모아 오늘 상태를 정상/주의/확인 필요로 보여줍니다.
+              부모님의 식사, 약, 몸 상태, 기분, 활동 응답을 모아 오늘 상태를 보여줍니다.
             </p>
           </div>
 
@@ -89,28 +86,17 @@ export default function ChildDailyCarePage() {
         ) : (
           <>
             <section className={'mt-8 rounded-[2rem] p-6 ring-1 ' + stateClass(summary?.signalState)}>
-              <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-                <div>
-                  <p className="text-sm font-black opacity-75">오늘 부모님 상태</p>
-                  <div className="mt-3 text-5xl font-black tracking-[-0.08em] md:text-7xl">
-                    {summary?.signalState || '확인 필요'}
-                  </div>
-                  <p className="mt-5 max-w-2xl text-lg font-bold leading-8">
-                    {summary?.guardianSummary}
-                  </p>
-                </div>
-
-                <div className="rounded-[1.75rem] bg-white/75 p-5">
-                  <div className="text-sm font-black opacity-70">안부온 확인 점수</div>
-                  <div className="mt-2 flex items-end gap-2">
-                    <span className="text-6xl font-black tracking-[-0.08em]">
-                      {summary?.signalScore ?? 0}
-                    </span>
-                    <span className="pb-2 text-lg font-black">/ 100</span>
-                  </div>
-                  <p className="mt-3 text-sm font-bold leading-6 opacity-75">
-                    점수는 안부 확인을 돕는 참고 신호입니다.
-                  </p>
+              <p className="text-sm font-black opacity-75">오늘 부모님 상태</p>
+              <div className="mt-3 text-5xl font-black tracking-[-0.08em] md:text-7xl">
+                {summary?.signalState || '확인 필요'}
+              </div>
+              <p className="mt-5 max-w-2xl text-lg font-bold leading-8">
+                {summary?.guardianSummary}
+              </p>
+              <div className="mt-5 rounded-[1.75rem] bg-white/75 p-5">
+                <div className="text-sm font-black opacity-70">안부온 확인 점수</div>
+                <div className="mt-2 text-5xl font-black tracking-[-0.08em]">
+                  {summary?.signalScore ?? 0} / 100
                 </div>
               </div>
             </section>
@@ -138,8 +124,8 @@ export default function ChildDailyCarePage() {
                 </div>
 
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <Link href="tel:01012345678" className="rounded-2xl bg-[#123F38] px-4 py-4 text-center font-black text-white">
-                    부모님께 전화
+                  <Link href="tel:119" className="rounded-2xl bg-[#FFE7E7] px-4 py-4 text-center font-black text-[#8A2525]">
+                    긴급하면 119
                   </Link>
                   <Link href="/care-request" className="rounded-2xl bg-[#20C5A8] px-4 py-4 text-center font-black text-white">
                     운영실 확인 요청
@@ -194,8 +180,8 @@ export default function ChildDailyCarePage() {
           <Link href="/anbuon" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 font-black text-[#116D5F]">
             안부온 소개
           </Link>
-          <Link href="/child" className="rounded-2xl bg-white px-5 py-4 font-black ring-1 ring-[#D8EEE8]">
-            자녀 홈
+          <Link href="/" className="rounded-2xl bg-white px-5 py-4 font-black ring-1 ring-[#D8EEE8]">
+            홈으로
           </Link>
         </div>
       </section>

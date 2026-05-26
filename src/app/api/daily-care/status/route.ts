@@ -3,6 +3,7 @@ import { buildDailyCareSummary } from '@/lib/daily-care-engine'
 import type { DailyCareCheckin } from '@/lib/daily-care-engine'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
@@ -14,70 +15,32 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-async function rest(path: string) {
+async function readCheckins() {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
-  if (!base || !key) {
-    return { ok: false, data: null as any, error: 'Supabase env is missing' }
-  }
+  if (!base || !key) return []
 
-  const response = await fetch(base + '/rest/v1/' + path, {
-    headers: {
-      apikey: key,
-      Authorization: 'Bearer ' + key,
-      'Content-Type': 'application/json'
+  const response = await fetch(
+    base + '/rest/v1/daily_care_checkins?select=*&order=occurred_at.desc&limit=50',
+    {
+      headers: {
+        apikey: key,
+        Authorization: 'Bearer ' + key,
+        'Content-Type': 'application/json'
+      },
+      cache: 'no-store'
     }
-  })
+  )
 
-  const bodyText = await response.text()
-  let parsed: any = null
+  if (!response.ok) return []
 
-  try {
-    parsed = bodyText ? JSON.parse(bodyText) : null
-  } catch {
-    parsed = bodyText
-  }
-
-  if (!response.ok) {
-    return { ok: false, data: parsed, error: parsed || bodyText }
-  }
-
-  return { ok: true, data: parsed, error: null }
+  const data = await response.json().catch(() => [])
+  return Array.isArray(data) ? (data as DailyCareCheckin[]) : []
 }
 
 export async function GET() {
-  const select = [
-    'id',
-    'elder_name',
-    'check_type',
-    'care_label',
-    'status',
-    'actor_role',
-    'source',
-    'memo',
-    'occurred_at',
-    'created_at'
-  ].join(',')
-
-  const result = await rest(
-    'daily_care_checkins?select=' +
-      encodeURIComponent(select) +
-      '&order=occurred_at.desc&limit=100'
-  )
-
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '일상 케어 상태를 불러오지 못했습니다. STEP13 SQL이 실행됐는지 확인해주세요.',
-        detail: result.error
-      },
-      { status: 500 }
-    )
-  }
-
-  const items = Array.isArray(result.data) ? (result.data as DailyCareCheckin[]) : []
+  const items = await readCheckins()
   const summary = buildDailyCareSummary(items)
 
   return NextResponse.json({

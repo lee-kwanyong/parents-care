@@ -4,6 +4,12 @@ import { isSixDigitParentCode, normalizeParentCode } from '@/lib/parent-code'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+type SupabaseResult = {
+  ok: boolean
+  data: unknown
+  error: unknown
+}
+
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   if (!raw) return ''
@@ -14,12 +20,12 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-async function rest(path: string, init?: RequestInit) {
+async function rest(path: string, init?: RequestInit): Promise<SupabaseResult> {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
   if (!base || !key) {
-    return { ok: false, data: null as any, error: 'Supabase env is missing' }
+    return { ok: false, data: null, error: 'Supabase env is missing' }
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
@@ -34,7 +40,7 @@ async function rest(path: string, init?: RequestInit) {
   })
 
   const bodyText = await response.text()
-  let parsed: any = null
+  let parsed: unknown = null
 
   try {
     parsed = bodyText ? JSON.parse(bodyText) : null
@@ -61,11 +67,9 @@ async function findInvite(code: string) {
 
   for (const query of queries) {
     const result = await rest(query)
-
     if (!result.ok) continue
 
-    const row = Array.isArray(result.data) ? result.data[0] : null
-
+    const row = Array.isArray(result.data) ? (result.data[0] as Record<string, any> | undefined) : undefined
     if (!row) continue
 
     const inviteStatus = String(row.invite_status || row.status || 'active').toLowerCase()
@@ -79,15 +83,12 @@ async function findInvite(code: string) {
 }
 
 export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({}))
+  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>
   const code = normalizeParentCode(body.code || body.inviteCode || body.parentCode)
 
   if (!isSixDigitParentCode(code)) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: '부모님 코드는 숫자 6자리입니다.'
-      },
+      { ok: false, message: '부모님 코드는 숫자 6자리입니다.' },
       { status: 400 }
     )
   }
@@ -96,17 +97,16 @@ export async function POST(request: NextRequest) {
 
   if (!invite) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: '유효한 부모님 6자리 코드를 찾지 못했습니다. 보호자에게 새 코드를 받아주세요.'
-      },
+      { ok: false, message: '유효한 부모님 6자리 코드를 찾지 못했습니다. 보호자에게 새 코드를 받아주세요.' },
       { status: 404 }
     )
   }
 
+  const parentName = String(invite.parent_name || invite.elder_name || '부모님')
+
   const response = NextResponse.json({
     ok: true,
-    parentName: invite.parent_name || invite.elder_name || '부모님',
+    parentName,
     inviteCode: code
   })
 
@@ -120,10 +120,10 @@ export async function POST(request: NextRequest) {
 
   response.cookies.set('pc_role', 'parent', cookieOptions)
   response.cookies.set('pc_parent_invite_code', code, cookieOptions)
-  response.cookies.set('pc_parent_name', invite.parent_name || invite.elder_name || '부모님', cookieOptions)
+  response.cookies.set('pc_parent_name', parentName, cookieOptions)
 
   if (invite.guardian_phone) {
-    response.cookies.set('pc_guardian_phone', invite.guardian_phone, cookieOptions)
+    response.cookies.set('pc_guardian_phone', String(invite.guardian_phone), cookieOptions)
   }
 
   return response

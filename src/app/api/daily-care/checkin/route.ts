@@ -8,6 +8,12 @@ export const runtime = 'nodejs'
 const allowedTypes = new Set(['meal', 'medication', 'condition', 'safe_return', 'emergency'])
 const allowedStatuses = new Set(['done', 'not_done', 'needs_help', 'unknown'])
 
+type SupabaseResult = {
+  ok: boolean
+  data: unknown
+  error: unknown
+}
+
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   if (!raw) return ''
@@ -22,12 +28,12 @@ function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
-async function rest(path: string, init?: RequestInit) {
+async function rest(path: string, init?: RequestInit): Promise<SupabaseResult> {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
   if (!base || !key) {
-    return { ok: false, data: null as any, error: 'Supabase env is missing' }
+    return { ok: false, data: null, error: 'Supabase env is missing' }
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
@@ -42,7 +48,7 @@ async function rest(path: string, init?: RequestInit) {
   })
 
   const bodyText = await response.text()
-  let parsed: any = null
+  let parsed: unknown = null
 
   try {
     parsed = bodyText ? JSON.parse(bodyText) : null
@@ -69,11 +75,9 @@ async function findParentInvite(inviteCode: string) {
 
   for (const query of queries) {
     const result = await rest(query)
-
     if (!result.ok) continue
 
-    const row = Array.isArray(result.data) ? result.data[0] : null
-
+    const row = Array.isArray(result.data) ? (result.data[0] as Record<string, any> | undefined) : undefined
     if (!row) continue
 
     const status = String(row.invite_status || row.status || 'active').toLowerCase()
@@ -92,10 +96,7 @@ export async function POST(request: NextRequest) {
 
   if (role !== 'parent' || !isSixDigitParentCode(inviteCode)) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: '먼저 부모님 6자리 코드로 접속해주세요.'
-      },
+      { ok: false, message: '먼저 부모님 6자리 코드로 접속해주세요.' },
       { status: 401 }
     )
   }
@@ -104,10 +105,7 @@ export async function POST(request: NextRequest) {
 
   if (!invite) {
     const response = NextResponse.json(
-      {
-        ok: false,
-        message: '부모님 연결 정보가 만료됐습니다. 자녀에게 6자리 코드를 다시 받아주세요.'
-      },
+      { ok: false, message: '부모님 연결 정보가 만료됐습니다. 자녀에게 6자리 코드를 다시 받아주세요.' },
       { status: 401 }
     )
 
@@ -119,7 +117,7 @@ export async function POST(request: NextRequest) {
     return response
   }
 
-  const body = await request.json().catch(() => ({}))
+  const body = (await request.json().catch(() => ({}))) as Record<string, unknown>
 
   const elderName =
     text(invite.parent_name) ||
@@ -159,11 +157,7 @@ export async function POST(request: NextRequest) {
 
   if (!insert.ok) {
     return NextResponse.json(
-      {
-        ok: false,
-        message: '안부온 확인 저장 중 오류가 발생했습니다.',
-        detail: insert.error
-      },
+      { ok: false, message: '안부온 확인 저장 중 오류가 발생했습니다.', detail: insert.error },
       { status: 500 }
     )
   }

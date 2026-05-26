@@ -84,12 +84,10 @@ export function GlobalHeader() {
 
                 <div
                   data-global-menu-panel="true"
-                  className="fixed right-3 top-[5.25rem] z-[90] w-[min(18.5rem,calc(100vw-1.5rem))] overflow-hidden rounded-[1.5rem] border border-[#DCEDE7] bg-white shadow-[0_18px_48px_rgba(20,82,70,0.16)] sm:absolute sm:right-0 sm:top-[calc(100%+10px)] sm:w-[22rem]"
+                  className="absolute right-0 top-[calc(100%+10px)] z-[90] w-[min(22rem,calc(100vw-1.5rem))] overflow-hidden rounded-[1.5rem] border border-[#DCEDE7] bg-white shadow-[0_18px_48px_rgba(20,82,70,0.16)]"
                 >
                   <div className="border-b border-[#E7F2EF] px-4 py-3">
-                    <div className="text-sm font-black text-[#159B84]">
-                      안부웍스 메뉴
-                    </div>
+                    <div className="text-sm font-black text-[#159B84]">안부웍스 메뉴</div>
                     <div className="mt-1 text-xs font-bold text-[#7A9692]">
                       필요한 화면으로 바로 이동하세요.
                     </div>
@@ -110,12 +108,8 @@ export function GlobalHeader() {
                         onClick={() => setOpen(false)}
                         className="block rounded-2xl px-3 py-2.5 transition hover:bg-[#F2FAF8]"
                       >
-                        <div className="text-sm font-black text-[#24423F]">
-                          {item.label}
-                        </div>
-                        <div className="mt-0.5 text-xs font-bold text-[#718A87]">
-                          {item.desc}
-                        </div>
+                        <div className="text-sm font-black text-[#24423F]">{item.label}</div>
+                        <div className="mt-0.5 text-xs font-bold text-[#718A87]">{item.desc}</div>
                       </Link>
                     ))}
                   </div>

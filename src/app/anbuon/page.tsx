@@ -29,7 +29,7 @@ const features = [
 
 export default function AnbuonPage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F4FFFB_50%,#F7FBFF_100%)] px-5 py-10 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F4FFFB_50%,#F7FBFF_100%)] px-4 py-10 text-[#173B36]">
       <section className="mx-auto max-w-6xl">
         <div className="rounded-[2.5rem] bg-white p-8 shadow-[0_20px_60px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] md:p-12">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
@@ -37,8 +37,7 @@ export default function AnbuonPage() {
           </div>
 
           <h1 className="mt-6 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] md:text-6xl">
-            안부온은 매일 부모님 안부를 묻고,
-            필요한 순간 사람을 연결합니다.
+            안부온은 매일 부모님 안부를 묻고, 필요한 순간 사람을 연결합니다.
           </h1>
 
           <p className="mt-6 max-w-3xl text-lg font-bold leading-8 text-[#637B76]">
