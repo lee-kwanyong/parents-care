@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 const allowedTypes = new Set(['meal', 'medication', 'condition', 'safe_return', 'emergency'])
 const allowedStatuses = new Set(['done', 'not_done', 'needs_help', 'unknown'])
@@ -35,7 +36,8 @@ async function rest(path: string, init?: RequestInit) {
       Authorization: 'Bearer ' + key,
       'Content-Type': 'application/json',
       ...(init?.headers || {})
-    }
+    },
+    cache: 'no-store'
   })
 
   const bodyText = await response.text()
@@ -54,10 +56,57 @@ async function rest(path: string, init?: RequestInit) {
   return { ok: true, data: parsed, error: null }
 }
 
+async function findParentInvite(inviteCode: string) {
+  const result = await rest(
+    'care_parent_invites?select=*&invite_code=eq.' +
+      encodeURIComponent(inviteCode) +
+      '&invite_status=eq.active&order=created_at.desc&limit=1'
+  )
+
+  if (!result.ok) return null
+  return Array.isArray(result.data) ? result.data[0] : null
+}
+
 export async function POST(request: NextRequest) {
+  const role = request.cookies.get('pc_role')?.value || ''
+  const inviteCode = request.cookies.get('pc_parent_invite_code')?.value || ''
+
+  if (role !== 'parent' || !inviteCode) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '먼저 부모님 4자리 코드로 접속해주세요.'
+      },
+      { status: 401 }
+    )
+  }
+
+  const invite = await findParentInvite(inviteCode)
+
+  if (!invite) {
+    const response = NextResponse.json(
+      {
+        ok: false,
+        message: '부모님 연결 정보가 만료됐습니다. 자녀에게 4자리 코드를 다시 받아주세요.'
+      },
+      { status: 401 }
+    )
+
+    response.cookies.delete('pc_role')
+    response.cookies.delete('pc_parent_invite_code')
+    response.cookies.delete('pc_parent_name')
+    response.cookies.delete('pc_guardian_phone')
+
+    return response
+  }
+
   const body = await request.json().catch(() => ({}))
 
-  const elderName = text(body.elderName) || '부모님'
+  const elderName =
+    text(invite.parent_name) ||
+    text(request.cookies.get('pc_parent_name')?.value) ||
+    '부모님'
+
   const checkType = text(body.checkType) as DailyCareType
   const careLabel = text(body.careLabel) || '오늘 확인'
   const status = text(body.status) as DailyCareStatus

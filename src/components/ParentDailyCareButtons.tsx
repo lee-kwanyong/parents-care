@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { parentDailyCareButtons } from '@/lib/daily-care-engine'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
@@ -9,6 +10,7 @@ const groupOrder = ['식사', '약', '몸', '기분', '활동', '도움'] as con
 export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?: string }) {
   const [message, setMessage] = useState('')
   const [savingKey, setSavingKey] = useState('')
+  const [loginRequired, setLoginRequired] = useState(false)
 
   const grouped = useMemo(() => {
     return groupOrder.map((group) => ({
@@ -26,6 +28,7 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
     const key = `${input.checkType}-${input.status}-${input.careLabel}-${input.title}`
     setSavingKey(key)
     setMessage('')
+    setLoginRequired(false)
 
     try {
       const response = await fetch('/api/daily-care/checkin', {
@@ -40,7 +43,12 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
         })
       })
 
-      const data = await response.json()
+      const data = await response.json().catch(() => ({}))
+
+      if (response.status === 401) {
+        setLoginRequired(true)
+        throw new Error(data.message || '먼저 부모님 4자리 코드로 접속해주세요.')
+      }
 
       if (!response.ok || !data.ok) {
         throw new Error(data.message || '저장 중 오류가 발생했습니다.')
@@ -67,9 +75,28 @@ export function ParentDailyCareButtons({ elderName = '어머니' }: { elderName?
       </div>
 
       {message ? (
-        <p className="mt-5 rounded-2xl bg-[#E8FAF5] p-4 text-lg font-black text-[#126F61]">
-          {message}
-        </p>
+        <div className="mt-5 rounded-2xl bg-[#E8FAF5] p-4">
+          <p className="text-lg font-black text-[#126F61]">
+            {message}
+          </p>
+
+          {loginRequired ? (
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link
+                href="/parent/login"
+                className="rounded-xl bg-[#193B38] px-4 py-2 text-sm font-black text-white"
+              >
+                부모님 4자리 코드 입력
+              </Link>
+              <Link
+                href="/family-link"
+                className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#126F61] ring-1 ring-[#CDEFE5]"
+              >
+                연결 방법 보기
+              </Link>
+            </div>
+          ) : null}
+        </div>
       ) : null}
 
       <div className="mt-5 space-y-5">

@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { PWAInstallButton } from '@/components/PWAInstallButton'
 
 const outsideLinks = [
-  { href: '/parent/today', label: '부모님 체크' },
-  { href: '/install', label: '홈추가' }
+  { href: '/parent/today', label: '부모님 체크' }
 ]
 
 const menuLinks = [
@@ -19,7 +19,7 @@ const menuLinks = [
   { href: '/child/matching', label: '케어파트너', desc: '추천 파트너 확인' },
   { href: '/care-costs', label: '금액', desc: '비용 안내' },
   { href: '/care-difference', label: '신뢰기준', desc: '검증·운영 기준' },
-  { href: '/ops', label: '운영실', desc: '접수·매칭 관리' }
+  { href: '/login', label: '로그인', desc: '보호자·부모님·운영실 접속' }
 ]
 
 export function GlobalHeader() {
@@ -30,33 +30,37 @@ export function GlobalHeader() {
       data-global-header="true"
       className="sticky top-0 z-[80] border-b border-[#E3F0ED] bg-white/95 shadow-[0_8px_24px_rgba(82,112,108,0.08)] backdrop-blur"
     >
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 py-3 sm:gap-3 sm:px-5">
-        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#DCF8F1] text-xl text-[#159B84] sm:h-11 sm:w-11 sm:text-2xl">
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-5">
+        <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#DCF8F1] text-2xl text-[#159B84]">
             ♡
           </div>
 
           <div className="min-w-0">
-            <div className="truncate text-sm font-black tracking-[-0.03em] text-[#24423F] sm:text-lg">
+            <div className="truncate text-base font-black tracking-[-0.03em] text-[#24423F] sm:text-lg">
               부모님 안심케어
             </div>
-            <div className="hidden truncate text-xs font-bold text-[#6F8D89] min-[390px]:block">
+            <div className="truncate text-xs font-bold text-[#6F8D89]">
               by 안부웍스 · AI 안부확인
             </div>
           </div>
         </Link>
 
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-          {outsideLinks.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-              className="rounded-full bg-[#F2FAF8] px-2.5 py-2 text-xs font-black text-[#537875] ring-1 ring-[#DDEEEA] transition hover:bg-[#E4F7F2] sm:px-4 sm:text-sm"
-            >
-              {item.label}
-            </Link>
-          ))}
+        <div className="flex shrink-0 items-center gap-2">
+          <nav className="hidden items-center gap-2 sm:flex">
+            {outsideLinks.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setOpen(false)}
+                className="rounded-full bg-[#F2FAF8] px-2.5 py-2 text-xs font-black text-[#537875] ring-1 ring-[#DDEEEA] transition hover:bg-[#E4F7F2] sm:px-4 sm:text-sm"
+              >
+                {item.label}
+              </Link>
+            ))}
+
+            <PWAInstallButton />
+          </nav>
 
           <div className="relative">
             <button
@@ -92,6 +96,13 @@ export function GlobalHeader() {
                   </div>
 
                   <div className="max-h-[70vh] overflow-y-auto p-2">
+                    <div className="sm:hidden">
+                      <PWAInstallButton
+                        guideOnly
+                        className="mb-2 w-full rounded-2xl bg-[#EFFFF9] px-3 py-3 text-left text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]"
+                      />
+                    </div>
+
                     {menuLinks.map((item) => (
                       <Link
                         key={`${item.href}-${item.label}`}
