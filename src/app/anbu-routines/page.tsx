@@ -1,4 +1,5 @@
 import { AnbuRoutineMvp, RiskScoreGuideMvp } from '@/components/AnbuWorksBuildout'
+import { PlanGate } from '@/components/PlanGate'
 
 export const metadata = {
   title: '안부 루틴 | 안부웍스',
@@ -9,8 +10,14 @@ export default function AnbuRoutinesPage() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <AnbuRoutineMvp />
-        <RiskScoreGuideMvp />
+        <PlanGate
+          minimumPlan="basic"
+          featureTitle="안부 루틴"
+          description="아침 식사, 복약, 밤 안부처럼 앱이 먼저 묻는 자동 루틴은 안부온 베이직 이상에서 사용할 수 있습니다."
+        >
+          <AnbuRoutineMvp />
+          <RiskScoreGuideMvp />
+        </PlanGate>
       </section>
     </main>
   )

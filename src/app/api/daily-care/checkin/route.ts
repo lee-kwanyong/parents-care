@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getCurrentPlanForFamily, getDailyCheckCount } from '@/lib/anbu-plan-access'
 import { notifyGuardianForCheckin } from '@/lib/anbu-notification-service'
+import { supabaseRest, text } from '@/lib/anbu-supabase'
 import type { DailyCareStatus, DailyCareType } from '@/lib/daily-care-engine'
 
 export const dynamic = 'force-dynamic'
@@ -7,59 +9,6 @@ export const runtime = 'nodejs'
 
 const allowedTypes = new Set(['meal', 'medication', 'condition', 'safe_return', 'emergency'])
 const allowedStatuses = new Set(['done', 'not_done', 'needs_help', 'unknown'])
-
-function supabaseBaseUrl() {
-  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  if (!raw) return ''
-  return raw.replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '')
-}
-
-function serviceKey() {
-  return process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-}
-
-function text(value: unknown) {
-  return typeof value === 'string' ? value.trim() : ''
-}
-
-async function rest(path: string, init?: RequestInit) {
-  const base = supabaseBaseUrl()
-  const key = serviceKey()
-
-  if (!base || !key) {
-    return {
-      ok: false,
-      data: null as unknown,
-      error: 'NEXT_PUBLIC_SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY가 설정되지 않았습니다.'
-    }
-  }
-
-  const response = await fetch(base + '/rest/v1/' + path, {
-    ...init,
-    headers: {
-      apikey: key,
-      Authorization: 'Bearer ' + key,
-      'Content-Type': 'application/json',
-      ...(init?.headers || {})
-    },
-    cache: 'no-store'
-  })
-
-  const bodyText = await response.text()
-  let parsed: unknown = null
-
-  try {
-    parsed = bodyText ? JSON.parse(bodyText) : null
-  } catch {
-    parsed = bodyText
-  }
-
-  return {
-    ok: response.ok,
-    data: parsed,
-    error: response.ok ? null : parsed || bodyText
-  }
-}
 
 export async function POST(request: NextRequest) {
   const role = request.cookies.get('pc_role')?.value || request.cookies.get('anbu_role')?.value || ''
@@ -95,7 +44,33 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, message: 'status가 올바르지 않습니다.' }, { status: 400 })
   }
 
-  const inserted = await rest('daily_care_checkins', {
+  const currentPlan = await getCurrentPlanForFamily(familyCode)
+  const dailyCount = await getDailyCheckCount(familyCode)
+  const dailyLimit = currentPlan.plan.limits.dailyChecks
+
+  if (dailyCount >= dailyLimit) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: `오늘 안부 체크 한도 ${dailyLimit}회를 모두 사용했습니다. 더 자주 확인하려면 요금제를 업그레이드해주세요.`,
+        plan: currentPlan.plan,
+        usage: {
+          dailyCount,
+          dailyLimit,
+          remainingDailyChecks: 0
+        },
+        upgradeUrl:
+          currentPlan.plan.id === 'free'
+            ? '/checkout?plan=basic'
+            : currentPlan.plan.id === 'basic'
+              ? '/checkout?plan=family'
+              : '/checkout?plan=plus'
+      },
+      { status: 402 }
+    )
+  }
+
+  const inserted = await supabaseRest('daily_care_checkins', {
     method: 'POST',
     headers: { Prefer: 'return=representation' },
     body: JSON.stringify([
@@ -140,6 +115,12 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     checkin: Array.isArray(inserted.data) ? inserted.data[0] : inserted.data,
+    plan: currentPlan.plan,
+    usage: {
+      dailyCheckCount: dailyCount + 1,
+      dailyLimit,
+      remainingDailyChecks: Math.max(dailyLimit - dailyCount - 1, 0)
+    },
     notification
   })
 }

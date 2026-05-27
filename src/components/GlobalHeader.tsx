@@ -13,6 +13,14 @@ const menuSections = [
   {
     title: '시작',
     items: [
+      { href: '/setup/legal', label: '법무 DB' },
+      { href: '/contact', label: '문의하기' },
+      { href: '/data-deletion', label: '데이터 삭제' },
+      { href: '/legal/data-safety', label: 'Data Safety' },
+      { href: '/legal/health-disclaimer', label: '건강정보 고지' },
+      { href: '/terms', label: '이용약관' },
+      { href: '/privacy', label: '개인정보' },
+      { href: '/subscription', label: '구독상태' },
       { href: '/', label: '홈' },
       { href: '/anbuon', label: '안부온' },
       { href: '/family-link', label: '부모님 연결' },
