@@ -5,28 +5,41 @@ import { useState } from 'react'
 import { PWAInstallButton } from '@/components/PWAInstallButton'
 
 const quickLinks = [
+  { href: '/landing', label: '시작' },
   { href: '/pricing', label: '요금제' },
   { href: '/login', label: '로그인' }
 ]
 
 const menuLinks = [
   { href: '/', label: '홈', desc: '처음 화면' },
-  { href: '/anbuon', label: '안부온', desc: 'AI 안부확인' },
+  { href: '/landing', label: '서비스 소개', desc: '부모님 안심케어 소개' },
+  { href: '/onboarding', label: '보호자 시작', desc: '처음 설정 마법사' },
   { href: '/family-link', label: '부모님 연결', desc: '자녀와 부모님 코드 연결' },
   { href: '/parent/login', label: '부모님 코드입력', desc: '부모님 안부온 접속' },
   { href: '/parent/today', label: '부모님 체크', desc: '식사·약·몸상태 버튼' },
-  { href: '/child/daily-care', label: '보호자 알림', desc: '정상·주의·확인 필요' },
-  { href: '/anbu-routines', label: '안부 루틴', desc: '식사·약·응답 없음 알림' },
+  { href: '/child/dashboard', label: '보호자 대시보드', desc: '오늘 부모님 상태' },
+  { href: '/care-schedule', label: '복약·병원 일정', desc: '약과 병원 예약 관리' },
   { href: '/child/weekly-report', label: '주간 리포트', desc: '상태 변화 자동 요약' },
-  { href: '/care-partner/apply', label: '케어파트너 모집', desc: '요양보호사·동행 파트너 등록' },
+  { href: '/partners', label: '협업기관 안내', desc: '교육원·센터 협업 소개' },
+  { href: '/care-partner/apply', label: '케어파트너 신청', desc: '요양보호사·동행 파트너' },
+  { href: '/care-partner/guide', label: '파트너 교육', desc: '활동 기준과 리포트 작성' },
+  { href: '/safety-protocol', label: '안전 프로토콜', desc: '도움 필요 신호 대응' },
   { href: '/settings/permissions', label: '앱 권한', desc: '알림·위치·접근성 설정' },
   { href: '/privacy-consent', label: '개인정보 동의', desc: '안부 정보 공유 동의' },
-  { href: '/pricing', label: '요금제', desc: '구독·사람 연결 요금' }
+  { href: '/contact', label: '문의하기', desc: '보호자·파트너·협업 문의' },
+  { href: '/data-deletion', label: '데이터 삭제', desc: '계정·기록 삭제 요청' },
+  { href: '/privacy', label: '개인정보처리방침', desc: '개인정보 보호 안내' },
+  { href: '/terms', label: '이용약관', desc: '서비스 이용 기준' },
+  { href: '/health-disclaimer', label: '건강정보 고지', desc: '의료 진단 아님 안내' }
 ]
 
 const internalLinks = [
-  { href: '/ops/anbu-control', label: '운영실 관제', desc: '확인 필요 신호 처리' },
-  { href: '/platform-roadmap', label: '플랫폼 구조', desc: '투자자 설명 흐름' }
+  { href: '/ops/crm', label: '운영실 CRM', desc: '접수·처리 로그' },
+  { href: '/ops/outreach-crm', label: '협업기관 CRM', desc: '메일 발송·회신 관리' },
+  { href: '/ops/metrics', label: '핵심 지표', desc: '성장·운영 지표' },
+  { href: '/play-store-ready', label: '스토어 준비', desc: 'Play Store 체크리스트' },
+  { href: '/platform-roadmap', label: '플랫폼 구조', desc: '투자자 설명 흐름' },
+  { href: '/location-terms', label: '위치정보 약관', desc: '위치정보 이용 안내' }
 ]
 
 export function GlobalHeader() {
