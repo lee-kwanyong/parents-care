@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  dispatchNotificationWebhook,
+  dispatchNotification,
   normalizePhone,
   supabaseInsert,
+  supabasePatch,
   text
 } from '@/lib/anbu-integrations'
 import type { AnbuNotificationPayload, AnbuNotificationChannel } from '@/lib/anbu-integrations'
@@ -11,6 +12,61 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const allowedChannels = new Set(['app', 'sms', 'kakao', 'email'])
+
+function getInsertedId(result: Awaited<ReturnType<typeof supabaseInsert>>) {
+  if (!result.ok || !Array.isArray(result.data)) return ''
+  const row = result.data[0] as { id?: string } | undefined
+  return row?.id || ''
+}
+
+async function updateOutboxStatus(id: string, status: string, dispatchResult: unknown) {
+  if (!id) return null
+
+  return supabasePatch(
+    'anbu_notification_outbox?id=eq.' + encodeURIComponent(id),
+    {
+      status,
+      provider:
+        typeof dispatchResult === 'object' &&
+        dispatchResult &&
+        'mode' in dispatchResult
+          ? String((dispatchResult as { mode?: string }).mode || '')
+          : null,
+      sent_at:
+        typeof dispatchResult === 'object' &&
+        dispatchResult &&
+        'ok' in dispatchResult &&
+        (dispatchResult as { ok?: boolean }).ok
+          ? new Date().toISOString()
+          : null,
+      payload: {
+        dispatchResult
+      }
+    }
+  )
+}
+
+function statusFromDispatchResult(dispatchResult: unknown) {
+  if (
+    typeof dispatchResult === 'object' &&
+    dispatchResult &&
+    'ok' in dispatchResult &&
+    (dispatchResult as { ok?: boolean }).ok
+  ) {
+    return 'sent'
+  }
+
+  if (
+    typeof dispatchResult === 'object' &&
+    dispatchResult &&
+    'mode' in dispatchResult &&
+    (dispatchResult as { mode?: string }).mode === 'outbox-only'
+  ) {
+    return 'outbox-only'
+  }
+
+  return 'failed'
+}
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
@@ -55,20 +111,24 @@ export async function POST(request: NextRequest) {
 
   const shouldDispatch = text(body.deliveryMode) === 'send'
   let dispatchResult: unknown = null
+  let outboxUpdate: unknown = null
 
   if (shouldDispatch) {
-    dispatchResult = await dispatchNotificationWebhook(payload)
+    dispatchResult = await dispatchNotification(payload)
+    const nextStatus = statusFromDispatchResult(dispatchResult)
+    const outboxId = getInsertedId(outbox)
+
+    outboxUpdate = await updateOutboxStatus(outboxId, nextStatus, dispatchResult)
 
     await supabaseInsert('anbu_integration_events', {
       event_type: 'notification_dispatch',
-      provider: 'webhook',
-      status:
+      provider:
         typeof dispatchResult === 'object' &&
         dispatchResult &&
-        'ok' in dispatchResult &&
-        (dispatchResult as { ok?: boolean }).ok
-          ? 'sent'
-          : 'outbox-only',
+        'mode' in dispatchResult
+          ? String((dispatchResult as { mode?: string }).mode || '')
+          : 'unknown',
+      status: nextStatus,
       payload: {
         notification: payload,
         dispatchResult
@@ -79,10 +139,11 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     message: shouldDispatch
-      ? '알림 발송을 처리했습니다. Webhook이 없으면 발송함 저장만 완료됩니다.'
+      ? '알림 발송을 처리했습니다.'
       : '알림 발송함에 저장했습니다.',
     mode: shouldDispatch ? 'queued-and-dispatched' : 'queued',
     outbox,
+    outboxUpdate,
     dispatchResult
   })
 }

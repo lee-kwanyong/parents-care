@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import {
-  dispatchNotificationWebhook,
+  dispatchNotification,
   supabaseInsert,
   supabasePatch,
   supabaseSelect,
@@ -26,24 +26,46 @@ function toPayload(row: Record<string, unknown>): AnbuNotificationPayload {
   }
 }
 
+function statusFromDispatchResult(result: unknown) {
+  if (
+    typeof result === 'object' &&
+    result &&
+    'ok' in result &&
+    (result as { ok?: boolean }).ok
+  ) {
+    return 'sent'
+  }
+
+  if (
+    typeof result === 'object' &&
+    result &&
+    'mode' in result &&
+    (result as { mode?: string }).mode === 'outbox-only'
+  ) {
+    return 'outbox-only'
+  }
+
+  return 'failed'
+}
+
 async function dispatchOne(row: Record<string, unknown>) {
   const id = text(row.id)
   const payload = toPayload(row)
-  const result = await dispatchNotificationWebhook(payload)
-
-  const nextStatus = result.ok
-    ? 'sent'
-    : result.mode === 'outbox-only'
-      ? 'outbox-only'
-      : 'failed'
+  const result = await dispatchNotification(payload)
+  const nextStatus = statusFromDispatchResult(result)
 
   if (id) {
     await supabasePatch(
       'anbu_notification_outbox?id=eq.' + encodeURIComponent(id),
       {
         status: nextStatus,
-        provider: result.mode || 'webhook',
-        sent_at: result.ok ? new Date().toISOString() : null,
+        provider:
+          typeof result === 'object' &&
+          result &&
+          'mode' in result
+            ? String((result as { mode?: string }).mode || '')
+            : 'unknown',
+        sent_at: nextStatus === 'sent' ? new Date().toISOString() : null,
         payload: {
           original: row,
           dispatchResult: result
@@ -54,7 +76,12 @@ async function dispatchOne(row: Record<string, unknown>) {
 
   await supabaseInsert('anbu_integration_events', {
     event_type: 'notification_dispatch',
-    provider: 'webhook',
+    provider:
+      typeof result === 'object' &&
+      result &&
+      'mode' in result
+        ? String((result as { mode?: string }).mode || '')
+        : 'unknown',
     status: nextStatus,
     payload: {
       outboxId: id,
@@ -76,7 +103,8 @@ async function handleDispatch(request: NextRequest) {
   const limit = Math.min(Number(body.limit || request.nextUrl.searchParams.get('limit') || 20), 50)
 
   const result = await supabaseSelect(
-    'anbu_notification_outbox?select=*&status=eq.queued&order=created_at.asc&limit=' + encodeURIComponent(String(limit))
+    'anbu_notification_outbox?select=*&status=in.(queued,outbox-only,failed)&order=created_at.asc&limit=' +
+      encodeURIComponent(String(limit))
   )
 
   if (!result.ok || !Array.isArray(result.data)) {
