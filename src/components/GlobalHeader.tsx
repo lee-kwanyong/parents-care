@@ -10,6 +10,8 @@ const outsideLinks = [
 ]
 
 const menuLinks = [
+  { href: '/billing', label: '결제내역', desc: '구독·결제 상태 확인' },
+  { href: '/setup/payments', label: '결제 설정', desc: '토스페이먼츠·결제 DB 설정' },
   { href: '/ops/partners', label: '파트너 승인', desc: '운영실 검증·승인·거절' },
   { href: '/ops/assignments', label: '배정 관리', desc: '부모님 연결코드에 파트너 배정' },
   { href: '/child/assignments', label: '배정 현황', desc: '보호자 케어파트너 확인' },
