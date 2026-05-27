@@ -11,6 +11,7 @@ const quickLinks = [
 ]
 
 const menuLinks = [
+  { href: '/billing', label: '결제 준비', desc: '요금제 결제 의도 생성' },
   { href: '/', label: '홈', desc: '처음 화면' },
   { href: '/landing', label: '서비스 소개', desc: '부모님 안심케어 소개' },
   { href: '/onboarding', label: '보호자 시작', desc: '처음 설정 마법사' },
@@ -34,6 +35,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/integrations', label: '외부연동', desc: 'SMS·카카오·결제 설정' },
   { href: '/ops/crm', label: '운영실 CRM', desc: '접수·처리 로그' },
   { href: '/ops/outreach-crm', label: '협업기관 CRM', desc: '메일 발송·회신 관리' },
   { href: '/ops/metrics', label: '핵심 지표', desc: '성장·운영 지표' },
