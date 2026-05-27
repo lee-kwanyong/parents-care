@@ -8,7 +8,7 @@ function text(value: unknown) {
 }
 
 function createCode() {
-  return String(Math.floor(1000 + Math.random() * 9000))
+  return String(Math.floor(100000 + Math.random() * 900000))
 }
 
 function supabaseBaseUrl() {
@@ -132,9 +132,9 @@ export async function POST(request: NextRequest) {
   if (action === 'join') {
     const familyCode = text(body.familyCode)
 
-    if (!/^\d{4,6}$/.test(familyCode)) {
+    if (!/^\d{6}$/.test(familyCode)) {
       return NextResponse.json(
-        { ok: false, message: '4자리 또는 6자리 연결코드를 입력해주세요.' },
+        { ok: false, message: '6자리 연결코드를 입력해주세요.' },
         { status: 400 }
       )
     }

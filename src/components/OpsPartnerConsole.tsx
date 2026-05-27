@@ -368,7 +368,7 @@ function AssignmentsView({
         </div>
 
         <form onSubmit={createAssignment} className="mt-5 grid gap-3">
-          <Input name="familyCode" label="부모님 연결코드" placeholder="예: 2580" required />
+          <Input name="familyCode" label="부모님 연결코드" placeholder="예: 462015" required />
           <Input name="taskType" label="업무 유형" placeholder="예: 생활확인, 병원동행, 복약확인" required />
           <Input name="taskTitle" label="배정 제목" placeholder="예: 어머니 점심 약 확인" required />
           <Input name="scheduledAt" label="예정 시간" placeholder="선택 입력" type="datetime-local" />

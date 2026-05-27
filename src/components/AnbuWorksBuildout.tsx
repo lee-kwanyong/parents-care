@@ -31,7 +31,7 @@ const PARTNER_KEY = 'anbuworks_partner_applications'
 const CONSENT_KEY = 'anbuworks_privacy_consents'
 
 function createCode() {
-  return String(Math.floor(1000 + Math.random() * 9000))
+  return String(Math.floor(100000 + Math.random() * 900000))
 }
 
 function Card({
@@ -83,7 +83,15 @@ export function FamilyLinkMvp() {
   useEffect(() => {
     try {
       const saved = window.localStorage.getItem(FAMILY_KEY)
-      if (saved) setLink(JSON.parse(saved))
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (/^\d{6}$/.test(String(parsed.familyCode || ''))) {
+          setLink(parsed)
+        } else {
+          window.localStorage.removeItem(FAMILY_KEY)
+          setLink(null)
+        }
+      }
     } catch {
       setLink(null)
     }
@@ -118,7 +126,7 @@ export function FamilyLinkMvp() {
       <PageHero
         eyebrow="1단계 · 부모님-자녀 연결"
         title="자녀가 코드를 만들고, 부모님은 코드만 입력합니다."
-        desc="복잡한 회원가입 없이 보호자가 부모님 프로필을 만들고 4자리 연결코드를 전달합니다. 부모님은 코드 입력과 동의 후 안부온 버튼을 사용할 수 있습니다."
+        desc="복잡한 회원가입 없이 보호자가 부모님 프로필을 만들고 6자리 연결코드를 전달합니다. 부모님은 코드 입력과 동의 후 안부온 버튼을 사용할 수 있습니다."
       />
 
       {message ? (
@@ -174,7 +182,7 @@ export function FamilyLinkMvp() {
       <div className="grid gap-4 md:grid-cols-4">
         {[
           '자녀가 부모님 프로필 생성',
-          '4자리 연결코드 전달',
+          '6자리 연결코드 전달',
           '부모님이 코드 입력 및 동의',
           '안부 버튼이 해당 보호자에게 연결'
         ].map((item, index) => (
@@ -200,8 +208,8 @@ export function ParentCodeLogin() {
     event.preventDefault()
     setMessage('')
 
-    if (!/^\d{4,6}$/.test(code.trim())) {
-      setMessage('4자리 또는 6자리 연결코드를 입력해주세요.')
+    if (!/^\d{6}$/.test(code.trim())) {
+      setMessage('6자리 연결코드를 입력해주세요.')
       return
     }
 
@@ -237,7 +245,7 @@ export function ParentCodeLogin() {
       <Card>
         <form onSubmit={submit} className="grid gap-4">
           <Field label="부모님 이름" value={parentName} onChange={setParentName} placeholder="예: 어머니" />
-          <Field label="연결코드" value={code} onChange={setCode} placeholder="예: 2580" inputMode="numeric" />
+          <Field label="연결코드" value={code} onChange={setCode} placeholder="예: 462015" inputMode="numeric" />
 
           <label className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D8EEE8]">
             <input

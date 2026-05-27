@@ -202,7 +202,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
             <Input label="보호자 이름" value={buyerName} onChange={setBuyerName} placeholder="예: 이가영" required />
             <Input label="보호자 연락처" value={buyerPhone} onChange={setBuyerPhone} placeholder="예: 010-0000-0000" required />
             <Input label="이메일" value={buyerEmail} onChange={setBuyerEmail} placeholder="선택 입력" />
-            <Input label="부모님 연결코드" value={familyCode} onChange={setFamilyCode} placeholder="선택 입력. 예: 2580" />
+            <Input label="부모님 연결코드" value={familyCode} onChange={setFamilyCode} placeholder="선택 입력. 예: 462015" />
 
             <div className="rounded-[1.75rem] bg-[#123F38] p-5 text-white">
               <div className="text-sm font-black text-[#9DF4DD]">결제 금액</div>

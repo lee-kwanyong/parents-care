@@ -75,7 +75,7 @@ export function DataRequestForm({ defaultType = 'delete_account' }: { defaultTyp
         <Input name="requesterName" label="이름" placeholder="예: 이가영" required />
         <Input name="phone" label="연락처" placeholder="예: 010-0000-0000" />
         <Input name="email" label="이메일" placeholder="예: name@example.com" />
-        <Input name="familyCode" label="부모님 연결코드" placeholder="선택 입력. 예: 2580" />
+        <Input name="familyCode" label="부모님 연결코드" placeholder="선택 입력. 예: 462015" />
       </div>
 
       <label className="mt-5 grid gap-2">

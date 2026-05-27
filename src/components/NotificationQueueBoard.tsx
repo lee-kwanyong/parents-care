@@ -253,7 +253,7 @@ export function NotificationQueueBoard({ mode = 'family' }: { mode?: 'family' | 
               )}
             </select>
 
-            <input name="meetingCode" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="만남 암호 예: 2580" />
+            <input name="meetingCode" className="rounded-2xl border border-[#E0EFEC] p-4" placeholder="만남 암호 예: 462015" />
           </div>
 
           <input name="title" className="mt-4 w-full rounded-2xl border border-[#E0EFEC] p-4" placeholder="제목. 비워두면 템플릿 제목 사용" />
