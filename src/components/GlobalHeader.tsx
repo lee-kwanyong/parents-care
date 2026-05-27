@@ -35,6 +35,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/automation', label: '자동 알림', desc: '응답 없음·일정 SMS 자동화' },
   { href: '/ops/outbox', label: '알림 발송함', desc: '대기 알림 조회·발송' },
   { href: '/ops/integrations', label: '외부연동', desc: 'SMS·카카오·결제 설정' },
   { href: '/ops/crm', label: '운영실 CRM', desc: '접수·처리 로그' },
