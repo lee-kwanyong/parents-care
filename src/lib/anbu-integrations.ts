@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import { createHmac, randomBytes } from 'crypto'
 
 export type AnbuNotificationChannel = 'app' | 'sms' | 'kakao' | 'email'
 
@@ -214,9 +214,8 @@ export async function supabasePatch(path: string, payload: Record<string, unknow
 
 function createSolapiAuthHeader(apiKey: string, apiSecret: string) {
   const dateTime = new Date().toISOString()
-  const salt = crypto.randomBytes(16).toString('hex')
-  const signature = crypto
-    .createHmac('sha256', apiSecret)
+  const salt = randomBytes(16).toString('hex')
+  const signature = createHmac('sha256', apiSecret)
     .update(dateTime + salt)
     .digest('hex')
 

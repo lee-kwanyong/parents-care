@@ -19,33 +19,6 @@ function getInsertedId(result: Awaited<ReturnType<typeof supabaseInsert>>) {
   return row?.id || ''
 }
 
-async function updateOutboxStatus(id: string, status: string, dispatchResult: unknown) {
-  if (!id) return null
-
-  return supabasePatch(
-    'anbu_notification_outbox?id=eq.' + encodeURIComponent(id),
-    {
-      status,
-      provider:
-        typeof dispatchResult === 'object' &&
-        dispatchResult &&
-        'mode' in dispatchResult
-          ? String((dispatchResult as { mode?: string }).mode || '')
-          : null,
-      sent_at:
-        typeof dispatchResult === 'object' &&
-        dispatchResult &&
-        'ok' in dispatchResult &&
-        (dispatchResult as { ok?: boolean }).ok
-          ? new Date().toISOString()
-          : null,
-      payload: {
-        dispatchResult
-      }
-    }
-  )
-}
-
 function statusFromDispatchResult(dispatchResult: unknown) {
   if (
     typeof dispatchResult === 'object' &&
@@ -66,6 +39,27 @@ function statusFromDispatchResult(dispatchResult: unknown) {
   }
 
   return 'failed'
+}
+
+async function updateOutboxStatus(id: string, status: string, dispatchResult: unknown) {
+  if (!id) return null
+
+  return supabasePatch(
+    'anbu_notification_outbox?id=eq.' + encodeURIComponent(id),
+    {
+      status,
+      provider:
+        typeof dispatchResult === 'object' &&
+        dispatchResult &&
+        'mode' in dispatchResult
+          ? String((dispatchResult as { mode?: string }).mode || '')
+          : null,
+      sent_at: status === 'sent' ? new Date().toISOString() : null,
+      payload: {
+        dispatchResult
+      }
+    }
+  )
 }
 
 export async function POST(request: NextRequest) {
