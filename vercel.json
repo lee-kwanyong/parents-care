@@ -11,6 +11,10 @@
     {
       "path": "/api/cron/autoloop",
       "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/anbu-cron/daily",
+      "schedule": "0 23 * * *"
     }
   ]
 }

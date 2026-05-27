@@ -26,7 +26,7 @@ export function getIntegrationStatuses(): AnbuIntegrationStatus[] {
       key: 'notificationWebhook',
       label: '알림 발송 Webhook',
       configured: Boolean(process.env.ANBU_NOTIFICATION_WEBHOOK_URL),
-      desc: 'SMS, 카카오 알림톡, 이메일 게이트웨이로 전달할 공통 Webhook'
+      desc: 'SMS, 카카오 알림톡, 이메일 발송 서버로 전달할 공통 Webhook'
     },
     {
       key: 'notificationWebhookToken',
@@ -44,7 +44,7 @@ export function getIntegrationStatuses(): AnbuIntegrationStatus[] {
       key: 'kakaoSenderKey',
       label: '카카오 알림톡 Sender Key',
       configured: Boolean(process.env.KAKAO_ALIMTALK_SENDER_KEY),
-      desc: '카카오 알림톡 발송에 필요한 발신 프로필 키'
+      desc: '카카오 알림톡 발신 프로필 키'
     },
     {
       key: 'tossClient',
@@ -56,7 +56,7 @@ export function getIntegrationStatuses(): AnbuIntegrationStatus[] {
       key: 'tossSecret',
       label: '토스페이먼츠 Secret Key',
       configured: Boolean(process.env.TOSS_SECRET_KEY),
-      desc: '결제 승인, 검증에 필요한 서버 키'
+      desc: '결제 승인 확인에 필요한 서버 키'
     },
     {
       key: 'cronSecret',
@@ -157,6 +157,47 @@ export async function supabaseSelect(path: string) {
   }
 }
 
+export async function supabasePatch(path: string, payload: Record<string, unknown>) {
+  const base = supabaseBaseUrl()
+  const key = serviceKey()
+
+  if (!base || !key) {
+    return {
+      ok: false,
+      mode: 'local-fallback',
+      error: 'Supabase env is missing'
+    }
+  }
+
+  const response = await fetch(base + '/rest/v1/' + path, {
+    method: 'PATCH',
+    headers: {
+      apikey: key,
+      Authorization: 'Bearer ' + key,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation'
+    },
+    body: JSON.stringify(payload),
+    cache: 'no-store'
+  })
+
+  const bodyText = await response.text()
+  let parsed: unknown = null
+
+  try {
+    parsed = bodyText ? JSON.parse(bodyText) : null
+  } catch {
+    parsed = bodyText
+  }
+
+  return {
+    ok: response.ok,
+    mode: 'supabase',
+    data: parsed,
+    error: response.ok ? null : parsed || bodyText
+  }
+}
+
 export async function dispatchNotificationWebhook(payload: AnbuNotificationPayload) {
   const webhookUrl = process.env.ANBU_NOTIFICATION_WEBHOOK_URL || ''
   const webhookToken = process.env.ANBU_NOTIFICATION_WEBHOOK_TOKEN || ''
@@ -182,13 +223,13 @@ export async function dispatchNotificationWebhook(payload: AnbuNotificationPaylo
     })
   })
 
-  const text = await response.text()
+  const responseText = await response.text()
 
   return {
     ok: response.ok,
     mode: 'webhook',
-    data: text,
-    error: response.ok ? null : text
+    data: responseText,
+    error: response.ok ? null : responseText
   }
 }
 
@@ -199,4 +240,13 @@ export function normalizePhone(value: unknown) {
 
 export function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
+}
+
+export function toNumber(value: unknown) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : 0
+  if (typeof value === 'string') {
+    const parsed = Number(value.replace(/[^\d.-]/g, ''))
+    return Number.isFinite(parsed) ? parsed : 0
+  }
+  return 0
 }
