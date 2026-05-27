@@ -41,7 +41,13 @@ async function createOutbox(item: Record<string, unknown>) {
 
 async function handleRoutine(request: NextRequest) {
   const secret = process.env.CRON_SECRET || ''
+  const authorization = request.headers.get('authorization') || ''
+  const bearerToken = authorization.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length)
+    : ''
+
   const provided =
+    bearerToken ||
     request.headers.get('x-cron-secret') ||
     request.nextUrl.searchParams.get('secret') ||
     ''

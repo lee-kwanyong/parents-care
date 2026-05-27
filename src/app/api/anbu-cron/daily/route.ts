@@ -6,12 +6,20 @@ export const runtime = 'nodejs'
 
 function checkCronSecret(request: NextRequest) {
   const secret = process.env.CRON_SECRET || ''
+
+  if (!secret) return true
+
+  const authorization = request.headers.get('authorization') || ''
+  const bearerToken = authorization.startsWith('Bearer ')
+    ? authorization.slice('Bearer '.length)
+    : ''
+
   const provided =
+    bearerToken ||
     request.headers.get('x-cron-secret') ||
     request.nextUrl.searchParams.get('secret') ||
     ''
 
-  if (!secret) return true
   return provided === secret
 }
 
