@@ -35,6 +35,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/kakao-templates', label: '알림톡 템플릿', desc: '카카오 알림톡 심사 문구' },
   { href: '/ops/automation', label: '자동 알림', desc: '응답 없음·일정 SMS 자동화' },
   { href: '/ops/outbox', label: '알림 발송함', desc: '대기 알림 조회·발송' },
   { href: '/ops/integrations', label: '외부연동', desc: 'SMS·카카오·결제 설정' },

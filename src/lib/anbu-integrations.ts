@@ -230,6 +230,19 @@ function buildSmsText(payload: AnbuNotificationPayload) {
 }
 
 export async function dispatchSolapiSms(payload: AnbuNotificationPayload) {
+  const smsSendMode = process.env.ANBU_SMS_SEND_MODE || 'live'
+
+  if (
+    smsSendMode === 'outbox' ||
+    smsSendMode === 'paused' ||
+    process.env.ANBU_SMS_PAUSED === 'true'
+  ) {
+    return {
+      ok: false,
+      mode: 'outbox-only',
+      error: 'SMS sending is paused by ANBU_SMS_SEND_MODE. Notification was kept in outbox only.'
+    }
+  }
   const apiKey = process.env.SOLAPI_API_KEY || ''
   const apiSecret = process.env.SOLAPI_API_SECRET || ''
   const from = normalizePhone(process.env.ANBU_SMS_FROM || '')
