@@ -67,13 +67,13 @@ export function PWAInstallButton({
   }
 
   return (
-    <div className="relative inline-flex">
+    <div className="relative inline-flex w-full">
       <button
         type="button"
         onClick={handleClick}
         className={
           className ||
-          'rounded-full bg-[#F2FAF8] px-3 py-2 text-xs font-black text-[#537875] ring-1 ring-[#DDEEEA] transition hover:bg-[#E4F7F2] sm:px-4 sm:text-sm'
+          'w-full rounded-xl bg-[#EFFFF9] px-3 py-2.5 text-left text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5] transition hover:bg-[#DDF8EF]'
         }
       >
         {label}
@@ -84,17 +84,16 @@ export function PWAInstallButton({
           <button
             type="button"
             aria-label="홈추가 안내 닫기"
-            className="fixed inset-0 z-[85] cursor-default bg-transparent"
+            className="fixed inset-0 z-[95] cursor-default bg-transparent"
             onClick={() => setOpen(false)}
           />
 
-          <div className="absolute right-0 top-[calc(100%+10px)] z-[90] w-[min(21rem,calc(100vw-1.5rem))] rounded-[1.5rem] border border-[#DCEDE7] bg-white p-4 text-left shadow-[0_18px_48px_rgba(20,82,70,0.16)]">
+          <div className="fixed left-3 right-3 top-24 z-[100] rounded-[1.25rem] border border-[#DCEDE7] bg-white p-4 text-left shadow-[0_18px_48px_rgba(20,82,70,0.18)] sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+10px)] sm:w-[21rem]">
             <div className="text-sm font-black text-[#159B84]">
               {installed ? '이미 앱처럼 실행 중입니다.' : '홈 화면에 추가하기'}
             </div>
 
             <div className="mt-3 space-y-2 text-xs font-bold leading-6 text-[#5F7772]">
-              <p>설치 버튼이 바로 뜨지 않으면 브라우저 메뉴에서 직접 추가할 수 있습니다.</p>
               <p>Android Chrome: 오른쪽 위 메뉴 → 앱 설치 또는 홈 화면에 추가</p>
               <p>iPhone Safari: 공유 버튼 → 홈 화면에 추가</p>
               <p>PC Chrome: 주소창 오른쪽 설치 아이콘 또는 브라우저 메뉴에서 앱 설치</p>
