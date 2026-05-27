@@ -11,6 +11,7 @@ const quickLinks = [
 ]
 
 const menuLinks = [
+  { href: '/subscription', label: '구독 관리', desc: '체험·리포트 구독 상태' },
   { href: '/billing', label: '결제 준비', desc: '요금제 결제 의도 생성' },
   { href: '/', label: '홈', desc: '처음 화면' },
   { href: '/landing', label: '서비스 소개', desc: '부모님 안심케어 소개' },
