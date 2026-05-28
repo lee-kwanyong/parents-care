@@ -39,6 +39,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/care-reports-review', label: '리포트 검수', desc: '보호자 공개 전 검수' },
   { href: '/ops/care-requests', label: '케어 요청 운영', desc: '요청·배정·리포트 추적' },
   { href: '/ops/partners', label: '파트너 운영', desc: '신청자 승인·매칭 관리' },
   { href: '/ops/subscriptions', label: '구독 운영', desc: '결제·체험 구독 관리' },

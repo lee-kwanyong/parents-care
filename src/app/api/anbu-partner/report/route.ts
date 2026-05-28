@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
     request_id: requestId || null,
     partner_application_id: partnerId || null,
     report_status: 'submitted',
+    guardian_visible: false,
     performed_at: text(body.performedAt) || new Date().toISOString(),
     service_summary: text(body.serviceSummary),
     parent_condition: text(body.parentCondition),

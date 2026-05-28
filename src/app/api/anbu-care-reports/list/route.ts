@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseSelect } from '@/lib/anbu-integrations'
+import { supabaseSelect, text } from '@/lib/anbu-integrations'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -10,14 +10,18 @@ function rowId(row: Row) {
   return typeof row.id === 'string' ? row.id : ''
 }
 
-function text(value: unknown) {
-  return typeof value === 'string' ? value : ''
+function isGuardianVisible(report: Row) {
+  const status = text(report.report_status) || 'submitted'
+  const guardianVisible = report.guardian_visible === true
+
+  return status === 'approved' && guardianVisible
 }
 
 export async function GET(request: NextRequest) {
   const familyCode = request.nextUrl.searchParams.get('familyCode') || ''
+  const scope = request.nextUrl.searchParams.get('scope') || 'guardian'
 
-  let requestsPath = 'anbu_care_requests?select=*&order=created_at.desc&limit=300'
+  let requestsPath = 'anbu_care_requests?select=*&order=created_at.desc&limit=500'
 
   if (familyCode) {
     requestsPath += '&family_code=eq.' + encodeURIComponent(familyCode)
@@ -45,29 +49,38 @@ export async function GET(request: NextRequest) {
 
   const visibleRequestIds = new Set(requests.map(rowId))
 
-  const careReports = reports
-    .filter((report) => !familyCode || visibleRequestIds.has(text(report.request_id)))
-    .map((report) => {
-      const match = matchMap.get(text(report.match_id)) || null
-      const requestRow = requestMap.get(text(report.request_id)) || null
-      const partner = partnerMap.get(text(report.partner_application_id)) || null
+  let filteredReports = reports.filter((report) => {
+    if (familyCode && !visibleRequestIds.has(text(report.request_id))) return false
+    if (scope === 'ops') return true
+    return isGuardianVisible(report)
+  })
 
-      return {
-        ...report,
-        match,
-        request: requestRow,
-        partner
-      }
-    })
+  const careReports = filteredReports.map((report) => {
+    const match = matchMap.get(text(report.match_id)) || null
+    const requestRow = requestMap.get(text(report.request_id)) || null
+    const partner = partnerMap.get(text(report.partner_application_id)) || null
+
+    return {
+      ...report,
+      match,
+      request: requestRow,
+      partner
+    }
+  })
 
   return NextResponse.json({
     ok: true,
+    scope,
     reports: careReports,
     diagnostics: {
       requestsOk: requestsResult.ok,
       reportsOk: reportsResult.ok,
       partnersOk: partnersResult.ok,
-      matchesOk: matchesResult.ok
+      matchesOk: matchesResult.ok,
+      reportsTotal: reports.length,
+      visibleTotal: careReports.length,
+      requestsError: requestsResult.ok ? null : requestsResult.error,
+      reportsError: reportsResult.ok ? null : reportsResult.error
     }
   })
 }
