@@ -6,9 +6,7 @@ export const runtime = 'nodejs'
 
 function tossAuthHeader() {
   const secretKey = process.env.TOSS_SECRET_KEY || ''
-
   if (!secretKey) return ''
-
   return 'Basic ' + Buffer.from(secretKey + ':').toString('base64')
 }
 
@@ -26,6 +24,27 @@ async function getPaymentIntent(orderId: string) {
   return result.data[0] as Record<string, unknown>
 }
 
+async function activateSubscription(input: {
+  familyCode: string
+  planName: string
+  orderId: string
+}) {
+  const startedAt = new Date()
+  const endedAt = new Date(startedAt.getTime() + 30 * 24 * 60 * 60 * 1000)
+
+  return supabaseInsert('anbu_subscriptions', {
+    family_code: input.familyCode,
+    plan_name: input.planName,
+    status: 'active',
+    started_at: startedAt.toISOString(),
+    ended_at: endedAt.toISOString(),
+    payload: {
+      source: 'payment-confirm',
+      orderId: input.orderId
+    }
+  })
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const paymentKey = text(body.paymentKey)
@@ -40,7 +59,15 @@ export async function POST(request: NextRequest) {
   }
 
   const intent = await getPaymentIntent(orderId)
-  const expectedAmount = intent ? toNumber(intent.amount) : amount
+
+  if (!intent) {
+    return NextResponse.json(
+      { ok: false, message: '결제 의도를 찾지 못했습니다.' },
+      { status: 404 }
+    )
+  }
+
+  const expectedAmount = toNumber(intent.amount)
 
   if (expectedAmount !== amount) {
     await supabaseInsert('anbu_payment_events', {
@@ -76,7 +103,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       ok: false,
       mode: 'missing-secret',
-      message: 'TOSS_SECRET_KEY가 없어 결제 승인을 완료할 수 없습니다. Vercel 환경변수에 TOSS_SECRET_KEY를 추가하세요.',
+      message: 'TOSS_SECRET_KEY가 없어 결제 승인을 완료할 수 없습니다. 운영실 수동 활성화로 테스트하세요.',
       paymentKey,
       orderId,
       amount
@@ -106,6 +133,17 @@ export async function POST(request: NextRequest) {
   }
 
   if (!response.ok) {
+    await supabasePatch(
+      'anbu_payment_intents?order_id=eq.' + encodeURIComponent(orderId),
+      {
+        status: 'confirm_failed',
+        payload: {
+          original: intent,
+          toss: parsed
+        }
+      }
+    )
+
     await supabaseInsert('anbu_payment_events', {
       order_id: orderId,
       provider: 'toss',
@@ -113,19 +151,6 @@ export async function POST(request: NextRequest) {
       status: 'failed',
       payload: { paymentKey, orderId, amount, toss: parsed }
     })
-
-    await supabasePatch(
-      'anbu_payment_intents?order_id=eq.' + encodeURIComponent(orderId),
-      {
-        status: 'confirm_failed',
-        payload: {
-          paymentKey,
-          orderId,
-          amount,
-          toss: parsed
-        }
-      }
-    )
 
     return NextResponse.json(
       {
@@ -137,16 +162,25 @@ export async function POST(request: NextRequest) {
     )
   }
 
+  const familyCode = text(intent.family_code)
+  const planName = text(intent.plan_name) || '안부온 베이직'
+
+  const subscription = await activateSubscription({
+    familyCode,
+    planName,
+    orderId
+  })
+
   await supabasePatch(
     'anbu_payment_intents?order_id=eq.' + encodeURIComponent(orderId),
     {
       status: 'paid',
       paid_at: new Date().toISOString(),
       payload: {
+        original: intent,
         paymentKey,
-        orderId,
-        amount,
-        toss: parsed
+        toss: parsed,
+        subscription
       }
     }
   )
@@ -156,21 +190,13 @@ export async function POST(request: NextRequest) {
     provider: 'toss',
     event_type: 'confirm_success',
     status: 'paid',
-    payload: { paymentKey, orderId, amount, toss: parsed }
+    payload: { paymentKey, orderId, amount, toss: parsed, subscription }
   })
-
-  if (intent) {
-    await supabaseInsert('anbu_subscriptions', {
-      family_code: intent.family_code || null,
-      plan_name: intent.plan_name || intent.plan_id || '안부온',
-      status: 'active',
-      started_at: new Date().toISOString()
-    })
-  }
 
   return NextResponse.json({
     ok: true,
-    message: '결제 승인이 완료되었습니다.',
-    payment: parsed
+    message: '결제 승인이 완료되었고 구독이 활성화되었습니다.',
+    payment: parsed,
+    subscription
   })
 }

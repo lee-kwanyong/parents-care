@@ -43,7 +43,7 @@ export default function BillingSuccessPage() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black tracking-[-0.07em]">
-            {result.ok ? '결제가 완료되었습니다.' : '결제 확인이 필요합니다.'}
+            {result.ok ? '결제와 구독 활성화가 완료되었습니다.' : '결제 확인이 필요합니다.'}
           </h1>
 
           <p className="mt-4 text-base font-bold leading-7 text-[#637B76]">
@@ -51,11 +51,11 @@ export default function BillingSuccessPage() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/child/dashboard" className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
-              보호자 대시보드
+            <Link href="/subscription" className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+              구독 관리
             </Link>
-            <Link href="/billing" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-              결제 화면
+            <Link href="/child/weekly-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              주간 리포트
             </Link>
           </div>
         </section>
