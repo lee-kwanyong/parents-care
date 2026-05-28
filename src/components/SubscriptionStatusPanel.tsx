@@ -124,12 +124,7 @@ export function SubscriptionStatusPanel() {
           >
             새로고침
           </button>
-          <Link
-            href="/pricing"
-            className="rounded-2xl bg-[#20C5A8] px-5 py-4 text-sm font-black text-white"
-          >
-            요금제 보기
-          </Link>
+          
         </div>
 
         {message ? (

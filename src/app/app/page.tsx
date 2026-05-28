@@ -67,12 +67,6 @@ const subMenus = [
   },
   
   {
-    href: '/pricing',
-    icon: '₩',
-    title: '금액',
-    desc: '예상 비용과 결제 흐름을 확인합니다.'
-  },
-{
     href: '/install',
     icon: '⬇️',
     title: '홈 화면 추가',

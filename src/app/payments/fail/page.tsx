@@ -35,9 +35,7 @@ export default async function PaymentFailPage({ searchParams }: { searchParams: 
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link href="/pricing" className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
-              요금제 다시 보기
-            </Link>
+            
             <Link href="/checkout?plan=basic" className="rounded-2xl bg-[#20C5A8] px-5 py-4 text-sm font-black text-white">
               다시 결제하기
             </Link>

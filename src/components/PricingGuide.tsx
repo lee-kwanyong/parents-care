@@ -125,12 +125,7 @@ export function PricingGuide({
           지역, 일정, 예상 소요시간 확인 후 결제 전 최종 금액과 포함 범위를 먼저 안내드립니다.
         </p>
 
-        <Link
-          href="/pricing"
-          className="mt-4 inline-flex rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#365E78] ring-1 ring-[#DDEDF5]"
-        >
-          금액 자세히 보기
-        </Link>
+        
       </CareCard>
     )
   }

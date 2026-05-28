@@ -6,7 +6,6 @@ import { PWAInstallButton } from '@/components/PWAInstallButton'
 
 const quickLinks = [
   { href: '/landing', label: '시작' },
-  { href: '/pricing', label: '요금제' },
   { href: '/login', label: '로그인' }
 ]
 
