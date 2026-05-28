@@ -11,6 +11,7 @@ const quickLinks = [
 ]
 
 const menuLinks = [
+  { href: '/care-matching', label: '케어 요청', desc: '보호자 케어파트너 요청' },
   { href: '/subscription', label: '구독 관리', desc: '체험·리포트 구독 상태' },
   { href: '/billing', label: '결제 준비', desc: '요금제 결제 의도 생성' },
   { href: '/', label: '홈', desc: '처음 화면' },
@@ -36,6 +37,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/partners', label: '파트너 운영', desc: '신청자 승인·매칭 관리' },
   { href: '/ops/subscriptions', label: '구독 운영', desc: '결제·체험 구독 관리' },
   { href: '/ops/kakao-templates', label: '알림톡 템플릿', desc: '카카오 알림톡 심사 문구' },
   { href: '/ops/automation', label: '자동 알림', desc: '응답 없음·일정 SMS 자동화' },

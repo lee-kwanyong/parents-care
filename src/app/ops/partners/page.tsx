@@ -1,14 +1,10 @@
-import { OpsPartnerConsole } from '@/components/OpsPartnerConsole'
+import { OpsPartnersScreen } from '@/components/AnbuCarePartnerFlow'
 
 export const metadata = {
-  title: '케어파트너 승인 | 안부웍스 운영실',
-  description: '케어파트너 신청 승인, 거절, 보류'
+  title: '케어파트너 운영 | 안부웍스',
+  description: '운영실에서 케어파트너 신청자를 승인하고 관리합니다.'
 }
 
 export default function OpsPartnersPage() {
-  return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)]">
-      <OpsPartnerConsole mode="partners" />
-    </main>
-  )
+  return <OpsPartnersScreen />
 }
