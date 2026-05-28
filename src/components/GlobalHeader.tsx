@@ -40,6 +40,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/audit', label: '감사 로그', desc: '운영실 접근·작업 기록' },
   { href: '/ops/dashboard', label: '운영실 홈', desc: '전체 운영 현황' },
   { href: '/ops/care-reports-review', label: '리포트 검수', desc: '보호자 공개 전 검수' },
   { href: '/ops/care-requests', label: '케어 요청 운영', desc: '요청·배정·리포트 추적' },
