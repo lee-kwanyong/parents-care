@@ -11,6 +11,7 @@ const quickLinks = [
 ]
 
 const menuLinks = [
+  { href: '/care-partner/report-guide', label: '리포트 가이드', desc: '파트너 리포트 작성 기준' },
   { href: '/child/care-reports', label: '케어 리포트', desc: '보호자 케어 결과 확인' },
   { href: '/partner/tasks', label: '파트너 업무', desc: '배정 업무·리포트 작성' },
   { href: '/care-matching', label: '케어 요청', desc: '보호자 케어파트너 요청' },
