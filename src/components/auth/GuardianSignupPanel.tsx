@@ -14,8 +14,7 @@ export function GuardianSignupPanel() {
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
-        보호자 계정 화면은 부모님 연결코드 생성 화면으로 연결됩니다.
-        부모님은 별도 회원가입 없이 6자리 코드만 입력하면 됩니다.
+        보호자 정보와 부모님 정보를 입력한 뒤에만 6자리 연결코드가 생성됩니다.
       </p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
