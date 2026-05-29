@@ -218,7 +218,31 @@ export function GuardianSignupPanel() {
           disabled={loading}
           className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
         >
-          Google로 계속하기
+          <span className="inline-flex items-center justify-center gap-2" data-social-logo="google">
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    className="h-5 w-5 shrink-0"
+  >
+    <path
+      fill="#EA4335"
+      d="M12 10.2v3.9h5.52c-.24 1.26-.96 2.33-2.04 3.06l3.3 2.56c1.92-1.77 3.03-4.38 3.03-7.47 0-.73-.07-1.43-.19-2.1H12Z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 22c2.7 0 4.97-.89 6.63-2.41l-3.3-2.56c-.92.62-2.1.99-3.33.99-2.56 0-4.72-1.73-5.49-4.05H3.1v2.64A10 10 0 0 0 12 22Z"
+    />
+    <path
+      fill="#4A90E2"
+      d="M6.51 13.97A5.99 5.99 0 0 1 6.2 12c0-.68.12-1.34.31-1.97V7.39H3.1A10 10 0 0 0 2 12c0 1.61.38 3.13 1.1 4.61l3.41-2.64Z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M12 5.98c1.47 0 2.79.51 3.83 1.5l2.88-2.88C16.96 2.98 14.69 2 12 2A10 10 0 0 0 3.1 7.39l3.41 2.64C7.28 7.71 9.44 5.98 12 5.98Z"
+    />
+  </svg>
+  <span>Google로 계속하기</span>
+</span>
         </button>
 
         <button
@@ -227,7 +251,20 @@ export function GuardianSignupPanel() {
           disabled={loading}
           className="rounded-2xl bg-[#FEE500] px-5 py-4 text-sm font-black text-[#3A1D1D] disabled:opacity-60"
         >
-          Kakao로 계속하기
+          <span className="inline-flex items-center justify-center gap-2" data-social-logo="kakao">
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 24 24"
+    className="h-5 w-5 shrink-0"
+  >
+    <rect x="2" y="2" width="20" height="20" rx="6" fill="#FEE500" />
+    <path
+      fill="#191919"
+      d="M12 6.7c-3.46 0-6.26 2.2-6.26 4.92 0 1.75 1.15 3.29 2.88 4.16l-.73 2.67c-.06.22.18.39.37.26l3.09-2.05c.21.02.43.03.65.03 3.46 0 6.26-2.2 6.26-4.92S15.46 6.7 12 6.7Z"
+    />
+  </svg>
+  <span>Kakao로 계속하기</span>
+</span>
         </button>
       </div>
 
