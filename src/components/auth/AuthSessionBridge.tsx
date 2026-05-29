@@ -53,6 +53,8 @@ function saveGuardianSession(user: any, provider = 'oauth') {
     document.cookie = `anbu_guardian_email=${encodeURIComponent(email)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
   }
 
+  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: profile }))
+
   return profile
 }
 
@@ -71,18 +73,16 @@ export function AuthSessionBridge() {
       const refreshToken = hashParams.get('refresh_token')
       const hasOAuthPayload = Boolean(code || accessToken || refreshToken)
 
-      if (!hasOAuthPayload) return
-
-      const next = window.localStorage.getItem('anbu_oauth_next') || '/family-link'
-
       try {
-        if (code) {
-          await supabase.auth.exchangeCodeForSession(code)
-        } else if (accessToken && refreshToken) {
-          await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken
-          })
+        if (hasOAuthPayload) {
+          if (code) {
+            await supabase.auth.exchangeCodeForSession(code)
+          } else if (accessToken && refreshToken) {
+            await supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: refreshToken
+            })
+          }
         }
 
         const { data } = await supabase.auth.getSession()
@@ -96,10 +96,12 @@ export function AuthSessionBridge() {
 
           saveGuardianSession(user, provider)
 
-          window.localStorage.removeItem('anbu_oauth_next')
-          window.localStorage.removeItem('anbu_oauth_provider')
-
-          window.location.replace(next)
+          if (hasOAuthPayload) {
+            const next = window.localStorage.getItem('anbu_oauth_next') || '/family-link'
+            window.localStorage.removeItem('anbu_oauth_next')
+            window.localStorage.removeItem('anbu_oauth_provider')
+            window.location.replace(next)
+          }
         }
       } catch {
         // 조용히 유지

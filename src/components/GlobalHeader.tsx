@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { PWAInstallButton } from '@/components/PWAInstallButton'
+import { AccountMenuButton } from '@/components/auth/AccountMenuButton'
 
 const quickLinks = [
   { href: '/landing', label: '시작' },
@@ -99,7 +100,8 @@ export function GlobalHeader() {
             ))}
           </nav>
 
-          <button
+          <AccountMenuButton />
+<button
             type="button"
             onClick={() => setOpen((value) => !value)}
             className="rounded-full bg-[#193B38] px-3 py-2 text-xs font-black text-white shadow-[0_8px_20px_rgba(25,59,56,0.16)] transition hover:bg-[#24423F] sm:px-4 sm:text-sm"

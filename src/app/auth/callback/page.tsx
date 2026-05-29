@@ -57,6 +57,8 @@ function saveGuardianSession(user: any, provider = 'oauth') {
     document.cookie = `anbu_guardian_email=${encodeURIComponent(email)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
   }
 
+  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: profile }))
+
   return profile
 }
 
@@ -76,7 +78,7 @@ async function syncSessionLite(profile: any) {
       })
     })
   } catch {
-    // session-lite가 없어도 로그인 상태 저장은 유지합니다.
+    // session-lite가 없어도 localStorage/cookie 세션은 유지합니다.
   }
 }
 
@@ -99,7 +101,11 @@ export default function AuthCallbackPage() {
         hashParams.get('error')
 
       if (error) {
-        setMessage(error)
+        if (error.includes('Unable to exchange external code')) {
+          setMessage('Google/Kakao 개발자 콘솔의 Redirect URI 설정을 확인해주세요. Supabase Provider 화면의 Callback URL을 외부 OAuth 앱에 등록해야 합니다.')
+        } else {
+          setMessage(error)
+        }
         return
       }
 
@@ -143,7 +149,7 @@ export default function AuthCallbackPage() {
       const user = data.session?.user
 
       if (!user) {
-        setMessage('로그인 세션을 찾지 못했습니다. 잠시 후 다시 시도해주세요.')
+        setMessage('로그인 세션을 찾지 못했습니다. Supabase OAuth Provider 설정을 확인해주세요.')
         return
       }
 
@@ -172,6 +178,15 @@ export default function AuthCallbackPage() {
       <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-6 text-center shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
         <div className="text-3xl font-black tracking-[-0.06em]">보호자 로그인 처리</div>
         <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">{message}</p>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <a href="/signup/guardian" className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+            다시 로그인
+          </a>
+          <a href="/family-link" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            연결화면 이동
+          </a>
+        </div>
       </section>
     </main>
   )
