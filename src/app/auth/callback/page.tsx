@@ -52,6 +52,7 @@ function saveGuardianSession(user: any, provider = 'oauth') {
   window.localStorage.setItem('anbu_current_user', JSON.stringify(profile))
 
   document.cookie = `anbu_login_role=guardian; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+
   if (email) {
     document.cookie = `anbu_guardian_email=${encodeURIComponent(email)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
   }
@@ -89,10 +90,7 @@ export default function AuthCallbackPage() {
       const params = url.searchParams
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''))
 
-      const next =
-        params.get('next') ||
-        window.localStorage.getItem('anbu_oauth_next') ||
-        '/family-link'
+      const next = window.localStorage.getItem('anbu_oauth_next') || '/family-link'
 
       const error =
         params.get('error_description') ||
@@ -115,7 +113,7 @@ export default function AuthCallbackPage() {
       const refreshToken = hashParams.get('refresh_token')
 
       if (code) {
-        setMessage('인증 코드를 세션으로 변환하는 중입니다.')
+        setMessage('인증 코드를 세션으로 저장하는 중입니다.')
         const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
         if (exchangeError) {
@@ -145,7 +143,7 @@ export default function AuthCallbackPage() {
       const user = data.session?.user
 
       if (!user) {
-        setMessage('로그인 세션을 찾지 못했습니다. Supabase Redirect URL 설정을 확인해주세요.')
+        setMessage('로그인 세션을 찾지 못했습니다. 잠시 후 다시 시도해주세요.')
         return
       }
 

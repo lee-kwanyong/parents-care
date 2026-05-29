@@ -30,13 +30,15 @@ function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
 }
 
-function saveLocalProfile(input: {
+function saveGuardianProfile(input: {
+  id?: string
   guardianName?: string
   guardianPhone?: string
   guardianEmail?: string
   authProvider?: string
 }) {
   const profile = {
+    id: input.id || '',
     guardianName: input.guardianName || '보호자',
     guardianPhone: input.guardianPhone || '',
     guardianEmail: input.guardianEmail || '',
@@ -53,6 +55,7 @@ function saveLocalProfile(input: {
   window.localStorage.setItem('anbu_current_user', JSON.stringify(profile))
 
   document.cookie = `anbu_login_role=guardian; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+
   if (profile.guardianEmail) {
     document.cookie = `anbu_guardian_email=${encodeURIComponent(profile.guardianEmail)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
   }
@@ -76,7 +79,7 @@ async function syncSessionLite(profile: any) {
       })
     })
   } catch {
-    // session-lite가 없어도 localStorage 기반 세션은 유지합니다.
+    // session-lite가 없어도 localStorage/cookie 세션은 유지합니다.
   }
 }
 
@@ -127,19 +130,22 @@ export function GuardianSignupPanel() {
       const supabase = getSupabase()
 
       if (!supabase) {
-        const profile = saveLocalProfile({
+        const profile = saveGuardianProfile({
           guardianName: guardianName.trim() || cleanEmail.split('@')[0],
           guardianPhone: cleanPhone,
           guardianEmail: cleanEmail,
           authProvider: 'local-fallback'
         })
+
         await syncSessionLite(profile)
         goFamilyLink()
         return
       }
 
       if (mode === 'signup') {
-        const { error } = await supabase.auth.signUp({
+        window.localStorage.setItem('anbu_oauth_next', '/family-link')
+
+        const { data, error } = await supabase.auth.signUp({
           email: cleanEmail,
           password,
           options: {
@@ -148,7 +154,7 @@ export function GuardianSignupPanel() {
               guardian_name: guardianName.trim(),
               guardian_phone: cleanPhone
             },
-            emailRedirectTo: `${window.location.origin}/auth/callback?next=/family-link`
+            emailRedirectTo: `${window.location.origin}/auth/callback`
           }
         })
 
@@ -157,12 +163,16 @@ export function GuardianSignupPanel() {
           return
         }
 
-        const profile = saveLocalProfile({
+        const user = data.user
+
+        const profile = saveGuardianProfile({
+          id: user?.id,
           guardianName: guardianName.trim(),
           guardianPhone: cleanPhone,
           guardianEmail: cleanEmail,
           authProvider: 'email'
         })
+
         await syncSessionLite(profile)
 
         setMessage('회원가입이 완료되었습니다. 부모님 연결 화면으로 이동합니다.')
@@ -170,7 +180,7 @@ export function GuardianSignupPanel() {
         return
       }
 
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: cleanEmail,
         password
       })
@@ -180,12 +190,14 @@ export function GuardianSignupPanel() {
         return
       }
 
-      const profile = saveLocalProfile({
+      const profile = saveGuardianProfile({
+        id: data.user?.id,
         guardianName: guardianName.trim() || cleanEmail.split('@')[0],
         guardianPhone: cleanPhone,
         guardianEmail: cleanEmail,
         authProvider: 'email-login'
       })
+
       await syncSessionLite(profile)
       goFamilyLink()
     } catch (error) {
@@ -214,7 +226,8 @@ export function GuardianSignupPanel() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/auth/callback?next=/family-link`,
+          // Supabase Redirect URLs에 등록된 값과 정확히 맞춥니다.
+          redirectTo: `${window.location.origin}/auth/callback`,
           queryParams:
             provider === 'google'
               ? {
