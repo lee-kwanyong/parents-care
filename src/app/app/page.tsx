@@ -5,9 +5,9 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const mainMenus = [
   {
-    href: '/signup/guardian',
+    href: '/login',
     icon: '👨‍👩‍👧',
-    title: '보호자 가입',
+    title: '로그인',
     desc: '보호자가 가입하고 부모님 6자리 코드를 만듭니다.',
     badge: '시작'
   },

@@ -149,7 +149,7 @@ export function GuardianSignupPanel() {
 
     try {
       const supabase = createSupabaseBrowserClient()
-      const redirectTo = getAuthCallbackUrl('/signup/guardian')
+      const redirectTo = getAuthCallbackUrl('/login')
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -206,7 +206,7 @@ export function GuardianSignupPanel() {
           email: form.email,
           password: form.password,
           options: {
-            emailRedirectTo: getAuthCallbackUrl('/signup/guardian'),
+            emailRedirectTo: getAuthCallbackUrl('/login'),
             data: {
               display_name: form.name || '보호자',
               user_role: 'guardian'

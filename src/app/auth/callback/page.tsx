@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react'
 import { createSupabaseBrowserClient } from '@/lib/supabase-auth-client'
 
 function safeNext(value: string | null) {
-  if (!value) return '/signup/guardian'
-  if (!value.startsWith('/')) return '/signup/guardian'
-  if (value.startsWith('//')) return '/signup/guardian'
+  if (!value) return '/login'
+  if (!value.startsWith('/')) return '/login'
+  if (value.startsWith('//')) return '/login'
   return value
 }
 
@@ -55,7 +55,7 @@ export default function AuthCallbackPage() {
         }
 
         setMessage('로그인 세션을 확인하지 못했습니다. 다시 로그인해주세요.')
-        window.location.replace('/signup/guardian?auth=failed')
+        window.location.replace('/login?auth=failed')
       } catch (error) {
         setMessage(error instanceof Error ? error.message : '로그인 처리 중 오류가 발생했습니다.')
       }

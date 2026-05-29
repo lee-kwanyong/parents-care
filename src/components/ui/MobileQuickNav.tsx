@@ -27,13 +27,13 @@ type QuickNavItem = {
 
 const appSelectItems: QuickNavItem[] = [
   { href: '/parent/login', label: '부모님', icon: 'parent' },
-  { href: '/signup/guardian', label: '보호자', icon: 'guardian' },
+  { href: '/login', label: '보호자', icon: 'guardian' },
   { href: '/signup/manager', label: '파트너', icon: 'partner' },
   { href: '/app', label: '메뉴', icon: 'menu' }
 ]
 
 const guardianSignupItems: QuickNavItem[] = [
-  { href: '/signup/guardian', label: '가입', icon: 'signup' },
+  { href: '/login', label: '가입', icon: 'signup' },
   { href: '/parent/login', label: '부모님', icon: 'code' },
   { href: '/child/matching', label: '매칭', icon: 'matching' },
   { href: '/app', label: '메뉴', icon: 'menu' }
@@ -62,7 +62,7 @@ const managerItems: QuickNavItem[] = [
 
 function pickItems(pathname: string) {
   if (pathname === '/app') return appSelectItems
-  if (pathname.startsWith('/signup/guardian')) return guardianSignupItems
+  if (pathname.startsWith('/login')) return guardianSignupItems
   if (pathname.startsWith('/parent')) return parentItems
   if (pathname.startsWith('/manager')) return managerItems
   if (pathname.startsWith('/signup/manager')) return managerItems

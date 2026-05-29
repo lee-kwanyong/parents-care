@@ -191,7 +191,7 @@ export function LoginStatusBadge() {
       <div className="flex items-center gap-2 rounded-full bg-[#F4FAF9] px-2 py-2 text-xs font-black text-[#5B7774] ring-1 ring-[#E3EFEC]">
         <span className="hidden xl:inline">진행상태 확인 가능</span>
         <Link
-          href="/signup/guardian"
+          href="/login"
           className="rounded-full bg-[#19B99A] px-3 py-1.5 text-xs font-black text-white"
         >
           로그인·가입

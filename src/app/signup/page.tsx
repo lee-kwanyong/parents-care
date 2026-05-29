@@ -22,11 +22,11 @@ export default function SignupPage() {
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
           <Link
-            href="/signup/guardian"
+            href="/login"
             className="rounded-[2rem] border border-[#E3EFEC] bg-white p-6 shadow-[0_16px_44px_rgba(93,139,131,0.10)] transition hover:-translate-y-1"
           >
             <div className="text-5xl">👨‍👩‍👧</div>
-            <h2 className="mt-5 text-3xl font-black">보호자 회원가입</h2>
+            <h2 className="mt-5 text-3xl font-black">로그인</h2>
             <p className="mt-3 text-sm font-bold leading-6 text-[#607D79]">
               부모님 안심케어를 신청하고, 부모님을 초대하고, 리포트를 확인합니다.
             </p>

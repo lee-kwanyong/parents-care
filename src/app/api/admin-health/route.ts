@@ -49,7 +49,7 @@ const requiredTables = [
 const routeChecks = [
   { path: '/', label: '홈' },
   { path: '/app', label: '메뉴' },
-  { path: '/signup/guardian', label: '보호자 가입' },
+  { path: '/login', label: '로그인' },
   { path: '/parent/login', label: '부모님 6자리 접속' },
   { path: '/care-request', label: '안심케어 신청' },
   { path: '/child/matching', label: '보호자 매칭 확인' },

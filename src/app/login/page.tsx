@@ -5,7 +5,7 @@ import { StatusPill } from '@/components/ui/StatusPill'
 
 const loginOptions = [
   {
-    href: '/signup/guardian',
+    href: '/login',
     emoji: '👨‍👩‍👧',
     title: '보호자 회원가입',
     desc: '부모님 안심케어를 신청하고 리포트를 확인합니다.'
