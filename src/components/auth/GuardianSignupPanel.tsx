@@ -60,6 +60,8 @@ function saveGuardianProfile(input: {
     document.cookie = `anbu_guardian_email=${encodeURIComponent(profile.guardianEmail)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
   }
 
+  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: profile }))
+
   return profile
 }
 
@@ -226,7 +228,6 @@ export function GuardianSignupPanel() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          // Supabase Redirect URLs에 등록된 값과 정확히 맞춥니다.
           redirectTo: `${window.location.origin}/auth/callback`,
           queryParams:
             provider === 'google'
@@ -249,13 +250,13 @@ export function GuardianSignupPanel() {
   }
 
   return (
-    <section className="mx-auto max-w-2xl rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
-      <div className="flex flex-wrap gap-2">
+    <section className="mx-auto w-full rounded-[1.75rem] bg-white p-4 shadow-sm ring-1 ring-[#D8EEE8] sm:rounded-[2rem] sm:p-6 lg:p-8">
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
         <button
           type="button"
           onClick={() => setMode('signup')}
           className={
-            'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
+            'rounded-full px-3 py-2 text-xs font-black ring-1 sm:px-4 sm:text-sm ' +
             (mode === 'signup'
               ? 'bg-[#193B38] text-white ring-[#193B38]'
               : 'bg-white text-[#173B36] ring-[#D8EEE8]')
@@ -268,7 +269,7 @@ export function GuardianSignupPanel() {
           type="button"
           onClick={() => setMode('login')}
           className={
-            'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
+            'rounded-full px-3 py-2 text-xs font-black ring-1 sm:px-4 sm:text-sm ' +
             (mode === 'login'
               ? 'bg-[#193B38] text-white ring-[#193B38]'
               : 'bg-white text-[#173B36] ring-[#D8EEE8]')
@@ -278,22 +279,22 @@ export function GuardianSignupPanel() {
         </button>
       </div>
 
-      <h2 className="mt-6 text-3xl font-black leading-tight tracking-[-0.06em] text-[#173B36]">
+      <h2 className="mt-5 text-2xl font-black leading-tight tracking-[-0.06em] text-[#173B36] sm:mt-6 sm:text-3xl">
         {mode === 'signup' ? '보호자 회원가입' : '보호자 로그인'}
       </h2>
 
-      <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
+      <p className="mt-2 text-sm font-bold leading-6 text-[#637B76] sm:mt-3 sm:leading-7">
         {mode === 'signup'
-          ? '이메일 형식으로 가입하거나 Google/Kakao 계정으로 시작할 수 있습니다.'
-          : '가입한 이메일로 로그인하거나 Google/Kakao 계정으로 계속 진행할 수 있습니다.'}
+          ? '이메일 또는 Google/Kakao 계정으로 시작할 수 있습니다.'
+          : '가입한 이메일 또는 Google/Kakao 계정으로 로그인할 수 있습니다.'}
       </p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2">
         <button
           type="button"
           onClick={() => startOAuth('google')}
           disabled={loading}
-          className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
+          className="rounded-2xl bg-white px-4 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
         >
           <span className="inline-flex items-center justify-center gap-2">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0">
@@ -310,7 +311,7 @@ export function GuardianSignupPanel() {
           type="button"
           onClick={() => startOAuth('kakao')}
           disabled={loading}
-          className="rounded-2xl bg-[#FEE500] px-5 py-4 text-sm font-black text-[#3A1D1D] disabled:opacity-60"
+          className="rounded-2xl bg-[#FEE500] px-4 py-4 text-sm font-black text-[#3A1D1D] disabled:opacity-60"
         >
           <span className="inline-flex items-center justify-center gap-2">
             <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0">
@@ -322,13 +323,15 @@ export function GuardianSignupPanel() {
         </button>
       </div>
 
-      <div className="my-6 flex items-center gap-3">
+      <div className="my-5 flex items-center gap-3 sm:my-6">
         <div className="h-px flex-1 bg-[#D8EEE8]" />
-        <span className="text-xs font-black text-[#7A9692]">또는 이메일로 진행</span>
+        <span className="shrink-0 text-[11px] font-black text-[#7A9692] sm:text-xs">
+          또는 이메일로 진행
+        </span>
         <div className="h-px flex-1 bg-[#D8EEE8]" />
       </div>
 
-      <form onSubmit={submit} className="space-y-4">
+      <form onSubmit={submit} className="space-y-3 sm:space-y-4">
         {mode === 'signup' ? (
           <>
             <Input
@@ -390,7 +393,7 @@ export function GuardianSignupPanel() {
         </button>
       </form>
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-4 grid gap-3 sm:mt-5 sm:grid-cols-2">
         <Link
           href="/login"
           className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
@@ -430,7 +433,7 @@ function Input({
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         inputMode={inputMode}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-base font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:text-sm"
       />
     </label>
   )
@@ -455,7 +458,7 @@ function PasswordInput({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-base font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:text-sm"
       />
     </label>
   )
