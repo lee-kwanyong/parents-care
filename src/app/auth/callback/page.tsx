@@ -9,7 +9,74 @@ function getSupabase() {
 
   if (!url || !anonKey) return null
 
-  return createClient(url, anonKey)
+  return createClient(url, anonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    }
+  })
+}
+
+function safeName(user: any) {
+  return (
+    user?.user_metadata?.guardian_name ||
+    user?.user_metadata?.full_name ||
+    user?.user_metadata?.name ||
+    user?.email?.split('@')?.[0] ||
+    '보호자'
+  )
+}
+
+function saveGuardianSession(user: any, provider = 'oauth') {
+  const email = user?.email || ''
+  const name = safeName(user)
+  const phone = user?.user_metadata?.guardian_phone || user?.phone || ''
+
+  const profile = {
+    id: user?.id || '',
+    guardianName: name,
+    guardianEmail: email,
+    guardianPhone: phone,
+    role: 'guardian',
+    authProvider: provider,
+    loggedIn: true,
+    createdAt: new Date().toISOString()
+  }
+
+  window.localStorage.setItem('anbu_guardian_profile', JSON.stringify(profile))
+  window.localStorage.setItem('anbu_login_role', 'guardian')
+  window.localStorage.setItem('anbu_auth_state', 'signed-in')
+  window.localStorage.setItem('parents_care_auth', JSON.stringify(profile))
+  window.localStorage.setItem('anbu_current_user', JSON.stringify(profile))
+
+  document.cookie = `anbu_login_role=guardian; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+  if (email) {
+    document.cookie = `anbu_guardian_email=${encodeURIComponent(email)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+  }
+
+  return profile
+}
+
+async function syncSessionLite(profile: any) {
+  try {
+    await fetch('/api/session-lite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'guardian_login',
+        role: 'guardian',
+        guardianName: profile.guardianName,
+        name: profile.guardianName,
+        email: profile.guardianEmail,
+        phone: profile.guardianPhone,
+        provider: profile.authProvider
+      })
+    })
+  } catch {
+    // session-lite가 없어도 로그인 상태 저장은 유지합니다.
+  }
 }
 
 export default function AuthCallbackPage() {
@@ -17,32 +84,83 @@ export default function AuthCallbackPage() {
 
   useEffect(() => {
     async function run() {
-      const params = new URLSearchParams(window.location.search)
-      const next = params.get('next') || '/family-link'
-      const code = params.get('code')
-      const error = params.get('error_description') || params.get('error')
+      const supabase = getSupabase()
+      const url = new URL(window.location.href)
+      const params = url.searchParams
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''))
+
+      const next =
+        params.get('next') ||
+        window.localStorage.getItem('anbu_oauth_next') ||
+        '/family-link'
+
+      const error =
+        params.get('error_description') ||
+        params.get('error') ||
+        hashParams.get('error_description') ||
+        hashParams.get('error')
 
       if (error) {
         setMessage(error)
         return
       }
 
-      const supabase = getSupabase()
-
       if (!supabase) {
-        window.location.replace(next)
+        setMessage('Supabase 환경변수가 없어 세션을 저장하지 못했습니다.')
         return
       }
 
+      const code = params.get('code')
+      const accessToken = hashParams.get('access_token')
+      const refreshToken = hashParams.get('refresh_token')
+
       if (code) {
+        setMessage('인증 코드를 세션으로 변환하는 중입니다.')
         const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
         if (exchangeError) {
           setMessage(exchangeError.message)
           return
         }
+      } else if (accessToken && refreshToken) {
+        setMessage('소셜 로그인 세션을 저장하는 중입니다.')
+        const { error: setError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        })
+
+        if (setError) {
+          setMessage(setError.message)
+          return
+        }
       }
 
+      const { data, error: sessionError } = await supabase.auth.getSession()
+
+      if (sessionError) {
+        setMessage(sessionError.message)
+        return
+      }
+
+      const user = data.session?.user
+
+      if (!user) {
+        setMessage('로그인 세션을 찾지 못했습니다. Supabase Redirect URL 설정을 확인해주세요.')
+        return
+      }
+
+      const provider =
+        user.app_metadata?.provider ||
+        window.localStorage.getItem('anbu_oauth_provider') ||
+        'oauth'
+
+      const profile = saveGuardianSession(user, provider)
+      await syncSessionLite(profile)
+
+      window.localStorage.removeItem('anbu_oauth_next')
+      window.localStorage.removeItem('anbu_oauth_provider')
+
+      setMessage('로그인이 완료되었습니다. 부모님 연결 화면으로 이동합니다.')
       window.location.replace(next)
     }
 

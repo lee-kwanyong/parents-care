@@ -12,7 +12,14 @@ function getSupabase() {
 
   if (!url || !anonKey) return null
 
-  return createClient(url, anonKey)
+  return createClient(url, anonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    }
+  })
 }
 
 function normalizePhone(value: string) {
@@ -21,6 +28,56 @@ function normalizePhone(value: string) {
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+}
+
+function saveLocalProfile(input: {
+  guardianName?: string
+  guardianPhone?: string
+  guardianEmail?: string
+  authProvider?: string
+}) {
+  const profile = {
+    guardianName: input.guardianName || '보호자',
+    guardianPhone: input.guardianPhone || '',
+    guardianEmail: input.guardianEmail || '',
+    role: 'guardian',
+    authProvider: input.authProvider || 'email',
+    loggedIn: true,
+    createdAt: new Date().toISOString()
+  }
+
+  window.localStorage.setItem('anbu_guardian_profile', JSON.stringify(profile))
+  window.localStorage.setItem('anbu_login_role', 'guardian')
+  window.localStorage.setItem('anbu_auth_state', 'signed-in')
+  window.localStorage.setItem('parents_care_auth', JSON.stringify(profile))
+  window.localStorage.setItem('anbu_current_user', JSON.stringify(profile))
+
+  document.cookie = `anbu_login_role=guardian; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+  if (profile.guardianEmail) {
+    document.cookie = `anbu_guardian_email=${encodeURIComponent(profile.guardianEmail)}; path=/; max-age=${60 * 60 * 24 * 30}; samesite=lax`
+  }
+
+  return profile
+}
+
+async function syncSessionLite(profile: any) {
+  try {
+    await fetch('/api/session-lite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        action: 'guardian_login',
+        role: 'guardian',
+        guardianName: profile.guardianName,
+        name: profile.guardianName,
+        email: profile.guardianEmail,
+        phone: profile.guardianPhone,
+        provider: profile.authProvider
+      })
+    })
+  } catch {
+    // session-lite가 없어도 localStorage 기반 세션은 유지합니다.
+  }
 }
 
 export function GuardianSignupPanel() {
@@ -32,20 +89,6 @@ export function GuardianSignupPanel() {
   const [passwordConfirm, setPasswordConfirm] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
-
-  function saveLocalProfile(extra: Record<string, unknown> = {}) {
-    window.localStorage.setItem(
-      'anbu_guardian_profile',
-      JSON.stringify({
-        guardianName: guardianName.trim(),
-        guardianPhone: normalizePhone(guardianPhone),
-        guardianEmail: email.trim(),
-        role: 'guardian',
-        createdAt: new Date().toISOString(),
-        ...extra
-      })
-    )
-  }
 
   function goFamilyLink() {
     window.location.href = '/family-link'
@@ -84,7 +127,13 @@ export function GuardianSignupPanel() {
       const supabase = getSupabase()
 
       if (!supabase) {
-        saveLocalProfile({ authProvider: 'local-fallback' })
+        const profile = saveLocalProfile({
+          guardianName: guardianName.trim() || cleanEmail.split('@')[0],
+          guardianPhone: cleanPhone,
+          guardianEmail: cleanEmail,
+          authProvider: 'local-fallback'
+        })
+        await syncSessionLite(profile)
         goFamilyLink()
         return
       }
@@ -108,9 +157,16 @@ export function GuardianSignupPanel() {
           return
         }
 
-        saveLocalProfile({ authProvider: 'email' })
-        setMessage('회원가입이 완료되었습니다. 이메일 인증 설정이 켜져 있다면 메일 확인 후 진행해주세요.')
-        setTimeout(goFamilyLink, 700)
+        const profile = saveLocalProfile({
+          guardianName: guardianName.trim(),
+          guardianPhone: cleanPhone,
+          guardianEmail: cleanEmail,
+          authProvider: 'email'
+        })
+        await syncSessionLite(profile)
+
+        setMessage('회원가입이 완료되었습니다. 부모님 연결 화면으로 이동합니다.')
+        setTimeout(goFamilyLink, 500)
         return
       }
 
@@ -124,7 +180,13 @@ export function GuardianSignupPanel() {
         return
       }
 
-      saveLocalProfile({ authProvider: 'email-login' })
+      const profile = saveLocalProfile({
+        guardianName: guardianName.trim() || cleanEmail.split('@')[0],
+        guardianPhone: cleanPhone,
+        guardianEmail: cleanEmail,
+        authProvider: 'email-login'
+      })
+      await syncSessionLite(profile)
       goFamilyLink()
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '처리 중 오류가 발생했습니다.')
@@ -145,7 +207,9 @@ export function GuardianSignupPanel() {
         return
       }
 
-      saveLocalProfile({ authProvider: provider })
+      window.localStorage.setItem('anbu_oauth_provider', provider)
+      window.localStorage.setItem('anbu_oauth_next', '/family-link')
+      window.localStorage.setItem('anbu_login_role', 'guardian')
 
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
@@ -218,31 +282,15 @@ export function GuardianSignupPanel() {
           disabled={loading}
           className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
         >
-          <span className="inline-flex items-center justify-center gap-2" data-social-logo="google">
-  <svg
-    aria-hidden="true"
-    viewBox="0 0 24 24"
-    className="h-5 w-5 shrink-0"
-  >
-    <path
-      fill="#EA4335"
-      d="M12 10.2v3.9h5.52c-.24 1.26-.96 2.33-2.04 3.06l3.3 2.56c1.92-1.77 3.03-4.38 3.03-7.47 0-.73-.07-1.43-.19-2.1H12Z"
-    />
-    <path
-      fill="#34A853"
-      d="M12 22c2.7 0 4.97-.89 6.63-2.41l-3.3-2.56c-.92.62-2.1.99-3.33.99-2.56 0-4.72-1.73-5.49-4.05H3.1v2.64A10 10 0 0 0 12 22Z"
-    />
-    <path
-      fill="#4A90E2"
-      d="M6.51 13.97A5.99 5.99 0 0 1 6.2 12c0-.68.12-1.34.31-1.97V7.39H3.1A10 10 0 0 0 2 12c0 1.61.38 3.13 1.1 4.61l3.41-2.64Z"
-    />
-    <path
-      fill="#FBBC05"
-      d="M12 5.98c1.47 0 2.79.51 3.83 1.5l2.88-2.88C16.96 2.98 14.69 2 12 2A10 10 0 0 0 3.1 7.39l3.41 2.64C7.28 7.71 9.44 5.98 12 5.98Z"
-    />
-  </svg>
-  <span>Google로 계속하기</span>
-</span>
+          <span className="inline-flex items-center justify-center gap-2">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0">
+              <path fill="#EA4335" d="M12 10.2v3.9h5.52c-.24 1.26-.96 2.33-2.04 3.06l3.3 2.56c1.92-1.77 3.03-4.38 3.03-7.47 0-.73-.07-1.43-.19-2.1H12Z" />
+              <path fill="#34A853" d="M12 22c2.7 0 4.97-.89 6.63-2.41l-3.3-2.56c-.92.62-2.1.99-3.33.99-2.56 0-4.72-1.73-5.49-4.05H3.1v2.64A10 10 0 0 0 12 22Z" />
+              <path fill="#4A90E2" d="M6.51 13.97A5.99 5.99 0 0 1 6.2 12c0-.68.12-1.34.31-1.97V7.39H3.1A10 10 0 0 0 2 12c0 1.61.38 3.13 1.1 4.61l3.41-2.64Z" />
+              <path fill="#FBBC05" d="M12 5.98c1.47 0 2.79.51 3.83 1.5l2.88-2.88C16.96 2.98 14.69 2 12 2A10 10 0 0 0 3.1 7.39l3.41 2.64C7.28 7.71 9.44 5.98 12 5.98Z" />
+            </svg>
+            <span>Google로 계속하기</span>
+          </span>
         </button>
 
         <button
@@ -251,20 +299,13 @@ export function GuardianSignupPanel() {
           disabled={loading}
           className="rounded-2xl bg-[#FEE500] px-5 py-4 text-sm font-black text-[#3A1D1D] disabled:opacity-60"
         >
-          <span className="inline-flex items-center justify-center gap-2" data-social-logo="kakao">
-  <svg
-    aria-hidden="true"
-    viewBox="0 0 24 24"
-    className="h-5 w-5 shrink-0"
-  >
-    <rect x="2" y="2" width="20" height="20" rx="6" fill="#FEE500" />
-    <path
-      fill="#191919"
-      d="M12 6.7c-3.46 0-6.26 2.2-6.26 4.92 0 1.75 1.15 3.29 2.88 4.16l-.73 2.67c-.06.22.18.39.37.26l3.09-2.05c.21.02.43.03.65.03 3.46 0 6.26-2.2 6.26-4.92S15.46 6.7 12 6.7Z"
-    />
-  </svg>
-  <span>Kakao로 계속하기</span>
-</span>
+          <span className="inline-flex items-center justify-center gap-2">
+            <svg aria-hidden="true" viewBox="0 0 24 24" className="h-5 w-5 shrink-0">
+              <rect x="2" y="2" width="20" height="20" rx="6" fill="#FEE500" />
+              <path fill="#191919" d="M12 6.7c-3.46 0-6.26 2.2-6.26 4.92 0 1.75 1.15 3.29 2.88 4.16l-.73 2.67c-.06.22.18.39.37.26l3.09-2.05c.21.02.43.03.65.03 3.46 0 6.26-2.2 6.26-4.92S15.46 6.7 12 6.7Z" />
+            </svg>
+            <span>Kakao로 계속하기</span>
+          </span>
         </button>
       </div>
 
