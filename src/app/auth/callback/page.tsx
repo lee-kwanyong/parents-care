@@ -1,75 +1,61 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { createSupabaseBrowserClient } from '@/lib/supabase-auth-client'
+import { createClient } from '@supabase/supabase-js'
 
-function safeNext(value: string | null) {
-  if (!value) return '/login'
-  if (!value.startsWith('/')) return '/login'
-  if (value.startsWith('//')) return '/login'
-  return value
-}
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-function withAuthDone(path: string) {
-  const separator = path.includes('?') ? '&' : '?'
-  return `${path}${separator}auth=done`
+  if (!url || !anonKey) return null
+
+  return createClient(url, anonKey)
 }
 
 export default function AuthCallbackPage() {
-  const [message, setMessage] = useState('로그인 정보를 확인하는 중입니다...')
+  const [message, setMessage] = useState('로그인 정보를 확인하는 중입니다.')
 
   useEffect(() => {
     async function run() {
-      try {
-        const supabase = createSupabaseBrowserClient()
-        const url = new URL(window.location.href)
-        const code = url.searchParams.get('code')
-        const next = safeNext(url.searchParams.get('next'))
+      const params = new URLSearchParams(window.location.search)
+      const next = params.get('next') || '/family-link'
+      const code = params.get('code')
+      const error = params.get('error_description') || params.get('error')
 
-        if (code) {
-          const { error } = await supabase.auth.exchangeCodeForSession(code)
-          if (error) throw error
-        }
+      if (error) {
+        setMessage(error)
+        return
+      }
 
-        const { data } = await supabase.auth.getSession()
-        const session = data.session
+      const supabase = getSupabase()
 
-        if (session) {
-          const provider = String(session.user.app_metadata?.provider || 'easy')
+      if (!supabase) {
+        window.location.replace(next)
+        return
+      }
 
-          await fetch('/api/auth/profile', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: 'Bearer ' + session.access_token
-            },
-            body: JSON.stringify({
-              userRole: 'guardian',
-              loginMethod: provider === 'google' || provider === 'kakao' ? provider : 'easy'
-            })
-          }).catch(() => null)
+      if (code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code)
 
-          setMessage('로그인이 완료됐습니다. 보호자 화면으로 이동합니다.')
-          window.location.replace(withAuthDone(next))
+        if (exchangeError) {
+          setMessage(exchangeError.message)
           return
         }
-
-        setMessage('로그인 세션을 확인하지 못했습니다. 다시 로그인해주세요.')
-        window.location.replace('/login?auth=failed')
-      } catch (error) {
-        setMessage(error instanceof Error ? error.message : '로그인 처리 중 오류가 발생했습니다.')
       }
+
+      window.location.replace(next)
     }
 
-    run()
+    run().catch((error) => {
+      setMessage(error instanceof Error ? error.message : '로그인 처리 중 오류가 발생했습니다.')
+    })
   }, [])
 
   return (
-    <main className="min-h-screen bg-[#F7FCFB] px-5 py-10 text-[#24423F]">
-      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-8 text-center shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
-        <div className="text-5xl">✅</div>
-        <h1 className="mt-5 text-3xl font-black">로그인 처리</h1>
-        <p className="mt-4 text-base font-bold leading-7 text-[#607D79]">{message}</p>
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-6 text-center shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+        <div className="text-3xl font-black tracking-[-0.06em]">보호자 로그인 처리</div>
+        <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">{message}</p>
       </section>
     </main>
   )

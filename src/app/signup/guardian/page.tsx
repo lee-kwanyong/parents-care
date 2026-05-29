@@ -2,7 +2,7 @@ import { GuardianSignupPanel } from '@/components/auth/GuardianSignupPanel'
 
 export const metadata = {
   title: '보호자 회원가입 | 부모님 안심케어',
-  description: '보호자 회원가입 후 부모님 연결코드를 생성합니다.'
+  description: '이메일, Google, Kakao로 보호자 회원가입을 진행합니다.'
 }
 
 export default function GuardianSignupPage() {
@@ -15,9 +15,9 @@ export default function GuardianSignupPage() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            보호자가 먼저 가입하고,
+            이메일 또는 소셜 로그인으로
             <br />
-            부모님 연결코드를 만듭니다.
+            보호자를 등록합니다.
           </h1>
 
           <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#637B76]">
