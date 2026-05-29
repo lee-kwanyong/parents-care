@@ -9,8 +9,8 @@ const cards = [
   {
     emoji: '👨‍👩‍👧‍👦',
     title: '보호자 회원가입',
-    desc: '부모님 연결코드를 만들고 안부 리포트를 확인합니다.',
-    href: '/family-link'
+    desc: '보호자 계정을 만들고 부모님 연결코드 생성 단계로 이동합니다.',
+    href: '/signup/guardian'
   },
   {
     emoji: '👵',
