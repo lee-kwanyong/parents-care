@@ -244,7 +244,7 @@ export function GuardianSignupPanel() {
               label="보호자 이름"
               value={guardianName}
               onChange={setGuardianName}
-              placeholder="예: 이관용"
+              placeholder="예: 홍길동"
             />
 
             <Input
