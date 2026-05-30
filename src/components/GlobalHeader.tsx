@@ -11,6 +11,7 @@ const quickLinks = [
 ]
 
 const menuLinks = [
+  { href: '/parent/consent', label: '안심동의', desc: '부모님 공유 설정' },
   { href: '/care-partner/report-guide', label: '리포트 가이드', desc: '파트너 리포트 작성 기준' },
   { href: '/child/care-reports', label: '케어 리포트', desc: '보호자 케어 결과 확인' },
   { href: '/partner/tasks', label: '파트너 업무', desc: '배정 업무·리포트 작성' },
