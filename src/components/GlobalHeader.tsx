@@ -41,6 +41,8 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/anbu-graph', label: 'AnbuGraph', desc: '가족 돌봄 그래프' },
+  { href: '/ops/escalation', label: '무응답 관리', desc: '3단계 확인 프로토콜' },
   { href: '/ops/audit', label: '감사 로그', desc: '운영실 접근·작업 기록' },
   { href: '/ops/dashboard', label: '운영실 홈', desc: '전체 운영 현황' },
   { href: '/ops/care-reports-review', label: '리포트 검수', desc: '보호자 공개 전 검수' },
