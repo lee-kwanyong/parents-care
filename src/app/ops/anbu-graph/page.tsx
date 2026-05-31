@@ -1,4 +1,4 @@
-import { AnbuGraphOps } from '@/components/AnbuGraphOps'
+import { AnbuGraphDashboard } from '@/components/AnbuGraphDashboard'
 
 export const metadata = {
   title: 'AnbuGraph | 안부웍스 운영실',
@@ -6,5 +6,5 @@ export const metadata = {
 }
 
 export default function OpsAnbuGraphPage() {
-  return <AnbuGraphOps />
+  return <AnbuGraphDashboard />
 }

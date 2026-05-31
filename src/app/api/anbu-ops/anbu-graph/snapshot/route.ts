@@ -3,15 +3,6 @@ import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-function text(value: unknown) {
-  return typeof value === 'string' ? value.trim() : ''
-}
-
-function number(value: unknown) {
-  const n = Number(value)
-  return Number.isFinite(n) ? n : 0
-}
-
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   if (!raw) return ''
@@ -63,32 +54,21 @@ async function rest(path: string, init?: RequestInit) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
-  const graph = body.graph || {}
 
-  const familyCode = text(graph.familyCode || body.familyCode)
-
-  if (!familyCode) {
-    return NextResponse.json(
-      { ok: false, message: 'familyCode가 필요합니다.' },
-      { status: 400 }
-    )
-  }
-
-  const payload = {
-    family_code: familyCode,
-    snapshot_type: text(body.snapshotType) || 'manual',
-    graph_status: text(graph.graphStatus),
-    risk_score: number(graph.riskScore),
-    burden_score: number(graph.burdenScore),
-    closure_score: number(graph.closureScore),
-    payload: graph,
-    created_by: text(body.createdBy) || '운영실'
-  }
+  const graph = body.graph || null
+  const summary = body.summary || null
 
   const result = await rest('anbu_graph_snapshots', {
     method: 'POST',
     headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([payload])
+    body: JSON.stringify([
+      {
+        snapshot_type: 'ops-anbu-graph',
+        graph_summary: summary || {},
+        graph_payload: graph || {},
+        created_by: 'ops'
+      }
+    ])
   })
 
   if (!result.ok) {

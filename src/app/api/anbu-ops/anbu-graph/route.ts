@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import { buildAnbuGraph } from '@/lib/anbu-graph'
 
 export const dynamic = 'force-dynamic'
@@ -14,7 +14,7 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-async function rest(label: string, path: string) {
+async function safeSelect(label: string, path: string) {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
@@ -22,7 +22,7 @@ async function rest(label: string, path: string) {
     return {
       label,
       ok: false,
-      data: [] as Record<string, unknown>[],
+      rows: [] as Array<Record<string, unknown>>,
       error: 'Supabase env is missing'
     }
   }
@@ -45,84 +45,83 @@ async function rest(label: string, path: string) {
     parsed = bodyText
   }
 
+  if (!response.ok || !Array.isArray(parsed)) {
+    return {
+      label,
+      ok: false,
+      rows: [] as Array<Record<string, unknown>>,
+      error: parsed || bodyText
+    }
+  }
+
   return {
     label,
-    ok: response.ok,
-    data: response.ok && Array.isArray(parsed) ? parsed as Record<string, unknown>[] : [],
-    error: response.ok ? null : parsed || bodyText
+    ok: true,
+    rows: parsed as Array<Record<string, unknown>>,
+    error: null
   }
 }
 
-function sinceIso(hours: number) {
-  return new Date(Date.now() - hours * 60 * 60 * 1000).toISOString()
+function sinceIso(days: number) {
+  return new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString()
 }
 
-export async function GET(request: NextRequest) {
-  const requestedFamilyCode = request.nextUrl.searchParams.get('familyCode') || ''
-  const since30d = sinceIso(24 * 30)
+export async function GET() {
+  const since14d = sinceIso(14)
 
   const [
-    familiesResult,
-    checkinsResult,
-    notificationsResult,
-    consentsResult,
-    consentActionsResult,
-    safetyActionsResult,
-    escalationEventsResult,
-    careRequestsResult,
-    partnerMatchesResult,
-    taskReportsResult,
-    partnersResult,
-    subscriptionsResult
+    families,
+    checkins,
+    notifications,
+    consents,
+    consentActions,
+    safetyActions,
+    escalationEvents,
+    careRequests,
+    matches,
+    reports
   ] = await Promise.all([
-    rest('families', 'anbu_family_links?select=*&link_status=eq.active&order=created_at.desc&limit=300'),
-    rest('checkins', 'daily_care_checkins?select=*&occurred_at=gte.' + encodeURIComponent(since30d) + '&order=occurred_at.desc&limit=2000'),
-    rest('notifications', 'anbu_notification_outbox?select=*&created_at=gte.' + encodeURIComponent(since30d) + '&order=created_at.desc&limit=2000'),
-    rest('consents', 'anbu_parent_consents?select=*&order=updated_at.desc&limit=1000'),
-    rest('consentActions', 'anbu_parent_consent_actions?select=*&created_at=gte.' + encodeURIComponent(since30d) + '&order=created_at.desc&limit=2000'),
-    rest('safetyActions', 'anbu_safety_loop_actions?select=*&created_at=gte.' + encodeURIComponent(since30d) + '&order=created_at.desc&limit=2000'),
-    rest('escalationEvents', 'anbu_escalation_events?select=*&created_at=gte.' + encodeURIComponent(since30d) + '&order=created_at.desc&limit=2000'),
-    rest('careRequests', 'anbu_care_requests?select=*&order=created_at.desc&limit=2000'),
-    rest('partnerMatches', 'anbu_partner_matches?select=*&order=created_at.desc&limit=2000'),
-    rest('taskReports', 'anbu_partner_task_reports?select=*&order=created_at.desc&limit=2000'),
-    rest('partners', 'anbu_care_partner_applications?select=*&order=created_at.desc&limit=2000'),
-    rest('subscriptions', 'anbu_subscriptions?select=*&order=created_at.desc&limit=1000')
+    safeSelect('families', 'anbu_family_links?select=*&link_status=eq.active&order=created_at.desc&limit=300'),
+    safeSelect('checkins', 'daily_care_checkins?select=*&occurred_at=gte.' + encodeURIComponent(since14d) + '&order=occurred_at.desc&limit=1500'),
+    safeSelect('notifications', 'anbu_notification_outbox?select=*&created_at=gte.' + encodeURIComponent(since14d) + '&order=created_at.desc&limit=1500'),
+    safeSelect('consents', 'anbu_parent_consents?select=*&order=updated_at.desc&limit=500'),
+    safeSelect('consentActions', 'anbu_parent_consent_actions?select=*&created_at=gte.' + encodeURIComponent(since14d) + '&order=created_at.desc&limit=1000'),
+    safeSelect('safetyActions', 'anbu_safety_loop_actions?select=*&created_at=gte.' + encodeURIComponent(since14d) + '&order=created_at.desc&limit=1000'),
+    safeSelect('escalationEvents', 'anbu_escalation_events?select=*&created_at=gte.' + encodeURIComponent(since14d) + '&order=created_at.desc&limit=1000'),
+    safeSelect('careRequests', 'anbu_care_requests?select=*&order=created_at.desc&limit=1000'),
+    safeSelect('matches', 'anbu_partner_matches?select=*&order=created_at.desc&limit=1000'),
+    safeSelect('reports', 'anbu_partner_task_reports?select=*&order=created_at.desc&limit=1000')
   ])
 
   const graph = buildAnbuGraph({
-    requestedFamilyCode,
-    families: familiesResult.data,
-    checkins: checkinsResult.data,
-    notifications: notificationsResult.data,
-    consents: consentsResult.data,
-    consentActions: consentActionsResult.data,
-    safetyActions: safetyActionsResult.data,
-    escalationEvents: escalationEventsResult.data,
-    careRequests: careRequestsResult.data,
-    partnerMatches: partnerMatchesResult.data,
-    taskReports: taskReportsResult.data,
-    partners: partnersResult.data,
-    subscriptions: subscriptionsResult.data
+    families: families.rows,
+    checkins: checkins.rows,
+    notifications: notifications.rows,
+    consents: consents.rows,
+    consentActions: consentActions.rows,
+    safetyActions: safetyActions.rows,
+    escalationEvents: escalationEvents.rows,
+    careRequests: careRequests.rows,
+    matches: matches.rows,
+    reports: reports.rows
   })
 
   const diagnostics = [
-    familiesResult,
-    checkinsResult,
-    notificationsResult,
-    consentsResult,
-    consentActionsResult,
-    safetyActionsResult,
-    escalationEventsResult,
-    careRequestsResult,
-    partnerMatchesResult,
-    taskReportsResult,
-    partnersResult,
-    subscriptionsResult
+    families,
+    checkins,
+    notifications,
+    consents,
+    consentActions,
+    safetyActions,
+    escalationEvents,
+    careRequests,
+    matches,
+    reports
   ].map((item) => ({
     label: item.label,
     ok: item.ok,
-    count: item.data.length,
-    error: item.ok ? null : item.error
+    count: item.rows.length,
+    error: item.error
   }))
 
   return NextResponse.json({

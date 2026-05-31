@@ -1,88 +1,77 @@
-export type AnbuGraphNodeType =
+export type GraphNodeKind =
   | 'parent'
   | 'guardian'
   | 'consent'
-  | 'checkin'
   | 'risk'
   | 'safety_loop'
   | 'escalation'
   | 'care_request'
   | 'partner'
-  | 'care_report'
-  | 'notification'
+  | 'report'
   | 'burden'
-  | 'subscription'
 
-export type AnbuGraphNode = {
+export type GraphNode = {
   id: string
-  type: AnbuGraphNodeType
-  title: string
+  kind: GraphNodeKind
+  label: string
+  status: 'normal' | 'watch' | 'risk' | 'done' | 'unknown'
+  score?: number
   subtitle: string
-  metric: string
-  status: 'normal' | 'warning' | 'danger' | 'done' | 'empty'
-  priority: number
+  metrics: Array<{
+    label: string
+    value: string
+  }>
 }
 
-export type AnbuGraphEdge = {
+export type GraphEdge = {
   id: string
   from: string
   to: string
   label: string
-  description: string
-  status: 'normal' | 'warning' | 'danger' | 'done'
+  status: 'normal' | 'watch' | 'risk' | 'done'
 }
 
-export type AnbuGraphInsight = {
-  type: 'risk' | 'burden' | 'closure' | 'consent' | 'opportunity'
-  title: string
-  description: string
-  severity: 'low' | 'medium' | 'high'
-}
-
-export type AnbuGraphFamilySummary = {
-  familyCode: string
-  parentName: string
-  guardianName: string
-  graphStatus: '정상' | '주의' | '확인 필요'
-  riskScore: number
-  burdenScore: number
-  closureScore: number
-  lastCheckinAt: string | null
-}
-
-export type AnbuGraphResult = {
+export type FamilyGraph = {
   familyCode: string
   parentName: string
   guardianName: string
   guardianPhone: string
-  graphStatus: '정상' | '주의' | '확인 필요'
+  overallState: '정상' | '주의' | '확인 필요'
   riskScore: number
-  burdenScore: number
   closureScore: number
-  generatedAt: string
-  nodes: AnbuGraphNode[]
-  edges: AnbuGraphEdge[]
-  insights: AnbuGraphInsight[]
-  metrics: Array<{
-    label: string
-    value: string
-    help: string
-  }>
-  familySummaries: AnbuGraphFamilySummary[]
+  burdenScore: number
+  burdenLevel: '낮음' | '보통' | '높음'
+  consentScore: number
+  noResponseHours: number | null
+  lastCheckinAt: string | null
+  insights: string[]
+  recommendedActions: string[]
+  nodes: GraphNode[]
+  edges: GraphEdge[]
   raw: {
-    family: Record<string, unknown> | null
+    family: Record<string, unknown>
     checkins: Array<Record<string, unknown>>
     notifications: Array<Record<string, unknown>>
     consents: Array<Record<string, unknown>>
-    consentActions: Array<Record<string, unknown>>
     safetyActions: Array<Record<string, unknown>>
     escalationEvents: Array<Record<string, unknown>>
     careRequests: Array<Record<string, unknown>>
-    partnerMatches: Array<Record<string, unknown>>
-    taskReports: Array<Record<string, unknown>>
-    partners: Array<Record<string, unknown>>
-    subscriptions: Array<Record<string, unknown>>
+    matches: Array<Record<string, unknown>>
+    reports: Array<Record<string, unknown>>
   }
+}
+
+export type AnbuGraphResult = {
+  generatedAt: string
+  cards: Array<{
+    key: string
+    label: string
+    value: number | string
+    help: string
+  }>
+  families: FamilyGraph[]
+  systemInsights: string[]
+  rawCounts: Record<string, number>
 }
 
 function text(value: unknown) {
@@ -96,6 +85,12 @@ function dateMs(value: unknown) {
   return Number.isFinite(ms) ? ms : 0
 }
 
+function hoursSince(ms: number) {
+  if (!ms) return null
+  const hours = (Date.now() - ms) / (1000 * 60 * 60)
+  return Math.max(0, Math.round(hours * 10) / 10)
+}
+
 function latestDate(rows: Array<Record<string, unknown>>, keys: string[]) {
   let latest = 0
 
@@ -106,30 +101,6 @@ function latestDate(rows: Array<Record<string, unknown>>, keys: string[]) {
   }
 
   return latest
-}
-
-function hoursSince(ms: number) {
-  if (!ms) return null
-  const hours = (Date.now() - ms) / (1000 * 60 * 60)
-  return Math.max(0, Math.round(hours * 10) / 10)
-}
-
-function isWithinHours(row: Record<string, unknown>, hours: number) {
-  const raw =
-    row.occurred_at ||
-    row.created_at ||
-    row.updated_at ||
-    row.sent_at ||
-    row.performed_at
-
-  const ms = dateMs(raw)
-  if (!ms) return false
-
-  return ms >= Date.now() - hours * 60 * 60 * 1000
-}
-
-function count<T>(rows: T[], predicate: (row: T) => boolean) {
-  return rows.filter(predicate).length
 }
 
 function groupByFamily(rows: Array<Record<string, unknown>>) {
@@ -147,109 +118,232 @@ function groupByFamily(rows: Array<Record<string, unknown>>) {
   return map
 }
 
-function statusFromScore(score: number): '정상' | '주의' | '확인 필요' {
-  if (score >= 70) return '확인 필요'
-  if (score >= 35) return '주의'
-  return '정상'
+function count<T>(rows: T[], predicate: (row: T) => boolean) {
+  return rows.filter(predicate).length
 }
 
-function nodeStatusFromGraph(status: '정상' | '주의' | '확인 필요') {
-  if (status === '확인 필요') return 'danger' as const
-  if (status === '주의') return 'warning' as const
-  return 'normal' as const
+function latestRow(rows: Array<Record<string, unknown>>, keys = ['updated_at', 'created_at']) {
+  return rows
+    .slice()
+    .sort((a, b) => latestDate([b], keys) - latestDate([a], keys))[0] || null
 }
 
-function safePercent(value: number) {
-  return Math.max(0, Math.min(100, Math.round(value)))
+function consentSettings(consents: Array<Record<string, unknown>>) {
+  const row = latestRow(consents)
+  const raw = row?.consent_settings
+
+  if (raw && typeof raw === 'object') {
+    return raw as Record<string, unknown>
+  }
+
+  return {}
 }
 
-function summarizeFamily(input: {
-  family: Record<string, unknown>
-  checkins: Array<Record<string, unknown>>
+function trueCount(obj: Record<string, unknown>) {
+  return Object.values(obj).filter(Boolean).length
+}
+
+function closureRate(actions: Array<Record<string, unknown>>, escalationEvents: Array<Record<string, unknown>>) {
+  const riskEvents = escalationEvents.filter((row) =>
+    ['stage1', 'stage2', 'stage3', 'help'].includes(text(row.stage)) ||
+    ['parent_reprompt', 'guardian_notice', 'family_notice', 'request_partner'].includes(text(row.action_type))
+  ).length
+
+  const completed = actions.filter((row) => text(row.action_type) === 'mark_complete').length +
+    escalationEvents.filter((row) => text(row.action_type) === 'mark_resolved').length
+
+  if (riskEvents === 0 && completed > 0) return 100
+  if (riskEvents === 0) return 80
+
+  return Math.max(0, Math.min(100, Math.round((completed / riskEvents) * 100)))
+}
+
+function buildBurdenScore(input: {
   notifications: Array<Record<string, unknown>>
   consents: Array<Record<string, unknown>>
   consentActions: Array<Record<string, unknown>>
   safetyActions: Array<Record<string, unknown>>
   escalationEvents: Array<Record<string, unknown>>
-  careRequests: Array<Record<string, unknown>>
-  taskReports: Array<Record<string, unknown>>
 }) {
-  const familyCode = text(input.family.family_code)
-  const parentName = text(input.family.parent_name) || '부모님'
-  const guardianName = text(input.family.guardian_name) || '보호자'
-
-  const lastCheckinMs = latestDate(input.checkins, ['occurred_at', 'created_at'])
-  const elapsed = hoursSince(lastCheckinMs)
-
-  const checkins24 = input.checkins.filter((row) => isWithinHours(row, 24))
-  const notifications24 = input.notifications.filter((row) => isWithinHours(row, 24))
-  const consentActions7d = input.consentActions.filter((row) => isWithinHours(row, 24 * 7))
-  const safetyActions7d = input.safetyActions.filter((row) => isWithinHours(row, 24 * 7))
-  const escalationEvents7d = input.escalationEvents.filter((row) => isWithinHours(row, 24 * 7))
-  const taskReports7d = input.taskReports.filter((row) => isWithinHours(row, 24 * 7))
-
-  const missed =
-    count(checkins24, (row) => ['not_done', 'needs_help'].includes(text(row.status))) +
-    count(input.escalationEvents, (row) => ['stage2', 'stage3', 'help'].includes(text(row.stage)))
-
-  const helpSignals = count(checkins24, (row) =>
-    text(row.status) === 'needs_help' ||
-    text(row.check_type) === 'emergency' ||
-    text(row.memo).includes('도움') ||
-    text(row.memo).includes('응급')
-  )
-
-  let riskScore = 0
-  if (!lastCheckinMs) riskScore += 55
-  if (elapsed !== null && elapsed >= 12) riskScore += 45
-  else if (elapsed !== null && elapsed >= 6) riskScore += 28
-  else if (elapsed !== null && elapsed >= 3) riskScore += 16
-  riskScore += missed * 14
-  riskScore += helpSignals * 35
-  riskScore += count(notifications24, (row) => text(row.reason).includes('no-response') || text(row.title).includes('응답 없음')) * 12
-  riskScore = safePercent(riskScore)
-
-  const restSignals = count(consentActions7d, (row) =>
+  const restOrLater = input.consentActions.filter((row) =>
     ['rest_today', 'reply_later'].includes(text(row.action_type))
-  )
+  ).length
 
-  let burdenScore = 0
-  burdenScore += notifications24.length * 8
-  burdenScore += restSignals * 15
-  burdenScore += count(consentActions7d, (row) => text(row.action_type) === 'help_needed') * 18
-  burdenScore = safePercent(burdenScore)
+  const helpOrCall = input.consentActions.filter((row) =>
+    ['help_needed', 'call_guardian'].includes(text(row.action_type))
+  ).length
 
-  const completedActions =
-    count(safetyActions7d, (row) => ['mark_complete', 'mark_resolved'].includes(text(row.action_type))) +
-    count(escalationEvents7d, (row) => ['mark_resolved'].includes(text(row.action_type))) +
-    taskReports7d.length
+  const notificationCount = input.notifications.length
+  const escalationCount = input.escalationEvents.length
+  const safetyActionCount = input.safetyActions.length
 
-  const openCareRequests = count(input.careRequests, (row) =>
-    ['requested', 'matching', 'assigned', 'reported'].includes(text(row.status) || 'requested')
-  )
+  let score = 10
+  score += notificationCount * 5
+  score += escalationCount * 7
+  score += safetyActionCount * 3
+  score += restOrLater * 14
+  score += helpOrCall * 20
 
-  let closureScore = 50
-  closureScore += completedActions * 12
-  closureScore -= openCareRequests * 12
-  closureScore -= riskScore > 60 ? 20 : 0
-  closureScore = safePercent(closureScore)
+  score = Math.max(0, Math.min(100, score))
 
-  const graphStatus = statusFromScore(riskScore)
+  const level: '낮음' | '보통' | '높음' =
+    score >= 70
+      ? '높음'
+      : score >= 35
+        ? '보통'
+        : '낮음'
 
-  return {
-    familyCode,
-    parentName,
-    guardianName,
-    graphStatus,
-    riskScore,
-    burdenScore,
-    closureScore,
-    lastCheckinAt: lastCheckinMs ? new Date(lastCheckinMs).toISOString() : null
+  return { score, level }
+}
+
+function riskScore(input: {
+  checkins: Array<Record<string, unknown>>
+  notifications: Array<Record<string, unknown>>
+  escalationEvents: Array<Record<string, unknown>>
+  careRequests: Array<Record<string, unknown>>
+  noResponseHours: number | null
+}) {
+  let score = 0
+
+  if (input.noResponseHours === null) score += 35
+  else if (input.noResponseHours >= 12) score += 35
+  else if (input.noResponseHours >= 6) score += 22
+  else if (input.noResponseHours >= 3) score += 12
+
+  score += count(input.checkins, (row) =>
+    text(row.status) === 'needs_help' ||
+    text(row.status) === 'not_done' ||
+    text(row.check_type) === 'emergency'
+  ) * 16
+
+  score += count(input.notifications, (row) =>
+    text(row.reason).includes('no-response') ||
+    text(row.title).includes('응답 없음')
+  ) * 10
+
+  score += count(input.escalationEvents, (row) =>
+    ['stage2', 'stage3', 'help'].includes(text(row.stage))
+  ) * 12
+
+  score += count(input.careRequests, (row) =>
+    ['requested', 'matching', 'assigned'].includes(text(row.status) || 'requested')
+  ) * 8
+
+  return Math.max(0, Math.min(100, score))
+}
+
+function stateFromRisk(score: number) {
+  if (score >= 60) return '확인 필요' as const
+  if (score >= 25) return '주의' as const
+  return '정상' as const
+}
+
+function statusFromState(state: '정상' | '주의' | '확인 필요') {
+  if (state === '확인 필요') return 'risk' as const
+  if (state === '주의') return 'watch' as const
+  return 'normal' as const
+}
+
+function reportStatus(reports: Array<Record<string, unknown>>) {
+  const pending = reports.filter((row) =>
+    ['submitted', 'needs_revision'].includes(text(row.report_status) || 'submitted')
+  ).length
+
+  const approved = reports.filter((row) => text(row.report_status) === 'approved').length
+
+  if (pending > 0) return { status: 'watch' as const, label: `검수 대기 ${pending}건` }
+  if (approved > 0) return { status: 'done' as const, label: `승인 리포트 ${approved}건` }
+  return { status: 'unknown' as const, label: '리포트 없음' }
+}
+
+function insightList(input: {
+  noResponseHours: number | null
+  risk: number
+  burdenScore: number
+  consentScore: number
+  closureScore: number
+  activeCareRequests: number
+  pendingReports: number
+}) {
+  const insights: string[] = []
+
+  if (input.noResponseHours === null) {
+    insights.push('최근 안부 응답 기록이 없어 첫 연결 또는 재확인이 필요합니다.')
+  } else if (input.noResponseHours >= 12) {
+    insights.push(`마지막 안부 후 ${input.noResponseHours}시간이 지나 3단계 확인이 필요합니다.`)
+  } else if (input.noResponseHours >= 6) {
+    insights.push(`마지막 안부 후 ${input.noResponseHours}시간이 지나 보호자 확인이 권장됩니다.`)
   }
+
+  if (input.risk >= 60) {
+    insights.push('위험 점수가 높아 보호자 확인 또는 케어파트너 확인이 필요합니다.')
+  }
+
+  if (input.burdenScore >= 70) {
+    insights.push('부모님 부담도가 높습니다. 알림 빈도와 확인 시간을 조정해야 합니다.')
+  }
+
+  if (input.consentScore < 50) {
+    insights.push('공유 동의 항목이 적습니다. 부모님이 불편하지 않도록 동의 기반으로 안내하세요.')
+  }
+
+  if (input.closureScore < 50) {
+    insights.push('확인 완료율이 낮습니다. 알림 이후 실제 조치 기록을 남겨야 합니다.')
+  }
+
+  if (input.activeCareRequests > 0) {
+    insights.push(`진행 중인 케어 요청이 ${input.activeCareRequests}건 있습니다.`)
+  }
+
+  if (input.pendingReports > 0) {
+    insights.push(`운영실 검수 대기 리포트가 ${input.pendingReports}건 있습니다.`)
+  }
+
+  if (insights.length === 0) {
+    insights.push('현재 가족 돌봄 그래프는 안정적인 흐름을 보입니다.')
+  }
+
+  return insights
+}
+
+function recommendedActions(input: {
+  overallState: '정상' | '주의' | '확인 필요'
+  burdenScore: number
+  closureScore: number
+  activeCareRequests: number
+  pendingReports: number
+}) {
+  const actions: string[] = []
+
+  if (input.overallState === '확인 필요') {
+    actions.push('보호자가 전화로 식사, 복약, 몸 상태를 먼저 확인하세요.')
+    actions.push('통화가 안 되면 가족 2차 확인 또는 케어파트너 방문확인을 요청하세요.')
+  } else if (input.overallState === '주의') {
+    actions.push('부모님 안부 응답 시간과 복약 여부를 한 번 더 확인하세요.')
+  } else {
+    actions.push('현재는 안정적입니다. 정기 안부 루틴을 유지하세요.')
+  }
+
+  if (input.burdenScore >= 70) {
+    actions.push('부모님 부담도가 높으므로 알림 시간을 줄이거나 “오늘은 쉬고 싶어요” 옵션을 안내하세요.')
+  }
+
+  if (input.closureScore < 50) {
+    actions.push('무응답 알림 이후 “확인 완료” 기록을 남겨 운영 흐름을 닫으세요.')
+  }
+
+  if (input.activeCareRequests > 0) {
+    actions.push('진행 중인 케어 요청의 배정·리포트 상태를 확인하세요.')
+  }
+
+  if (input.pendingReports > 0) {
+    actions.push('보호자 공개 전 케어 리포트 검수를 완료하세요.')
+  }
+
+  return Array.from(new Set(actions))
 }
 
 export function buildAnbuGraph(input: {
-  requestedFamilyCode?: string
   families: Array<Record<string, unknown>>
   checkins: Array<Record<string, unknown>>
   notifications: Array<Record<string, unknown>>
@@ -258,10 +352,8 @@ export function buildAnbuGraph(input: {
   safetyActions: Array<Record<string, unknown>>
   escalationEvents: Array<Record<string, unknown>>
   careRequests: Array<Record<string, unknown>>
-  partnerMatches: Array<Record<string, unknown>>
-  taskReports: Array<Record<string, unknown>>
-  partners: Array<Record<string, unknown>>
-  subscriptions: Array<Record<string, unknown>>
+  matches: Array<Record<string, unknown>>
+  reports: Array<Record<string, unknown>>
 }): AnbuGraphResult {
   const checkinsByFamily = groupByFamily(input.checkins)
   const notificationsByFamily = groupByFamily(input.notifications)
@@ -270,405 +362,326 @@ export function buildAnbuGraph(input: {
   const safetyActionsByFamily = groupByFamily(input.safetyActions)
   const escalationEventsByFamily = groupByFamily(input.escalationEvents)
   const careRequestsByFamily = groupByFamily(input.careRequests)
-  const taskReportsByFamily = groupByFamily(input.taskReports)
-  const subscriptionsByFamily = groupByFamily(input.subscriptions)
+  const reportsByFamily = groupByFamily(input.reports)
 
-  const familySummaries = input.families.map((family) =>
-    summarizeFamily({
-      family,
-      checkins: checkinsByFamily.get(text(family.family_code)) || [],
-      notifications: notificationsByFamily.get(text(family.family_code)) || [],
-      consents: consentsByFamily.get(text(family.family_code)) || [],
-      consentActions: consentActionsByFamily.get(text(family.family_code)) || [],
-      safetyActions: safetyActionsByFamily.get(text(family.family_code)) || [],
-      escalationEvents: escalationEventsByFamily.get(text(family.family_code)) || [],
-      careRequests: careRequestsByFamily.get(text(family.family_code)) || [],
-      taskReports: taskReportsByFamily.get(text(family.family_code)) || []
-    })
-  )
+  const graphs: FamilyGraph[] = input.families.map((family) => {
+    const familyCode = text(family.family_code)
+    const parentName = text(family.parent_name) || '부모님'
+    const guardianName = text(family.guardian_name) || '보호자'
+    const guardianPhone = text(family.guardian_phone)
 
-  familySummaries.sort((a, b) => b.riskScore - a.riskScore)
+    const checkins = checkinsByFamily.get(familyCode) || []
+    const notifications = notificationsByFamily.get(familyCode) || []
+    const consents = consentsByFamily.get(familyCode) || []
+    const consentActions = consentActionsByFamily.get(familyCode) || []
+    const safetyActions = safetyActionsByFamily.get(familyCode) || []
+    const escalationEvents = escalationEventsByFamily.get(familyCode) || []
+    const careRequests = careRequestsByFamily.get(familyCode) || []
+    const reports = reportsByFamily.get(familyCode) || []
 
-  const selectedFamily =
-    input.families.find((family) => text(family.family_code) === input.requestedFamilyCode) ||
-    input.families.find((family) => text(family.family_code) === familySummaries[0]?.familyCode) ||
-    input.families[0] ||
-    null
+    const lastCheckinMs = latestDate(checkins, ['occurred_at', 'created_at'])
+    const noResponseHours = hoursSince(lastCheckinMs)
+    const lastCheckinAt = lastCheckinMs ? new Date(lastCheckinMs).toISOString() : null
 
-  const familyCode = text(selectedFamily?.family_code)
-  const parentName = text(selectedFamily?.parent_name) || '부모님'
-  const guardianName = text(selectedFamily?.guardian_name) || '보호자'
-  const guardianPhone = text(selectedFamily?.guardian_phone)
+    const activeCareRequests = careRequests.filter((row) =>
+      ['requested', 'matching', 'assigned', 'reported'].includes(text(row.status) || 'requested')
+    ).length
 
-  const checkins = checkinsByFamily.get(familyCode) || []
-  const notifications = notificationsByFamily.get(familyCode) || []
-  const consents = consentsByFamily.get(familyCode) || []
-  const consentActions = consentActionsByFamily.get(familyCode) || []
-  const safetyActions = safetyActionsByFamily.get(familyCode) || []
-  const escalationEvents = escalationEventsByFamily.get(familyCode) || []
-  const careRequests = careRequestsByFamily.get(familyCode) || []
-  const taskReports = taskReportsByFamily.get(familyCode) || []
-  const subscriptions = subscriptionsByFamily.get(familyCode) || []
+    const pendingReports = reports.filter((row) =>
+      ['submitted', 'needs_revision'].includes(text(row.report_status) || 'submitted')
+    ).length
 
-  const summary = selectedFamily
-    ? summarizeFamily({
-        family: selectedFamily,
-        checkins,
-        notifications,
-        consents,
-        consentActions,
-        safetyActions,
-        escalationEvents,
-        careRequests,
-        taskReports
-      })
-    : {
-        familyCode: '',
-        parentName: '부모님',
-        guardianName: '보호자',
-        graphStatus: '정상' as const,
-        riskScore: 0,
-        burdenScore: 0,
-        closureScore: 0,
-        lastCheckinAt: null
-      }
+    const settings = consentSettings(consents)
+    const consentActiveCount = trueCount(settings)
+    const consentScore = Math.round((consentActiveCount / 8) * 100)
 
-  const checkins24 = checkins.filter((row) => isWithinHours(row, 24))
-  const notifications24 = notifications.filter((row) => isWithinHours(row, 24))
-  const careRequestsOpen = careRequests.filter((row) =>
-    ['requested', 'matching', 'assigned', 'reported'].includes(text(row.status) || 'requested')
-  )
-
-  const consentSettings = typeof consents[0]?.consent_settings === 'object'
-    ? consents[0]?.consent_settings as Record<string, unknown>
-    : {}
-
-  const enabledConsents = Object.values(consentSettings).filter(Boolean).length
-
-  const nodes: AnbuGraphNode[] = [
-    {
-      id: 'parent',
-      type: 'parent',
-      title: parentName,
-      subtitle: '고령 부모님',
-      metric: summary.lastCheckinAt ? '안부 기록 있음' : '안부 기록 없음',
-      status: nodeStatusFromGraph(summary.graphStatus),
-      priority: 1
-    },
-    {
-      id: 'guardian',
-      type: 'guardian',
-      title: guardianName,
-      subtitle: guardianPhone || '보호자',
-      metric: '확인 책임자',
-      status: 'normal',
-      priority: 2
-    },
-    {
-      id: 'consent',
-      type: 'consent',
-      title: '안심동의',
-      subtitle: '부모님 공유 설정',
-      metric: `${enabledConsents}개 공유 허용`,
-      status: enabledConsents > 0 ? 'done' : 'warning',
-      priority: 3
-    },
-    {
-      id: 'checkin',
-      type: 'checkin',
-      title: '안부 신호',
-      subtitle: '식사·복약·몸상태',
-      metric: `24시간 ${checkins24.length}건`,
-      status: checkins24.length > 0 ? 'normal' : 'warning',
-      priority: 4
-    },
-    {
-      id: 'risk',
-      type: 'risk',
-      title: '위험 신호',
-      subtitle: '무응답·도움요청·누락',
-      metric: `위험점수 ${summary.riskScore}`,
-      status: summary.riskScore >= 70 ? 'danger' : summary.riskScore >= 35 ? 'warning' : 'normal',
-      priority: 5
-    },
-    {
-      id: 'safety-loop',
-      type: 'safety_loop',
-      title: '안심루프',
-      subtitle: '확인 완료 추적',
-      metric: `완료율 ${summary.closureScore}%`,
-      status: summary.closureScore >= 70 ? 'done' : summary.closureScore >= 40 ? 'warning' : 'danger',
-      priority: 6
-    },
-    {
-      id: 'escalation',
-      type: 'escalation',
-      title: '무응답 단계',
-      subtitle: '3h·6h·12h 프로토콜',
-      metric: `${escalationEvents.length}건`,
-      status: escalationEvents.some((row) => ['stage3', 'help'].includes(text(row.stage))) ? 'danger' : escalationEvents.length > 0 ? 'warning' : 'empty',
-      priority: 7
-    },
-    {
-      id: 'care-request',
-      type: 'care_request',
-      title: '케어 요청',
-      subtitle: '방문확인·병원동행',
-      metric: `진행 ${careRequestsOpen.length}건`,
-      status: careRequestsOpen.length > 0 ? 'warning' : 'empty',
-      priority: 8
-    },
-    {
-      id: 'partner',
-      type: 'partner',
-      title: '케어파트너',
-      subtitle: '현장 확인 실행',
-      metric: `${input.partners.length}명 후보`,
-      status: input.partners.length > 0 ? 'normal' : 'empty',
-      priority: 9
-    },
-    {
-      id: 'care-report',
-      type: 'care_report',
-      title: '검수 리포트',
-      subtitle: '운영실 품질검수',
-      metric: `${taskReports.length}건`,
-      status: taskReports.some((row) => text(row.report_status) === 'approved') ? 'done' : taskReports.length > 0 ? 'warning' : 'empty',
-      priority: 10
-    },
-    {
-      id: 'notification',
-      type: 'notification',
-      title: '알림 이력',
-      subtitle: 'SMS·알림톡·발송함',
-      metric: `24시간 ${notifications24.length}건`,
-      status: notifications24.some((row) => text(row.status) === 'failed') ? 'warning' : notifications24.length > 0 ? 'normal' : 'empty',
-      priority: 11
-    },
-    {
-      id: 'burden',
-      type: 'burden',
-      title: '부모님 부담도',
-      subtitle: '알림 피로·쉬고싶음',
-      metric: `${summary.burdenScore}점`,
-      status: summary.burdenScore >= 70 ? 'danger' : summary.burdenScore >= 35 ? 'warning' : 'normal',
-      priority: 12
-    },
-    {
-      id: 'subscription',
-      type: 'subscription',
-      title: '구독·실증',
-      subtitle: '체험·기관 실증',
-      metric: `${subscriptions.length}건`,
-      status: subscriptions.some((row) => ['trial', 'active', 'paid'].includes(text(row.status))) ? 'done' : 'empty',
-      priority: 13
-    }
-  ]
-
-  const edges: AnbuGraphEdge[] = [
-    {
-      id: 'guardian-parent',
-      from: 'guardian',
-      to: 'parent',
-      label: '가족 연결',
-      description: '보호자와 부모님이 가족코드로 연결됩니다.',
-      status: familyCode ? 'done' : 'warning'
-    },
-    {
-      id: 'parent-consent',
-      from: 'parent',
-      to: 'consent',
-      label: '동의 기반 공유',
-      description: '부모님이 자녀에게 공유할 정보를 직접 선택합니다.',
-      status: enabledConsents > 0 ? 'done' : 'warning'
-    },
-    {
-      id: 'parent-checkin',
-      from: 'parent',
-      to: 'checkin',
-      label: '일상 신호 수집',
-      description: '식사, 복약, 몸 상태, 도움 요청이 안부 신호로 쌓입니다.',
-      status: checkins24.length > 0 ? 'normal' : 'warning'
-    },
-    {
-      id: 'checkin-risk',
-      from: 'checkin',
-      to: 'risk',
-      label: '위험 신호 분석',
-      description: '무응답, 복약 누락, 도움 요청을 위험 신호로 분류합니다.',
-      status: summary.riskScore >= 70 ? 'danger' : summary.riskScore >= 35 ? 'warning' : 'normal'
-    },
-    {
-      id: 'risk-safety',
-      from: 'risk',
-      to: 'safety-loop',
-      label: '확인 완료 루프',
-      description: '위험 신호를 보호자 행동과 확인 완료 상태로 연결합니다.',
-      status: summary.closureScore >= 70 ? 'done' : 'warning'
-    },
-    {
-      id: 'safety-escalation',
-      from: 'safety-loop',
-      to: 'escalation',
-      label: '무응답 단계화',
-      description: '3시간, 6시간, 12시간 이상 무응답을 단계별로 관리합니다.',
-      status: escalationEvents.length > 0 ? 'warning' : 'normal'
-    },
-    {
-      id: 'escalation-care',
-      from: 'escalation',
-      to: 'care-request',
-      label: '현장 확인 전환',
-      description: '필요 시 케어파트너 방문확인으로 전환합니다.',
-      status: careRequestsOpen.length > 0 ? 'warning' : 'normal'
-    },
-    {
-      id: 'care-partner',
-      from: 'care-request',
-      to: 'partner',
-      label: '케어파트너 배정',
-      description: '지역과 업무 유형에 맞는 파트너를 연결합니다.',
-      status: input.partners.length > 0 ? 'normal' : 'warning'
-    },
-    {
-      id: 'partner-report',
-      from: 'partner',
-      to: 'care-report',
-      label: '검수형 리포트',
-      description: '현장 확인 결과는 운영실 검수 후 보호자에게 공개됩니다.',
-      status: taskReports.length > 0 ? 'done' : 'normal'
-    },
-    {
-      id: 'notification-guardian',
-      from: 'notification',
-      to: 'guardian',
-      label: '보호자 알림',
-      description: '무응답과 확인 필요 신호를 보호자에게 전달합니다.',
-      status: notifications24.length > 0 ? 'normal' : 'warning'
-    },
-    {
-      id: 'burden-consent',
-      from: 'burden',
-      to: 'consent',
-      label: '부담도 기반 조정',
-      description: '부모님 부담도가 높으면 알림 빈도와 공유 범위를 조정합니다.',
-      status: summary.burdenScore >= 70 ? 'danger' : summary.burdenScore >= 35 ? 'warning' : 'normal'
-    }
-  ]
-
-  const insights: AnbuGraphInsight[] = []
-
-  if (summary.riskScore >= 70) {
-    insights.push({
-      type: 'risk',
-      title: '확인 필요 위험 신호',
-      description: '무응답, 도움 요청, 복약 누락 등으로 위험점수가 높습니다. 보호자 확인 또는 케어파트너 확인을 권장합니다.',
-      severity: 'high'
-    })
-  } else if (summary.riskScore >= 35) {
-    insights.push({
-      type: 'risk',
-      title: '주의 신호',
-      description: '최근 안부 패턴에서 일부 확인이 필요한 신호가 있습니다.',
-      severity: 'medium'
-    })
-  }
-
-  if (summary.burdenScore >= 50) {
-    insights.push({
-      type: 'burden',
-      title: '부모님 부담도 상승',
-      description: '알림 횟수나 쉬고 싶다는 선택이 늘었습니다. 알림 시간과 빈도를 조정하는 것이 좋습니다.',
-      severity: summary.burdenScore >= 70 ? 'high' : 'medium'
-    })
-  }
-
-  if (enabledConsents === 0) {
-    insights.push({
-      type: 'consent',
-      title: '동의 설정 필요',
-      description: '부모님 공유 동의 설정이 없습니다. 감시가 아닌 선택형 공유 구조를 안내하세요.',
-      severity: 'medium'
-    })
-  }
-
-  if (summary.closureScore < 45 && summary.riskScore > 35) {
-    insights.push({
-      type: 'closure',
-      title: '확인 완료율 개선 필요',
-      description: '위험 신호가 확인 완료까지 닫히지 않고 있습니다. 보호자 조치 기록과 케어파트너 전환을 강화하세요.',
-      severity: 'high'
-    })
-  }
-
-  if (insights.length === 0) {
-    insights.push({
-      type: 'opportunity',
-      title: '안심 그래프 정상',
-      description: '현재 주요 위험 신호는 낮습니다. 부모님 안심동의와 안부 루틴을 유지하세요.',
-      severity: 'low'
-    })
-  }
-
-  return {
-    familyCode,
-    parentName,
-    guardianName,
-    guardianPhone,
-    graphStatus: summary.graphStatus,
-    riskScore: summary.riskScore,
-    burdenScore: summary.burdenScore,
-    closureScore: summary.closureScore,
-    generatedAt: new Date().toISOString(),
-    nodes: nodes.sort((a, b) => a.priority - b.priority),
-    edges,
-    insights,
-    metrics: [
-      {
-        label: '위험점수',
-        value: `${summary.riskScore}`,
-        help: '무응답·도움요청·누락 기반'
-      },
-      {
-        label: '부모님 부담도',
-        value: `${summary.burdenScore}`,
-        help: '알림 피로·쉬고싶음·응답 부담'
-      },
-      {
-        label: '확인 완료율',
-        value: `${summary.closureScore}%`,
-        help: '위험 신호가 확인 완료까지 닫힌 정도'
-      },
-      {
-        label: '24시간 안부',
-        value: `${checkins24.length}건`,
-        help: '식사·복약·몸상태·도움요청'
-      },
-      {
-        label: '공유 동의',
-        value: `${enabledConsents}개`,
-        help: '부모님이 허용한 공유 항목'
-      },
-      {
-        label: '진행 케어',
-        value: `${careRequestsOpen.length}건`,
-        help: '방문확인·병원동행 등'
-      }
-    ],
-    familySummaries,
-    raw: {
-      family: selectedFamily,
-      checkins,
+    const burden = buildBurdenScore({
       notifications,
       consents,
       consentActions,
       safetyActions,
+      escalationEvents
+    })
+
+    const risk = riskScore({
+      checkins,
+      notifications,
       escalationEvents,
       careRequests,
-      partnerMatches: input.partnerMatches,
-      taskReports,
-      partners: input.partners,
-      subscriptions
+      noResponseHours
+    })
+
+    const overallState = stateFromRisk(risk)
+    const closureScore = closureRate(safetyActions, escalationEvents)
+    const report = reportStatus(reports)
+
+    const nodes: GraphNode[] = [
+      {
+        id: `${familyCode}:parent`,
+        kind: 'parent',
+        label: parentName,
+        status: statusFromState(overallState),
+        score: 100 - risk,
+        subtitle: '부모님 생활 신호',
+        metrics: [
+          { label: '최근 안부', value: noResponseHours === null ? '없음' : `${noResponseHours}시간 전` },
+          { label: '안부 기록', value: `${checkins.length}건` }
+        ]
+      },
+      {
+        id: `${familyCode}:guardian`,
+        kind: 'guardian',
+        label: guardianName,
+        status: 'normal',
+        subtitle: '보호자',
+        metrics: [
+          { label: '연락처', value: guardianPhone || '-' },
+          { label: '조치 기록', value: `${safetyActions.length + escalationEvents.length}건` }
+        ]
+      },
+      {
+        id: `${familyCode}:consent`,
+        kind: 'consent',
+        label: '안심동의',
+        status: consentScore >= 60 ? 'normal' : 'watch',
+        score: consentScore,
+        subtitle: '부모님 공유 동의',
+        metrics: [
+          { label: '허용 항목', value: `${consentActiveCount}/8` },
+          { label: '동의 점수', value: `${consentScore}` }
+        ]
+      },
+      {
+        id: `${familyCode}:risk`,
+        kind: 'risk',
+        label: '위험 신호',
+        status: statusFromState(overallState),
+        score: risk,
+        subtitle: overallState,
+        metrics: [
+          { label: '위험 점수', value: `${risk}` },
+          { label: '무응답', value: noResponseHours === null ? '기록 없음' : `${noResponseHours}시간` }
+        ]
+      },
+      {
+        id: `${familyCode}:loop`,
+        kind: 'safety_loop',
+        label: '안심루프',
+        status: closureScore >= 70 ? 'done' : closureScore >= 40 ? 'watch' : 'risk',
+        score: closureScore,
+        subtitle: '확인 완료 엔진',
+        metrics: [
+          { label: '완료율', value: `${closureScore}%` },
+          { label: '조치', value: `${safetyActions.length + escalationEvents.length}건` }
+        ]
+      },
+      {
+        id: `${familyCode}:escalation`,
+        kind: 'escalation',
+        label: '무응답 관리',
+        status: escalationEvents.length > 0 ? 'watch' : 'unknown',
+        subtitle: '3단계 확인 프로토콜',
+        metrics: [
+          { label: '이벤트', value: `${escalationEvents.length}건` },
+          { label: '최근', value: text(latestRow(escalationEvents)?.action_label) || '-' }
+        ]
+      },
+      {
+        id: `${familyCode}:care`,
+        kind: 'care_request',
+        label: '케어 요청',
+        status: activeCareRequests > 0 ? 'watch' : 'unknown',
+        subtitle: '케어파트너 실행',
+        metrics: [
+          { label: '진행 중', value: `${activeCareRequests}건` },
+          { label: '전체', value: `${careRequests.length}건` }
+        ]
+      },
+      {
+        id: `${familyCode}:report`,
+        kind: 'report',
+        label: '검수 리포트',
+        status: report.status,
+        subtitle: report.label,
+        metrics: [
+          { label: '리포트', value: `${reports.length}건` },
+          { label: '검수대기', value: `${pendingReports}건` }
+        ]
+      },
+      {
+        id: `${familyCode}:burden`,
+        kind: 'burden',
+        label: '부담도',
+        status: burden.level === '높음' ? 'risk' : burden.level === '보통' ? 'watch' : 'normal',
+        score: burden.score,
+        subtitle: `부모님 부담도 ${burden.level}`,
+        metrics: [
+          { label: '부담 점수', value: `${burden.score}` },
+          { label: '부담 단계', value: burden.level }
+        ]
+      }
+    ]
+
+    const edges: GraphEdge[] = [
+      {
+        id: `${familyCode}:parent-consent`,
+        from: `${familyCode}:parent`,
+        to: `${familyCode}:consent`,
+        label: '공유 범위 선택',
+        status: consentScore >= 60 ? 'normal' : 'watch'
+      },
+      {
+        id: `${familyCode}:parent-risk`,
+        from: `${familyCode}:parent`,
+        to: `${familyCode}:risk`,
+        label: '생활 신호 분석',
+        status: statusFromState(overallState) === 'risk' ? 'risk' : statusFromState(overallState) === 'watch' ? 'watch' : 'normal'
+      },
+      {
+        id: `${familyCode}:risk-loop`,
+        from: `${familyCode}:risk`,
+        to: `${familyCode}:loop`,
+        label: '확인 프로토콜',
+        status: risk >= 60 ? 'risk' : risk >= 25 ? 'watch' : 'normal'
+      },
+      {
+        id: `${familyCode}:loop-guardian`,
+        from: `${familyCode}:loop`,
+        to: `${familyCode}:guardian`,
+        label: '보호자 행동',
+        status: closureScore >= 70 ? 'done' : 'watch'
+      },
+      {
+        id: `${familyCode}:loop-escalation`,
+        from: `${familyCode}:loop`,
+        to: `${familyCode}:escalation`,
+        label: '무응답 단계',
+        status: escalationEvents.length > 0 ? 'watch' : 'normal'
+      },
+      {
+        id: `${familyCode}:escalation-care`,
+        from: `${familyCode}:escalation`,
+        to: `${familyCode}:care`,
+        label: '방문확인 전환',
+        status: activeCareRequests > 0 ? 'watch' : 'normal'
+      },
+      {
+        id: `${familyCode}:care-report`,
+        from: `${familyCode}:care`,
+        to: `${familyCode}:report`,
+        label: '현장 리포트',
+        status: pendingReports > 0 ? 'watch' : reports.length > 0 ? 'done' : 'normal'
+      },
+      {
+        id: `${familyCode}:parent-burden`,
+        from: `${familyCode}:parent`,
+        to: `${familyCode}:burden`,
+        label: '알림 부담 측정',
+        status: burden.level === '높음' ? 'risk' : burden.level === '보통' ? 'watch' : 'normal'
+      }
+    ]
+
+    return {
+      familyCode,
+      parentName,
+      guardianName,
+      guardianPhone,
+      overallState,
+      riskScore: risk,
+      closureScore,
+      burdenScore: burden.score,
+      burdenLevel: burden.level as '낮음' | '보통' | '높음',
+      consentScore,
+      noResponseHours,
+      lastCheckinAt,
+      insights: insightList({
+        noResponseHours,
+        risk,
+        burdenScore: burden.score,
+        consentScore,
+        closureScore,
+        activeCareRequests,
+        pendingReports
+      }),
+      recommendedActions: recommendedActions({
+        overallState,
+        burdenScore: burden.score,
+        closureScore,
+        activeCareRequests,
+        pendingReports
+      }),
+      nodes,
+      edges,
+      raw: {
+        family,
+        checkins,
+        notifications,
+        consents,
+        safetyActions,
+        escalationEvents,
+        careRequests,
+        matches: input.matches,
+        reports
+      }
+    }
+  })
+
+  graphs.sort((a, b) => b.riskScore - a.riskScore)
+
+  const highRisk = graphs.filter((graph) => graph.overallState === '확인 필요').length
+  const watch = graphs.filter((graph) => graph.overallState === '주의').length
+  const highBurden = graphs.filter((graph) => graph.burdenLevel === '높음').length
+  const lowClosure = graphs.filter((graph) => graph.closureScore < 50).length
+
+  const systemInsights: string[] = []
+
+  if (highRisk > 0) systemInsights.push(`${highRisk}가족이 확인 필요 상태입니다.`)
+  if (watch > 0) systemInsights.push(`${watch}가족이 주의 상태입니다.`)
+  if (highBurden > 0) systemInsights.push(`${highBurden}가족에서 부모님 부담도가 높게 나타났습니다.`)
+  if (lowClosure > 0) systemInsights.push(`${lowClosure}가족은 알림 이후 확인 완료율이 낮습니다.`)
+  if (systemInsights.length === 0) systemInsights.push('전체 가족 그래프는 현재 안정적인 흐름을 보입니다.')
+
+  return {
+    generatedAt: new Date().toISOString(),
+    cards: [
+      {
+        key: 'families',
+        label: '가족 그래프',
+        value: graphs.length,
+        help: '부모님-보호자 연결 단위'
+      },
+      {
+        key: 'risk',
+        label: '확인 필요',
+        value: highRisk,
+        help: '위험 점수 60 이상'
+      },
+      {
+        key: 'burden',
+        label: '부담도 높음',
+        value: highBurden,
+        help: '알림·확인 요구가 많은 가족'
+      },
+      {
+        key: 'closure',
+        label: '완료율 낮음',
+        value: lowClosure,
+        help: '확인 완료율 50% 미만'
+      }
+    ],
+    families: graphs,
+    systemInsights,
+    rawCounts: {
+      families: input.families.length,
+      checkins: input.checkins.length,
+      notifications: input.notifications.length,
+      consents: input.consents.length,
+      consentActions: input.consentActions.length,
+      safetyActions: input.safetyActions.length,
+      escalationEvents: input.escalationEvents.length,
+      careRequests: input.careRequests.length,
+      matches: input.matches.length,
+      reports: input.reports.length
     }
   }
 }
