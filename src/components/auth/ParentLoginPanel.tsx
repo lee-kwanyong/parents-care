@@ -137,7 +137,7 @@ export function ParentLoginPanel() {
             inputMode="numeric"
             maxLength={6}
             placeholder="예: 123456"
-            className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-5 text-center text-4xl font-black tracking-[0.18em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
           />
         </label>
 

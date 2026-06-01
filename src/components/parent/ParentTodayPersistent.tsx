@@ -205,14 +205,14 @@ export function ParentTodayPersistent() {
           ) : (
             <form onSubmit={connectInline} className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
               <div className="text-sm font-black text-[#795313]">6자리 코드를 입력해주세요.</div>
-              <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_9rem]">
+              <div className="mt-3 grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_9rem]">
                 <input
                   value={familyCode}
                   onChange={(event) => setFamilyCode(normalizeCode(event.target.value))}
                   inputMode="numeric"
                   maxLength={6}
                   placeholder="123456"
-                  className="rounded-2xl border border-[#F4D8A5] bg-white px-4 py-4 text-center text-3xl font-black tracking-[0.16em]"
+                  className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
                 />
                 <button disabled={loading} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60">
                   연결
