@@ -1,118 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
-
-type ParentSession = {
-  familyCode: string
-  parentName?: string
-  parentPhone?: string
-  guardianName?: string
-  guardianPhone?: string
-  role?: string
-  loggedIn?: boolean
-  connected?: boolean
-}
+import { useEffect, useState, type FormEvent } from 'react'
+import { clearParentSessionStorage, readParentCode, saveParentSession, type ParentSession } from '@/components/auth/ParentSessionBridge'
 
 function normalizeCode(value: string) {
   return value.replace(/[^\d]/g, '').slice(0, 6)
-}
-
-function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 60) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
-}
-
-function clearCookie(name: string) {
-  document.cookie = `${name}=; path=/; max-age=0; samesite=lax`
-}
-
-function saveParentSession(session: ParentSession) {
-  const familyCode = normalizeCode(session.familyCode || '')
-
-  if (!familyCode) return
-
-  const payload = {
-    ...session,
-    familyCode,
-    role: 'parent',
-    loggedIn: true,
-    connected: true,
-    savedAt: new Date().toISOString()
-  }
-
-  const raw = JSON.stringify(payload)
-
-  window.localStorage.setItem('anbu_family_code', familyCode)
-  window.localStorage.setItem('pc_parent_invite_code', familyCode)
-  window.localStorage.setItem('anbu_parent_code', familyCode)
-  window.localStorage.setItem('anbu_parent_family_code', familyCode)
-  window.localStorage.setItem('parent_family_code', familyCode)
-  window.localStorage.setItem('parent_invite_code', familyCode)
-  window.localStorage.setItem('parent_link_code', familyCode)
-  window.localStorage.setItem('anbu_login_role', 'parent')
-  window.localStorage.setItem('anbu_auth_state', 'parent-signed-in')
-  window.localStorage.setItem('anbu_parent_logged_in', 'true')
-  window.localStorage.setItem('anbu_parent_connected', 'true')
-  window.localStorage.setItem('anbu_parent_session', raw)
-  window.localStorage.setItem('parents_care_parent_session', raw)
-
-  setCookie('anbu_family_code', familyCode)
-  setCookie('pc_parent_invite_code', familyCode)
-  setCookie('anbu_parent_code', familyCode)
-  setCookie('anbu_login_role', 'parent')
-  setCookie('anbu_parent_connected', 'true')
-  setCookie('anbu_parent_session', raw)
-
-  window.dispatchEvent(new CustomEvent('anbu-parent-session-changed', { detail: payload }))
-  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: payload }))
-}
-
-function readStoredCode() {
-  if (typeof window === 'undefined') return ''
-
-  const keys = [
-    'anbu_family_code',
-    'pc_parent_invite_code',
-    'anbu_parent_code',
-    'anbu_parent_family_code',
-    'parent_family_code',
-    'parent_invite_code',
-    'parent_link_code'
-  ]
-
-  for (const key of keys) {
-    const code = normalizeCode(window.localStorage.getItem(key) || '')
-
-    if (/^\d{6}$/.test(code)) return code
-  }
-
-  return ''
-}
-
-function clearParentSession() {
-  const keys = [
-    'anbu_family_code',
-    'pc_parent_invite_code',
-    'anbu_parent_code',
-    'anbu_parent_family_code',
-    'parent_family_code',
-    'parent_invite_code',
-    'parent_link_code',
-    'anbu_parent_logged_in',
-    'anbu_parent_connected',
-    'anbu_parent_session',
-    'parents_care_parent_session'
-  ]
-
-  for (const key of keys) {
-    window.localStorage.removeItem(key)
-  }
-
-  clearCookie('anbu_family_code')
-  clearCookie('pc_parent_invite_code')
-  clearCookie('anbu_parent_code')
-  clearCookie('anbu_parent_connected')
-  clearCookie('anbu_parent_session')
 }
 
 export function ParentLoginPanel() {
@@ -122,24 +15,20 @@ export function ParentLoginPanel() {
   const [loading, setLoading] = useState(false)
 
   async function restoreSession(code?: string) {
-    const targetCode = normalizeCode(code || readStoredCode())
-
+    const targetCode = normalizeCode(code || readParentCode())
     if (!targetCode) return
 
     setLoading(true)
 
     try {
-      const response = await fetch('/api/parent-session?familyCode=' + encodeURIComponent(targetCode), {
-        cache: 'no-store'
-      })
-
+      const response = await fetch('/api/parent-session?familyCode=' + encodeURIComponent(targetCode), { cache: 'no-store' })
       const data = await response.json().catch(() => ({}))
 
       if (response.ok && data.ok && data.session) {
         saveParentSession(data.session)
         setSession(data.session)
         setFamilyCode(data.session.familyCode)
-        setMessage('부모님 연결이 유지되어 있습니다.')
+        setMessage('부모님과 자녀 연결이 유지되어 있습니다.')
       } else {
         setMessage(data.message || '저장된 연결을 확인하지 못했습니다.')
       }
@@ -150,7 +39,7 @@ export function ParentLoginPanel() {
     }
   }
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage('')
 
@@ -179,7 +68,7 @@ export function ParentLoginPanel() {
 
       saveParentSession(data.session)
       setSession(data.session)
-      setMessage('부모님 연결이 완료되었습니다. 안부 화면으로 이동합니다.')
+      setMessage('부모님과 자녀 연결이 완료되었습니다.')
 
       setTimeout(() => {
         window.location.href = '/parent/today'
@@ -191,25 +80,21 @@ export function ParentLoginPanel() {
     }
   }
 
-  async function logoutParent() {
-    setLoading(true)
-
+  async function disconnect() {
     try {
       await fetch('/api/parent-session', { method: 'DELETE' })
     } catch {
-      // 무시
+      // ignore
     }
 
-    clearParentSession()
+    clearParentSessionStorage()
     setSession(null)
     setFamilyCode('')
     setMessage('부모님 연결을 해제했습니다.')
-    setLoading(false)
   }
 
   useEffect(() => {
-    const code = readStoredCode()
-
+    const code = readParentCode()
     if (code) {
       setFamilyCode(code)
       restoreSession(code)
@@ -224,19 +109,18 @@ export function ParentLoginPanel() {
       </div>
 
       <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36]">
-        부모님 안심 화면에
+        6자리 코드로
         <br />
-        들어갑니다.
+        자녀와 연결됩니다.
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
         자녀가 알려준 6자리 연결코드를 입력하면 부모님 안부 버튼 화면으로 이동합니다.
-        한 번 연결하면 같은 기기에서는 연결 상태가 유지됩니다.
       </p>
 
       {session ? (
         <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
-          현재 연결됨: {session.parentName || '부모님'} · 코드 {session.familyCode}
+          현재 연결됨: {session.parentName || '부모님'} · 보호자 {session.guardianName || '보호자'} · 코드 {session.familyCode}
         </div>
       ) : null}
 
@@ -259,46 +143,26 @@ export function ParentLoginPanel() {
           />
         </label>
 
-        <button
-          disabled={loading}
-          className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
-        >
+        <button disabled={loading} className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]">
           {loading ? '확인 중...' : '부모님 안부 화면 들어가기'}
         </button>
       </form>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
-        <Link
-          href="/parent/today"
-          className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-        >
+        <Link href="/parent/today" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
           안부 버튼 화면
         </Link>
 
-        <Link
-          href="/parent/consent"
-          className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-        >
+        <Link href="/parent/consent" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
           안심동의 설정
         </Link>
       </div>
 
       {session ? (
-        <button
-          type="button"
-          onClick={logoutParent}
-          className="mt-4 w-full rounded-2xl bg-[#FFF1F1] px-5 py-4 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]"
-        >
+        <button type="button" onClick={disconnect} className="mt-4 w-full rounded-2xl bg-[#FFF1F1] px-5 py-4 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]">
           부모님 연결 해제
         </button>
       ) : null}
-
-      <Link
-        href="/login"
-        className="mt-4 block text-center text-sm font-black text-[#11977F]"
-      >
-        역할 선택으로 돌아가기
-      </Link>
     </section>
   )
 }

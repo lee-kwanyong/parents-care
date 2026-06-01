@@ -3,136 +3,77 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 
-type Profile = {
-  guardianName?: string
-  guardianEmail?: string
-  role?: string
-  loggedIn?: boolean
-}
+function hasSession() {
+  if (typeof window === 'undefined') return false
 
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const role = window.localStorage.getItem('anbu_login_role')
+  const auth = window.localStorage.getItem('anbu_auth_state')
+  const parentCode =
+    window.localStorage.getItem('anbu_family_code') ||
+    window.localStorage.getItem('pc_parent_invite_code') ||
+    window.localStorage.getItem('anbu_parent_code') ||
+    window.localStorage.getItem('parent_family_code') ||
+    ''
 
-  if (!url || !anonKey) return null
+  if (role === 'parent' || role === 'guardian') return true
+  if (auth === 'signed-in' || auth === 'parent-signed-in') return true
+  if (/^\d{6}$/.test(parentCode)) return true
 
-  return createClient(url, anonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true
-    }
-  })
-}
+  if (window.localStorage.getItem('anbu_guardian_profile')) return true
+  if (window.localStorage.getItem('anbu_parent_session')) return true
 
-function readLocalProfile(): Profile | null {
-  if (typeof window === 'undefined') return null
-
-  try {
-    const raw =
-      window.localStorage.getItem('anbu_guardian_profile') ||
-      window.localStorage.getItem('parents_care_auth') ||
-      window.localStorage.getItem('anbu_current_user')
-
-    if (!raw) return null
-
-    const parsed = JSON.parse(raw)
-
-    if (parsed?.loggedIn || parsed?.role === 'guardian') {
-      return parsed
-    }
-
-    return null
-  } catch {
-    return null
-  }
+  return false
 }
 
 function shouldHide(pathname: string) {
+  const path = pathname || '/'
+  if (path === '/login') return true
+  if (path === '/account') return true
+
   return (
-    pathname === '/login' ||
-    pathname === '/signup/guardian' ||
-    pathname === '/account' ||
-    pathname === '/ops/login' ||
-    pathname.startsWith('/parent/login')
+    path.startsWith('/signup') ||
+    path.startsWith('/parent') ||
+    path.startsWith('/child') ||
+    path.startsWith('/ops') ||
+    path.startsWith('/family-link') ||
+    path.startsWith('/care')
   )
 }
 
 export function MobileLoginButton() {
-  const pathname = usePathname()
-  const [profile, setProfile] = useState<Profile | null>(null)
+  const pathname = usePathname() || '/'
   const [ready, setReady] = useState(false)
+  const [logged, setLogged] = useState(false)
 
-  async function refresh() {
-    const localProfile = readLocalProfile()
-
-    if (localProfile) {
-      setProfile(localProfile)
-      setReady(true)
-      return
-    }
-
-    const supabase = getSupabase()
-
-    if (!supabase) {
-      setProfile(null)
-      setReady(true)
-      return
-    }
-
-    try {
-      const { data } = await supabase.auth.getSession()
-      const user = data.session?.user
-
-      if (user) {
-        const nextProfile = {
-          guardianName:
-            user.user_metadata?.guardian_name ||
-            user.user_metadata?.full_name ||
-            user.user_metadata?.name ||
-            user.email?.split('@')?.[0] ||
-            '보호자',
-          guardianEmail: user.email || '',
-          role: 'guardian',
-          loggedIn: true
-        }
-
-        window.localStorage.setItem('anbu_guardian_profile', JSON.stringify(nextProfile))
-        window.localStorage.setItem('anbu_login_role', 'guardian')
-        window.localStorage.setItem('anbu_auth_state', 'signed-in')
-
-        setProfile(nextProfile)
-      } else {
-        setProfile(null)
-      }
-    } catch {
-      setProfile(null)
-    } finally {
-      setReady(true)
-    }
+  function refresh() {
+    setLogged(hasSession())
+    setReady(true)
   }
 
   useEffect(() => {
     refresh()
 
-    function onChanged() {
-      refresh()
-    }
-
-    window.addEventListener('anbu-auth-changed', onChanged)
-    window.addEventListener('storage', onChanged)
+    window.addEventListener('storage', refresh)
+    window.addEventListener('focus', refresh)
+    window.addEventListener('anbu-auth-changed', refresh)
+    window.addEventListener('anbu-parent-session-changed', refresh)
 
     return () => {
-      window.removeEventListener('anbu-auth-changed', onChanged)
-      window.removeEventListener('storage', onChanged)
+      window.removeEventListener('storage', refresh)
+      window.removeEventListener('focus', refresh)
+      window.removeEventListener('anbu-auth-changed', refresh)
+      window.removeEventListener('anbu-parent-session-changed', refresh)
     }
   }, [])
 
-  if (!ready) return null
-  if (shouldHide(pathname || '')) return null
+  useEffect(() => {
+    refresh()
+  }, [pathname])
 
-  const isLoggedIn = Boolean(profile?.loggedIn || profile?.role === 'guardian')
+  if (!ready) return null
+  if (logged) return null
+  if (shouldHide(pathname)) return null
 
   return (
     <div
@@ -140,21 +81,12 @@ export function MobileLoginButton() {
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
       <div className="pointer-events-auto mx-auto max-w-sm rounded-[1.4rem] bg-white/95 p-2 shadow-[0_12px_35px_rgba(20,82,70,0.18)] ring-1 ring-[#D8EEE8] backdrop-blur">
-        {isLoggedIn ? (
-          <Link
-            href="/account"
-            className="flex w-full items-center justify-center rounded-[1.1rem] bg-[#193B38] px-5 py-4 text-base font-black text-white"
-          >
-            회원정보
-          </Link>
-        ) : (
-          <Link
-            href="/login"
-            className="flex w-full items-center justify-center rounded-[1.1rem] bg-[#193B38] px-5 py-4 text-base font-black text-white"
-          >
-            로그인 / 회원가입
-          </Link>
-        )}
+        <Link
+          href="/login"
+          className="flex w-full items-center justify-center rounded-[1.1rem] bg-[#193B38] px-5 py-4 text-base font-black text-white"
+        >
+          로그인 / 회원가입
+        </Link>
       </div>
     </div>
   )
