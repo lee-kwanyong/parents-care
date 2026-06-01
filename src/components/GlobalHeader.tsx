@@ -41,6 +41,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/outcomes', label: 'Outcome Labeling', desc: '결과 라벨링 엔진' },
   { href: '/ops/pilot', label: '실증 운영실', desc: 'Pilot Evidence OS' },
   { href: '/ops/risk-action', label: 'Risk-to-Action', desc: '위험신호 행동가이드' },
   { href: '/ops/anbu-graph', label: 'AnbuGraph', desc: '가족 돌봄 그래프' },
