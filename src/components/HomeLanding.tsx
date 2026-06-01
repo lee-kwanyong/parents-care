@@ -2,170 +2,123 @@
 
 import Link from 'next/link'
 
-const featureCards = [
+const quickCards = [
   {
-    step: '01',
-    title: '부모님은 쉽게',
-    desc: '회원가입 없이 자녀가 알려준 6자리 코드만 입력하고 안부 버튼을 누릅니다.'
+    title: '3분 안에 접수',
+    desc: '상황 설명 → 간단 기록 → 안심케어 시작',
+    accent: '3분'
   },
   {
-    step: '02',
-    title: '보호자는 한눈에',
-    desc: '식사, 약, 몸 상태, 도움 요청을 부모님 케어 화면에서 확인합니다.'
+    title: '간단 접수 가능',
+    desc: '앱 입력이 어려워도 말할 수 있어요',
+    accent: '쉬운'
   },
   {
-    step: '03',
-    title: '부담 없이 오래',
-    desc: '위치와 사진 공유는 기본으로 꺼두고, 부모님이 원하는 정보만 공유합니다.'
+    title: '운영실이 정리',
+    desc: '병원·식사·약·서류·퇴원 후 케어를 보기 쉽게 정리합니다.',
+    accent: '정리'
   }
 ]
 
-const careCards = [
+const featureCards = [
   {
-    badge: '안부',
-    title: '오늘 상태 확인',
-    desc: '괜찮아요, 식사했어요, 약 먹었어요 같은 간단한 버튼으로 오늘 상태를 전달합니다.'
+    badge: '부모님',
+    title: '부모님 코드입력',
+    desc: '자녀가 알려준 6자리 코드로 부모님 안부 화면에 들어갑니다.'
   },
   {
-    badge: '확인',
-    title: '무응답 확인',
-    desc: '안부 응답이 없을 때 보호자가 확인할 수 있도록 흐름을 정리합니다.'
+    badge: '보호자',
+    title: '부모님 케어 확인',
+    desc: '식사, 약, 몸 상태, 도움 요청을 한 화면에서 확인합니다.'
   },
   {
     badge: '동의',
     title: '부모님 안심동의',
-    desc: '부모님이 자녀에게 공유할 항목을 직접 선택합니다.'
-  },
-  {
-    badge: '케어',
-    title: '보호자 화면',
-    desc: '보호자는 부모님의 식사, 복약, 몸 상태를 한 화면에서 확인합니다.'
+    desc: '부모님이 자녀에게 공유할 정보를 직접 선택합니다.'
   }
 ]
 
 export function HomeLanding() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F8FFFC_0%,#FFFFFF_48%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
-      <section className="mx-auto max-w-6xl space-y-5">
-        <section className="overflow-hidden rounded-[2rem] bg-white shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem]">
-          <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-            <div className="p-6 sm:p-9 lg:p-10">
-              <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-                부모님 안심케어
-              </div>
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_48%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+      <section className="mx-auto max-w-6xl space-y-6">
+        <section className="rounded-[2rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-10">
+          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+            40대 이상 보호자용 · 쉬운 부모님 케어
+          </div>
 
-              <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.08em] sm:text-6xl">
-                멀리 있어도
-                <br />
-                부모님 안부를
-                <br />
-                놓치지 않도록.
-              </h1>
+          <h1 className="mt-7 text-5xl font-black leading-tight tracking-[-0.09em] text-[#173B36] sm:text-7xl">
+            부모님 안심케어,
+            <br />
+            쉽게 시작하세요.
+          </h1>
 
-              <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#637B76] sm:text-lg">
-                부모님은 복잡한 가입 없이 6자리 코드로 안부를 알려주고,
-                보호자는 부모님 상태를 한 화면에서 확인합니다.
-              </p>
+          <p className="mt-7 max-w-4xl text-xl font-bold leading-10 text-[#637B76] sm:text-2xl sm:leading-[3.25rem]">
+            앱이 어려워도 괜찮습니다. 사진, 카톡, 전화, 줄 메모만으로 병원·식사·약·서류·퇴원 후 케어를 운영실이 정리합니다.
+          </p>
 
-              <div className="mt-7 grid gap-3 sm:grid-cols-2">
-                <Link
-                  href="/parent/login"
-                  className="rounded-2xl bg-[#193B38] px-5 py-5 text-center text-base font-black text-white shadow-sm"
-                >
-                  부모님 코드입력
-                </Link>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <Link
+              href="/parent/login"
+              className="rounded-[1.5rem] bg-[#193B38] px-6 py-5 text-center text-lg font-black text-white shadow-sm sm:text-xl"
+            >
+              부모님 코드입력
+            </Link>
 
-                <Link
-                  href="/install"
-                  className="rounded-2xl bg-white px-5 py-5 text-center text-base font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-                >
-                  홈 화면에 추가하기
-                </Link>
-              </div>
-
-              <p className="mt-4 text-xs font-bold leading-6 text-[#7A9692]">
-                메인 화면에서 클릭 가능한 버튼은 부모님 코드입력과 홈 화면에 추가하기 두 가지입니다.
-              </p>
-            </div>
-
-            <div className="bg-[#F1FFFA] p-6 sm:p-9 lg:p-10">
-              <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
-                <div className="text-sm font-black text-[#11977F]">오늘 부모님 상태</div>
-                <div className="mt-3 text-4xl font-black tracking-[-0.08em] text-[#173B36]">
-                  확인 중
-                </div>
-                <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
-                  식사, 약, 몸 상태, 도움 요청을 보호자가 확인할 수 있도록 정리합니다.
-                </p>
-
-                <div className="mt-5 grid gap-3">
-                  <div className="rounded-2xl bg-[#EFFFF9] p-4 ring-1 ring-[#CDEFE5]">
-                    <div className="text-xs font-black text-[#116D5F]">식사</div>
-                    <div className="mt-1 text-lg font-black text-[#173B36]">식사했어요</div>
-                  </div>
-
-                  <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                    <div className="text-xs font-black text-[#637B76]">복약</div>
-                    <div className="mt-1 text-lg font-black text-[#173B36]">약 먹었어요</div>
-                  </div>
-
-                  <div className="rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
-                    <div className="text-xs font-black text-[#795313]">몸 상태</div>
-                    <div className="mt-1 text-lg font-black text-[#173B36]">불편한 곳 확인 가능</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Link
+              href="/install"
+              className="rounded-[1.5rem] bg-[#EFFFF9] px-6 py-5 text-center text-lg font-black text-[#173B36] ring-1 ring-[#CDEFE5] sm:text-xl"
+            >
+              홈 화면에 추가하기
+            </Link>
           </div>
         </section>
 
-        <section className="grid gap-4 md:grid-cols-3">
-          {featureCards.map((item) => (
+        <section className="grid gap-5 md:grid-cols-3">
+          {quickCards.map((item) => (
             <article
-              key={item.step}
-              className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6"
+              key={item.title}
+              className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
-                {item.step}
+              <div className="text-5xl font-black tracking-[-0.08em] text-[#20B69E]">
+                {item.accent}
               </div>
 
-              <h2 className="mt-5 text-2xl font-black tracking-[-0.06em]">
+              <h2 className="mt-3 text-2xl font-black tracking-[-0.06em] text-[#173B36]">
                 {item.title}
               </h2>
 
-              <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
+              <p className="mt-4 text-base font-bold leading-8 text-[#637B76]">
                 {item.desc}
               </p>
             </article>
           ))}
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-7">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-                주요 기능
-              </div>
-              <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">
-                가족이 함께 보는 안부 흐름
-              </h2>
-            </div>
-            <p className="text-sm font-bold leading-7 text-[#637B76]">
-              아래 카드는 설명용입니다. 메인 클릭 버튼은 위 두 개만 유지합니다.
-            </p>
+        <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+            안부웍스 흐름
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {careCards.map((item) => (
+          <h2 className="mt-5 text-4xl font-black tracking-[-0.08em] text-[#173B36]">
+            부모님은 쉽게, 보호자는 한눈에.
+          </h2>
+
+          <p className="mt-4 text-base font-bold leading-8 text-[#637B76]">
+            아래 카드는 설명용입니다. 메인 화면에서 클릭 가능한 버튼은 부모님 코드입력과 홈 화면에 추가하기 두 가지입니다.
+          </p>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            {featureCards.map((item) => (
               <article
                 key={item.title}
-                className="rounded-[1.5rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]"
+                className="rounded-[1.75rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8] sm:p-6"
               >
-                <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-[#11977F] ring-1 ring-[#D8EEE8]">
+                <span className="inline-flex rounded-full bg-[#E8FAF5] px-3 py-1 text-xs font-black text-[#11977F]">
                   {item.badge}
                 </span>
 
-                <h3 className="mt-4 text-xl font-black tracking-[-0.05em]">
+                <h3 className="mt-4 text-2xl font-black tracking-[-0.06em] text-[#173B36]">
                   {item.title}
                 </h3>
 
@@ -177,33 +130,41 @@ export function HomeLanding() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-7">
-          <h2 className="text-2xl font-black tracking-[-0.06em]">
-            사용하는 순서
-          </h2>
-
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15">
-              <div className="text-sm font-black text-[#A7F2E3]">부모님</div>
-              <p className="mt-2 text-sm font-bold leading-7 text-[#E7FFF7]">
-                6자리 코드입력 → 안부버튼 → 안심동의
-              </p>
+        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <section className="rounded-[2rem] bg-[#123F38] p-6 text-white shadow-sm sm:p-8">
+            <div className="text-sm font-black text-[#A7F2E3]">
+              부모님 안부 확인
             </div>
 
-            <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15">
-              <div className="text-sm font-black text-[#A7F2E3]">보호자</div>
-              <p className="mt-2 text-sm font-bold leading-7 text-[#E7FFF7]">
-                회원가입 → 자녀-부모 연결 → 부모님 케어 확인
-              </p>
-            </div>
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.08em]">
+              오늘 상태를
+              <br />
+              가족에게 전달합니다.
+            </h2>
 
-            <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/15">
-              <div className="text-sm font-black text-[#A7F2E3]">운영실</div>
-              <p className="mt-2 text-sm font-bold leading-7 text-[#E7FFF7]">
-                무응답 관리 → 행동 가이드 → 결과 기록
-              </p>
+            <p className="mt-5 text-base font-bold leading-8 text-[#E7FFF7]">
+              괜찮아요, 식사했어요, 약 먹었어요, 몸이 불편해요 같은 버튼으로 보호자에게 상태가 전달됩니다.
+            </p>
+          </section>
+
+          <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+            <div className="grid gap-3">
+              <div className="rounded-2xl bg-[#EFFFF9] p-4 ring-1 ring-[#CDEFE5]">
+                <div className="text-xs font-black text-[#116D5F]">식사</div>
+                <div className="mt-1 text-xl font-black text-[#173B36]">식사했어요</div>
+              </div>
+
+              <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <div className="text-xs font-black text-[#637B76]">복약</div>
+                <div className="mt-1 text-xl font-black text-[#173B36]">약 먹었어요</div>
+              </div>
+
+              <div className="rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
+                <div className="text-xs font-black text-[#795313]">몸 상태</div>
+                <div className="mt-1 text-xl font-black text-[#173B36]">불편한 곳 확인 가능</div>
+              </div>
             </div>
-          </div>
+          </section>
         </section>
       </section>
     </main>
