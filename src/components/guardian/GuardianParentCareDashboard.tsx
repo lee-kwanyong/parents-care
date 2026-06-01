@@ -123,9 +123,7 @@ export function GuardianParentCareDashboard() {
             <section className={'rounded-[2rem] p-5 ring-1 sm:p-6 ' + stateClass(care.state)}>
               <div className="grid gap-5 lg:grid-cols-[1fr_0.45fr]">
                 <div>
-                  <p className="text-sm font-black opacity-75">
-                    {care.parentName} · 가족코드 {care.familyCode}
-                  </p>
+                  <p className="text-sm font-black opacity-75">{care.parentName} · 가족코드 {care.familyCode}</p>
                   <h2 className="mt-3 text-5xl font-black tracking-[-0.08em]">{care.state}</h2>
                   <p className="mt-5 text-lg font-bold leading-8">{care.summary}</p>
                 </div>
@@ -133,9 +131,7 @@ export function GuardianParentCareDashboard() {
                 <div className="rounded-2xl bg-white/75 p-5">
                   <div className="text-sm font-black opacity-70">안부 점수</div>
                   <div className="mt-2 text-6xl font-black tracking-[-0.08em]">{care.score}</div>
-                  <p className="mt-2 text-sm font-bold leading-6 opacity-75">
-                    의료 진단이 아닌 안부 확인 참고 신호입니다.
-                  </p>
+                  <p className="mt-2 text-sm font-bold leading-6 opacity-75">의료 진단이 아닌 안부 확인 참고 신호입니다.</p>
                 </div>
               </div>
             </section>

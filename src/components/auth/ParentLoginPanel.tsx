@@ -29,11 +29,9 @@ export function ParentLoginPanel() {
         setSession(data.session)
         setFamilyCode(data.session.familyCode)
         setMessage('부모님과 자녀 연결이 유지되어 있습니다.')
-      } else {
-        setMessage(data.message || '저장된 연결을 확인하지 못했습니다.')
       }
     } catch {
-      setMessage('저장된 연결을 확인하지 못했습니다.')
+      // ignore
     } finally {
       setLoading(false)
     }
@@ -105,17 +103,17 @@ export function ParentLoginPanel() {
   return (
     <section className="mx-auto w-full max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
       <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-        부모님 전용
+        부모님 전용 코드입력
       </div>
 
       <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36]">
-        6자리 코드로
+        자녀가 알려준
         <br />
-        자녀와 연결됩니다.
+        6자리 코드를 입력하세요.
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
-        이 화면은 부모님 전용입니다. 자녀가 알려준 6자리 연결코드를 입력하면 안부 버튼 화면으로 이동합니다.
+        이 화면은 부모님 전용입니다. 코드를 입력하면 안부 버튼 화면으로 이동합니다.
       </p>
 
       {session ? (

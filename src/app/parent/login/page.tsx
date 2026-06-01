@@ -1,7 +1,7 @@
 import { ParentLoginPanel } from '@/components/auth/ParentLoginPanel'
 
 export const metadata = {
-  title: '부모님 6자리 접속 | 부모님 안심케어',
+  title: '부모님 6자리 코드입력 | 부모님 안심케어',
   description: '자녀가 알려준 6자리 연결코드로 부모님 안심 화면에 접속합니다.'
 }
 

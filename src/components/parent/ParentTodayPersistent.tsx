@@ -140,13 +140,8 @@ export function ParentTodayPersistent() {
     }
 
     const isCondition = item.checkType === 'condition' || item.checkType === 'emergency'
-
     const detail = isCondition
-      ? [
-          item.desc,
-          symptomText ? `불편한 곳: ${symptomText}` : '',
-          conditionMemo ? `메모: ${conditionMemo}` : ''
-        ].filter(Boolean).join(' / ')
+      ? [item.desc, symptomText ? `불편한 곳: ${symptomText}` : '', conditionMemo ? `메모: ${conditionMemo}` : ''].filter(Boolean).join(' / ')
       : item.desc
 
     setLoading(true)
@@ -156,13 +151,7 @@ export function ParentTodayPersistent() {
       const response = await fetch('/api/parent-checkin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          familyCode: code,
-          checkType: item.checkType,
-          status: item.status,
-          careLabel: item.label,
-          memo: detail
-        })
+        body: JSON.stringify({ familyCode: code, checkType: item.checkType, status: item.status, careLabel: item.label, memo: detail })
       })
 
       const data = await response.json().catch(() => ({}))
@@ -289,9 +278,7 @@ export function ParentTodayPersistent() {
           <section className="rounded-[2rem] bg-[#123F38] p-5 text-white">
             <div className="text-sm font-black text-[#A7F2E3]">방금 보낸 안부</div>
             <div className="mt-2 text-3xl font-black tracking-[-0.06em]">{lastAction}</div>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#E7FFF7]">
-              보호자 부모님 케어 화면에 반영됩니다.
-            </p>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#E7FFF7]">보호자 부모님 케어 화면에 반영됩니다.</p>
           </section>
         ) : null}
 

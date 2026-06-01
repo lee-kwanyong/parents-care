@@ -68,9 +68,7 @@ function withinHours(value: unknown, hours: number) {
 }
 
 function latest(rows: Record<string, unknown>[], predicate: (row: Record<string, unknown>) => boolean) {
-  return rows
-    .filter(predicate)
-    .sort((a, b) => ms(b.occurred_at || b.created_at) - ms(a.occurred_at || a.created_at))[0] || null
+  return rows.filter(predicate).sort((a, b) => ms(b.occurred_at || b.created_at) - ms(a.occurred_at || a.created_at))[0] || null
 }
 
 function includesAny(value: unknown, words: string[]) {
@@ -109,6 +107,7 @@ function detail(row: Record<string, unknown> | null) {
 async function findFamily(request: NextRequest) {
   const requested =
     normalizeCode(request.nextUrl.searchParams.get('familyCode')) ||
+    normalizeCode(request.cookies.get('anbu_guardian_family_code')?.value) ||
     normalizeCode(request.cookies.get('anbu_family_code')?.value) ||
     normalizeCode(request.cookies.get('pc_parent_invite_code')?.value)
 
@@ -118,7 +117,6 @@ async function findFamily(request: NextRequest) {
   }
 
   const latestCheckin = await rest('daily_care_checkins?select=family_code,occurred_at,created_at&order=occurred_at.desc&limit=1')
-
   if (latestCheckin.ok && Array.isArray(latestCheckin.data) && latestCheckin.data[0]) {
     const code = normalizeCode((latestCheckin.data[0] as Record<string, unknown>).family_code)
     if (code) {
@@ -182,7 +180,6 @@ export async function GET(request: NextRequest) {
   }
 
   score = Math.max(0, Math.min(100, score))
-
   const state = score < 55 ? '확인 필요' : score < 80 ? '주의' : '정상'
 
   const care = {
