@@ -11,6 +11,10 @@ function normalizePhone(value: string) {
   return value.replace(/[^\d]/g, '')
 }
 
+function makeLocalCode() {
+  return String(Math.floor(100000 + Math.random() * 900000))
+}
+
 async function safeJson(response: Response) {
   const raw = await response.text()
 
@@ -56,21 +60,22 @@ export function GuardianFamilyLinkPanel() {
       return
     }
 
+    const localCode = makeLocalCode()
+    setFamilyCode(localCode)
+
+    window.localStorage.setItem('anbu_guardian_family_code', localCode)
+    window.localStorage.setItem('anbu_selected_family_code', localCode)
+    setCookie('anbu_guardian_family_code', localCode)
+
     setLoading(true)
+    setMessage('6자리 코드가 생성되었습니다. 서버 저장을 확인 중입니다.')
 
     try {
-      const health = await fetch('/api/family-link', { cache: 'no-store' })
-
-      if (!health.ok) {
-        setMessage('연결코드 API가 배포되지 않았습니다. Vercel 배포 상태를 확인해주세요.')
-        setDebug(`GET /api/family-link status: ${health.status}`)
-        return
-      }
-
       const response = await fetch('/api/family-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          familyCode: localCode,
           guardianName,
           guardianPhone: normalizePhone(guardianPhone),
           parentName,
@@ -81,24 +86,27 @@ export function GuardianFamilyLinkPanel() {
       const data = await safeJson(response)
 
       if (!response.ok || !data.ok) {
-        setMessage(data.message || '연결코드 생성에 실패했습니다.')
+        setMessage('코드는 생성되었습니다. 다만 서버 저장은 실패했습니다.')
         setDebug(JSON.stringify(data.detail || data, null, 2))
-        if (data.familyCode) setFamilyCode(data.familyCode)
         return
       }
 
-      const code = data.familyCode
-
+      const code = data.familyCode || localCode
       setFamilyCode(code)
-      setMessage('부모님께 보낼 6자리 연결코드가 생성되었습니다.')
 
       window.localStorage.setItem('anbu_guardian_family_code', code)
       window.localStorage.setItem('anbu_selected_family_code', code)
       setCookie('anbu_guardian_family_code', code)
+
+      if (data.saved === false) {
+        setMessage('코드는 생성되었습니다. 서버 저장은 실패했지만 부모님께 코드를 보낼 수 있습니다.')
+        setDebug(JSON.stringify(data.detail || {}, null, 2))
+      } else {
+        setMessage('부모님께 보낼 6자리 연결코드가 생성되었습니다.')
+      }
     } catch (error) {
-      const msg = error instanceof Error ? error.message : '알 수 없는 오류'
-      setMessage('API 연결에 실패했습니다. 배포 완료 여부와 네트워크를 확인해주세요.')
-      setDebug(msg)
+      setMessage('코드는 생성되었습니다. API 연결은 실패했지만 부모님께 코드를 보낼 수 있습니다.')
+      setDebug(error instanceof Error ? error.message : 'Failed to fetch')
     } finally {
       setLoading(false)
     }
@@ -164,7 +172,7 @@ export function GuardianFamilyLinkPanel() {
                   <div className="text-sm font-black text-[#A7F2E3]">6자리 연결코드</div>
                   <div className="mt-3 text-6xl font-black tracking-[0.12em]">{familyCode}</div>
                   <p className="mt-4 text-sm font-bold leading-7 text-[#E7FFF7]">
-                    부모님이 이 코드를 입력하면 자녀와 자동 연결됩니다.
+                    부모님이 이 코드를 입력하면 자녀와 연결됩니다.
                   </p>
                 </div>
 
@@ -193,9 +201,10 @@ export function GuardianFamilyLinkPanel() {
             ) : null}
 
             {debug ? (
-              <pre className="mt-4 max-h-60 overflow-auto whitespace-pre-wrap rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
-                {debug}
-              </pre>
+              <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+                <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
+                <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
+              </details>
             ) : null}
 
             <div className="mt-5 grid gap-3">

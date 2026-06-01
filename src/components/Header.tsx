@@ -6,27 +6,47 @@ import { useEffect, useRef, useState } from 'react'
 
 const menuGroups = [
   {
+    title: '시작',
+    items: [
+      {
+        label: '홈추가',
+        href: '/install',
+        desc: '휴대폰 홈 화면에 추가'
+      },
+      {
+        label: '홈',
+        href: '/',
+        desc: '처음 화면으로 이동'
+      },
+      {
+        label: '로그인/회원가입',
+        href: '/login',
+        desc: '역할 선택 및 보호자 로그인'
+      }
+    ]
+  },
+  {
     title: '부모님',
     items: [
       {
-        label: '부모님 코드입력',
-        href: '/parent/login',
-        desc: '6자리 코드로 접속'
+        label: '부모님 연결',
+        href: '/family-link',
+        desc: '자녀-부모님 코드 생성'
       },
       {
-        label: '안부버튼',
+        label: '부모님 코드',
+        href: '/parent/login',
+        desc: '부모님 6자리 코드 입력'
+      },
+      {
+        label: '부모님 체크',
         href: '/parent/today',
-        desc: '식사·약·몸 상태 입력'
+        desc: '식사·약·몸상태 안부 버튼'
       },
       {
         label: '안심동의',
         href: '/parent/consent',
         desc: '공유 항목 선택'
-      },
-      {
-        label: '홈 화면에 추가',
-        href: '/install',
-        desc: '앱처럼 바로 열기'
       }
     ]
   },
@@ -34,14 +54,39 @@ const menuGroups = [
     title: '보호자',
     items: [
       {
-        label: '부모님과 연결',
-        href: '/family-link',
-        desc: '6자리 코드 만들기'
-      },
-      {
         label: '부모님 케어',
         href: '/child/dashboard',
-        desc: '식사·약·몸 상태 확인'
+        desc: '부모님 상태 한눈에 확인'
+      },
+      {
+        label: '안부온',
+        href: '/child/safety-loop',
+        desc: 'AI 안부확인'
+      }
+    ]
+  },
+  {
+    title: '운영',
+    items: [
+      {
+        label: '파트너 승인',
+        href: '/ops/partners',
+        desc: '케어파트너 검증'
+      },
+      {
+        label: '배정 관리',
+        href: '/ops/matching',
+        desc: '부모님 연결코드·매칭'
+      },
+      {
+        label: '배정 현황',
+        href: '/ops/pilot',
+        desc: '실증·배정 운영 현황'
+      },
+      {
+        label: '알림 설정',
+        href: '/ops/notifications',
+        desc: 'SMS·앱알림 설정'
       }
     ]
   }
@@ -115,8 +160,8 @@ export function GlobalHeader() {
           </Link>
 
           {open ? (
-            <div className="absolute right-0 top-[calc(100%+0.75rem)] w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_18px_52px_rgba(20,82,70,0.18)] ring-1 ring-[#D8EEE8]">
-              <div className="max-h-[70vh] overflow-y-auto p-3">
+            <div className="absolute right-0 top-[calc(100%+0.75rem)] w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_18px_52px_rgba(20,82,70,0.18)] ring-1 ring-[#D8EEE8]">
+              <div className="max-h-[78vh] overflow-y-auto p-3">
                 {menuGroups.map((group) => (
                   <section key={group.title} className="py-2">
                     <div className="px-3 text-xs font-black text-[#7A9692]">

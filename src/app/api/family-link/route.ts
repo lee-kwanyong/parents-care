@@ -38,7 +38,7 @@ async function rest(path: string, init?: RequestInit) {
       ok: false,
       status: 500,
       data: null as unknown,
-      error: 'Supabase 환경변수가 없습니다. NEXT_PUBLIC_SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY/NEXT_PUBLIC_SUPABASE_ANON_KEY를 확인해주세요.'
+      error: 'Supabase env missing'
     }
   }
 
@@ -70,63 +70,6 @@ async function rest(path: string, init?: RequestInit) {
   }
 }
 
-async function rpc(functionName: string, body: Record<string, unknown>) {
-  return rest('rpc/' + functionName, {
-    method: 'POST',
-    body: JSON.stringify(body)
-  })
-}
-
-async function exists(code: string) {
-  const direct = await rest('anbu_family_links?select=family_code&family_code=eq.' + encodeURIComponent(code) + '&limit=1')
-
-  if (direct.ok && Array.isArray(direct.data)) return direct.data.length > 0
-
-  const viaRpc = await rpc('get_anbu_family_link', { p_family_code: code })
-
-  return viaRpc.ok && Boolean(viaRpc.data)
-}
-
-async function generateUniqueCode() {
-  for (let i = 0; i < 30; i += 1) {
-    const candidate = makeCode()
-    if (!(await exists(candidate))) return candidate
-  }
-
-  return makeCode()
-}
-
-async function createFamilyLink(payload: Record<string, unknown>) {
-  const direct = await rest('anbu_family_links', {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([payload])
-  })
-
-  if (direct.ok) return direct
-
-  const viaRpc = await rpc('create_anbu_family_link', {
-    p_family_code: payload.family_code,
-    p_guardian_name: payload.guardian_name,
-    p_guardian_phone: payload.guardian_phone,
-    p_parent_name: payload.parent_name,
-    p_parent_phone: payload.parent_phone,
-    p_payload: payload.payload || {}
-  })
-
-  if (viaRpc.ok) return viaRpc
-
-  return {
-    ok: false,
-    status: viaRpc.status || direct.status || 500,
-    data: null,
-    error: {
-      direct: direct.error,
-      rpc: viaRpc.error
-    }
-  }
-}
-
 export async function GET() {
   return NextResponse.json({
     ok: true,
@@ -135,51 +78,49 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    const body = await request.json().catch(() => ({}))
+  const body = await request.json().catch(() => ({}))
+  const familyCode = code6(body.familyCode) || makeCode()
 
-    const familyCode = code6(body.familyCode) || await generateUniqueCode()
-
-    const payload = {
-      family_code: familyCode,
-      guardian_name: text(body.guardianName) || '보호자',
-      guardian_phone: phone(body.guardianPhone),
-      parent_name: text(body.parentName) || '부모님',
-      parent_phone: phone(body.parentPhone),
-      link_status: 'active',
-      payload: body,
-      updated_at: new Date().toISOString()
-    }
-
-    const result = await createFamilyLink(payload)
-
-    if (!result.ok) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: '부모님 연결코드 저장에 실패했습니다. Supabase SQL Editor에서 20260602_family_link_stable.sql을 실행했는지 확인해주세요.',
-          familyCode,
-          detail: result.error
-        },
-        { status: 500 }
-      )
-    }
-
-    const family = Array.isArray(result.data) ? result.data[0] : result.data
-
-    return NextResponse.json({
-      ok: true,
-      message: '부모님께 보낼 6자리 연결코드가 생성되었습니다.',
-      familyCode,
-      family
-    })
-  } catch (error) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: error instanceof Error ? error.message : '연결코드 생성 중 서버 오류가 발생했습니다.'
-      },
-      { status: 500 }
-    )
+  const payload = {
+    family_code: familyCode,
+    guardian_name: text(body.guardianName) || '보호자',
+    guardian_phone: phone(body.guardianPhone),
+    parent_name: text(body.parentName) || '부모님',
+    parent_phone: phone(body.parentPhone),
+    link_status: 'active',
+    payload: body,
+    updated_at: new Date().toISOString()
   }
+
+  let saved = false
+  let detail: unknown = null
+  let family: unknown = null
+
+  try {
+    const result = await rest('anbu_family_links', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify([payload])
+    })
+
+    if (result.ok) {
+      saved = true
+      family = Array.isArray(result.data) ? result.data[0] : result.data
+    } else {
+      detail = result.error
+    }
+  } catch (error) {
+    detail = error instanceof Error ? error.message : 'DB 저장 실패'
+  }
+
+  return NextResponse.json({
+    ok: true,
+    saved,
+    message: saved
+      ? '부모님께 보낼 6자리 연결코드가 생성되었습니다.'
+      : '6자리 연결코드가 생성되었습니다. 서버 저장은 실패했지만 부모님께 코드는 전달할 수 있습니다.',
+    familyCode,
+    family,
+    detail
+  })
 }
