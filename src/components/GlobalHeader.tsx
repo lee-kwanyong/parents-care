@@ -41,6 +41,7 @@ const menuLinks = [
 ]
 
 const internalLinks = [
+  { href: '/ops/risk-action', label: 'Risk-to-Action', desc: '위험신호 행동가이드' },
   { href: '/ops/anbu-graph', label: 'AnbuGraph', desc: '가족 돌봄 그래프' },
   { href: '/ops/escalation', label: '무응답 관리', desc: '3단계 확인 프로토콜' },
   { href: '/ops/audit', label: '감사 로그', desc: '운영실 접근·작업 기록' },
