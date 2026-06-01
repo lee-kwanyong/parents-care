@@ -21,21 +21,17 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-async function rest(path: string, init?: RequestInit) {
+async function rest(path: string) {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
-  if (!base || !key) {
-    return { ok: false, data: null as unknown, error: 'Supabase 환경변수가 없습니다.' }
-  }
+  if (!base || !key) return { ok: false, data: null as unknown, error: 'Supabase env is missing' }
 
   const response = await fetch(base + '/rest/v1/' + path, {
-    ...init,
     headers: {
       apikey: key,
       Authorization: 'Bearer ' + key,
-      'Content-Type': 'application/json',
-      ...(init?.headers || {})
+      'Content-Type': 'application/json'
     },
     cache: 'no-store'
   })
@@ -133,7 +129,6 @@ export async function GET(request: NextRequest) {
   const session = makeSession(family, familyCode)
   const response = NextResponse.json({ ok: true, connected: true, family, session })
   setCookies(response, session)
-
   return response
 }
 
@@ -156,7 +151,6 @@ export async function POST(request: NextRequest) {
   const session = makeSession(family, familyCode)
   const response = NextResponse.json({ ok: true, connected: true, message: '부모님과 자녀 연결이 완료되었습니다.', family, session })
   setCookies(response, session)
-
   return response
 }
 

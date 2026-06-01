@@ -140,6 +140,7 @@ export function ParentTodayPersistent() {
     }
 
     const isCondition = item.checkType === 'condition' || item.checkType === 'emergency'
+
     const detail = isCondition
       ? [
           item.desc,
@@ -178,11 +179,6 @@ export function ParentTodayPersistent() {
 
       setLastAction(item.label)
       setMessage(data.message || `${item.label} 기록이 저장되었습니다.`)
-
-      if (isCondition && item.status === 'done') {
-        setSelectedSymptoms([])
-        setConditionMemo('')
-      }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '안부 저장 중 오류가 발생했습니다.')
     } finally {
@@ -200,7 +196,7 @@ export function ParentTodayPersistent() {
       <section className="mx-auto max-w-4xl space-y-5">
         <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-            부모님 안부 버튼
+            부모님 전용 안부 화면
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -299,16 +295,13 @@ export function ParentTodayPersistent() {
           </section>
         ) : null}
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           <Link href="/parent/consent" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
             안심동의 설정
           </Link>
           <button onClick={() => restore()} disabled={loading} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60">
             연결 새로고침
           </button>
-          <Link href="/parent/login" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            코드 다시 입력
-          </Link>
         </div>
       </section>
     </main>

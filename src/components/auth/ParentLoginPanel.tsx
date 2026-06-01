@@ -105,7 +105,7 @@ export function ParentLoginPanel() {
   return (
     <section className="mx-auto w-full max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
       <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-        부모님 6자리 접속
+        부모님 전용
       </div>
 
       <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36]">
@@ -115,7 +115,7 @@ export function ParentLoginPanel() {
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
-        자녀가 알려준 6자리 연결코드를 입력하면 부모님 안부 버튼 화면으로 이동합니다.
+        이 화면은 부모님 전용입니다. 자녀가 알려준 6자리 연결코드를 입력하면 안부 버튼 화면으로 이동합니다.
       </p>
 
       {session ? (

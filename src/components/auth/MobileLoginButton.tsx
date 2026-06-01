@@ -19,7 +19,6 @@ function hasSession() {
   if (role === 'parent' || role === 'guardian') return true
   if (auth === 'signed-in' || auth === 'parent-signed-in') return true
   if (/^\d{6}$/.test(parentCode)) return true
-
   if (window.localStorage.getItem('anbu_guardian_profile')) return true
   if (window.localStorage.getItem('anbu_parent_session')) return true
 

@@ -83,7 +83,6 @@ function statusText(row: Record<string, unknown> | null, empty = '아직 확인 
 
   const status = text(row.status)
   const label = text(row.care_label)
-  const memo = text(row.memo)
 
   if (status === 'done') return label || '확인됨'
   if (status === 'not_done') return label || '미확인'
@@ -119,6 +118,7 @@ async function findFamily(request: NextRequest) {
   }
 
   const latestCheckin = await rest('daily_care_checkins?select=family_code,occurred_at,created_at&order=occurred_at.desc&limit=1')
+
   if (latestCheckin.ok && Array.isArray(latestCheckin.data) && latestCheckin.data[0]) {
     const code = normalizeCode((latestCheckin.data[0] as Record<string, unknown>).family_code)
     if (code) {
@@ -137,35 +137,16 @@ export async function GET(request: NextRequest) {
   const family = await findFamily(request)
 
   if (!family) {
-    return NextResponse.json({
-      ok: true,
-      empty: true,
-      message: '연결된 부모님 정보가 없습니다.',
-      care: null
-    })
+    return NextResponse.json({ ok: true, empty: true, message: '연결된 부모님 정보가 없습니다.', care: null })
   }
 
   const familyCode = text(family.family_code)
 
-  const checkinsResult = await rest(
-    'daily_care_checkins?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&order=occurred_at.desc&limit=500'
-  )
+  const checkinsResult = await rest('daily_care_checkins?select=*&family_code=eq.' + encodeURIComponent(familyCode) + '&order=occurred_at.desc&limit=500')
+  const reportsResult = await rest('anbu_partner_task_reports?select=*&family_code=eq.' + encodeURIComponent(familyCode) + '&order=created_at.desc&limit=20')
 
-  const reportsResult = await rest(
-    'anbu_partner_task_reports?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&order=created_at.desc&limit=20'
-  )
-
-  const checkins = checkinsResult.ok && Array.isArray(checkinsResult.data)
-    ? checkinsResult.data as Record<string, unknown>[]
-    : []
-
-  const reports = reportsResult.ok && Array.isArray(reportsResult.data)
-    ? reportsResult.data as Record<string, unknown>[]
-    : []
+  const checkins = checkinsResult.ok && Array.isArray(checkinsResult.data) ? checkinsResult.data as Record<string, unknown>[] : []
+  const reports = reportsResult.ok && Array.isArray(reportsResult.data) ? reportsResult.data as Record<string, unknown>[] : []
 
   const recent24 = checkins.filter((row) => withinHours(row.occurred_at || row.created_at, 24))
 
@@ -202,12 +183,7 @@ export async function GET(request: NextRequest) {
 
   score = Math.max(0, Math.min(100, score))
 
-  const state =
-    score < 55
-      ? '확인 필요'
-      : score < 80
-        ? '주의'
-        : '정상'
+  const state = score < 55 ? '확인 필요' : score < 80 ? '주의' : '정상'
 
   const care = {
     familyCode,
@@ -228,38 +204,10 @@ export async function GET(request: NextRequest) {
       time: latestCheckin ? timeLabel(latestCheckin.occurred_at || latestCheckin.created_at) : '-'
     },
     items: [
-      {
-        key: 'meal',
-        title: '식사',
-        value: statusText(meal, '식사 확인 없음'),
-        detail: detail(meal),
-        time: meal ? timeLabel(meal.occurred_at || meal.created_at) : '-',
-        tone: tone(meal)
-      },
-      {
-        key: 'medication',
-        title: '복약',
-        value: statusText(medication, '복약 확인 없음'),
-        detail: detail(medication),
-        time: medication ? timeLabel(medication.occurred_at || medication.created_at) : '-',
-        tone: tone(medication)
-      },
-      {
-        key: 'condition',
-        title: '몸 상태',
-        value: statusText(condition, '몸 상태 확인 없음'),
-        detail: detail(condition),
-        time: condition ? timeLabel(condition.occurred_at || condition.created_at) : '-',
-        tone: tone(condition)
-      },
-      {
-        key: 'emergency',
-        title: '도움 요청',
-        value: emergency ? statusText(emergency, '도움 요청 없음') : '도움 요청 없음',
-        detail: emergency ? detail(emergency) : '현재 도움 요청 기록은 없습니다.',
-        time: emergency ? timeLabel(emergency.occurred_at || emergency.created_at) : '-',
-        tone: tone(emergency)
-      }
+      { key: 'meal', title: '식사', value: statusText(meal, '식사 확인 없음'), detail: detail(meal), time: meal ? timeLabel(meal.occurred_at || meal.created_at) : '-', tone: tone(meal) },
+      { key: 'medication', title: '복약', value: statusText(medication, '복약 확인 없음'), detail: detail(medication), time: medication ? timeLabel(medication.occurred_at || medication.created_at) : '-', tone: tone(medication) },
+      { key: 'condition', title: '몸 상태', value: statusText(condition, '몸 상태 확인 없음'), detail: detail(condition), time: condition ? timeLabel(condition.occurred_at || condition.created_at) : '-', tone: tone(condition) },
+      { key: 'emergency', title: '도움 요청', value: emergency ? statusText(emergency, '도움 요청 없음') : '도움 요청 없음', detail: emergency ? detail(emergency) : '현재 도움 요청 기록은 없습니다.', time: emergency ? timeLabel(emergency.occurred_at || emergency.created_at) : '-', tone: tone(emergency) }
     ],
     reasons: reasons.length > 0 ? reasons : ['현재 특별한 위험 사유가 없습니다.'],
     actions:

@@ -25,7 +25,7 @@ async function rest(path: string, init?: RequestInit) {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
-  if (!base || !key) return { ok: false, data: null as unknown, error: 'Supabase 환경변수가 없습니다.' }
+  if (!base || !key) return { ok: false, data: null as unknown, error: 'Supabase env is missing' }
 
   const response = await fetch(base + '/rest/v1/' + path, {
     ...init,
@@ -52,9 +52,7 @@ async function rest(path: string, init?: RequestInit) {
 
 async function findFamily(familyCode: string) {
   const result = await rest('anbu_family_links?select=*&family_code=eq.' + encodeURIComponent(familyCode) + '&limit=1')
-
   if (!result.ok || !Array.isArray(result.data) || !result.data[0]) return null
-
   return result.data[0] as Record<string, unknown>
 }
 

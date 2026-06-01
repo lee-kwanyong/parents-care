@@ -6,6 +6,7 @@ import { GlobalHeader } from '@/components/GlobalHeader'
 import { AuthSessionBridge } from '@/components/auth/AuthSessionBridge'
 import { MobileLoginButton } from '@/components/auth/MobileLoginButton'
 import { ParentSessionBridge } from '@/components/auth/ParentSessionBridge'
+import { RoleWindowGuard } from '@/components/auth/RoleWindowGuard'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -33,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <AuthSessionBridge />
               <MobileLoginButton />
               <ParentSessionBridge />
+              <RoleWindowGuard />
       </body>
     </html>
   )

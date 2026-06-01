@@ -98,25 +98,15 @@ export function GuardianParentCareDashboard() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button
-              onClick={load}
-              disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
-            >
+            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60">
               {loading ? '불러오는 중...' : '새로고침'}
             </button>
 
-            <Link
-              href="/family-link"
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-            >
+            <Link href="/family-link" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
               부모님 연결관리
             </Link>
 
-            <Link
-              href="/ops/risk-action"
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-            >
+            <Link href="/ops/risk-action" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
               다음 행동 가이드
             </Link>
           </div>
@@ -136,12 +126,8 @@ export function GuardianParentCareDashboard() {
                   <p className="text-sm font-black opacity-75">
                     {care.parentName} · 가족코드 {care.familyCode}
                   </p>
-                  <h2 className="mt-3 text-5xl font-black tracking-[-0.08em]">
-                    {care.state}
-                  </h2>
-                  <p className="mt-5 text-lg font-bold leading-8">
-                    {care.summary}
-                  </p>
+                  <h2 className="mt-3 text-5xl font-black tracking-[-0.08em]">{care.state}</h2>
+                  <p className="mt-5 text-lg font-bold leading-8">{care.summary}</p>
                 </div>
 
                 <div className="rounded-2xl bg-white/75 p-5">

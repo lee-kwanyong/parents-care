@@ -1,105 +1,60 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { createClient } from '@supabase/supabase-js'
 
-type Profile = {
-  guardianName?: string
-  guardianEmail?: string
-  role?: string
-  loggedIn?: boolean
-}
+function hasGuardianSession() {
+  if (typeof window === 'undefined') return false
 
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  const role = window.localStorage.getItem('anbu_login_role')
+  const parentCode =
+    window.localStorage.getItem('anbu_family_code') ||
+    window.localStorage.getItem('pc_parent_invite_code') ||
+    window.localStorage.getItem('anbu_parent_code') ||
+    window.localStorage.getItem('parent_family_code') ||
+    ''
 
-  if (!url || !anonKey) return null
+  if (role === 'parent') return false
+  if (/^\d{6}$/.test(parentCode)) return false
+  if (role === 'guardian') return true
+  if (window.localStorage.getItem('anbu_guardian_profile')) return true
+  if (window.localStorage.getItem('parents_care_auth')) return true
 
-  return createClient(url, anonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true
-    }
-  })
-}
-
-function readLocalProfile(): Profile | null {
-  try {
-    const raw =
-      window.localStorage.getItem('anbu_guardian_profile') ||
-      window.localStorage.getItem('parents_care_auth') ||
-      window.localStorage.getItem('anbu_current_user')
-
-    if (!raw) return null
-
-    const parsed = JSON.parse(raw)
-
-    if (parsed?.loggedIn || parsed?.role === 'guardian') return parsed
-
-    return null
-  } catch {
-    return null
-  }
+  return false
 }
 
 export function AccountMenuButton() {
-  const [profile, setProfile] = useState<Profile | null>(null)
+  const pathname = usePathname() || '/'
+  const [visible, setVisible] = useState(false)
 
-  async function refresh() {
-    const localProfile = readLocalProfile()
-
-    if (localProfile) {
-      setProfile(localProfile)
+  function refresh() {
+    if (pathname.startsWith('/parent') || pathname.startsWith('/child') || pathname.startsWith('/ops')) {
+      setVisible(false)
       return
     }
 
-    const supabase = getSupabase()
-
-    if (!supabase) return
-
-    const { data } = await supabase.auth.getSession()
-    const user = data.session?.user
-
-    if (user) {
-      const nextProfile = {
-        guardianName:
-          user.user_metadata?.guardian_name ||
-          user.user_metadata?.full_name ||
-          user.user_metadata?.name ||
-          user.email?.split('@')?.[0] ||
-          '보호자',
-        guardianEmail: user.email || '',
-        role: 'guardian',
-        loggedIn: true
-      }
-
-      window.localStorage.setItem('anbu_guardian_profile', JSON.stringify(nextProfile))
-      window.localStorage.setItem('anbu_login_role', 'guardian')
-      window.localStorage.setItem('anbu_auth_state', 'signed-in')
-
-      setProfile(nextProfile)
-    }
+    setVisible(hasGuardianSession())
   }
 
   useEffect(() => {
     refresh()
 
-    function onAuthChanged() {
-      refresh()
-    }
-
-    window.addEventListener('anbu-auth-changed', onAuthChanged)
-    window.addEventListener('storage', onAuthChanged)
+    window.addEventListener('storage', refresh)
+    window.addEventListener('focus', refresh)
+    window.addEventListener('anbu-auth-changed', refresh)
+    window.addEventListener('anbu-parent-session-changed', refresh)
 
     return () => {
-      window.removeEventListener('anbu-auth-changed', onAuthChanged)
-      window.removeEventListener('storage', onAuthChanged)
+      window.removeEventListener('storage', refresh)
+      window.removeEventListener('focus', refresh)
+      window.removeEventListener('anbu-auth-changed', refresh)
+      window.removeEventListener('anbu-parent-session-changed', refresh)
     }
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
-  if (!profile) return null
+  if (!visible) return null
 
   return (
     <Link
