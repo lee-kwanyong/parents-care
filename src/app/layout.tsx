@@ -5,6 +5,7 @@ import { AppPermissionBootstrap } from '@/components/AppPermissionBootstrap'
 import { GlobalHeader } from '@/components/GlobalHeader'
 import { AuthSessionBridge } from '@/components/auth/AuthSessionBridge'
 import { MobileLoginButton } from '@/components/auth/MobileLoginButton'
+import { ParentSessionBridge } from '@/components/auth/ParentSessionBridge'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
               <AuthSessionBridge />
               <MobileLoginButton />
+              <ParentSessionBridge />
       </body>
     </html>
   )
