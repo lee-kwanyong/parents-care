@@ -11,6 +11,16 @@ function normalizePhone(value: string) {
   return value.replace(/[^\d]/g, '')
 }
 
+async function safeJson(response: Response) {
+  const text = await response.text()
+
+  try {
+    return text ? JSON.parse(text) : {}
+  } catch {
+    return { message: text || '응답을 읽지 못했습니다.' }
+  }
+}
+
 export function GuardianFamilyLinkPanel() {
   const [guardianName, setGuardianName] = useState('')
   const [guardianPhone, setGuardianPhone] = useState('')
@@ -58,7 +68,7 @@ export function GuardianFamilyLinkPanel() {
         })
       })
 
-      const data = await response.json().catch(() => ({}))
+      const data = await safeJson(response)
 
       if (!response.ok || !data.ok) {
         setMessage(data.message || '연결코드 생성에 실패했습니다.')
@@ -75,7 +85,7 @@ export function GuardianFamilyLinkPanel() {
       window.localStorage.setItem('anbu_selected_family_code', code)
       setCookie('anbu_guardian_family_code', code)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '연결코드 생성 중 오류가 발생했습니다.')
+      setMessage(error instanceof Error ? error.message : 'API 연결에 실패했습니다. 배포 상태와 Supabase SQL 실행 여부를 확인해주세요.')
     } finally {
       setLoading(false)
     }

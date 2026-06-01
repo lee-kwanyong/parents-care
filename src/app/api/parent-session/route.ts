@@ -90,6 +90,37 @@ function setCookies(response: NextResponse, session: ReturnType<typeof makeSessi
   response.cookies.set('anbu_parent_session', encodeURIComponent(JSON.stringify(session)), common)
 }
 
+async function handleFamilyCode(familyCode: string) {
+  if (!/^\d{6}$/.test(familyCode)) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '6자리 연결코드를 입력해주세요.' },
+      { status: 400 }
+    )
+  }
+
+  const family = await findFamily(familyCode)
+
+  if (!family) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '등록된 6자리 연결코드를 찾지 못했습니다.' },
+      { status: 404 }
+    )
+  }
+
+  const session = makeSession(family, familyCode)
+  const response = NextResponse.json({
+    ok: true,
+    connected: true,
+    message: '부모님과 자녀 연결이 완료되었습니다.',
+    family,
+    session
+  })
+
+  setCookies(response, session)
+
+  return response
+}
+
 export async function GET(request: NextRequest) {
   const familyCode =
     code6(request.nextUrl.searchParams.get('familyCode')) ||
@@ -99,42 +130,12 @@ export async function GET(request: NextRequest) {
     code6(request.cookies.get('anbu_parent_code')?.value) ||
     code6(request.cookies.get('parent_family_code')?.value)
 
-  if (!/^\d{6}$/.test(familyCode)) {
-    return NextResponse.json({ ok: false, connected: false, message: '부모님 연결 세션이 없습니다.' })
-  }
-
-  const family = await findFamily(familyCode)
-
-  if (!family) {
-    return NextResponse.json({ ok: false, connected: false, message: '등록된 6자리 연결코드를 찾지 못했습니다.' }, { status: 404 })
-  }
-
-  const session = makeSession(family, familyCode)
-  const response = NextResponse.json({ ok: true, connected: true, family, session })
-
-  setCookies(response, session)
-
-  return response
+  return handleFamilyCode(familyCode)
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const familyCode = code6(body.familyCode || body.code)
 
-  if (!/^\d{6}$/.test(familyCode)) {
-    return NextResponse.json({ ok: false, connected: false, message: '6자리 연결코드를 입력해주세요.' }, { status: 400 })
-  }
-
-  const family = await findFamily(familyCode)
-
-  if (!family) {
-    return NextResponse.json({ ok: false, connected: false, message: '등록된 6자리 연결코드를 찾지 못했습니다.' }, { status: 404 })
-  }
-
-  const session = makeSession(family, familyCode)
-  const response = NextResponse.json({ ok: true, connected: true, message: '부모님과 자녀 연결이 완료되었습니다.', family, session })
-
-  setCookies(response, session)
-
-  return response
+  return handleFamilyCode(familyCode)
 }

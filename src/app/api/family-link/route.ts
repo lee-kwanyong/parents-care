@@ -36,8 +36,9 @@ async function rest(path: string, init?: RequestInit) {
   if (!base || !key) {
     return {
       ok: false,
+      status: 500,
       data: null as unknown,
-      error: 'Supabase env is missing'
+      error: 'Supabase 환경변수가 없습니다.'
     }
   }
 
@@ -63,6 +64,7 @@ async function rest(path: string, init?: RequestInit) {
 
   return {
     ok: response.ok,
+    status: response.status,
     data: parsed,
     error: response.ok ? null : parsed || bodyText
   }
@@ -74,7 +76,7 @@ async function exists(code: string) {
 }
 
 async function generateUniqueCode() {
-  for (let i = 0; i < 20; i += 1) {
+  for (let i = 0; i < 30; i += 1) {
     const candidate = makeCode()
     if (!(await exists(candidate))) return candidate
   }
@@ -82,42 +84,102 @@ async function generateUniqueCode() {
   return makeCode()
 }
 
-export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({}))
+async function insertWithFallback(payload: Record<string, unknown>) {
+  const attempts: Array<Record<string, unknown>> = [
+    payload,
+    {
+      family_code: payload.family_code,
+      guardian_name: payload.guardian_name,
+      guardian_phone: payload.guardian_phone,
+      parent_name: payload.parent_name,
+      parent_phone: payload.parent_phone,
+      link_status: 'active'
+    },
+    {
+      family_code: payload.family_code,
+      guardian_name: payload.guardian_name,
+      guardian_phone: payload.guardian_phone,
+      parent_name: payload.parent_name,
+      link_status: 'active'
+    },
+    {
+      family_code: payload.family_code,
+      guardian_name: payload.guardian_name,
+      parent_name: payload.parent_name
+    },
+    {
+      family_code: payload.family_code
+    }
+  ]
 
-  const familyCode = code6(body.familyCode) || await generateUniqueCode()
+  let lastError: unknown = null
 
-  const payload = {
-    family_code: familyCode,
-    guardian_name: text(body.guardianName) || '보호자',
-    guardian_phone: phone(body.guardianPhone),
-    parent_name: text(body.parentName) || '부모님',
-    parent_phone: phone(body.parentPhone),
-    link_status: 'active'
+  for (const attempt of attempts) {
+    const result = await rest('anbu_family_links', {
+      method: 'POST',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify([attempt])
+    })
+
+    if (result.ok) return result
+
+    lastError = result.error
   }
 
-  const result = await rest('anbu_family_links', {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([payload])
-  })
+  return {
+    ok: false,
+    status: 500,
+    data: null,
+    error: lastError
+  }
+}
 
-  if (!result.ok) {
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json().catch(() => ({}))
+
+    const familyCode = code6(body.familyCode) || await generateUniqueCode()
+
+    const payload = {
+      family_code: familyCode,
+      guardian_name: text(body.guardianName) || '보호자',
+      guardian_phone: phone(body.guardianPhone),
+      parent_name: text(body.parentName) || '부모님',
+      parent_phone: phone(body.parentPhone),
+      link_status: 'active',
+      payload: body,
+      updated_at: new Date().toISOString()
+    }
+
+    const result = await insertWithFallback(payload)
+
+    if (!result.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '부모님 연결코드 저장에 실패했습니다. Supabase SQL Editor에서 20260602_family_link_fix.sql을 실행해주세요.',
+          familyCode,
+          detail: result.error
+        },
+        { status: 500 }
+      )
+    }
+
+    const family = Array.isArray(result.data) ? result.data[0] : result.data
+
+    return NextResponse.json({
+      ok: true,
+      message: '부모님께 보낼 6자리 연결코드가 생성되었습니다.',
+      familyCode,
+      family
+    })
+  } catch (error) {
     return NextResponse.json(
       {
         ok: false,
-        message: '연결코드 저장에 실패했습니다.',
-        detail: result.error,
-        familyCode
+        message: error instanceof Error ? error.message : '연결코드 생성 중 서버 오류가 발생했습니다.'
       },
       { status: 500 }
     )
   }
-
-  return NextResponse.json({
-    ok: true,
-    message: '부모님께 보낼 6자리 연결코드가 생성되었습니다.',
-    familyCode,
-    family: Array.isArray(result.data) ? result.data[0] : result.data
-  })
 }
