@@ -28,8 +28,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
-        <AppPermissionBootstrap />
         <GlobalHeader />
+        <AppPermissionBootstrap />
         {children}
               <AuthSessionBridge />
               <MobileLoginButton />
