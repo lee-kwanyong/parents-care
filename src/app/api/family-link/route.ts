@@ -38,7 +38,7 @@ async function rest(path: string, init?: RequestInit) {
       ok: false,
       status: 500,
       data: null as unknown,
-      error: 'Supabase 환경변수가 없습니다.'
+      error: 'Supabase 환경변수가 없습니다. NEXT_PUBLIC_SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY/NEXT_PUBLIC_SUPABASE_ANON_KEY를 확인해주세요.'
     }
   }
 
@@ -70,9 +70,21 @@ async function rest(path: string, init?: RequestInit) {
   }
 }
 
+async function rpc(functionName: string, body: Record<string, unknown>) {
+  return rest('rpc/' + functionName, {
+    method: 'POST',
+    body: JSON.stringify(body)
+  })
+}
+
 async function exists(code: string) {
-  const result = await rest('anbu_family_links?select=family_code&family_code=eq.' + encodeURIComponent(code) + '&limit=1')
-  return result.ok && Array.isArray(result.data) && result.data.length > 0
+  const direct = await rest('anbu_family_links?select=family_code&family_code=eq.' + encodeURIComponent(code) + '&limit=1')
+
+  if (direct.ok && Array.isArray(direct.data)) return direct.data.length > 0
+
+  const viaRpc = await rpc('get_anbu_family_link', { p_family_code: code })
+
+  return viaRpc.ok && Boolean(viaRpc.data)
 }
 
 async function generateUniqueCode() {
@@ -84,54 +96,42 @@ async function generateUniqueCode() {
   return makeCode()
 }
 
-async function insertWithFallback(payload: Record<string, unknown>) {
-  const attempts: Array<Record<string, unknown>> = [
-    payload,
-    {
-      family_code: payload.family_code,
-      guardian_name: payload.guardian_name,
-      guardian_phone: payload.guardian_phone,
-      parent_name: payload.parent_name,
-      parent_phone: payload.parent_phone,
-      link_status: 'active'
-    },
-    {
-      family_code: payload.family_code,
-      guardian_name: payload.guardian_name,
-      guardian_phone: payload.guardian_phone,
-      parent_name: payload.parent_name,
-      link_status: 'active'
-    },
-    {
-      family_code: payload.family_code,
-      guardian_name: payload.guardian_name,
-      parent_name: payload.parent_name
-    },
-    {
-      family_code: payload.family_code
-    }
-  ]
+async function createFamilyLink(payload: Record<string, unknown>) {
+  const direct = await rest('anbu_family_links', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify([payload])
+  })
 
-  let lastError: unknown = null
+  if (direct.ok) return direct
 
-  for (const attempt of attempts) {
-    const result = await rest('anbu_family_links', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify([attempt])
-    })
+  const viaRpc = await rpc('create_anbu_family_link', {
+    p_family_code: payload.family_code,
+    p_guardian_name: payload.guardian_name,
+    p_guardian_phone: payload.guardian_phone,
+    p_parent_name: payload.parent_name,
+    p_parent_phone: payload.parent_phone,
+    p_payload: payload.payload || {}
+  })
 
-    if (result.ok) return result
-
-    lastError = result.error
-  }
+  if (viaRpc.ok) return viaRpc
 
   return {
     ok: false,
-    status: 500,
+    status: viaRpc.status || direct.status || 500,
     data: null,
-    error: lastError
+    error: {
+      direct: direct.error,
+      rpc: viaRpc.error
+    }
   }
+}
+
+export async function GET() {
+  return NextResponse.json({
+    ok: true,
+    message: '/api/family-link API is alive'
+  })
 }
 
 export async function POST(request: NextRequest) {
@@ -151,13 +151,13 @@ export async function POST(request: NextRequest) {
       updated_at: new Date().toISOString()
     }
 
-    const result = await insertWithFallback(payload)
+    const result = await createFamilyLink(payload)
 
     if (!result.ok) {
       return NextResponse.json(
         {
           ok: false,
-          message: '부모님 연결코드 저장에 실패했습니다. Supabase SQL Editor에서 20260602_family_link_fix.sql을 실행해주세요.',
+          message: '부모님 연결코드 저장에 실패했습니다. Supabase SQL Editor에서 20260602_family_link_stable.sql을 실행했는지 확인해주세요.',
           familyCode,
           detail: result.error
         },

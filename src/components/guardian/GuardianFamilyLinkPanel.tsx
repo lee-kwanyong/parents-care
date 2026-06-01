@@ -12,12 +12,12 @@ function normalizePhone(value: string) {
 }
 
 async function safeJson(response: Response) {
-  const text = await response.text()
+  const raw = await response.text()
 
   try {
-    return text ? JSON.parse(text) : {}
+    return raw ? JSON.parse(raw) : {}
   } catch {
-    return { message: text || '응답을 읽지 못했습니다.' }
+    return { message: raw || '응답을 읽지 못했습니다.' }
   }
 }
 
@@ -28,6 +28,7 @@ export function GuardianFamilyLinkPanel() {
   const [parentPhone, setParentPhone] = useState('')
   const [familyCode, setFamilyCode] = useState('')
   const [message, setMessage] = useState('')
+  const [debug, setDebug] = useState('')
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -42,6 +43,7 @@ export function GuardianFamilyLinkPanel() {
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage('')
+    setDebug('')
     setCopied(false)
 
     if (!guardianName.trim()) {
@@ -57,6 +59,14 @@ export function GuardianFamilyLinkPanel() {
     setLoading(true)
 
     try {
+      const health = await fetch('/api/family-link', { cache: 'no-store' })
+
+      if (!health.ok) {
+        setMessage('연결코드 API가 배포되지 않았습니다. Vercel 배포 상태를 확인해주세요.')
+        setDebug(`GET /api/family-link status: ${health.status}`)
+        return
+      }
+
       const response = await fetch('/api/family-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -72,6 +82,7 @@ export function GuardianFamilyLinkPanel() {
 
       if (!response.ok || !data.ok) {
         setMessage(data.message || '연결코드 생성에 실패했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
         if (data.familyCode) setFamilyCode(data.familyCode)
         return
       }
@@ -85,7 +96,9 @@ export function GuardianFamilyLinkPanel() {
       window.localStorage.setItem('anbu_selected_family_code', code)
       setCookie('anbu_guardian_family_code', code)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'API 연결에 실패했습니다. 배포 상태와 Supabase SQL 실행 여부를 확인해주세요.')
+      const msg = error instanceof Error ? error.message : '알 수 없는 오류'
+      setMessage('API 연결에 실패했습니다. 배포 완료 여부와 네트워크를 확인해주세요.')
+      setDebug(msg)
     } finally {
       setLoading(false)
     }
@@ -177,6 +190,12 @@ export function GuardianFamilyLinkPanel() {
               <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
                 {message}
               </div>
+            ) : null}
+
+            {debug ? (
+              <pre className="mt-4 max-h-60 overflow-auto whitespace-pre-wrap rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+                {debug}
+              </pre>
             ) : null}
 
             <div className="mt-5 grid gap-3">

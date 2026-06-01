@@ -21,7 +21,7 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-async function rest(path: string) {
+async function rest(path: string, init?: RequestInit) {
   const base = supabaseBaseUrl()
   const key = serviceKey()
 
@@ -30,10 +30,12 @@ async function rest(path: string) {
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
+    ...init,
     headers: {
       apikey: key,
       Authorization: 'Bearer ' + key,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...(init?.headers || {})
     },
     cache: 'no-store'
   })
@@ -51,15 +53,22 @@ async function rest(path: string) {
 }
 
 async function findFamily(familyCode: string) {
-  const result = await rest(
-    'anbu_family_links?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&limit=1'
-  )
+  const direct = await rest('anbu_family_links?select=*&family_code=eq.' + encodeURIComponent(familyCode) + '&order=created_at.desc&limit=1')
 
-  if (!result.ok || !Array.isArray(result.data) || !result.data[0]) return null
+  if (direct.ok && Array.isArray(direct.data) && direct.data[0]) {
+    return direct.data[0] as Record<string, unknown>
+  }
 
-  return result.data[0] as Record<string, unknown>
+  const viaRpc = await rest('rpc/get_anbu_family_link', {
+    method: 'POST',
+    body: JSON.stringify({ p_family_code: familyCode })
+  })
+
+  if (viaRpc.ok && viaRpc.data) {
+    return viaRpc.data as Record<string, unknown>
+  }
+
+  return null
 }
 
 function makeSession(family: Record<string, unknown>, familyCode: string) {
@@ -90,7 +99,7 @@ function setCookies(response: NextResponse, session: ReturnType<typeof makeSessi
   response.cookies.set('anbu_parent_session', encodeURIComponent(JSON.stringify(session)), common)
 }
 
-async function handleFamilyCode(familyCode: string) {
+async function handle(familyCode: string) {
   if (!/^\d{6}$/.test(familyCode)) {
     return NextResponse.json(
       { ok: false, connected: false, message: '6자리 연결코드를 입력해주세요.' },
@@ -108,6 +117,7 @@ async function handleFamilyCode(familyCode: string) {
   }
 
   const session = makeSession(family, familyCode)
+
   const response = NextResponse.json({
     ok: true,
     connected: true,
@@ -130,12 +140,12 @@ export async function GET(request: NextRequest) {
     code6(request.cookies.get('anbu_parent_code')?.value) ||
     code6(request.cookies.get('parent_family_code')?.value)
 
-  return handleFamilyCode(familyCode)
+  return handle(familyCode)
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const familyCode = code6(body.familyCode || body.code)
 
-  return handleFamilyCode(familyCode)
+  return handle(familyCode)
 }
