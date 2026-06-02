@@ -3,6 +3,8 @@ import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
+type Tone = 'good' | 'warn' | 'danger' | 'empty'
+
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
@@ -120,7 +122,7 @@ function itemValue(row: Record<string, unknown> | null, none: string) {
   return label || status || '확인됨'
 }
 
-function itemTone(row: Record<string, unknown> | null) {
+function itemTone(row: Record<string, unknown> | null): Tone {
   if (!row) return 'empty'
   const status = text(row.status)
 
@@ -132,6 +134,14 @@ function itemTone(row: Record<string, unknown> | null) {
 function itemDetail(row: Record<string, unknown> | null) {
   if (!row) return '아직 부모님이 해당 항목을 누르지 않았습니다.'
   return text(row.memo) || text(row.care_label) || '기록되었습니다.'
+}
+
+function hasGood(row: Record<string, unknown> | null) {
+  return Boolean(row && text(row.status) === 'done')
+}
+
+function hasRisk(row: Record<string, unknown> | null) {
+  return Boolean(row && ['not_done', 'needs_help'].includes(text(row.status)))
 }
 
 async function findFamily(familyCode: string) {
@@ -175,6 +185,26 @@ function makeSlotItem(rows: Record<string, unknown>[], checkType: string, checkS
   }
 }
 
+function dateList(days: number) {
+  const today = todayKstDateKey()
+  const start = new Date(`${today}T00:00:00+09:00`)
+  const list: string[] = []
+
+  for (let i = 0; i < days; i += 1) {
+    const d = new Date(start.getTime() - i * 24 * 60 * 60 * 1000)
+    list.push(
+      new Intl.DateTimeFormat('sv-SE', {
+        timeZone: 'Asia/Seoul',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).format(d)
+    )
+  }
+
+  return list
+}
+
 export async function GET(request: NextRequest) {
   const familyCode =
     code6(request.nextUrl.searchParams.get('familyCode')) ||
@@ -197,7 +227,7 @@ export async function GET(request: NextRequest) {
   const checkinsResult = await rest(
     'daily_care_checkins?select=*&family_code=eq.' +
       encodeURIComponent(familyCode) +
-      '&order=occurred_at.desc&limit=1000'
+      '&order=occurred_at.desc&limit=1500'
   )
 
   const rows = checkinsResult.ok && Array.isArray(checkinsResult.data)
@@ -235,22 +265,6 @@ export async function GET(request: NextRequest) {
 
   const allSlots = [...mealSlots, ...medicationSlots, ...conditionSlots, ...emergencySlots]
 
-  const warnings: string[] = []
-
-  for (const slot of allSlots) {
-    if (slot.tone === 'empty') warnings.push(`${slot.title} 확인이 아직 없습니다.`)
-    if (slot.tone === 'warn') warnings.push(`${slot.title}: ${slot.value}`)
-    if (slot.tone === 'danger') warnings.push(`${slot.title}: ${slot.value}`)
-  }
-
-  const missingCount = allSlots.filter((slot) => slot.tone === 'empty').length
-  const warnCount = allSlots.filter((slot) => slot.tone === 'warn').length
-  const dangerCount = allSlots.filter((slot) => slot.tone === 'danger').length
-
-  const score = 100 - missingCount * 8 - warnCount * 12 - dangerCount * 25
-  const safeScore = Math.max(0, Math.min(100, score))
-  const state = safeScore < 60 ? '확인 필요' : safeScore < 85 ? '주의' : '정상'
-
   const byDate = new Map<string, Record<string, unknown>[]>()
 
   for (const row of rows) {
@@ -260,18 +274,127 @@ export async function GET(request: NextRequest) {
     byDate.get(key)?.push(row)
   }
 
-  const history = Array.from(byDate.entries())
-    .sort(([a], [b]) => b.localeCompare(a))
-    .slice(0, 7)
-    .map(([date, dayRows]) => ({
+  const recentDates = dateList(14)
+  let mealDone = 0
+  let mealRisk = 0
+  let mealMissing = 0
+  let medicationDone = 0
+  let medicationRisk = 0
+  let medicationMissing = 0
+  let conditionRisk = 0
+  let emergencyRisk = 0
+  let responseDays = 0
+
+  const history = recentDates.map((date) => {
+    const dayRows = byDate.get(date) || []
+    const hasAny = dayRows.length > 0
+    if (hasAny) responseDays += 1
+
+    const breakfastMeal = slotRow(dayRows, 'meal', 'breakfast')
+    const lunchMeal = slotRow(dayRows, 'meal', 'lunch')
+    const dinnerMeal = slotRow(dayRows, 'meal', 'dinner')
+    const morningMedication = slotRow(dayRows, 'medication', 'morning')
+    const noonMedication = slotRow(dayRows, 'medication', 'noon')
+    const eveningMedication = slotRow(dayRows, 'medication', 'evening')
+    const condition = slotRow(dayRows, 'condition', 'day')
+    const emergency = slotRow(dayRows, 'emergency', 'day')
+
+    const mealRows = [breakfastMeal, lunchMeal, dinnerMeal]
+    const medicationRows = [morningMedication, noonMedication, eveningMedication]
+
+    for (const row of mealRows) {
+      if (!row) mealMissing += 1
+      else if (hasGood(row)) mealDone += 1
+      else if (hasRisk(row)) mealRisk += 1
+    }
+
+    for (const row of medicationRows) {
+      if (!row) medicationMissing += 1
+      else if (hasGood(row)) medicationDone += 1
+      else if (hasRisk(row)) medicationRisk += 1
+    }
+
+    if (condition && hasRisk(condition)) conditionRisk += 1
+    if (emergency && text(emergency.status) === 'needs_help') emergencyRisk += 1
+
+    const dayMissing =
+      mealRows.filter((row) => !row).length +
+      medicationRows.filter((row) => !row).length
+
+    const dayRisk =
+      mealRows.filter(hasRisk).length +
+      medicationRows.filter(hasRisk).length +
+      (condition && hasRisk(condition) ? 1 : 0) +
+      (emergency && text(emergency.status) === 'needs_help' ? 1 : 0)
+
+    const dayScore = Math.max(0, Math.min(100, 100 - dayMissing * 10 - dayRisk * 15))
+
+    return {
       date,
-      breakfastMeal: itemValue(slotRow(dayRows, 'meal', 'breakfast'), '미확인'),
-      lunchMeal: itemValue(slotRow(dayRows, 'meal', 'lunch'), '미확인'),
-      dinnerMeal: itemValue(slotRow(dayRows, 'meal', 'dinner'), '미확인'),
-      morningMedication: itemValue(slotRow(dayRows, 'medication', 'morning'), '미확인'),
-      noonMedication: itemValue(slotRow(dayRows, 'medication', 'noon'), '미확인'),
-      eveningMedication: itemValue(slotRow(dayRows, 'medication', 'evening'), '미확인')
-    }))
+      score: dayScore,
+      hadResponse: hasAny,
+      breakfastMeal: itemValue(breakfastMeal, '미확인'),
+      lunchMeal: itemValue(lunchMeal, '미확인'),
+      dinnerMeal: itemValue(dinnerMeal, '미확인'),
+      morningMedication: itemValue(morningMedication, '미확인'),
+      noonMedication: itemValue(noonMedication, '미확인'),
+      eveningMedication: itemValue(eveningMedication, '미확인'),
+      condition: itemValue(condition, '미확인'),
+      emergency: itemValue(emergency, '미확인')
+    }
+  })
+
+  const totalMeal = recentDates.length * 3
+  const totalMedication = recentDates.length * 3
+
+  const mealRate = totalMeal > 0 ? Math.round((mealDone / totalMeal) * 100) : 0
+  const medicationRate = totalMedication > 0 ? Math.round((medicationDone / totalMedication) * 100) : 0
+  const responseRate = recentDates.length > 0 ? Math.round((responseDays / recentDates.length) * 100) : 0
+
+  const todayMissing = allSlots.filter((slot) => slot.tone === 'empty').length
+  const todayWarn = allSlots.filter((slot) => slot.tone === 'warn').length
+  const todayDanger = allSlots.filter((slot) => slot.tone === 'danger').length
+
+  const todayScore = Math.max(0, Math.min(100, 100 - todayMissing * 8 - todayWarn * 12 - todayDanger * 25))
+
+  const trendScore = Math.max(
+    0,
+    Math.min(
+      100,
+      Math.round(mealRate * 0.3 + medicationRate * 0.4 + responseRate * 0.2 - conditionRisk * 2 - emergencyRisk * 5 + 10)
+    )
+  )
+
+  const state =
+    emergencyRisk > 0 || todayDanger > 0 || medicationRate < 60
+      ? '확인 필요'
+      : mealRate < 70 || medicationRate < 75 || responseRate < 50 || todayWarn > 0
+        ? '주의'
+        : '정상'
+
+  const insights: string[] = []
+
+  if (mealRate >= 80) insights.push('최근 14일 식사 확인은 비교적 안정적입니다.')
+  else insights.push(`최근 14일 식사 확인률이 ${mealRate}%입니다. 식사 누락 여부를 확인해주세요.`)
+
+  if (medicationRate >= 85) insights.push('최근 14일 복약 확인은 안정적으로 유지되고 있습니다.')
+  else insights.push(`최근 14일 복약 확인률이 ${medicationRate}%입니다. 약 복용 확인이 필요합니다.`)
+
+  if (responseRate < 50) insights.push(`최근 14일 중 응답이 있었던 날이 ${responseDays}일입니다. 안부 확인 루틴이 필요합니다.`)
+  else insights.push(`최근 14일 중 ${responseDays}일 동안 안부 응답이 있었습니다.`)
+
+  if (conditionRisk > 0) insights.push(`최근 14일 동안 몸이 불편하다는 신호가 ${conditionRisk}회 있었습니다.`)
+  if (emergencyRisk > 0) insights.push(`최근 14일 동안 도움이 필요하다는 신호가 ${emergencyRisk}회 있었습니다.`)
+
+  if (mealRisk > 0) insights.push(`최근 14일 동안 식사를 못 했다는 기록이 ${mealRisk}회 있었습니다.`)
+  if (medicationRisk > 0) insights.push(`최근 14일 동안 약을 안 먹었다는 기록이 ${medicationRisk}회 있었습니다.`)
+
+  const summaryText =
+    state === '확인 필요'
+      ? '최근 식사·복약 또는 도움 요청 신호에서 확인이 필요한 패턴이 보입니다. 오늘 부모님께 직접 연락해 확인하는 것이 좋습니다.'
+      : state === '주의'
+        ? '전반적으로 기록은 있으나 일부 식사·복약 미확인 또는 응답 누락이 있습니다. 한 번 더 안부를 확인해주세요.'
+        : '최근 부모님 상태는 비교적 안정적으로 보입니다. 식사와 복약 응답이 꾸준히 확인되고 있습니다.'
 
   return NextResponse.json({
     ok: true,
@@ -281,7 +404,23 @@ export async function GET(request: NextRequest) {
       guardianName: family ? text(family.guardian_name) || '보호자' : '보호자',
       date: todayKey,
       state,
-      score: safeScore,
+      todayScore,
+      trendScore,
+      summaryText,
+      metrics: {
+        responseDays,
+        responseRate,
+        mealDone,
+        mealRisk,
+        mealMissing,
+        mealRate,
+        medicationDone,
+        medicationRisk,
+        medicationMissing,
+        medicationRate,
+        conditionRisk,
+        emergencyRisk
+      },
       lastResponse: latestAny
         ? {
             label: text(latestAny.care_label) || '안부 응답',
@@ -296,34 +435,36 @@ export async function GET(request: NextRequest) {
       sections: [
         {
           key: 'meal',
-          title: '식사',
+          title: '오늘 식사',
           desc: '아침·점심·저녁 식사 여부',
           slots: mealSlots
         },
         {
           key: 'medication',
-          title: '복약',
+          title: '오늘 복약',
           desc: '아침약·점심약·저녁약 복용 여부',
           slots: medicationSlots
         },
         {
           key: 'condition',
-          title: '몸 상태',
-          desc: '오늘 몸 상태',
+          title: '오늘 몸 상태',
+          desc: '몸 상태 신호',
           slots: conditionSlots
         },
         {
           key: 'emergency',
-          title: '도움 요청',
+          title: '오늘 도움 요청',
           desc: '도움 요청 여부',
           slots: emergencySlots
         }
       ],
-      warnings: warnings.length > 0 ? warnings : ['오늘 안부는 현재 안정적으로 보입니다.'],
+      insights,
       actions:
         state === '확인 필요'
-          ? ['부모님께 전화하기', '식사 여부 확인하기', '약 복용 여부 확인하기', '불편한 곳 확인하기']
-          : ['저녁에 한 번 더 안부 확인하기', '부모님이 편한 시간대 확인하기'],
+          ? ['부모님께 전화하기', '식사 여부 확인하기', '약 복용 여부 확인하기', '몸이 불편한 곳 확인하기']
+          : state === '주의'
+            ? ['저녁에 한 번 더 안부 확인하기', '복약 시간을 부모님과 다시 맞춰보기']
+            : ['현재 안부 루틴 유지하기', '부모님이 편한 응답 시간 확인하기'],
       history
     }
   })

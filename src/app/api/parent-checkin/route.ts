@@ -355,7 +355,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_meal_medication_slots.sql을 실행해주세요.',
+        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_parent_choice_data_report.sql을 실행해주세요.',
         detail: result.error
       },
       { status: 500 }
