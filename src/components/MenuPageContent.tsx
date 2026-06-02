@@ -175,6 +175,7 @@ const guestGroups: MenuGroup[] = [
       { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
       { label: '지자체 제출 패키지', href: '/gov/submission', desc: '제안서·실증계획·KPI·메일 초안 생성' },
+      { label: '제출 PDF 인쇄본', href: '/gov/submission/print', desc: '지자체 제출용 PDF 저장 화면' },
       { label: 'IoT 관제 준비', href: '/gov/iot', desc: '스마트 복약통·UWB 센서 실증 구조' },
       { label: '대상자 관리', href: '/gov/recipients', desc: '실증 대상자와 담당자를 관리' },
       { label: '사례관리', href: '/gov/cases', desc: '전화 확인·방문 필요·완료 기록' },

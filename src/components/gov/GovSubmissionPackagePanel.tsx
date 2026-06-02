@@ -194,7 +194,7 @@ export function GovSubmissionPackagePanel() {
               <Input label="신청 예산 원" value={requestedBudgetKrw} onChange={(v) => setRequestedBudgetKrw(money(v))} />
               <Input label="작성자" value={createdByName} onChange={setCreatedByName} />
 
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-3">
                 <button
                   onClick={load}
                   disabled={loading}
@@ -210,6 +210,13 @@ export function GovSubmissionPackagePanel() {
                 >
                   제출 패키지 저장
                 </button>
+
+                <Link
+                  href={'/gov/submission/print?' + query}
+                  className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white"
+                >
+                  PDF 저장용 인쇄본
+                </Link>
               </div>
             </div>
           </section>
@@ -324,6 +331,9 @@ export function GovSubmissionPackagePanel() {
           </Link>
           <Link href="/gov/proposal" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
             R&D 제안 패키지
+          </Link>
+          <Link href={'/gov/submission/print?' + query} className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">
+            PDF 저장용 인쇄본
           </Link>
           <Link href="/gov/export" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
             CSV 내보내기

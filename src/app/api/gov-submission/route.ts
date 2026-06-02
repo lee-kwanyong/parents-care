@@ -29,6 +29,13 @@ function numberValue(value: unknown, fallback: number) {
   return Number.isFinite(n) && n > 0 ? n : fallback
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   if (!raw) return ''
@@ -98,6 +105,68 @@ function defaultInput(raw?: Partial<SubmissionInput>): SubmissionInput {
 
 function formatWon(value: number) {
   return new Intl.NumberFormat('ko-KR').format(value) + '원'
+}
+
+function markdownToHtml(md: string) {
+  const lines = md.split('\n')
+  const html: string[] = []
+  let inTable = false
+
+  function closeTable() {
+    if (inTable) {
+      html.push('</tbody></table>')
+      inTable = false
+    }
+  }
+
+  for (const raw of lines) {
+    const line = raw.trimEnd()
+
+    if (!line.trim()) {
+      closeTable()
+      html.push('<p class="blank">&nbsp;</p>')
+      continue
+    }
+
+    if (line.startsWith('|') && line.endsWith('|')) {
+      const cells = line.split('|').slice(1, -1).map((cell) => cell.trim())
+
+      if (cells.every((cell) => /^[-: ]+$/.test(cell))) {
+        continue
+      }
+
+      if (!inTable) {
+        html.push('<table><tbody>')
+        inTable = true
+      }
+
+      html.push(
+        '<tr>' +
+          cells.map((cell) => '<td>' + escapeHtml(cell).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') + '</td>').join('') +
+          '</tr>'
+      )
+      continue
+    }
+
+    closeTable()
+
+    if (line.startsWith('# ')) {
+      html.push('<h1>' + escapeHtml(line.replace(/^# /, '')) + '</h1>')
+    } else if (line.startsWith('## ')) {
+      html.push('<h2>' + escapeHtml(line.replace(/^## /, '')) + '</h2>')
+    } else if (line.startsWith('### ')) {
+      html.push('<h3>' + escapeHtml(line.replace(/^### /, '')) + '</h3>')
+    } else if (line.startsWith('- ')) {
+      html.push('<div class="bullet">• ' + escapeHtml(line.replace(/^- /, '')) + '</div>')
+    } else if (/^\d+\.\s/.test(line)) {
+      html.push('<div class="numbered">' + escapeHtml(line) + '</div>')
+    } else {
+      html.push('<p>' + escapeHtml(line).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') + '</p>')
+    }
+  }
+
+  closeTable()
+  return html.join('\n')
 }
 
 function generateDocs(input: SubmissionInput) {
@@ -334,6 +403,242 @@ function generateDocs(input: SubmissionInput) {
   }
 }
 
+function buildPrintHtml(input: SubmissionInput, docs: ReturnType<typeof generateDocs>) {
+  const sections = [
+    { title: 'R&D 제안서', content: docs.proposal },
+    { title: '실증 운영계획서', content: docs.pilot },
+    { title: 'KPI 매트릭스', content: docs.kpi },
+    { title: '개인정보·보안 체크리스트', content: docs.security },
+    { title: '지자체 제안 메일 초안', content: docs.email }
+  ]
+
+  return `<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>${escapeHtml(input.projectTitle)}</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #f4fbf8;
+    color: #173B36;
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", Arial, sans-serif;
+    line-height: 1.65;
+  }
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 14px;
+    background: rgba(255,255,255,0.94);
+    border-bottom: 1px solid #D8EEE8;
+  }
+  .toolbar button {
+    border: 0;
+    border-radius: 999px;
+    background: #193B38;
+    color: white;
+    font-weight: 900;
+    padding: 12px 18px;
+    cursor: pointer;
+  }
+  .toolbar a {
+    border-radius: 999px;
+    background: white;
+    color: #173B36;
+    font-weight: 900;
+    padding: 12px 18px;
+    text-decoration: none;
+    border: 1px solid #D8EEE8;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 20px auto;
+    padding: 24mm 18mm;
+    background: white;
+    border: 1px solid #D8EEE8;
+    box-shadow: 0 18px 48px rgba(20,82,70,0.10);
+    page-break-after: always;
+  }
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .badge {
+    display: inline-flex;
+    width: fit-content;
+    border-radius: 999px;
+    padding: 8px 14px;
+    background: #E8FAF5;
+    color: #11977F;
+    font-weight: 900;
+    font-size: 14px;
+  }
+  .cover h1 {
+    margin: 32px 0 0;
+    font-size: 38px;
+    line-height: 1.22;
+    letter-spacing: -0.06em;
+  }
+  .cover p {
+    font-size: 17px;
+    font-weight: 700;
+    color: #637B76;
+  }
+  .meta {
+    margin-top: 28px;
+    display: grid;
+    gap: 10px;
+  }
+  .meta div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: #F8FCFB;
+    border: 1px solid #D8EEE8;
+    font-weight: 800;
+  }
+  h1 {
+    margin: 0 0 18px;
+    font-size: 30px;
+    line-height: 1.25;
+    letter-spacing: -0.05em;
+    page-break-after: avoid;
+  }
+  h2 {
+    margin: 28px 0 10px;
+    font-size: 21px;
+    letter-spacing: -0.04em;
+    page-break-after: avoid;
+    color: #123F38;
+  }
+  h3 {
+    margin: 20px 0 8px;
+    font-size: 17px;
+    page-break-after: avoid;
+    color: #116D5F;
+  }
+  p, .bullet, .numbered {
+    margin: 7px 0;
+    font-size: 12.5px;
+    font-weight: 650;
+    color: #4E6D69;
+    word-break: keep-all;
+  }
+  .bullet, .numbered {
+    padding-left: 10px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    page-break-inside: avoid;
+  }
+  td {
+    border: 1px solid #D8EEE8;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4E6D69;
+    vertical-align: top;
+  }
+  tr:first-child td {
+    background: #E8FAF5;
+    color: #173B36;
+    font-weight: 900;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #193B38;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+  }
+  .section-title .num {
+    font-size: 12px;
+    font-weight: 900;
+    color: #11977F;
+  }
+  .blank { height: 2px; margin: 0; }
+  .footer {
+    margin-top: 36px;
+    padding-top: 14px;
+    border-top: 1px solid #D8EEE8;
+    color: #7A9692;
+    font-size: 11px;
+    font-weight: 800;
+  }
+  @media print {
+    body { background: white; }
+    .toolbar { display: none; }
+    .page {
+      width: auto;
+      min-height: auto;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <button onclick="window.print()">PDF로 저장 / 인쇄</button>
+    <a href="/gov/submission">제출 패키지로 돌아가기</a>
+  </div>
+
+  <section class="page cover">
+    <div>
+      <div class="badge">안부웍스 · 지자체 지원사업 제출 패키지</div>
+      <h1>${escapeHtml(input.projectTitle)}</h1>
+      <p>
+        부모님 안부 입력, 안부지문 리포트, 가족 실행 보드, 지자체 운영실,
+        스마트 복약통·UWB 비접촉 관제 고도화를 위한 R&D·실증 제안 문서입니다.
+      </p>
+
+      <div class="meta">
+        <div><span>지원 트랙</span><span>${escapeHtml(input.targetTrack)}</span></div>
+        <div><span>대상 지역</span><span>${escapeHtml(input.targetRegion)}</span></div>
+        <div><span>실증 규모</span><span>${input.targetHouseholds}가구</span></div>
+        <div><span>실증 기간</span><span>${input.pilotMonths}개월</span></div>
+        <div><span>신청 예산</span><span>${formatWon(input.requestedBudgetKrw)}</span></div>
+        <div><span>작성</span><span>${escapeHtml(input.createdByName)}</span></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      contact@parents-care.net · https://parents-care.net · AnbuWorks
+    </div>
+  </section>
+
+  ${sections
+    .map(
+      (section, index) => `
+  <section class="page">
+    <div class="section-title">
+      <h1>${escapeHtml(section.title)}</h1>
+      <div class="num">${String(index + 1).padStart(2, '0')}</div>
+    </div>
+    ${markdownToHtml(section.content)}
+    <div class="footer">안부웍스 · 지자체 지원사업 제출 패키지</div>
+  </section>`
+    )
+    .join('\n')}
+</body>
+</html>`
+}
+
 async function insertAudit(input: {
   actorName: string
   actionType: string
@@ -372,12 +677,22 @@ export async function GET(request: NextRequest) {
   })
 
   const docs = generateDocs(input)
+
   const docMap: Record<string, string> = {
     proposal: docs.proposal,
     pilot: docs.pilot,
     kpi: docs.kpi,
     security: docs.security,
     email: docs.email
+  }
+
+  if (format === 'html' || format === 'print') {
+    return new NextResponse(buildPrintHtml(input, docs), {
+      status: 200,
+      headers: {
+        'content-type': 'text/html; charset=utf-8'
+      }
+    })
   }
 
   if (format === 'markdown') {
@@ -414,7 +729,8 @@ export async function GET(request: NextRequest) {
       '성과지표 KPI 확정',
       '안전한 공공 제안용 표현으로 보정',
       '지자체 제안 메일 발송',
-      '미팅 후 실증 협약 구조 검토'
+      '미팅 후 실증 협약 구조 검토',
+      '인쇄본/PDF 제출본 생성'
     ],
     safeWording: [
       {
