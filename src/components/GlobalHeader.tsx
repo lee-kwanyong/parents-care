@@ -3,42 +3,238 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { readParentSession } from '@/components/auth/ParentSessionBridge'
 
 type Mode = 'guest' | 'parent'
 
-const guestMenu = [
+type MenuItem = {
+  label: string
+  href: string
+  desc: string
+}
+
+type MenuGroup = {
+  title: string
+  items: MenuItem[]
+}
+
+function code6(value: string | null | undefined) {
+  return String(value || '').replace(/[^\d]/g, '').slice(0, 6)
+}
+
+function getCookie(name: string) {
+  if (typeof document === 'undefined') return ''
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'))
+  return match ? decodeURIComponent(match[1]) : ''
+}
+
+function hasParentSession() {
+  if (typeof window === 'undefined') return false
+
+  const verified =
+    window.localStorage.getItem('anbu_parent_verified') === 'true' ||
+    getCookie('anbu_parent_verified') === 'true'
+
+  if (!verified) return false
+
+  const raw =
+    window.localStorage.getItem('anbu_parent_session') ||
+    window.localStorage.getItem('parents_care_parent_session') ||
+    getCookie('anbu_parent_session')
+
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw)
+      const code = code6(parsed.familyCode)
+      if (/^\d{6}$/.test(code)) return true
+    } catch {
+      // ignore
+    }
+  }
+
+  const keys = [
+    'anbu_family_code',
+    'pc_parent_invite_code',
+    'anbu_parent_code',
+    'parent_family_code',
+    'parent_invite_code',
+    'parent_link_code'
+  ]
+
+  for (const key of keys) {
+    const code = code6(window.localStorage.getItem(key) || getCookie(key))
+    if (/^\d{6}$/.test(code)) return true
+  }
+
+  return false
+}
+
+const guestMenu: MenuGroup[] = [
   {
     title: '시작',
     items: [
-      { label: '홈', href: '/', desc: '처음 화면으로 이동' },
-      { label: '로그인/회원가입', href: '/login', desc: '보호자 로그인 및 역할 선택' },
-      { label: '홈 화면에 추가', href: '/install', desc: '앱처럼 바로 열기' }
+      {
+        label: '홈',
+        href: '/',
+        desc: '처음 화면으로 이동'
+      },
+      {
+        label: '로그인/회원가입',
+        href: '/login',
+        desc: '보호자 로그인 및 역할 선택'
+      },
+      {
+        label: '보호자 회원가입',
+        href: '/signup/guardian',
+        desc: '이메일·Google·Kakao 가입'
+      },
+      {
+        label: '홈 화면에 추가',
+        href: '/install',
+        desc: '휴대폰 홈 화면에 앱처럼 추가'
+      }
     ]
   },
   {
     title: '부모님',
     items: [
-      { label: '부모님 코드입력', href: '/parent/login', desc: '6자리 코드와 휴대폰 뒤 4자리 입력' }
+      {
+        label: '부모님 코드입력',
+        href: '/parent/login',
+        desc: '6자리 코드와 휴대폰 뒤 4자리 입력'
+      },
+      {
+        label: '부모님 안부버튼',
+        href: '/parent/today',
+        desc: '식사·약·몸 상태 입력'
+      },
+      {
+        label: '안심동의',
+        href: '/parent/consent',
+        desc: '자녀에게 공유할 항목 선택'
+      }
     ]
   },
   {
     title: '보호자',
     items: [
-      { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 코드 생성' },
-      { label: '부모님 리포트', href: '/child/dashboard', desc: '식사·약·몸상태 확인' }
+      {
+        label: '부모님 연결코드',
+        href: '/family-link',
+        desc: '부모님께 보낼 연결코드 생성'
+      },
+      {
+        label: '부모님 리포트',
+        href: '/child/dashboard',
+        desc: '식사·복약·몸상태 확인'
+      },
+      {
+        label: '부모님 케어',
+        href: '/child/report',
+        desc: '자녀용 부모님 상태 리포트'
+      },
+      {
+        label: '안부온',
+        href: '/child/safety-loop',
+        desc: '안부 확인 루프'
+      }
+    ]
+  },
+  {
+    title: '운영',
+    items: [
+      {
+        label: '운영실 Admin',
+        href: '/ops',
+        desc: '운영실 시작 화면'
+      },
+      {
+        label: '실증 운영실',
+        href: '/ops/pilot',
+        desc: '실증·응답률·확인율 관리'
+      },
+      {
+        label: 'Risk-to-Action',
+        href: '/ops/risk-action',
+        desc: '위험 신호 행동가이드'
+      },
+      {
+        label: '결과 라벨링',
+        href: '/ops/outcomes',
+        desc: '실제 결과 기록'
+      },
+      {
+        label: '파트너 승인',
+        href: '/ops/partners',
+        desc: '케어파트너 검증'
+      },
+      {
+        label: '배정 관리',
+        href: '/ops/matching',
+        desc: '부모님·보호자 매칭 관리'
+      },
+      {
+        label: '배정 현황',
+        href: '/ops/assignments',
+        desc: '현재 배정 상태 확인'
+      },
+      {
+        label: '파트너 DB',
+        href: '/ops/partner-db',
+        desc: '파트너 정보 관리'
+      },
+      {
+        label: '알림 설정',
+        href: '/ops/notifications',
+        desc: 'SMS·앱 알림 설정'
+      }
     ]
   }
 ]
 
-const parentMenu = [
+const parentMenu: MenuGroup[] = [
   {
     title: '부모님 전용',
     items: [
-      { label: '안부버튼', href: '/parent/today', desc: '식사·약·몸 상태 입력' },
-      { label: '안심동의', href: '/parent/consent', desc: '공유 항목 선택' },
-      { label: '코드입력', href: '/parent/login', desc: '다시 입력이 필요할 때 사용' },
-      { label: '홈 화면에 추가', href: '/install', desc: '앱처럼 바로 열기' }
+      {
+        label: '오늘 안부',
+        href: '/parent/today',
+        desc: '식사·약·몸 상태 선택'
+      },
+      {
+        label: '식사 확인',
+        href: '/parent/today',
+        desc: '식사했어요 / 아직 못 먹었어요'
+      },
+      {
+        label: '복약 확인',
+        href: '/parent/today',
+        desc: '약 먹었어요 / 아직 안 먹었어요'
+      },
+      {
+        label: '몸 상태',
+        href: '/parent/today',
+        desc: '괜찮아요 / 몸이 불편해요'
+      },
+      {
+        label: '도움 요청',
+        href: '/parent/today',
+        desc: '도움 필요 없어요 / 도움이 필요해요'
+      },
+      {
+        label: '안심동의',
+        href: '/parent/consent',
+        desc: '자녀에게 공유할 항목 선택'
+      },
+      {
+        label: '코드입력',
+        href: '/parent/login',
+        desc: '다시 연결이 필요할 때 사용'
+      },
+      {
+        label: '홈 화면에 추가',
+        href: '/install',
+        desc: '휴대폰 홈 화면에 앱처럼 추가'
+      }
     ]
   }
 ]
@@ -50,7 +246,7 @@ export function GlobalHeader() {
   const boxRef = useRef<HTMLDivElement | null>(null)
 
   function refresh() {
-    setMode(readParentSession() ? 'parent' : 'guest')
+    setMode(hasParentSession() ? 'parent' : 'guest')
   }
 
   useEffect(() => {
@@ -133,7 +329,10 @@ export function GlobalHeader() {
           </button>
 
           {!isParent ? (
-            <Link href="/login" className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white">
+            <Link
+              href="/login"
+              className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white"
+            >
               로그인/회원가입
             </Link>
           ) : null}
@@ -150,7 +349,7 @@ export function GlobalHeader() {
               <aside
                 className="absolute right-0 top-0 h-full overflow-y-auto rounded-l-[2rem] bg-white p-4 shadow-2xl ring-1 ring-[#D8EEE8]"
                 style={{
-                  width: 'min(360px, calc(100vw - 2rem))',
+                  width: 'min(380px, calc(100vw - 2rem))',
                   writingMode: 'horizontal-tb',
                   textOrientation: 'mixed'
                 }}
@@ -161,7 +360,7 @@ export function GlobalHeader() {
                       메뉴
                     </div>
                     <div className="mt-1 text-xs font-bold text-[#7A9692]">
-                      {isParent ? '부모님 전용 메뉴' : '안부웍스 메뉴'}
+                      {isParent ? '부모님 전용 메뉴' : '안부웍스 전체 메뉴'}
                     </div>
                   </div>
 
@@ -184,7 +383,7 @@ export function GlobalHeader() {
                       <div className="grid gap-2">
                         {group.items.map((item) => (
                           <Link
-                            key={item.href}
+                            key={`${group.title}-${item.href}-${item.label}`}
                             href={item.href}
                             onClick={() => setOpen(false)}
                             className="block w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
