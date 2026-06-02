@@ -3,69 +3,20 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { clearParentSessionStorage, readParentSession } from '@/components/auth/ParentSessionBridge'
 
 type Mode = 'guest' | 'parent'
 
 type MenuItem = {
   label: string
-  href: string
+  href?: string
   desc: string
+  action?: 'parentLogout'
 }
 
 type MenuGroup = {
   title: string
   items: MenuItem[]
-}
-
-function code6(value: string | null | undefined) {
-  return String(value || '').replace(/[^\d]/g, '').slice(0, 6)
-}
-
-function getCookie(name: string) {
-  if (typeof document === 'undefined') return ''
-  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'))
-  return match ? decodeURIComponent(match[1]) : ''
-}
-
-function hasParentSession() {
-  if (typeof window === 'undefined') return false
-
-  const verified =
-    window.localStorage.getItem('anbu_parent_verified') === 'true' ||
-    getCookie('anbu_parent_verified') === 'true'
-
-  if (!verified) return false
-
-  const raw =
-    window.localStorage.getItem('anbu_parent_session') ||
-    window.localStorage.getItem('parents_care_parent_session') ||
-    getCookie('anbu_parent_session')
-
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw)
-      const code = code6(parsed.familyCode)
-      if (/^\d{6}$/.test(code)) return true
-    } catch {
-      // ignore
-    }
-  }
-
-  const keys = [
-    'anbu_family_code',
-    'pc_parent_invite_code',
-    'anbu_parent_code',
-    'parent_family_code',
-    'parent_invite_code',
-    'parent_link_code'
-  ]
-
-  for (const key of keys) {
-    const code = code6(window.localStorage.getItem(key) || getCookie(key))
-    if (/^\d{6}$/.test(code)) return true
-  }
-
-  return false
 }
 
 const guestMenu: MenuGroup[] = [
@@ -203,12 +154,12 @@ const parentMenu: MenuGroup[] = [
       {
         label: '식사 확인',
         href: '/parent/today',
-        desc: '식사했어요 / 아직 못 먹었어요'
+        desc: '아침·점심·저녁 식사 확인'
       },
       {
         label: '복약 확인',
         href: '/parent/today',
-        desc: '약 먹었어요 / 아직 안 먹었어요'
+        desc: '아침약·점심약·저녁약 확인'
       },
       {
         label: '몸 상태',
@@ -236,6 +187,16 @@ const parentMenu: MenuGroup[] = [
         desc: '휴대폰 홈 화면에 앱처럼 추가'
       }
     ]
+  },
+  {
+    title: '연결 관리',
+    items: [
+      {
+        label: '로그아웃 / 연결해제',
+        action: 'parentLogout',
+        desc: '이 기기에서 부모님 연결을 해제합니다'
+      }
+    ]
   }
 ]
 
@@ -246,7 +207,7 @@ export function GlobalHeader() {
   const boxRef = useRef<HTMLDivElement | null>(null)
 
   function refresh() {
-    setMode(hasParentSession() ? 'parent' : 'guest')
+    setMode(readParentSession() ? 'parent' : 'guest')
   }
 
   useEffect(() => {
@@ -288,6 +249,19 @@ export function GlobalHeader() {
       document.removeEventListener('keydown', onKey)
     }
   }, [])
+
+  function handleParentLogout() {
+    const ok = window.confirm(
+      '부모님 연결을 해제하고 로그아웃할까요?\n\n이 기기에서는 안부 버튼을 더 이상 사용할 수 없고, 다시 사용하려면 6자리 코드와 휴대폰 뒤 4자리로 재연결해야 합니다.'
+    )
+
+    if (!ok) return
+
+    clearParentSessionStorage()
+    setOpen(false)
+    setMode('guest')
+    window.location.replace('/')
+  }
 
   const isParent = mode === 'parent'
   const menu = isParent ? parentMenu : guestMenu
@@ -381,25 +355,49 @@ export function GlobalHeader() {
                       </div>
 
                       <div className="grid gap-2">
-                        {group.items.map((item) => (
-                          <Link
-                            key={`${group.title}-${item.href}-${item.label}`}
-                            href={item.href}
-                            onClick={() => setOpen(false)}
-                            className="block w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
-                            style={{
-                              writingMode: 'horizontal-tb',
-                              textOrientation: 'mixed'
-                            }}
-                          >
-                            <div className="whitespace-normal break-keep text-base font-black leading-6 text-[#173B36]">
-                              {item.label}
-                            </div>
-                            <div className="mt-1 whitespace-normal break-keep text-sm font-bold leading-6 text-[#637B76]">
-                              {item.desc}
-                            </div>
-                          </Link>
-                        ))}
+                        {group.items.map((item) => {
+                          if (item.action === 'parentLogout') {
+                            return (
+                              <button
+                                key={`${group.title}-${item.label}`}
+                                type="button"
+                                onClick={handleParentLogout}
+                                className="block w-full rounded-2xl bg-[#FFF1F1] p-4 text-left text-[#8A2525] ring-1 ring-[#F3BBBB] transition hover:bg-[#FFE6E6]"
+                                style={{
+                                  writingMode: 'horizontal-tb',
+                                  textOrientation: 'mixed'
+                                }}
+                              >
+                                <div className="whitespace-normal break-keep text-base font-black leading-6">
+                                  {item.label}
+                                </div>
+                                <div className="mt-1 whitespace-normal break-keep text-sm font-bold leading-6 opacity-80">
+                                  {item.desc}
+                                </div>
+                              </button>
+                            )
+                          }
+
+                          return (
+                            <Link
+                              key={`${group.title}-${item.href}-${item.label}`}
+                              href={item.href || '/'}
+                              onClick={() => setOpen(false)}
+                              className="block w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
+                              style={{
+                                writingMode: 'horizontal-tb',
+                                textOrientation: 'mixed'
+                              }}
+                            >
+                              <div className="whitespace-normal break-keep text-base font-black leading-6 text-[#173B36]">
+                                {item.label}
+                              </div>
+                              <div className="mt-1 whitespace-normal break-keep text-sm font-bold leading-6 text-[#637B76]">
+                                {item.desc}
+                              </div>
+                            </Link>
+                          )
+                        })}
                       </div>
                     </section>
                   ))}

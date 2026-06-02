@@ -173,6 +173,17 @@ export function clearParentSessionStorage() {
     clearCookie(key)
   }
 
+  const prefixes = [
+    'anbu_today_choices_'
+  ]
+
+  for (let i = window.localStorage.length - 1; i >= 0; i -= 1) {
+    const key = window.localStorage.key(i) || ''
+    if (prefixes.some((prefix) => key.startsWith(prefix))) {
+      window.localStorage.removeItem(key)
+    }
+  }
+
   window.dispatchEvent(new CustomEvent('anbu-parent-session-changed'))
   window.dispatchEvent(new CustomEvent('anbu-auth-changed'))
 }
