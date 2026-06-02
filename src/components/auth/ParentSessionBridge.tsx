@@ -173,9 +173,7 @@ export function clearParentSessionStorage() {
     clearCookie(key)
   }
 
-  const prefixes = [
-    'anbu_today_choices_'
-  ]
+  const prefixes = ['anbu_today_choices_']
 
   for (let i = window.localStorage.length - 1; i >= 0; i -= 1) {
     const key = window.localStorage.key(i) || ''

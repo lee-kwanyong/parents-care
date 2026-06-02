@@ -23,121 +23,43 @@ const guestMenu: MenuGroup[] = [
   {
     title: '시작',
     items: [
-      {
-        label: '홈',
-        href: '/',
-        desc: '처음 화면으로 이동'
-      },
-      {
-        label: '로그인/회원가입',
-        href: '/login',
-        desc: '보호자 로그인 및 역할 선택'
-      },
-      {
-        label: '보호자 회원가입',
-        href: '/signup/guardian',
-        desc: '이메일·Google·Kakao 가입'
-      },
-      {
-        label: '홈 화면에 추가',
-        href: '/install',
-        desc: '휴대폰 홈 화면에 앱처럼 추가'
-      }
+      { label: '홈', href: '/', desc: '처음 화면으로 이동' },
+      { label: '로그인/회원가입', href: '/login', desc: '보호자 로그인 및 역할 선택' },
+      { label: '보호자 회원가입', href: '/signup/guardian', desc: '이메일·Google·Kakao 가입' },
+      { label: '홈 화면에 추가', href: '/install', desc: '휴대폰 홈 화면에 앱처럼 추가' }
     ]
   },
   {
     title: '부모님',
     items: [
-      {
-        label: '부모님 코드입력',
-        href: '/parent/login',
-        desc: '6자리 코드와 휴대폰 뒤 4자리 입력'
-      },
-      {
-        label: '부모님 안부버튼',
-        href: '/parent/today',
-        desc: '식사·약·몸 상태 입력'
-      },
-      {
-        label: '안심동의',
-        href: '/parent/consent',
-        desc: '자녀에게 공유할 항목 선택'
-      }
+      { label: '부모님 코드입력', href: '/parent/login', desc: '6자리 코드와 휴대폰 뒤 4자리 입력' },
+      { label: '부모님 안부버튼', href: '/parent/today', desc: '식사·약·몸 상태 입력' },
+      { label: '안심동의', href: '/parent/consent', desc: '자녀에게 공유할 항목 선택' }
     ]
   },
   {
-    title: '보호자',
+    title: '보호자·가족',
     items: [
-      {
-        label: '부모님 연결코드',
-        href: '/family-link',
-        desc: '부모님께 보낼 연결코드 생성'
-      },
-      {
-        label: '부모님 리포트',
-        href: '/child/dashboard',
-        desc: '식사·복약·몸상태 확인'
-      },
-      {
-        label: '부모님 케어',
-        href: '/child/report',
-        desc: '자녀용 부모님 상태 리포트'
-      },
-      {
-        label: '안부온',
-        href: '/child/safety-loop',
-        desc: '안부 확인 루프'
-      }
+      { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 연결코드 생성' },
+      { label: '다른 가족 초대', href: '/family/invite', desc: '형제·자매·배우자를 부모님 리포트에 초대' },
+      { label: '가족 초대코드 입력', href: '/family/join', desc: '초대받은 가족이 코드와 휴대폰 뒤 4자리 입력' },
+      { label: '부모님 리포트', href: '/child/dashboard', desc: '식사·복약·몸상태 확인' },
+      { label: '부모님 케어', href: '/child/report', desc: '자녀용 부모님 상태 리포트' },
+      { label: '안부온', href: '/child/safety-loop', desc: '안부 확인 루프' }
     ]
   },
   {
     title: '운영',
     items: [
-      {
-        label: '운영실 Admin',
-        href: '/ops',
-        desc: '운영실 시작 화면'
-      },
-      {
-        label: '실증 운영실',
-        href: '/ops/pilot',
-        desc: '실증·응답률·확인율 관리'
-      },
-      {
-        label: 'Risk-to-Action',
-        href: '/ops/risk-action',
-        desc: '위험 신호 행동가이드'
-      },
-      {
-        label: '결과 라벨링',
-        href: '/ops/outcomes',
-        desc: '실제 결과 기록'
-      },
-      {
-        label: '파트너 승인',
-        href: '/ops/partners',
-        desc: '케어파트너 검증'
-      },
-      {
-        label: '배정 관리',
-        href: '/ops/matching',
-        desc: '부모님·보호자 매칭 관리'
-      },
-      {
-        label: '배정 현황',
-        href: '/ops/assignments',
-        desc: '현재 배정 상태 확인'
-      },
-      {
-        label: '파트너 DB',
-        href: '/ops/partner-db',
-        desc: '파트너 정보 관리'
-      },
-      {
-        label: '알림 설정',
-        href: '/ops/notifications',
-        desc: 'SMS·앱 알림 설정'
-      }
+      { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
+      { label: '실증 운영실', href: '/ops/pilot', desc: '실증·응답률·확인율 관리' },
+      { label: 'Risk-to-Action', href: '/ops/risk-action', desc: '위험 신호 행동가이드' },
+      { label: '결과 라벨링', href: '/ops/outcomes', desc: '실제 결과 기록' },
+      { label: '파트너 승인', href: '/ops/partners', desc: '케어파트너 검증' },
+      { label: '배정 관리', href: '/ops/matching', desc: '부모님·보호자 매칭 관리' },
+      { label: '배정 현황', href: '/ops/assignments', desc: '현재 배정 상태 확인' },
+      { label: '파트너 DB', href: '/ops/partner-db', desc: '파트너 정보 관리' },
+      { label: '알림 설정', href: '/ops/notifications', desc: 'SMS·앱 알림 설정' }
     ]
   }
 ]
@@ -146,56 +68,20 @@ const parentMenu: MenuGroup[] = [
   {
     title: '부모님 전용',
     items: [
-      {
-        label: '오늘 안부',
-        href: '/parent/today',
-        desc: '식사·약·몸 상태 선택'
-      },
-      {
-        label: '식사 확인',
-        href: '/parent/today',
-        desc: '아침·점심·저녁 식사 확인'
-      },
-      {
-        label: '복약 확인',
-        href: '/parent/today',
-        desc: '아침약·점심약·저녁약 확인'
-      },
-      {
-        label: '몸 상태',
-        href: '/parent/today',
-        desc: '괜찮아요 / 몸이 불편해요'
-      },
-      {
-        label: '도움 요청',
-        href: '/parent/today',
-        desc: '도움 필요 없어요 / 도움이 필요해요'
-      },
-      {
-        label: '안심동의',
-        href: '/parent/consent',
-        desc: '자녀에게 공유할 항목 선택'
-      },
-      {
-        label: '코드입력',
-        href: '/parent/login',
-        desc: '다시 연결이 필요할 때 사용'
-      },
-      {
-        label: '홈 화면에 추가',
-        href: '/install',
-        desc: '휴대폰 홈 화면에 앱처럼 추가'
-      }
+      { label: '오늘 안부', href: '/parent/today', desc: '식사·약·몸 상태 선택' },
+      { label: '식사 확인', href: '/parent/today', desc: '아침·점심·저녁 식사 확인' },
+      { label: '복약 확인', href: '/parent/today', desc: '아침약·점심약·저녁약 확인' },
+      { label: '몸 상태', href: '/parent/today', desc: '괜찮아요 / 몸이 불편해요' },
+      { label: '도움 요청', href: '/parent/today', desc: '도움 필요 없어요 / 도움이 필요해요' },
+      { label: '안심동의', href: '/parent/consent', desc: '자녀에게 공유할 항목 선택' },
+      { label: '코드입력', href: '/parent/login', desc: '다시 연결이 필요할 때 사용' },
+      { label: '홈 화면에 추가', href: '/install', desc: '휴대폰 홈 화면에 앱처럼 추가' }
     ]
   },
   {
     title: '연결 관리',
     items: [
-      {
-        label: '로그아웃 / 연결해제',
-        action: 'parentLogout',
-        desc: '이 기기에서 부모님 연결을 해제합니다'
-      }
+      { label: '로그아웃 / 연결해제', action: 'parentLogout', desc: '이 기기에서 부모님 연결을 해제합니다' }
     ]
   }
 ]
@@ -303,10 +189,7 @@ export function GlobalHeader() {
           </button>
 
           {!isParent ? (
-            <Link
-              href="/login"
-              className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white"
-            >
+            <Link href="/login" className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white">
               로그인/회원가입
             </Link>
           ) : null}
@@ -363,10 +246,7 @@ export function GlobalHeader() {
                                 type="button"
                                 onClick={handleParentLogout}
                                 className="block w-full rounded-2xl bg-[#FFF1F1] p-4 text-left text-[#8A2525] ring-1 ring-[#F3BBBB] transition hover:bg-[#FFE6E6]"
-                                style={{
-                                  writingMode: 'horizontal-tb',
-                                  textOrientation: 'mixed'
-                                }}
+                                style={{ writingMode: 'horizontal-tb', textOrientation: 'mixed' }}
                               >
                                 <div className="whitespace-normal break-keep text-base font-black leading-6">
                                   {item.label}
@@ -384,10 +264,7 @@ export function GlobalHeader() {
                               href={item.href || '/'}
                               onClick={() => setOpen(false)}
                               className="block w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
-                              style={{
-                                writingMode: 'horizontal-tb',
-                                textOrientation: 'mixed'
-                              }}
+                              style={{ writingMode: 'horizontal-tb', textOrientation: 'mixed' }}
                             >
                               <div className="whitespace-normal break-keep text-base font-black leading-6 text-[#173B36]">
                                 {item.label}
