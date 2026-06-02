@@ -1,10 +1,66 @@
 'use client'
 
 import { useEffect, useState, type FormEvent } from 'react'
-import { readParentCode, saveParentSession, type ParentSession } from '@/components/auth/ParentSessionBridge'
+
+type ParentSession = {
+  familyCode: string
+  parentName?: string
+  guardianName?: string
+  role?: string
+  loggedIn?: boolean
+  connected?: boolean
+}
 
 function code6(value: string) {
   return value.replace(/[^\d]/g, '').slice(0, 6)
+}
+
+function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
+}
+
+function saveParentSession(session: ParentSession) {
+  const familyCode = code6(session.familyCode || '')
+
+  if (!/^\d{6}$/.test(familyCode)) return
+
+  const payload = {
+    ...session,
+    familyCode,
+    parentName: session.parentName || '부모님',
+    guardianName: session.guardianName || '보호자',
+    role: 'parent',
+    loggedIn: true,
+    connected: true,
+    savedAt: new Date().toISOString()
+  }
+
+  const raw = JSON.stringify(payload)
+
+  window.localStorage.setItem('anbu_family_code', familyCode)
+  window.localStorage.setItem('pc_parent_invite_code', familyCode)
+  window.localStorage.setItem('anbu_parent_code', familyCode)
+  window.localStorage.setItem('parent_family_code', familyCode)
+  window.localStorage.setItem('parent_invite_code', familyCode)
+  window.localStorage.setItem('parent_link_code', familyCode)
+  window.localStorage.setItem('anbu_login_role', 'parent')
+  window.localStorage.setItem('anbu_auth_state', 'parent-signed-in')
+  window.localStorage.setItem('anbu_parent_logged_in', 'true')
+  window.localStorage.setItem('anbu_parent_connected', 'true')
+  window.localStorage.setItem('anbu_parent_session', raw)
+  window.localStorage.setItem('parents_care_parent_session', raw)
+
+  setCookie('anbu_family_code', familyCode)
+  setCookie('pc_parent_invite_code', familyCode)
+  setCookie('anbu_parent_code', familyCode)
+  setCookie('parent_family_code', familyCode)
+  setCookie('parent_invite_code', familyCode)
+  setCookie('anbu_login_role', 'parent')
+  setCookie('anbu_parent_connected', 'true')
+  setCookie('anbu_parent_session', raw)
+
+  window.dispatchEvent(new CustomEvent('anbu-parent-session-changed', { detail: payload }))
+  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: payload }))
 }
 
 function fallbackSession(familyCode: string): ParentSession {
@@ -48,7 +104,7 @@ export function ParentLoginPanel() {
         saveParentSession(data.session)
         setSession(data.session)
         setFamilyCode(data.session.familyCode)
-        setMessage('부모님과 자녀 연결이 완료되었습니다.')
+        setMessage(data.message || '부모님과 자녀 연결이 완료되었습니다.')
       } else {
         const fallback = fallbackSession(targetCode)
         saveParentSession(fallback)
@@ -87,17 +143,13 @@ export function ParentLoginPanel() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const queryCode = code6(params.get('code') || params.get('familyCode') || '')
-    const storedCode = readParentCode()
 
     if (queryCode) {
       setFamilyCode(queryCode)
-      connect(queryCode, true)
-      return
+      void connect(queryCode, true)
     }
-
-    if (storedCode) {
-      setFamilyCode(storedCode)
-    }
+    // 저장된 코드는 자동으로 입력칸에 넣지 않습니다.
+    // 로그인 전 임의 번호가 보이는 문제를 막기 위한 처리입니다.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
