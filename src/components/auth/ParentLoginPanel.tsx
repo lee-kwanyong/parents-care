@@ -1,90 +1,34 @@
 'use client'
 
 import { useEffect, useState, type FormEvent } from 'react'
-
-type ParentSession = {
-  familyCode: string
-  parentName?: string
-  guardianName?: string
-  role?: string
-  loggedIn?: boolean
-  connected?: boolean
-}
+import { saveParentSession, type ParentSession } from '@/components/auth/ParentSessionBridge'
 
 function code6(value: string) {
   return value.replace(/[^\d]/g, '').slice(0, 6)
 }
 
-function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
-}
-
-function saveParentSession(session: ParentSession) {
-  const familyCode = code6(session.familyCode || '')
-
-  if (!/^\d{6}$/.test(familyCode)) return
-
-  const payload = {
-    ...session,
-    familyCode,
-    parentName: session.parentName || '부모님',
-    guardianName: session.guardianName || '보호자',
-    role: 'parent',
-    loggedIn: true,
-    connected: true,
-    savedAt: new Date().toISOString()
-  }
-
-  const raw = JSON.stringify(payload)
-
-  window.localStorage.setItem('anbu_family_code', familyCode)
-  window.localStorage.setItem('pc_parent_invite_code', familyCode)
-  window.localStorage.setItem('anbu_parent_code', familyCode)
-  window.localStorage.setItem('parent_family_code', familyCode)
-  window.localStorage.setItem('parent_invite_code', familyCode)
-  window.localStorage.setItem('parent_link_code', familyCode)
-  window.localStorage.setItem('anbu_login_role', 'parent')
-  window.localStorage.setItem('anbu_auth_state', 'parent-signed-in')
-  window.localStorage.setItem('anbu_parent_logged_in', 'true')
-  window.localStorage.setItem('anbu_parent_connected', 'true')
-  window.localStorage.setItem('anbu_parent_session', raw)
-  window.localStorage.setItem('parents_care_parent_session', raw)
-
-  setCookie('anbu_family_code', familyCode)
-  setCookie('pc_parent_invite_code', familyCode)
-  setCookie('anbu_parent_code', familyCode)
-  setCookie('parent_family_code', familyCode)
-  setCookie('parent_invite_code', familyCode)
-  setCookie('anbu_login_role', 'parent')
-  setCookie('anbu_parent_connected', 'true')
-  setCookie('anbu_parent_session', raw)
-
-  window.dispatchEvent(new CustomEvent('anbu-parent-session-changed', { detail: payload }))
-  window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: payload }))
-}
-
-function fallbackSession(familyCode: string): ParentSession {
-  return {
-    familyCode,
-    parentName: '부모님',
-    guardianName: '보호자',
-    role: 'parent',
-    loggedIn: true,
-    connected: true
-  }
+function last4(value: string) {
+  return value.replace(/[^\d]/g, '').slice(-4)
 }
 
 export function ParentLoginPanel() {
   const [familyCode, setFamilyCode] = useState('')
+  const [parentPhoneLast4, setParentPhoneLast4] = useState('')
   const [message, setMessage] = useState('')
   const [session, setSession] = useState<ParentSession | null>(null)
   const [loading, setLoading] = useState(false)
 
-  async function connect(code: string, redirect = true) {
+  async function connect(code: string, phone4: string, redirect = true) {
     const targetCode = code6(code)
+    const targetLast4 = last4(phone4)
 
     if (!/^\d{6}$/.test(targetCode)) {
       setMessage('6자리 연결코드를 입력해주세요.')
+      return
+    }
+
+    if (!/^\d{4}$/.test(targetLast4)) {
+      setMessage('부모님 휴대폰 번호 뒤 4자리를 입력해주세요.')
       return
     }
 
@@ -95,41 +39,31 @@ export function ParentLoginPanel() {
       const response = await fetch('/api/parent-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ familyCode: targetCode })
+        body: JSON.stringify({
+          familyCode: targetCode,
+          parentPhoneLast4: targetLast4
+        })
       })
 
       const data = await response.json().catch(() => ({}))
 
-      if (response.ok && data.ok && data.session) {
-        saveParentSession(data.session)
-        setSession(data.session)
-        setFamilyCode(data.session.familyCode)
-        setMessage(data.message || '부모님과 자녀 연결이 완료되었습니다.')
-      } else {
-        const fallback = fallbackSession(targetCode)
-        saveParentSession(fallback)
-        setSession(fallback)
-        setFamilyCode(targetCode)
-        setMessage('코드가 이 기기에 저장되었습니다. 부모님 안부 화면으로 이동합니다.')
+      if (!response.ok || !data.ok || !data.session) {
+        setMessage(data.message || '연결코드와 부모님 휴대폰 번호를 확인해주세요.')
+        return
       }
+
+      saveParentSession(data.session)
+      setSession(data.session)
+      setFamilyCode(data.session.familyCode)
+      setMessage(data.message || '부모님과 보호자 연결이 완료되었습니다.')
 
       if (redirect) {
         setTimeout(() => {
           window.location.href = '/parent/today'
         }, 300)
       }
-    } catch {
-      const fallback = fallbackSession(targetCode)
-      saveParentSession(fallback)
-      setSession(fallback)
-      setFamilyCode(targetCode)
-      setMessage('코드가 이 기기에 저장되었습니다. 부모님 안부 화면으로 이동합니다.')
-
-      if (redirect) {
-        setTimeout(() => {
-          window.location.href = '/parent/today'
-        }, 300)
-      }
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '연결 중 오류가 발생했습니다.')
     } finally {
       setLoading(false)
     }
@@ -137,7 +71,7 @@ export function ParentLoginPanel() {
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    await connect(familyCode, true)
+    await connect(familyCode, parentPhoneLast4, true)
   }
 
   useEffect(() => {
@@ -146,11 +80,7 @@ export function ParentLoginPanel() {
 
     if (queryCode) {
       setFamilyCode(queryCode)
-      void connect(queryCode, true)
     }
-    // 저장된 코드는 자동으로 입력칸에 넣지 않습니다.
-    // 로그인 전 임의 번호가 보이는 문제를 막기 위한 처리입니다.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -160,13 +90,13 @@ export function ParentLoginPanel() {
       </div>
 
       <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36]">
-        자녀가 알려준
+        6자리 코드와
         <br />
-        6자리 코드를 입력하세요.
+        휴대폰 뒤 4자리를 입력하세요.
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
-        입력한 코드는 이 기기에 저장되어 부모님과 보호자 연결이 유지됩니다.
+        잘못 연결되지 않도록, 보호자가 등록한 부모님 휴대폰 번호와 함께 확인합니다.
       </p>
 
       {session ? (
@@ -191,6 +121,18 @@ export function ParentLoginPanel() {
             maxLength={6}
             placeholder="123456"
             className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
+          />
+        </label>
+
+        <label className="grid gap-2">
+          <span className="text-sm font-black text-[#55736E]">부모님 휴대폰 번호 뒤 4자리</span>
+          <input
+            value={parentPhoneLast4}
+            onChange={(event) => setParentPhoneLast4(last4(event.target.value))}
+            inputMode="numeric"
+            maxLength={4}
+            placeholder="예: 1234"
+            className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-center text-2xl font-black tracking-[0.12em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           />
         </label>
 

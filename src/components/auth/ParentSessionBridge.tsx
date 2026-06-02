@@ -12,6 +12,7 @@ export type ParentSession = {
   role?: string
   loggedIn?: boolean
   connected?: boolean
+  verified?: boolean
 }
 
 function code6(value: string | null | undefined) {
@@ -20,6 +21,10 @@ function code6(value: string | null | undefined) {
 
 function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
+}
+
+function clearCookie(name: string) {
+  document.cookie = `${name}=; path=/; max-age=0; samesite=lax`
 }
 
 function getCookie(name: string) {
@@ -37,6 +42,7 @@ export function saveParentSession(session: ParentSession) {
     role: 'parent',
     loggedIn: true,
     connected: true,
+    verified: true,
     savedAt: new Date().toISOString()
   }
 
@@ -52,6 +58,7 @@ export function saveParentSession(session: ParentSession) {
   window.localStorage.setItem('anbu_auth_state', 'parent-signed-in')
   window.localStorage.setItem('anbu_parent_logged_in', 'true')
   window.localStorage.setItem('anbu_parent_connected', 'true')
+  window.localStorage.setItem('anbu_parent_verified', 'true')
   window.localStorage.setItem('anbu_parent_session', raw)
   window.localStorage.setItem('parents_care_parent_session', raw)
 
@@ -62,14 +69,49 @@ export function saveParentSession(session: ParentSession) {
   setCookie('parent_invite_code', familyCode)
   setCookie('anbu_login_role', 'parent')
   setCookie('anbu_parent_connected', 'true')
+  setCookie('anbu_parent_verified', 'true')
   setCookie('anbu_parent_session', raw)
 
   window.dispatchEvent(new CustomEvent('anbu-parent-session-changed', { detail: payload }))
   window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: payload }))
 }
 
+export function clearUnverifiedParentStorage() {
+  if (typeof window === 'undefined') return
+
+  const verified =
+    window.localStorage.getItem('anbu_parent_verified') === 'true' ||
+    getCookie('anbu_parent_verified') === 'true'
+
+  if (verified) return
+
+  const keys = [
+    'anbu_family_code',
+    'pc_parent_invite_code',
+    'anbu_parent_code',
+    'parent_family_code',
+    'parent_invite_code',
+    'parent_link_code',
+    'anbu_parent_logged_in',
+    'anbu_parent_connected',
+    'anbu_parent_session',
+    'parents_care_parent_session'
+  ]
+
+  for (const key of keys) {
+    window.localStorage.removeItem(key)
+    clearCookie(key)
+  }
+}
+
 export function readParentCode() {
   if (typeof window === 'undefined') return ''
+
+  const verified =
+    window.localStorage.getItem('anbu_parent_verified') === 'true' ||
+    getCookie('anbu_parent_verified') === 'true'
+
+  if (!verified) return ''
 
   const keys = [
     'anbu_family_code',
@@ -93,53 +135,16 @@ export function readParentCode() {
   return ''
 }
 
-async function refreshParentSession() {
-  const code = readParentCode()
-
-  if (code) {
-    saveParentSession({ familyCode: code })
-  }
-
-  try {
-    const url = code
-      ? '/api/parent-session?familyCode=' + encodeURIComponent(code)
-      : '/api/parent-session'
-
-    const response = await fetch(url, { cache: 'no-store' })
-    const data = await response.json().catch(() => ({}))
-
-    if (response.ok && data.ok && data.session) {
-      saveParentSession(data.session)
-    }
-  } catch {
-    // 조용히 실패
-  }
-}
-
 export function ParentSessionBridge() {
   const pathname = usePathname() || ''
 
   useEffect(() => {
-    refreshParentSession()
-
-    function onChanged() {
-      refreshParentSession()
-    }
-
-    window.addEventListener('anbu-parent-session-changed', onChanged)
-    window.addEventListener('storage', onChanged)
-    window.addEventListener('focus', onChanged)
-
-    return () => {
-      window.removeEventListener('anbu-parent-session-changed', onChanged)
-      window.removeEventListener('storage', onChanged)
-      window.removeEventListener('focus', onChanged)
-    }
+    clearUnverifiedParentStorage()
   }, [])
 
   useEffect(() => {
     if (pathname.startsWith('/parent')) {
-      refreshParentSession()
+      clearUnverifiedParentStorage()
     }
   }, [pathname])
 

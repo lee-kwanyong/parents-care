@@ -1,18 +1,36 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-
-function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
-  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
-}
+import { useEffect, useState } from 'react'
 
 function normalizePhone(value: string) {
   return value.replace(/[^\d]/g, '')
 }
 
-function makeLocalCode() {
-  return String(Math.floor(100000 + Math.random() * 900000))
+function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
+  document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
+}
+
+function readGuardianProfile() {
+  if (typeof window === 'undefined') return null
+
+  const raw =
+    window.localStorage.getItem('anbu_guardian_profile') ||
+    window.localStorage.getItem('parents_care_auth') ||
+    window.localStorage.getItem('anbu_current_user')
+
+  if (!raw) return null
+
+  try {
+    return JSON.parse(raw) as {
+      guardianId?: string
+      guardianEmail?: string
+      guardianName?: string
+      guardianPhone?: string
+    }
+  } catch {
+    return null
+  }
 }
 
 async function safeJson(response: Response) {
@@ -34,71 +52,47 @@ export function GuardianFamilyLinkPanel() {
   const [message, setMessage] = useState('')
   const [debug, setDebug] = useState('')
   const [copied, setCopied] = useState(false)
-  const [saving, setSaving] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const cleanParentPhone = normalizePhone(parentPhone)
 
   const parentLoginUrl = familyCode
     ? `https://parents-care.net/parent/login?code=${familyCode}`
     : 'https://parents-care.net/parent/login'
 
   const sendMessage = familyCode
-    ? `부모님 안심케어 연결코드입니다.\n\n6자리 코드: ${familyCode}\n\n아래 주소에서 코드를 입력해주세요.\n${parentLoginUrl}`
+    ? `부모님 안심케어 연결 안내입니다.\n\n6자리 코드: ${familyCode}\n\n아래 링크를 누른 뒤, 6자리 코드와 부모님 휴대폰 번호 뒤 4자리를 입력해주세요.\n${parentLoginUrl}`
     : ''
 
-  function persistLocalCode(code: string) {
-    window.localStorage.setItem('anbu_guardian_family_code', code)
-    window.localStorage.setItem('anbu_selected_family_code', code)
-    window.localStorage.setItem('anbu_last_family_code', code)
-    setCookie('anbu_guardian_family_code', code)
-  }
+  const smsHref = familyCode && cleanParentPhone
+    ? `sms:${cleanParentPhone}?&body=${encodeURIComponent(sendMessage)}`
+    : '#'
 
-  async function saveToServer(code: string) {
-    setSaving(true)
-    setDebug('')
+  useEffect(() => {
+    const profile = readGuardianProfile()
 
-    try {
-      const response = await fetch('/api/family-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          familyCode: code,
-          guardianName,
-          guardianPhone: normalizePhone(guardianPhone),
-          parentName,
-          parentPhone: normalizePhone(parentPhone)
-        })
-      })
-
-      const data = await safeJson(response)
-
-      if (!response.ok || !data.ok) {
-        setMessage('6자리 코드는 생성되었습니다. 서버 저장만 실패했습니다. 부모님께 코드는 보낼 수 있습니다.')
-        setDebug(JSON.stringify(data.detail || data, null, 2))
-        return
-      }
-
-      const confirmedCode = data.familyCode || code
-      setFamilyCode(confirmedCode)
-      persistLocalCode(confirmedCode)
-
-      if (data.saved === false) {
-        setMessage('6자리 코드는 생성되었습니다. 서버 저장은 실패했지만 부모님께 코드는 보낼 수 있습니다.')
-        setDebug(JSON.stringify(data.detail || {}, null, 2))
-      } else {
-        setMessage('부모님께 보낼 6자리 연결코드가 생성되었습니다.')
-      }
-    } catch (error) {
-      setMessage('6자리 코드는 생성되었습니다. API 연결은 실패했지만 부모님께 코드는 보낼 수 있습니다.')
-      setDebug(error instanceof Error ? error.message : 'Failed to fetch')
-    } finally {
-      setSaving(false)
+    if (profile) {
+      setGuardianName(profile.guardianName || '')
+      setGuardianPhone(profile.guardianPhone || '')
     }
-  }
+  }, [])
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage('')
     setDebug('')
     setCopied(false)
+
+    const profile = readGuardianProfile()
+
+    if (!profile) {
+      alert('부모님과 연결시 로그인이 필요해요 !')
+      window.location.href = '/login?next=/family-link'
+      return
+    }
+
+    const cleanGuardianPhone = normalizePhone(guardianPhone)
+    const cleanParent = normalizePhone(parentPhone)
 
     if (!guardianName.trim()) {
       setMessage('보호자 이름을 입력해주세요.')
@@ -110,13 +104,50 @@ export function GuardianFamilyLinkPanel() {
       return
     }
 
-    const code = makeLocalCode()
+    if (cleanParent.length < 10) {
+      setMessage('부모님 휴대폰 번호를 정확히 입력해주세요.')
+      return
+    }
 
-    setFamilyCode(code)
-    persistLocalCode(code)
-    setMessage('6자리 코드가 생성되었습니다. 부모님께 바로 보낼 수 있습니다.')
+    setLoading(true)
 
-    void saveToServer(code)
+    try {
+      const response = await fetch('/api/family-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          guardianId: profile.guardianId || '',
+          guardianEmail: profile.guardianEmail || '',
+          guardianName,
+          guardianPhone: cleanGuardianPhone,
+          parentName,
+          parentPhone: cleanParent
+        })
+      })
+
+      const data = await safeJson(response)
+
+      if (!response.ok || !data.ok) {
+        setMessage(data.message || '연결코드 생성에 실패했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
+        return
+      }
+
+      const code = data.familyCode
+
+      setFamilyCode(code)
+      setMessage('부모님께 보낼 6자리 연결코드가 생성되었습니다.')
+
+      window.localStorage.setItem('anbu_guardian_family_code', code)
+      window.localStorage.setItem('anbu_selected_family_code', code)
+      window.localStorage.setItem('anbu_last_family_code', code)
+      window.localStorage.setItem('anbu_parent_phone_for_link', cleanParent)
+      setCookie('anbu_guardian_family_code', code)
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '연결코드 생성 중 오류가 발생했습니다.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function copyMessage() {
@@ -141,13 +172,13 @@ export function GuardianFamilyLinkPanel() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            보호자가 코드를 만들고
+            부모님 휴대폰으로
             <br />
-            부모님께 보내드립니다.
+            연결코드를 보내드립니다.
           </h1>
 
           <p className="mt-4 text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            부모님이 이 6자리 코드를 입력하면 같은 가족코드로 연결되고, 부모님 기기에는 연결 상태가 유지됩니다.
+            잘못 매칭되지 않도록 부모님은 6자리 코드와 본인 휴대폰 번호 뒤 4자리를 함께 입력해야 연결됩니다.
           </p>
         </section>
 
@@ -159,13 +190,13 @@ export function GuardianFamilyLinkPanel() {
               <Input label="보호자 이름" value={guardianName} onChange={setGuardianName} placeholder="예: 홍길동" />
               <Input label="보호자 연락처" value={guardianPhone} onChange={setGuardianPhone} placeholder="예: 010-0000-0000" />
               <Input label="부모님 이름" value={parentName} onChange={setParentName} placeholder="예: 어머니" />
-              <Input label="부모님 연락처" value={parentPhone} onChange={setParentPhone} placeholder="예: 010-0000-0000" />
+              <Input label="부모님 휴대폰 번호" value={parentPhone} onChange={setParentPhone} placeholder="예: 010-0000-0000" />
 
               <button
-                disabled={saving}
+                disabled={loading}
                 className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
-                {saving ? '서버 저장 확인 중...' : '부모님 연결코드 만들기'}
+                {loading ? '생성 중...' : '부모님 연결코드 만들기'}
               </button>
             </div>
           </form>
@@ -179,17 +210,26 @@ export function GuardianFamilyLinkPanel() {
                   <div className="text-sm font-black text-[#A7F2E3]">6자리 연결코드</div>
                   <div className="mt-3 text-6xl font-black tracking-[0.12em]">{familyCode}</div>
                   <p className="mt-4 text-sm font-bold leading-7 text-[#E7FFF7]">
-                    부모님이 이 코드를 입력하면 자녀와 연결됩니다.
+                    부모님 휴대폰 뒤 4자리까지 맞아야 연결됩니다.
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={copyMessage}
-                  className="mt-4 w-full rounded-2xl bg-[#20BFA7] px-5 py-4 text-sm font-black text-white"
-                >
-                  {copied ? '복사 완료' : '부모님께 보낼 문구 복사'}
-                </button>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                  <a
+                    href={smsHref}
+                    className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white"
+                  >
+                    문자앱으로 보내기
+                  </a>
+
+                  <button
+                    type="button"
+                    onClick={copyMessage}
+                    className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                  >
+                    {copied ? '복사 완료' : '문구 복사'}
+                  </button>
+                </div>
 
                 <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#4E6D69] ring-1 ring-[#D8EEE8]">
                   {sendMessage}

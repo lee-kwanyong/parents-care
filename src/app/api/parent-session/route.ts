@@ -7,6 +7,10 @@ function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
+function digits(value: unknown) {
+  return text(value).replace(/[^\d]/g, '')
+}
+
 function code6(value: unknown) {
   return text(value).replace(/[^\d]/g, '').slice(0, 6)
 }
@@ -26,7 +30,11 @@ async function rest(path: string, init?: RequestInit) {
   const key = serviceKey()
 
   if (!base || !key) {
-    return { ok: false, data: null as unknown, error: 'Supabase env is missing' }
+    return {
+      ok: false,
+      data: null as unknown,
+      error: 'Supabase 환경변수가 없습니다.'
+    }
   }
 
   const response = await fetch(base + '/rest/v1/' + path, {
@@ -49,29 +57,40 @@ async function rest(path: string, init?: RequestInit) {
     parsed = bodyText
   }
 
-  return { ok: response.ok, data: parsed, error: response.ok ? null : parsed || bodyText }
+  return {
+    ok: response.ok,
+    data: parsed,
+    error: response.ok ? null : parsed || bodyText
+  }
 }
 
 async function findFamily(familyCode: string) {
-  const direct = await rest('anbu_family_links?select=*&family_code=eq.' + encodeURIComponent(familyCode) + '&order=created_at.desc&limit=1')
+  const result = await rest(
+    'anbu_family_links?select=*&family_code=eq.' +
+      encodeURIComponent(familyCode) +
+      '&order=created_at.desc&limit=1'
+  )
 
-  if (direct.ok && Array.isArray(direct.data) && direct.data[0]) {
-    return direct.data[0] as Record<string, unknown>
-  }
+  if (!result.ok || !Array.isArray(result.data) || !result.data[0]) return null
 
-  const viaRpc = await rest('rpc/get_anbu_family_link', {
-    method: 'POST',
-    body: JSON.stringify({ p_family_code: familyCode })
-  })
-
-  if (viaRpc.ok && viaRpc.data) {
-    return viaRpc.data as Record<string, unknown>
-  }
-
-  return null
+  return result.data[0] as Record<string, unknown>
 }
 
-function makeSession(family: Record<string, unknown>, familyCode: string) {
+async function markVerified(id: unknown) {
+  const rawId = text(id)
+  if (!rawId) return
+
+  await rest('anbu_family_links?id=eq.' + encodeURIComponent(rawId), {
+    method: 'PATCH',
+    body: JSON.stringify({
+      link_status: 'active',
+      parent_verified_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    })
+  })
+}
+
+function makeSession(familyCode: string, family: Record<string, unknown>) {
   return {
     familyCode,
     parentName: text(family.parent_name) || '부모님',
@@ -81,6 +100,7 @@ function makeSession(family: Record<string, unknown>, familyCode: string) {
     role: 'parent',
     loggedIn: true,
     connected: true,
+    verified: true,
     savedAt: new Date().toISOString()
   }
 }
@@ -96,13 +116,26 @@ function setCookies(response: NextResponse, session: ReturnType<typeof makeSessi
   response.cookies.set('parent_invite_code', session.familyCode, common)
   response.cookies.set('anbu_login_role', 'parent', common)
   response.cookies.set('anbu_parent_connected', 'true', common)
+  response.cookies.set('anbu_parent_verified', 'true', common)
   response.cookies.set('anbu_parent_session', encodeURIComponent(JSON.stringify(session)), common)
 }
 
-async function handle(familyCode: string) {
+export async function POST(request: NextRequest) {
+  const body = await request.json().catch(() => ({}))
+
+  const familyCode = code6(body.familyCode || body.code)
+  const phoneLast4 = digits(body.parentPhoneLast4 || body.phoneLast4).slice(-4)
+
   if (!/^\d{6}$/.test(familyCode)) {
     return NextResponse.json(
       { ok: false, connected: false, message: '6자리 연결코드를 입력해주세요.' },
+      { status: 400 }
+    )
+  }
+
+  if (!/^\d{4}$/.test(phoneLast4)) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '부모님 휴대폰 번호 뒤 4자리를 입력해주세요.' },
       { status: 400 }
     )
   }
@@ -111,17 +144,29 @@ async function handle(familyCode: string) {
 
   if (!family) {
     return NextResponse.json(
-      { ok: false, connected: false, message: '등록된 6자리 연결코드를 찾지 못했습니다.' },
+      { ok: false, connected: false, message: '등록된 연결코드를 찾지 못했습니다.' },
       { status: 404 }
     )
   }
 
-  const session = makeSession(family, familyCode)
+  const storedLast4 =
+    digits(family.parent_phone_last4).slice(-4) ||
+    digits(family.parent_phone).slice(-4)
 
+  if (!storedLast4 || storedLast4 !== phoneLast4) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '연결코드와 부모님 휴대폰 번호가 일치하지 않습니다.' },
+      { status: 403 }
+    )
+  }
+
+  await markVerified(family.id)
+
+  const session = makeSession(familyCode, family)
   const response = NextResponse.json({
     ok: true,
     connected: true,
-    message: '부모님과 자녀 연결이 완료되었습니다.',
+    message: '부모님과 보호자 연결이 완료되었습니다.',
     family,
     session
   })
@@ -132,20 +177,46 @@ async function handle(familyCode: string) {
 }
 
 export async function GET(request: NextRequest) {
+  const verified = request.cookies.get('anbu_parent_verified')?.value === 'true'
+
+  if (!verified) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '검증된 부모님 세션이 없습니다.' },
+      { status: 401 }
+    )
+  }
+
   const familyCode =
-    code6(request.nextUrl.searchParams.get('familyCode')) ||
-    code6(request.nextUrl.searchParams.get('code')) ||
     code6(request.cookies.get('anbu_family_code')?.value) ||
     code6(request.cookies.get('pc_parent_invite_code')?.value) ||
     code6(request.cookies.get('anbu_parent_code')?.value) ||
     code6(request.cookies.get('parent_family_code')?.value)
 
-  return handle(familyCode)
-}
+  if (!/^\d{6}$/.test(familyCode)) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '부모님 연결 세션이 없습니다.' },
+      { status: 400 }
+    )
+  }
 
-export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({}))
-  const familyCode = code6(body.familyCode || body.code)
+  const family = await findFamily(familyCode)
 
-  return handle(familyCode)
+  if (!family) {
+    return NextResponse.json(
+      { ok: false, connected: false, message: '연결 정보를 찾지 못했습니다.' },
+      { status: 404 }
+    )
+  }
+
+  const session = makeSession(familyCode, family)
+  const response = NextResponse.json({
+    ok: true,
+    connected: true,
+    family,
+    session
+  })
+
+  setCookies(response, session)
+
+  return response
 }
