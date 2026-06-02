@@ -10,12 +10,10 @@ type RestResult = {
   error: unknown
 }
 
-type SaveMode = 'inserted' | 'updated'
-
 type SaveResult =
   | {
       ok: true
-      mode: SaveMode
+      mode: 'inserted' | 'updated'
       status: number
       data: unknown
       error: null
@@ -355,7 +353,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_parent_choice_data_report.sql을 실행해주세요.',
+        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_anbu_fingerprint_report.sql을 실행해주세요.',
         detail: result.error
       },
       { status: 500 }

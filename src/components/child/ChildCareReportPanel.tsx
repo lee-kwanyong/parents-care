@@ -21,6 +21,12 @@ type ReportSection = {
   slots: ReportSlot[]
 }
 
+type FingerprintItem = {
+  label: string
+  averageHour: number | null
+  comment: string
+}
+
 type Report = {
   familyCode: string
   parentName: string
@@ -43,6 +49,12 @@ type Report = {
     medicationRate: number
     conditionRisk: number
     emergencyRisk: number
+    rhythmRisk: number
+  }
+  anbuFingerprint: {
+    responseRhythm: FingerprintItem
+    breakfastRhythm: FingerprintItem
+    medicationRhythm: FingerprintItem
   }
   lastResponse: {
     label: string
@@ -51,7 +63,11 @@ type Report = {
   }
   sections: ReportSection[]
   insights: string[]
-  actions: string[]
+  actionBoard: Array<{
+    title: string
+    desc: string
+    priority: string
+  }>
   history: Array<{
     date: string
     score: number
@@ -77,6 +93,12 @@ function toneClass(tone: Tone) {
 function stateClass(state: Report['state']) {
   if (state === '확인 필요') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
   if (state === '주의') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+}
+
+function priorityClass(priority: string) {
+  if (priority === '높음') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (priority === '중간') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
   return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
 }
 
@@ -114,6 +136,26 @@ function MetricCard({
       <div className="text-sm font-black text-[#7A9692]">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em] text-[#173B36]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{desc}</p>
+    </article>
+  )
+}
+
+function FingerprintCard({
+  title,
+  item
+}: {
+  title: string
+  item: FingerprintItem
+}) {
+  return (
+    <article className="rounded-[2rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
+      <div className="text-sm font-black text-[#7A9692]">{title}</div>
+      <h3 className="mt-2 text-2xl font-black tracking-[-0.06em] text-[#173B36]">
+        {item.label}
+      </h3>
+      <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
+        {item.comment}
+      </p>
     </article>
   )
 }
@@ -177,17 +219,17 @@ export function ChildCareReportPanel() {
       <section className="mx-auto max-w-6xl space-y-5">
         <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-            자녀용 부모님 상태 리포트
+            안부지문 리포트
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
             요즘 부모님 상태를
             <br />
-            데이터로 확인합니다.
+            생활리듬으로 봅니다.
           </h1>
 
           <p className="mt-4 text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            부모님이 누른 식사, 복약, 몸 상태, 도움 요청 선택지를 날짜별 데이터로 정리해 최근 상태를 보여줍니다.
+            부모님이 누른 식사, 복약, 몸 상태, 도움 요청 선택지를 데이터화해서 최근 14일 생활리듬과 변화 신호로 정리합니다.
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-[minmax(0,1fr)_9rem]">
@@ -240,10 +282,10 @@ export function ChildCareReportPanel() {
                 </div>
 
                 <div className="rounded-2xl bg-white/75 p-5">
-                  <div className="text-sm font-black opacity-70">최근 추세</div>
+                  <div className="text-sm font-black opacity-70">안부지문 점수</div>
                   <div className="mt-2 text-6xl font-black tracking-[-0.08em]">{report.trendScore}</div>
                   <p className="mt-2 text-sm font-bold leading-6 opacity-75">
-                    최근 14일 기준
+                    최근 14일 생활리듬 기준
                   </p>
                 </div>
               </div>
@@ -267,9 +309,22 @@ export function ChildCareReportPanel() {
               />
               <MetricCard
                 title="주의 신호"
-                value={`${report.metrics.conditionRisk + report.metrics.emergencyRisk}회`}
-                desc={`몸 불편 ${report.metrics.conditionRisk}회 · 도움 요청 ${report.metrics.emergencyRisk}회`}
+                value={`${report.metrics.conditionRisk + report.metrics.emergencyRisk + report.metrics.rhythmRisk}회`}
+                desc={`몸 불편 ${report.metrics.conditionRisk}회 · 도움 요청 ${report.metrics.emergencyRisk}회 · 리듬 변화 ${report.metrics.rhythmRisk}회`}
               />
+            </section>
+
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-3xl font-black tracking-[-0.06em]">안부지문</h2>
+              <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+                부모님마다 다른 응답 시간, 아침 식사, 아침약 복용 리듬을 분석합니다.
+              </p>
+
+              <div className="mt-5 grid gap-4 md:grid-cols-3">
+                <FingerprintCard title="응답 리듬" item={report.anbuFingerprint.responseRhythm} />
+                <FingerprintCard title="아침 식사 리듬" item={report.anbuFingerprint.breakfastRhythm} />
+                <FingerprintCard title="아침약 리듬" item={report.anbuFingerprint.medicationRhythm} />
+              </div>
             </section>
 
             <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
@@ -279,6 +334,19 @@ export function ChildCareReportPanel() {
                   <div key={insight} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
                     {insight}
                   </div>
+                ))}
+              </div>
+            </section>
+
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-2xl font-black tracking-[-0.05em]">가족 다음 행동</h2>
+              <div className="mt-5 grid gap-3 md:grid-cols-3">
+                {report.actionBoard.map((action) => (
+                  <article key={action.title} className={'rounded-2xl p-4 ring-1 ' + priorityClass(action.priority)}>
+                    <div className="text-xs font-black opacity-70">우선순위 {action.priority}</div>
+                    <h3 className="mt-2 text-xl font-black tracking-[-0.05em]">{action.title}</h3>
+                    <p className="mt-2 text-sm font-bold leading-7">{action.desc}</p>
+                  </article>
                 ))}
               </div>
             </section>
@@ -301,27 +369,14 @@ export function ChildCareReportPanel() {
               </section>
             ))}
 
-            <div className="grid gap-5 lg:grid-cols-2">
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-                <h2 className="text-2xl font-black tracking-[-0.05em]">자녀가 확인할 점</h2>
-                <div className="mt-5 space-y-3">
-                  {report.actions.map((action) => (
-                    <div key={action} className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-bold leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
-                      {action}
-                    </div>
-                  ))}
-                </div>
-              </section>
-
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-                <h2 className="text-2xl font-black tracking-[-0.05em]">마지막 응답</h2>
-                <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xl font-black">{report.lastResponse.label}</div>
-                  <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{report.lastResponse.detail}</p>
-                  <p className="mt-2 text-xs font-black text-[#7A9692]">{report.lastResponse.time}</p>
-                </div>
-              </section>
-            </div>
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-2xl font-black tracking-[-0.05em]">마지막 응답</h2>
+              <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <div className="text-xl font-black">{report.lastResponse.label}</div>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{report.lastResponse.detail}</p>
+                <p className="mt-2 text-xs font-black text-[#7A9692]">{report.lastResponse.time}</p>
+              </div>
+            </section>
 
             <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">최근 14일 기록</h2>
@@ -352,10 +407,10 @@ export function ChildCareReportPanel() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <Link
-                href="/family-link"
+                href="/family/invite"
                 className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
               >
-                부모님 연결코드
+                다른 가족 초대
               </Link>
 
               <button
