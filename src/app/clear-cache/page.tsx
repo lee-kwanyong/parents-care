@@ -58,7 +58,7 @@ export default function ClearCachePage() {
             href="/care-request"
             className="rounded-2xl bg-white px-5 py-4 text-base font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
           >
-            부모님 안심케어하기 확인
+            홈 화면에 추가하기 확인
           </Link>
         </div>
       </section>

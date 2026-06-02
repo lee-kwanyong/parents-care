@@ -14,7 +14,7 @@ const primaryActions = [
   },
   {
     href: '/care-request',
-    title: '부모님 안심케어하기',
+    title: '홈 화면에 추가하기',
     desc: '잘 몰라도 운영실이 정리합니다',
     emoji: '💬'
   },

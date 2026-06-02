@@ -112,7 +112,7 @@ function itemTone(row: Record<string, unknown> | null) {
   const status = text(row.status)
   const type = text(row.check_type)
 
-  if (type === 'emergency' || status === 'needs_help') return 'danger'
+  if (status === 'needs_help') return 'danger'
   if (status === 'not_done') return 'warn'
   return 'good'
 }
@@ -187,7 +187,7 @@ export async function GET(request: NextRequest) {
     const type = text(row.check_type)
 
     if (status === 'not_done') warnings.push(`${text(row.care_label) || '미완료'} 기록이 있습니다.`)
-    if (status === 'needs_help' || type === 'emergency') warnings.push(`${text(row.care_label) || '도움 요청'} 신호가 있습니다.`)
+    if (status === 'needs_help') warnings.push(`${text(row.care_label) || '도움 요청'} 신호가 있습니다.`)
   }
 
   const score =
@@ -195,7 +195,7 @@ export async function GET(request: NextRequest) {
     (meal ? 0 : 20) -
     (medication ? 0 : 25) -
     (condition ? 0 : 15) -
-    (emergency ? 35 : 0)
+    (emergency && text(emergency.status) === 'needs_help' ? 35 : 0)
 
   const safeScore = Math.max(0, Math.min(100, score))
   const state = safeScore < 60 ? '확인 필요' : safeScore < 85 ? '주의' : '정상'

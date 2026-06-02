@@ -79,8 +79,8 @@ export default function manifest(): MetadataRoute.Manifest {
         ]
       },
       {
-        name: '부모님 안심케어하기',
-        short_name: '부모님 안심케어하기',
+        name: '홈 화면에 추가하기',
+        short_name: '홈 화면에 추가하기',
         description: '부모님 안심케어를 간단히 시작합니다.',
         url: '/care-request',
         icons: [

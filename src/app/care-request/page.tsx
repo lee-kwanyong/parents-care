@@ -272,7 +272,7 @@ export default function CareRequestPage() {
   }
 
   return (
-    <AppFrame title="부모님 안심케어하기" subtitle="부모님 상황을 말하면 필요한 도움을 정리합니다">
+    <AppFrame title="홈 화면에 추가하기" subtitle="부모님 상황을 말하면 필요한 도움을 정리합니다">
       <SectionHeader
         eyebrow="안심케어 챗봇"
         title={
@@ -285,7 +285,7 @@ export default function CareRequestPage() {
         description="정확히 몰라도 괜찮습니다. 챗봇에 한 줄로 상황을 남기면 운영실 접수에 필요한 항목을 먼저 채워드립니다."
         actions={
           <CareButton href="/care-intake" tone="dark">
-            사진·카톡으로 바로 맡기기
+            부모님과 연결
           </CareButton>
         }
       />

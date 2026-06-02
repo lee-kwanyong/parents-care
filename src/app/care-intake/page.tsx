@@ -265,7 +265,7 @@ export default function CareIntakePage() {
           size="xl"
           className="md:w-full"
         >
-          {saving ? '접수 중...' : '사진·카톡으로 부모님 안심케어하기'}
+          {saving ? '접수 중...' : '사진·카톡으로 홈 화면에 추가하기'}
         </CareButton>
       </form>
 

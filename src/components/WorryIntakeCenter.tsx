@@ -76,7 +76,7 @@ export function WorryIntakeCenter({ error }: { error?: string }) {
           </label>
 
           <button className="w-full rounded-3xl bg-care-600 px-6 py-5 text-xl font-black text-[#2E504D] shadow-soft hover:bg-care-700">
-            부모님 안심케어하기
+            홈 화면에 추가하기
           </button>
         </form>
       </Card>
