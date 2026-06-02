@@ -31,6 +31,7 @@ function toneClass(tone: CheckinButton['tone']) {
 export function ParentTodayConnectedPanel() {
   const [session, setSession] = useState<ParentSession | null>(null)
   const [message, setMessage] = useState('')
+  const [debug, setDebug] = useState('')
   const [lastAction, setLastAction] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -53,6 +54,7 @@ export function ParentTodayConnectedPanel() {
 
     setLoading(true)
     setMessage('')
+    setDebug('')
 
     try {
       const response = await fetch('/api/parent-checkin', {
@@ -71,13 +73,15 @@ export function ParentTodayConnectedPanel() {
 
       if (!response.ok || !data.ok) {
         setMessage(data.message || '안부 저장에 실패했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
         return
       }
 
       setLastAction(item.label)
       setMessage(data.message || `${item.label} 기록이 자녀 리포트에 반영되었습니다.`)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '안부 저장 중 오류가 발생했습니다.')
+      setMessage('안부 저장에 실패했습니다. 네트워크 또는 배포 상태를 확인해주세요.')
+      setDebug(error instanceof Error ? error.message : 'Unknown error')
     } finally {
       setLoading(false)
     }
@@ -108,7 +112,7 @@ export function ParentTodayConnectedPanel() {
           </h1>
 
           <p className="mt-4 text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            이 화면은 연결된 부모님 전용입니다. 식사, 약, 몸 상태를 누르면 자녀 리포트에 반영됩니다.
+            식사, 약, 몸 상태를 누르면 자녀 리포트에 반영됩니다.
           </p>
 
           <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
@@ -119,6 +123,13 @@ export function ParentTodayConnectedPanel() {
             <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
               {message}
             </div>
+          ) : null}
+
+          {debug ? (
+            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+              <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
+              <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
+            </details>
           ) : null}
         </section>
 
