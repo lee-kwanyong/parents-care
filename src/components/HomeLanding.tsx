@@ -5,17 +5,17 @@ import Link from 'next/link'
 const infoCards = [
   {
     title: '3분 안에 접수',
-    desc: '상황 설명 → 부모님 연결 → 안심케어 시작',
+    desc: '상황 설명 → 부모님 코드 입력 → 안심케어 시작',
     accent: '3분'
   },
   {
     title: '부모님 연결 유지',
-    desc: '보호자가 만든 6자리 코드를 부모님이 입력하면 같은 가족코드로 연결됩니다.',
+    desc: '부모님이 6자리 코드를 입력하면 같은 기기에서 연결 상태가 유지됩니다.',
     accent: '연결'
   },
   {
-    title: '보호자가 한눈에',
-    desc: '식사·약·몸 상태·도움 요청을 보호자 화면에서 확인합니다.',
+    title: '자녀가 한눈에',
+    desc: '식사·약·몸 상태·도움 요청을 자녀 리포트 화면에서 확인합니다.',
     accent: '케어'
   }
 ]
@@ -36,16 +36,16 @@ export function HomeLanding() {
           </h1>
 
           <p className="mt-7 max-w-4xl text-xl font-bold leading-10 text-[#637B76] sm:text-2xl sm:leading-[3.25rem]">
-            앱이 어려워도 괜찮습니다. 보호자가 6자리 코드를 만들고,
-            부모님은 그 코드로 안부를 알려줄 수 있습니다.
+            앱이 어려워도 괜찮습니다. 부모님은 6자리 코드로 접속하고,
+            자녀는 식사·약·몸 상태를 한 화면에서 확인합니다.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             <Link
-              href="/family-link"
-              className="rounded-[1.5rem] bg-[#20BFA7] px-6 py-5 text-center text-lg font-black text-white shadow-sm sm:text-xl"
+              href="/parent/login"
+              className="rounded-[1.5rem] bg-[#193B38] px-6 py-5 text-center text-lg font-black text-white shadow-sm sm:text-xl"
             >
-              부모님 연결코드
+              부모님 코드입력
             </Link>
 
             <Link
@@ -91,7 +91,7 @@ export function HomeLanding() {
             </h2>
 
             <p className="mt-5 text-base font-bold leading-8 text-[#E7FFF7]">
-              괜찮아요, 식사했어요, 약 먹었어요, 몸이 불편해요 같은 버튼으로 보호자에게 상태가 전달됩니다.
+              괜찮아요, 식사했어요, 약 먹었어요, 몸이 불편해요 같은 버튼으로 자녀에게 상태가 전달됩니다.
             </p>
           </section>
 

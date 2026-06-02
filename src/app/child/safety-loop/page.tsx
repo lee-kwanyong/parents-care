@@ -1,10 +1,10 @@
 import { ChildCareReportPanel } from '@/components/child/ChildCareReportPanel'
 
 export const metadata = {
-  title: '부모님 케어 | 부모님 안심케어',
+  title: '부모님 안부 리포트 | 부모님 안심케어',
   description: '자녀가 부모님의 식사, 복약, 몸 상태를 확인합니다.'
 }
 
-export default function ChildDashboardPage() {
+export default function ChildSafetyLoopPage() {
   return <ChildCareReportPanel />
 }
