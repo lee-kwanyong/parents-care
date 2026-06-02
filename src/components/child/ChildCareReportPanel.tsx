@@ -407,6 +407,13 @@ export function ChildCareReportPanel() {
 
             <div className="grid gap-3 sm:grid-cols-2">
               <Link
+                href="/family/actions"
+                className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+              >
+                가족 실행 보드
+              </Link>
+
+              <Link
                 href="/family/invite"
                 className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
               >
