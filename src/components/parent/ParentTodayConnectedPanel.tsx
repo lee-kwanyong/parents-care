@@ -91,9 +91,7 @@ export function ParentTodayConnectedPanel() {
 
     try {
       const raw = window.localStorage.getItem(`anbu_today_choices_${stored.familyCode}`)
-      if (raw) {
-        setSelected(JSON.parse(raw))
-      }
+      if (raw) setSelected(JSON.parse(raw))
     } catch {
       // ignore
     }
@@ -186,7 +184,7 @@ export function ParentTodayConnectedPanel() {
           </p>
 
           <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
-            연결됨 · 코드 {session.familyCode} · 보호자 {session.guardianName || '보호자'}
+            보호자 {session.guardianName || '보호자'}님과 연결되었습니다.
           </div>
 
           {message ? (

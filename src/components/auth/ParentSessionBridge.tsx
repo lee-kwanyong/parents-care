@@ -104,6 +104,8 @@ export function readParentSession(): ParentSession | null {
         return {
           ...parsed,
           familyCode,
+          parentName: parsed.parentName || '부모님',
+          guardianName: parsed.guardianName || '보호자',
           role: 'parent',
           loggedIn: true,
           connected: true,
