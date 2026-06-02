@@ -35,6 +35,16 @@ function code6(value: unknown) {
   return text(value).replace(/[^\d]/g, '').slice(0, 6)
 }
 
+function normalizeSlot(value: unknown) {
+  const slot = text(value)
+
+  if (['breakfast', 'lunch', 'dinner', 'morning', 'noon', 'evening', 'day'].includes(slot)) {
+    return slot
+  }
+
+  return 'day'
+}
+
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   if (!raw) return ''
@@ -45,21 +55,13 @@ function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 }
 
-function todayKstRange() {
-  const dateKey = new Intl.DateTimeFormat('sv-SE', {
+function todayKstDateKey() {
+  return new Intl.DateTimeFormat('sv-SE', {
     timeZone: 'Asia/Seoul',
     year: 'numeric',
     month: '2-digit',
     day: '2-digit'
   }).format(new Date())
-
-  const start = new Date(`${dateKey}T00:00:00+09:00`)
-  const end = new Date(start.getTime() + 24 * 60 * 60 * 1000)
-
-  return {
-    startIso: start.toISOString(),
-    endIso: end.toISOString()
-  }
 }
 
 async function rest(path: string, init?: RequestInit): Promise<RestResult> {
@@ -115,18 +117,16 @@ async function findFamily(familyCode: string) {
   return result.data[0] as Record<string, unknown>
 }
 
-async function findTodayExisting(familyCode: string, checkType: string) {
-  const { startIso, endIso } = todayKstRange()
-
+async function findTodayExisting(familyCode: string, checkType: string, checkSlot: string, careDate: string) {
   const result = await rest(
     'daily_care_checkins?select=*&family_code=eq.' +
       encodeURIComponent(familyCode) +
       '&check_type=eq.' +
       encodeURIComponent(checkType) +
-      '&occurred_at=gte.' +
-      encodeURIComponent(startIso) +
-      '&occurred_at=lt.' +
-      encodeURIComponent(endIso) +
+      '&check_slot=eq.' +
+      encodeURIComponent(checkSlot) +
+      '&care_date=eq.' +
+      encodeURIComponent(careDate) +
       '&order=occurred_at.desc&limit=1'
   )
 
@@ -139,11 +139,18 @@ async function saveSingleChoice(payload: {
   familyCode: string
   elderName: string
   checkType: string
+  checkSlot: string
+  careDate: string
   careLabel: string
   status: string
   memo: string
 }): Promise<SaveResult> {
-  const existing = await findTodayExisting(payload.familyCode, payload.checkType)
+  const existing = await findTodayExisting(
+    payload.familyCode,
+    payload.checkType,
+    payload.checkSlot,
+    payload.careDate
+  )
 
   if (existing?.id) {
     const update = await rest('daily_care_checkins?id=eq.' + encodeURIComponent(String(existing.id)), {
@@ -151,6 +158,8 @@ async function saveSingleChoice(payload: {
       headers: { Prefer: 'return=representation' },
       body: JSON.stringify({
         elder_name: payload.elderName,
+        check_slot: payload.checkSlot,
+        care_date: payload.careDate,
         care_label: payload.careLabel,
         status: payload.status,
         memo: payload.memo,
@@ -173,7 +182,7 @@ async function saveSingleChoice(payload: {
       status: update.status,
       data: null,
       error: {
-        message: '기존 안부 선택을 교체하지 못했습니다.',
+        message: '기존 선택을 교체하지 못했습니다.',
         update: update.error
       }
     }
@@ -187,6 +196,8 @@ async function saveSingleChoice(payload: {
         family_code: payload.familyCode,
         elder_name: payload.elderName,
         check_type: payload.checkType,
+        check_slot: payload.checkSlot,
+        care_date: payload.careDate,
         care_label: payload.careLabel,
         status: payload.status,
         memo: payload.memo,
@@ -210,9 +221,45 @@ async function saveSingleChoice(payload: {
     status: insert.status,
     data: null,
     error: {
-      message: '안부 선택을 저장하지 못했습니다.',
+      message: '선택을 저장하지 못했습니다.',
       insert: insert.error
     }
+  }
+}
+
+async function loadTodayChoices(familyCode: string, careDate: string) {
+  const result = await rest(
+    'daily_care_checkins?select=*&family_code=eq.' +
+      encodeURIComponent(familyCode) +
+      '&care_date=eq.' +
+      encodeURIComponent(careDate) +
+      '&order=occurred_at.desc'
+  )
+
+  if (!result.ok || !Array.isArray(result.data)) {
+    return {
+      ok: false,
+      choices: {},
+      rows: [],
+      error: result.error
+    }
+  }
+
+  const choices: Record<string, unknown> = {}
+
+  for (const row of result.data as Record<string, unknown>[]) {
+    const key = `${text(row.check_type)}:${text(row.check_slot) || 'day'}`
+
+    if (!choices[key]) {
+      choices[key] = row
+    }
+  }
+
+  return {
+    ok: true,
+    choices,
+    rows: result.data,
+    error: null
   }
 }
 
@@ -224,10 +271,43 @@ function checkTypeLabel(checkType: string) {
   return '안부'
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const familyCode =
+    code6(request.nextUrl.searchParams.get('familyCode')) ||
+    code6(request.cookies.get('anbu_family_code')?.value) ||
+    code6(request.cookies.get('pc_parent_invite_code')?.value) ||
+    code6(request.cookies.get('anbu_parent_code')?.value) ||
+    code6(request.cookies.get('parent_family_code')?.value)
+
+  if (!/^\d{6}$/.test(familyCode)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '부모님 연결이 없습니다.'
+      },
+      { status: 401 }
+    )
+  }
+
+  const careDate = todayKstDateKey()
+  const result = await loadTodayChoices(familyCode, careDate)
+
+  if (!result.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '오늘 안부 선택을 불러오지 못했습니다.',
+        detail: result.error
+      },
+      { status: 500 }
+    )
+  }
+
   return NextResponse.json({
     ok: true,
-    message: '/api/parent-checkin API is alive'
+    careDate,
+    choices: result.choices,
+    rows: result.rows
   })
 }
 
@@ -252,6 +332,8 @@ export async function POST(request: NextRequest) {
   }
 
   const checkType = text(body.checkType) || 'condition'
+  const checkSlot = normalizeSlot(body.checkSlot)
+  const careDate = todayKstDateKey()
   const careLabel = text(body.careLabel) || '안부 확인'
   const status = text(body.status) || 'done'
   const memo = text(body.memo) || careLabel
@@ -262,6 +344,8 @@ export async function POST(request: NextRequest) {
     familyCode,
     elderName: family ? text(family.parent_name) || '부모님' : '부모님',
     checkType,
+    checkSlot,
+    careDate,
     careLabel,
     status,
     memo
@@ -271,7 +355,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_parent_single_choice_checkins.sql을 실행해주세요.',
+        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_meal_medication_slots.sql을 실행해주세요.',
         detail: result.error
       },
       { status: 500 }
@@ -283,6 +367,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: true,
     mode: result.mode,
+    careDate,
     message:
       result.mode === 'updated'
         ? `${groupLabel} 선택이 ${careLabel}(으)로 변경되었습니다.`
