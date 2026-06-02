@@ -60,6 +60,7 @@ const guestMenu: MenuGroup[] = [
       { label: 'IoT 관제 준비', href: '/gov/iot', desc: '스마트 복약통·UWB 센서 실증 구조' },
       { label: 'R&D 제안 패키지', href: '/gov/proposal', desc: '정부·지자체 과제 제안 구조' },
       { label: '지자체 제출 패키지', href: '/gov/submission', desc: '제안서·실증계획·KPI·메일 초안 생성' },
+      { label: '공공 컴플라이언스', href: '/gov/compliance', desc: '개인정보·접근성 제출 증빙 기록' },
       { label: '제출 PDF 인쇄본', href: '/gov/submission/print', desc: '지자체 제출용 PDF 저장 화면' },
       { label: '제출 전 준비상태', href: '/gov/readiness', desc: 'SQL·페이지·PDF·보안·제안 준비상태 점검' },
       { label: '감사로그', href: '/gov/audit', desc: '접근·처리 기록 확인' },

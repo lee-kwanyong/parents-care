@@ -20,8 +20,14 @@ type RestResult = {
   error: unknown
 }
 
+type Row = Record<string, unknown>
+
 function env(name: string) {
   return process.env[name] || ''
+}
+
+function text(value: unknown) {
+  return typeof value === 'string' ? value.trim() : ''
 }
 
 function mask(value: string) {
@@ -118,7 +124,38 @@ async function checkTable(key: string, label: string, table: string, action?: st
   }
 }
 
+async function complianceFlags() {
+  const result = await rest('gov_compliance_records?select=*&order=created_at.desc&limit=200')
+
+  const flags = {
+    privacy: false,
+    accessibility: false,
+    loaded: false
+  }
+
+  if (!result.ok || !Array.isArray(result.data)) return flags
+
+  flags.loaded = true
+
+  for (const row of result.data as Row[]) {
+    const type = text(row.record_type)
+    const status = text(row.status)
+
+    if (type === 'privacy-minimization' && status === 'done') {
+      flags.privacy = true
+    }
+
+    if (type === 'senior-accessibility' && status === 'done') {
+      flags.accessibility = true
+    }
+  }
+
+  return flags
+}
+
 export async function GET() {
+  const flags = await complianceFlags()
+
   const environmentChecks: CheckItem[] = [
     {
       key: 'supabase-url',
@@ -168,29 +205,34 @@ export async function GET() {
     checkTable('iot-devices', 'IoT 장비 관리', 'iot_devices', '20260602_gov_iot_rnd_package.sql 실행'),
     checkTable('iot-events', 'IoT 이벤트 관리', 'iot_device_events', '20260602_gov_iot_rnd_package.sql 실행'),
     checkTable('pilot-sites', '실증 지자체 관리', 'gov_pilot_sites', '20260602_gov_iot_rnd_package.sql 실행'),
-    checkTable('submission-packages', '지자체 제출 패키지 저장', 'gov_submission_packages', '20260602_gov_submission_package.sql 실행')
+    checkTable('submission-packages', '지자체 제출 패키지 저장', 'gov_submission_packages', '20260602_gov_submission_package.sql 실행'),
+    checkTable('compliance-records', '공공 컴플라이언스 기록', 'gov_compliance_records', '20260603_gov_compliance_records.sql 실행')
   ])
 
   const publicSectorChecks: CheckItem[] = [
     {
       key: 'privacy-minimization',
       label: '개인정보 최소수집 원칙',
-      status: 'warning',
-      detail: '주민등록번호 없이 가족코드·동의 기반 구조로 설계되어 있으나 실제 제출 전 동의문 확정 필요',
-      action: '부모님·가족·수행기관 공유 동의 문구를 최종 확정하세요.'
+      status: flags.privacy ? 'ready' : 'warning',
+      detail: flags.privacy
+        ? '동의·최소수집 검토 완료 기록이 저장되었습니다.'
+        : '주민등록번호 없이 가족코드·동의 기반 구조로 설계되어 있으나 제출 전 동의문 검토 기록이 필요합니다.',
+      action: flags.privacy ? undefined : '/gov/compliance에서 개인정보 최소수집 검토 완료 기록을 남기세요.'
     },
     {
       key: 'accessibility',
       label: '고령친화 UI·접근성',
-      status: 'warning',
-      detail: '부모님 화면은 큰 버튼·큰 글씨 중심이나 실제 고령자 테스트 필요',
-      action: '부모님 3명 이상에게 실제 입력 테스트를 진행하세요.'
+      status: flags.accessibility ? 'ready' : 'warning',
+      detail: flags.accessibility
+        ? '고령친화 UI·접근성 점검 완료 기록이 저장되었습니다.'
+        : '부모님 화면은 큰 버튼·큰 글씨 중심이나 실제 고령자 테스트 기록이 필요합니다.',
+      action: flags.accessibility ? undefined : '/gov/compliance에서 고령친화 UI 점검 완료 기록을 남기세요.'
     },
     {
       key: 'audit-log',
       label: '접근·처리 로그',
       status: databaseChecks.find((item) => item.key === 'gov-audit')?.status || 'missing',
-      detail: '지자체 운영실에서 사례관리·제출 패키지 생성 로그를 남길 수 있습니다.',
+      detail: '지자체 운영실에서 사례관리·제출 패키지·컴플라이언스 기록 로그를 남길 수 있습니다.',
       action: '감사로그 테이블과 운영자 권한 정책을 강화하세요.'
     },
     {
@@ -224,7 +266,9 @@ export async function GET() {
     '/gov/iot',
     '/gov/proposal',
     '/gov/submission',
-    '/gov/submission/print'
+    '/gov/submission/print',
+    '/gov/compliance',
+    '/gov/readiness'
   ]
 
   const allChecks = [...environmentChecks, ...databaseChecks, ...publicSectorChecks]
@@ -235,6 +279,7 @@ export async function GET() {
     generatedAt: new Date().toISOString(),
     readinessScore,
     status: overallStatus(readinessScore),
+    compliance: flags,
     sections: {
       environmentChecks,
       databaseChecks,
@@ -248,6 +293,7 @@ export async function GET() {
       '자녀 /child/dashboard에서 안부지문 리포트 확인',
       '가족 /family/actions에서 확인 완료 처리',
       '지자체 /gov/dashboard에서 위험·성과 지표 확인',
+      '/gov/compliance에서 개인정보·고령친화 점검 기록',
       '/gov/submission에서 제안서 패키지 생성',
       '/gov/submission/print에서 PDF 저장'
     ],
@@ -261,6 +307,7 @@ export async function GET() {
         : [
             'missing 항목의 Supabase SQL 실행',
             'Vercel 환경변수 확인',
+            '/gov/compliance에서 공공 제출 수동 증빙 기록',
             '주요 페이지 접근 테스트',
             '제출용 문서 PDF 생성 확인'
           ]
