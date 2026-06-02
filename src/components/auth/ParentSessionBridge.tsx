@@ -1,8 +1,5 @@
 'use client'
 
-import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
-
 export type ParentSession = {
   familyCode: string
   parentName?: string
@@ -20,25 +17,33 @@ function code6(value: string | null | undefined) {
 }
 
 function setCookie(name: string, value: string, maxAge = 60 * 60 * 24 * 90) {
+  if (typeof document === 'undefined') return
   document.cookie = `${name}=${encodeURIComponent(value)}; path=/; max-age=${maxAge}; samesite=lax`
 }
 
-function clearCookie(name: string) {
-  document.cookie = `${name}=; path=/; max-age=0; samesite=lax`
-}
-
 function getCookie(name: string) {
+  if (typeof document === 'undefined') return ''
   const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'))
   return match ? decodeURIComponent(match[1]) : ''
 }
 
+function clearCookie(name: string) {
+  if (typeof document === 'undefined') return
+  document.cookie = `${name}=; path=/; max-age=0; samesite=lax`
+}
+
 export function saveParentSession(session: ParentSession) {
+  if (typeof window === 'undefined') return
+
   const familyCode = code6(session.familyCode)
+
   if (!/^\d{6}$/.test(familyCode)) return
 
   const payload = {
     ...session,
     familyCode,
+    parentName: session.parentName || '부모님',
+    guardianName: session.guardianName || '보호자',
     role: 'parent',
     loggedIn: true,
     connected: true,
@@ -76,42 +81,39 @@ export function saveParentSession(session: ParentSession) {
   window.dispatchEvent(new CustomEvent('anbu-auth-changed', { detail: payload }))
 }
 
-export function clearUnverifiedParentStorage() {
-  if (typeof window === 'undefined') return
+export function readParentSession(): ParentSession | null {
+  if (typeof window === 'undefined') return null
 
   const verified =
     window.localStorage.getItem('anbu_parent_verified') === 'true' ||
     getCookie('anbu_parent_verified') === 'true'
 
-  if (verified) return
+  if (!verified) return null
 
-  const keys = [
-    'anbu_family_code',
-    'pc_parent_invite_code',
-    'anbu_parent_code',
-    'parent_family_code',
-    'parent_invite_code',
-    'parent_link_code',
-    'anbu_parent_logged_in',
-    'anbu_parent_connected',
-    'anbu_parent_session',
-    'parents_care_parent_session'
-  ]
+  const raw =
+    window.localStorage.getItem('anbu_parent_session') ||
+    window.localStorage.getItem('parents_care_parent_session') ||
+    getCookie('anbu_parent_session')
 
-  for (const key of keys) {
-    window.localStorage.removeItem(key)
-    clearCookie(key)
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw) as ParentSession
+      const familyCode = code6(parsed.familyCode)
+
+      if (/^\d{6}$/.test(familyCode)) {
+        return {
+          ...parsed,
+          familyCode,
+          role: 'parent',
+          loggedIn: true,
+          connected: true,
+          verified: true
+        }
+      }
+    } catch {
+      // ignore
+    }
   }
-}
-
-export function readParentCode() {
-  if (typeof window === 'undefined') return ''
-
-  const verified =
-    window.localStorage.getItem('anbu_parent_verified') === 'true' ||
-    getCookie('anbu_parent_verified') === 'true'
-
-  if (!verified) return ''
 
   const keys = [
     'anbu_family_code',
@@ -123,31 +125,57 @@ export function readParentCode() {
   ]
 
   for (const key of keys) {
-    const code = code6(window.localStorage.getItem(key))
-    if (/^\d{6}$/.test(code)) return code
+    const code = code6(window.localStorage.getItem(key) || getCookie(key))
+
+    if (/^\d{6}$/.test(code)) {
+      return {
+        familyCode: code,
+        parentName: '부모님',
+        guardianName: '보호자',
+        role: 'parent',
+        loggedIn: true,
+        connected: true,
+        verified: true
+      }
+    }
   }
+
+  return null
+}
+
+export function readParentCode() {
+  return readParentSession()?.familyCode || ''
+}
+
+export function clearParentSessionStorage() {
+  if (typeof window === 'undefined') return
+
+  const keys = [
+    'anbu_family_code',
+    'pc_parent_invite_code',
+    'anbu_parent_code',
+    'parent_family_code',
+    'parent_invite_code',
+    'parent_link_code',
+    'anbu_login_role',
+    'anbu_auth_state',
+    'anbu_parent_logged_in',
+    'anbu_parent_connected',
+    'anbu_parent_verified',
+    'anbu_parent_session',
+    'parents_care_parent_session'
+  ]
 
   for (const key of keys) {
-    const code = code6(getCookie(key))
-    if (/^\d{6}$/.test(code)) return code
+    window.localStorage.removeItem(key)
+    clearCookie(key)
   }
 
-  return ''
+  window.dispatchEvent(new CustomEvent('anbu-parent-session-changed'))
+  window.dispatchEvent(new CustomEvent('anbu-auth-changed'))
 }
 
 export function ParentSessionBridge() {
-  const pathname = usePathname() || ''
-
-  useEffect(() => {
-    clearUnverifiedParentStorage()
-  }, [])
-
-  useEffect(() => {
-    if (pathname.startsWith('/parent')) {
-      clearUnverifiedParentStorage()
-    }
-  }, [pathname])
-
   return null
 }
 

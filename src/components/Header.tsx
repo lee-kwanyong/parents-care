@@ -3,91 +3,42 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { readParentSession } from '@/components/auth/ParentSessionBridge'
 
-const menuGroups = [
+type Mode = 'guest' | 'parent'
+
+const guestMenu = [
   {
     title: '시작',
     items: [
-      {
-        label: '홈추가',
-        href: '/install',
-        desc: '휴대폰 홈 화면에 추가'
-      },
-      {
-        label: '홈',
-        href: '/',
-        desc: '처음 화면으로 이동'
-      },
-      {
-        label: '로그인/회원가입',
-        href: '/login',
-        desc: '역할 선택 및 보호자 로그인'
-      }
+      { label: '홈', href: '/', desc: '처음 화면' },
+      { label: '로그인/회원가입', href: '/login', desc: '보호자 로그인' },
+      { label: '홈 화면에 추가', href: '/install', desc: '앱처럼 바로 열기' }
     ]
   },
   {
     title: '부모님',
     items: [
-      {
-        label: '부모님 연결',
-        href: '/family-link',
-        desc: '자녀-부모님 코드 생성'
-      },
-      {
-        label: '부모님 코드',
-        href: '/parent/login',
-        desc: '부모님 6자리 코드 입력'
-      },
-      {
-        label: '부모님 체크',
-        href: '/parent/today',
-        desc: '식사·약·몸상태 안부 버튼'
-      },
-      {
-        label: '안심동의',
-        href: '/parent/consent',
-        desc: '공유 항목 선택'
-      }
+      { label: '부모님 코드입력', href: '/parent/login', desc: '6자리 코드와 휴대폰 뒤 4자리 입력' }
     ]
   },
   {
     title: '보호자',
     items: [
-      {
-        label: '부모님 케어',
-        href: '/child/dashboard',
-        desc: '부모님 상태 한눈에 확인'
-      },
-      {
-        label: '안부온',
-        href: '/child/safety-loop',
-        desc: 'AI 안부확인'
-      }
+      { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 코드 생성' },
+      { label: '부모님 리포트', href: '/child/dashboard', desc: '식사·약·몸상태 확인' }
     ]
-  },
+  }
+]
+
+const parentMenu = [
   {
-    title: '운영',
+    title: '부모님 전용',
     items: [
-      {
-        label: '파트너 승인',
-        href: '/ops/partners',
-        desc: '케어파트너 검증'
-      },
-      {
-        label: '배정 관리',
-        href: '/ops/matching',
-        desc: '부모님 연결코드·매칭'
-      },
-      {
-        label: '배정 현황',
-        href: '/ops/pilot',
-        desc: '실증·배정 운영 현황'
-      },
-      {
-        label: '알림 설정',
-        href: '/ops/notifications',
-        desc: 'SMS·앱알림 설정'
-      }
+      { label: '안부버튼', href: '/parent/today', desc: '식사·약·몸 상태 입력' },
+      { label: '안심동의', href: '/parent/consent', desc: '공유 항목 선택' },
+      { label: '코드입력', href: '/parent/login', desc: '6자리 코드 다시 입력' },
+      { label: '홈 화면에 추가', href: '/install', desc: '앱처럼 바로 열기' }
     ]
   }
 ]
@@ -95,24 +46,42 @@ const menuGroups = [
 export function GlobalHeader() {
   const pathname = usePathname() || '/'
   const [open, setOpen] = useState(false)
+  const [mode, setMode] = useState<Mode>('guest')
   const boxRef = useRef<HTMLDivElement | null>(null)
+
+  function refresh() {
+    setMode(readParentSession() ? 'parent' : 'guest')
+  }
+
+  useEffect(() => {
+    refresh()
+
+    window.addEventListener('storage', refresh)
+    window.addEventListener('focus', refresh)
+    window.addEventListener('anbu-auth-changed', refresh)
+    window.addEventListener('anbu-parent-session-changed', refresh)
+
+    return () => {
+      window.removeEventListener('storage', refresh)
+      window.removeEventListener('focus', refresh)
+      window.removeEventListener('anbu-auth-changed', refresh)
+      window.removeEventListener('anbu-parent-session-changed', refresh)
+    }
+  }, [])
 
   useEffect(() => {
     setOpen(false)
+    refresh()
   }, [pathname])
 
   useEffect(() => {
     function onClick(event: MouseEvent) {
       if (!boxRef.current) return
-      if (!boxRef.current.contains(event.target as Node)) {
-        setOpen(false)
-      }
+      if (!boxRef.current.contains(event.target as Node)) setOpen(false)
     }
 
     function onKey(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        setOpen(false)
-      }
+      if (event.key === 'Escape') setOpen(false)
     }
 
     document.addEventListener('mousedown', onClick)
@@ -124,10 +93,15 @@ export function GlobalHeader() {
     }
   }, [])
 
+  const isParent = mode === 'parent'
+  const menu = isParent ? parentMenu : guestMenu
+  const logoHref = isParent ? '/parent/today' : '/'
+  const subTitle = isParent ? '부모님 연결 완료' : 'by 안부웍스'
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#D8EEE8] bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-        <Link href="/" className="flex min-w-0 items-center gap-3">
+        <Link href={logoHref} className="flex min-w-0 items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#DFF7F0] text-xl">
             ♡
           </span>
@@ -137,12 +111,18 @@ export function GlobalHeader() {
               부모님 안심케어
             </span>
             <span className="block truncate text-[11px] font-bold text-[#5F7D77]">
-              by 안부웍스
+              {subTitle}
             </span>
           </span>
         </Link>
 
         <div ref={boxRef} className="relative flex shrink-0 items-center gap-2">
+          {isParent ? (
+            <span className="hidden rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F] ring-1 ring-[#CDEFE5] sm:inline-flex">
+              연결 완료
+            </span>
+          ) : null}
+
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -152,17 +132,16 @@ export function GlobalHeader() {
             메뉴
           </button>
 
-          <Link
-            href="/login"
-            className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white"
-          >
-            로그인/회원가입
-          </Link>
+          {!isParent ? (
+            <Link href="/login" className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white">
+              로그인/회원가입
+            </Link>
+          ) : null}
 
           {open ? (
             <div className="absolute right-0 top-[calc(100%+0.75rem)] w-[min(24rem,calc(100vw-2rem))] overflow-hidden rounded-[1.5rem] bg-white shadow-[0_18px_52px_rgba(20,82,70,0.18)] ring-1 ring-[#D8EEE8]">
               <div className="max-h-[78vh] overflow-y-auto p-3">
-                {menuGroups.map((group) => (
+                {menu.map((group) => (
                   <section key={group.title} className="py-2">
                     <div className="px-3 text-xs font-black text-[#7A9692]">
                       {group.title}
@@ -175,12 +154,8 @@ export function GlobalHeader() {
                           href={item.href}
                           className="block rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
                         >
-                          <div className="text-sm font-black text-[#173B36]">
-                            {item.label}
-                          </div>
-                          <div className="mt-1 text-xs font-bold leading-5 text-[#637B76]">
-                            {item.desc}
-                          </div>
+                          <div className="text-sm font-black text-[#173B36]">{item.label}</div>
+                          <div className="mt-1 text-xs font-bold leading-5 text-[#637B76]">{item.desc}</div>
                         </Link>
                       ))}
                     </div>

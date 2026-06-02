@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState, type FormEvent } from 'react'
-import { saveParentSession, type ParentSession } from '@/components/auth/ParentSessionBridge'
+import { readParentSession, saveParentSession, type ParentSession } from '@/components/auth/ParentSessionBridge'
 
 function code6(value: string) {
   return value.replace(/[^\d]/g, '').slice(0, 6)
@@ -39,10 +39,7 @@ export function ParentLoginPanel() {
       const response = await fetch('/api/parent-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          familyCode: targetCode,
-          parentPhoneLast4: targetLast4
-        })
+        body: JSON.stringify({ familyCode: targetCode, parentPhoneLast4: targetLast4 })
       })
 
       const data = await response.json().catch(() => ({}))
@@ -59,7 +56,7 @@ export function ParentLoginPanel() {
 
       if (redirect) {
         setTimeout(() => {
-          window.location.href = '/parent/today'
+          window.location.href = '/parent/today?connected=1'
         }, 300)
       }
     } catch (error) {
@@ -75,12 +72,17 @@ export function ParentLoginPanel() {
   }
 
   useEffect(() => {
+    const existing = readParentSession()
+
+    if (existing) {
+      window.location.replace('/parent/today?connected=1')
+      return
+    }
+
     const params = new URLSearchParams(window.location.search)
     const queryCode = code6(params.get('code') || params.get('familyCode') || '')
 
-    if (queryCode) {
-      setFamilyCode(queryCode)
-    }
+    if (queryCode) setFamilyCode(queryCode)
   }, [])
 
   return (
@@ -96,14 +98,8 @@ export function ParentLoginPanel() {
       </h1>
 
       <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">
-        잘못 연결되지 않도록, 보호자가 등록한 부모님 휴대폰 번호와 함께 확인합니다.
+        연결이 완료되면 부모님 전용 안부 화면으로 이동하고, 이 기기에 연결 상태가 저장됩니다.
       </p>
-
-      {session ? (
-        <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
-          현재 연결됨: {session.parentName || '부모님'} · 보호자 {session.guardianName || '보호자'} · 코드 {session.familyCode}
-        </div>
-      ) : null}
 
       {message ? (
         <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">

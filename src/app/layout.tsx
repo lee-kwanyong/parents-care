@@ -9,6 +9,7 @@ import { ParentSessionBridge } from '@/components/auth/ParentSessionBridge'
 import { AnbuAuthPersistence } from '@/components/auth/AnbuAuthPersistence'
 import { GuardianLoginRequiredGuard } from '@/components/auth/GuardianLoginRequiredGuard'
 import { ParentOnlyGuard } from '@/components/auth/ParentOnlyGuard'
+import { ParentConnectedRedirect } from '@/components/auth/ParentConnectedRedirect'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
+        <ParentConnectedRedirect />
         <AnbuAuthPersistence />
         <ParentSessionBridge />
         <GuardianLoginRequiredGuard />
