@@ -20,14 +20,14 @@ export function HomeResponseNetworkBanner() {
           <a href="/parent/login" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36]">
             부모님 코드 입력
           </a>
-          <a href="/response" className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">
-            지역 후속조치
+          <a href="/response/about" className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">
+            지역 안심망 알아보기
           </a>
           <a href="/child/dashboard" className="rounded-2xl bg-white/10 px-5 py-4 text-center text-sm font-black text-white ring-1 ring-white/20">
             부모님 리포트
           </a>
-          <a href="/gov/dashboard" className="rounded-2xl bg-white/10 px-5 py-4 text-center text-sm font-black text-white ring-1 ring-white/20">
-            지자체 운영실
+          <a href="/response" className="rounded-2xl bg-white/10 px-5 py-4 text-center text-sm font-black text-white ring-1 ring-white/20">
+            보호자 후속조치
           </a>
         </div>
       </div>

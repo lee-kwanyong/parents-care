@@ -43,7 +43,7 @@ const guestMenu: MenuGroup[] = [
     items: [
       { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 연결코드 생성' },
       { label: '다른 가족 초대', href: '/family/invite', desc: '형제·자매·배우자를 부모님 리포트에 초대' },
-      { label: '지역 후속조치', href: '/response', desc: '가족·돌봄파트너·지역상점·약국·기관 연결' },
+      { label: '지역 안심망 소개', href: '/response/about', desc: '가족·돌봄파트너·지역상점·기관 연결 구조 소개' },
       { label: '가족 초대코드 입력', href: '/family/join', desc: '초대받은 가족이 코드와 휴대폰 뒤 4자리 입력' },
       { label: '부모님 리포트', href: '/child/dashboard', desc: '식사·복약·몸상태 확인' },
       { label: '부모님 케어', href: '/child/report', desc: '자녀용 부모님 상태 리포트' },
@@ -55,6 +55,7 @@ const guestMenu: MenuGroup[] = [
     title: '지자체·R&D',
     items: [
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
+      { label: '지역 후속조치 관제', href: '/response?scope=ops', desc: '운영실 인증 후 전체 요청 관제' },
       { label: '대상자 관리', href: '/gov/recipients', desc: '실증 대상자와 담당자를 관리' },
       { label: '사례관리', href: '/gov/cases', desc: '전화 확인·방문 필요·완료 기록' },
       { label: '성과보고', href: '/gov/reports', desc: '월간 성과지표와 보고서 초안' },

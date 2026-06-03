@@ -162,7 +162,7 @@ const guestGroups: MenuGroup[] = [
     items: [
       { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 연결코드 생성' },
       { label: '다른 가족 초대', href: '/family/invite', desc: '형제·자매·배우자를 부모님 리포트에 초대' },
-      { label: '지역 후속조치', href: '/response', desc: '가족·돌봄파트너·지역상점·약국·기관 연결' },
+      { label: '지역 안심망 소개', href: '/response/about', desc: '가족·돌봄파트너·지역상점·기관 연결 구조 소개' },
       { label: '가족 실행 보드', href: '/family/actions', desc: '가족이 확인할 일을 나눠 맡고 완료 기록을 남깁니다' },
       { label: '가족 초대코드 입력', href: '/family/join', desc: '초대받은 가족이 코드와 휴대폰 뒤 4자리 입력' },
       { label: '부모님 리포트', href: '/child/dashboard', desc: '부모님 상태 리포트 확인' },
@@ -174,6 +174,7 @@ const guestGroups: MenuGroup[] = [
     title: '운영',
     items: [
       { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
+      { label: '지역 후속조치 관제', href: '/response?scope=ops', desc: '운영실 인증 후 전체 요청 관제' },
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
       { label: '제출 전 준비상태', href: '/gov/readiness', desc: 'SQL·페이지·PDF·보안·제안 준비상태 점검' },
       { label: '공공 컴플라이언스', href: '/gov/compliance', desc: '개인정보·접근성 제출 증빙 기록' },

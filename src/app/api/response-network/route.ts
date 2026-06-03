@@ -1,3 +1,4 @@
+import { createHash, timingSafeEqual } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -12,12 +13,50 @@ type RestResult = {
 
 type Row = Record<string, unknown>
 
+const OPS_COOKIE_NAME = 'anbu_ops_token'
+
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
 function code6(value: unknown) {
   return text(value).replace(/[^\d]/g, '').slice(0, 6)
+}
+
+function phone(value: unknown) {
+  return text(value).replace(/[^\d]/g, '')
+}
+
+function opsPassword() {
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+}
+
+function authSecret() {
+  return process.env.ANBU_OPS_AUTH_SECRET || 'anbuworks-ops-auth-secret'
+}
+
+function tokenFor(password: string) {
+  return createHash('sha256').update(password + ':' + authSecret()).digest('hex')
+}
+
+function safeEqual(a: string, b: string) {
+  const left = Buffer.from(a)
+  const right = Buffer.from(b)
+  if (left.length !== right.length) return false
+  return timingSafeEqual(left, right)
+}
+
+function isOpsAuthed(request: NextRequest) {
+  const configuredPassword = opsPassword()
+  const token = request.cookies.get(OPS_COOKIE_NAME)?.value || ''
+
+  if (!configuredPassword || !token) return false
+
+  try {
+    return safeEqual(token, tokenFor(configuredPassword))
+  } catch {
+    return false
+  }
 }
 
 function supabaseBaseUrl() {
@@ -75,35 +114,21 @@ function rows(result: RestResult): Row[] {
   return result.ok && Array.isArray(result.data) ? result.data as Row[] : []
 }
 
-function phone(value: unknown) {
-  return text(value).replace(/[^\d]/g, '')
-}
-
 function requestTypeLabel(type: string) {
   if (type === 'meal_delivery') return '식사 연결'
   if (type === 'medication_reminder') return '복약 확인'
-  if (type === 'care_partner_check') return '돌봄 확인'
   if (type === 'urgent_neighbor_help') return '긴급 도움'
+  if (type === 'care_partner_check') return '돌봄 확인'
   if (type === 'pharmacy_call') return '약국 상담'
   return '안부 확인'
 }
 
 function recommendedAction(type: string) {
-  if (type === 'meal_delivery') {
-    return '가족이 식사 여부를 확인하고, 필요하면 주변 가게·도시락·반찬가게에 식사 연결을 요청하세요.'
-  }
-  if (type === 'medication_reminder') {
-    return '복약 여부를 다시 확인하고, 반복되면 보호자·돌봄파트너·약국 상담으로 연결하세요.'
-  }
-  if (type === 'urgent_neighbor_help') {
-    return '가족에게 즉시 알리고, 응답이 없으면 가까운 돌봄파트너·수행기관 확인 요청으로 연결하세요. 응급 가능성이 있으면 119 또는 의료기관에 연락하세요.'
-  }
-  if (type === 'care_partner_check') {
-    return '가족 또는 돌봄파트너가 전화·방문으로 상태를 확인하고 결과를 기록하세요.'
-  }
-  if (type === 'pharmacy_call') {
-    return '약국 상담이 필요한지 보호자가 확인하고, 처방·복약 관련 판단은 약사 또는 의료기관에 문의하세요.'
-  }
+  if (type === 'meal_delivery') return '가족이 식사 여부를 확인하고, 필요하면 주변 가게·도시락·반찬가게에 식사 연결을 요청하세요.'
+  if (type === 'medication_reminder') return '복약 여부를 다시 확인하고, 반복되면 보호자·돌봄파트너·약국 상담으로 연결하세요.'
+  if (type === 'urgent_neighbor_help') return '가족에게 즉시 알리고, 응답이 없으면 가까운 돌봄파트너·수행기관 확인 요청으로 연결하세요. 응급 가능성이 있으면 119 또는 의료기관에 연락하세요.'
+  if (type === 'care_partner_check') return '가족 또는 돌봄파트너가 전화·방문으로 상태를 확인하고 결과를 기록하세요.'
+  if (type === 'pharmacy_call') return '약국 상담이 필요한지 보호자가 확인하고, 처방·복약 관련 판단은 약사 또는 의료기관에 문의하세요.'
   return '가족이 먼저 확인하고 필요한 지역 후속조치를 연결하세요.'
 }
 
@@ -116,20 +141,60 @@ function providerTypesFor(requestType: string) {
   return ['care_partner', 'family']
 }
 
+function emptyResponse(message: string, familyCode = '') {
+  return NextResponse.json({
+    ok: true,
+    needFamilyCode: true,
+    message,
+    familyCode,
+    requests: [],
+    providers: [],
+    matches: [],
+    updates: [],
+    metrics: {
+      total: 0,
+      open: 0,
+      urgent: 0,
+      completed: 0,
+      providers: 0
+    }
+  })
+}
+
 export async function GET(request: NextRequest) {
   const familyCode = code6(request.nextUrl.searchParams.get('familyCode'))
-  const status = text(request.nextUrl.searchParams.get('status'))
+  const scope = text(request.nextUrl.searchParams.get('scope'))
+  const ops = isOpsAuthed(request)
+
+  if (scope === 'ops' && !ops) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '운영실 인증이 필요합니다. 먼저 /ops 에서 운영실 비밀번호로 로그인해주세요.'
+      },
+      { status: 401 }
+    )
+  }
+
+  if (!familyCode && scope !== 'ops') {
+    return emptyResponse('가족코드 6자리를 입력하면 내 부모님 관련 후속조치만 조회합니다.')
+  }
 
   const requestPath =
     'care_response_requests?select=*&order=created_at.desc&limit=300' +
-    (familyCode ? '&family_code=eq.' + encodeURIComponent(familyCode) : '') +
-    (status ? '&status=eq.' + encodeURIComponent(status) : '')
+    (scope === 'ops' ? '' : '&family_code=eq.' + encodeURIComponent(familyCode))
 
   const [requestsResult, providersResult, matchesResult, updatesResult] = await Promise.all([
     rest(requestPath),
-    rest('care_providers?select=*&order=created_at.desc&limit=300'),
-    rest('care_response_matches?select=*&order=created_at.desc&limit=500'),
-    rest('care_response_updates?select=*&order=created_at.desc&limit=500')
+    scope === 'ops'
+      ? rest('care_providers?select=*&order=created_at.desc&limit=300')
+      : rest('care_providers?select=provider_type,provider_name,service_area,available_status,verified_status,response_time_min&order=created_at.desc&limit=60'),
+    scope === 'ops'
+      ? rest('care_response_matches?select=*&order=created_at.desc&limit=500')
+      : rest('care_response_matches?select=request_id,match_status,created_at&order=created_at.desc&limit=100'),
+    scope === 'ops'
+      ? rest('care_response_updates?select=*&order=created_at.desc&limit=500')
+      : rest('care_response_updates?select=request_id,actor_type,actor_name,update_type,message,created_at&order=created_at.desc&limit=100')
   ])
 
   if (!requestsResult.ok) {
@@ -153,6 +218,8 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     ok: true,
+    scope: scope === 'ops' ? 'ops' : 'family',
+    familyCode,
     requests,
     providers,
     matches,
@@ -170,8 +237,19 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const action = text(body.action)
+  const ops = isOpsAuthed(request)
 
   if (action === 'createProvider') {
+    if (!ops) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '지역 제공자 등록은 운영실 인증이 필요합니다.'
+        },
+        { status: 401 }
+      )
+    }
+
     const payload = {
       provider_type: text(body.providerType) || 'care_partner',
       provider_name: text(body.providerName) || '지역 돌봄파트너',
@@ -210,6 +288,16 @@ export async function POST(request: NextRequest) {
     const requestType = text(body.requestType) || 'care_partner_check'
     const familyCode = code6(body.familyCode)
 
+    if (!familyCode && !ops) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '후속조치 요청을 만들려면 가족코드가 필요합니다.'
+        },
+        { status: 400 }
+      )
+    }
+
     const payload = {
       family_code: familyCode || null,
       parent_name: text(body.parentName) || '부모님',
@@ -225,7 +313,7 @@ export async function POST(request: NextRequest) {
       address_hint: text(body.addressHint),
       requested_action: text(body.requestedAction) || recommendedAction(requestType),
       dispatch_scope: 'family_first',
-      source: 'manual',
+      source: ops ? 'ops-manual' : 'family-manual',
       source_key: text(body.sourceKey) || null,
       payload: body,
       updated_at: new Date().toISOString()
@@ -248,8 +336,8 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify([
         {
           request_id: created.id,
-          actor_type: 'system',
-          actor_name: '안부웍스',
+          actor_type: ops ? 'ops' : 'family',
+          actor_name: ops ? '운영실' : '가족',
           update_type: 'created',
           message: '후속조치 요청이 생성되었습니다.',
           payload: created
@@ -265,6 +353,16 @@ export async function POST(request: NextRequest) {
   }
 
   if (action === 'dispatch') {
+    if (!ops) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '주변 도움망 전파는 운영실 인증이 필요합니다.'
+        },
+        { status: 401 }
+      )
+    }
+
     const requestId = text(body.requestId)
 
     if (!requestId) {
@@ -280,7 +378,10 @@ export async function POST(request: NextRequest) {
     const requestRow = requestResult.data[0] as Row
     const requestType = text(requestRow.request_type)
     const types = providerTypesFor(requestType)
-    const providerQuery = 'care_providers?select=*&available_status=eq.available&provider_type=in.(' + types.map(encodeURIComponent).join(',') + ')&order=response_time_min.asc&limit=10'
+    const providerQuery =
+      'care_providers?select=*&available_status=eq.available&provider_type=in.(' +
+      types.map(encodeURIComponent).join(',') +
+      ')&order=response_time_min.asc&limit=10'
 
     const providersResult = await rest(providerQuery)
     const providers = rows(providersResult)
@@ -389,10 +490,27 @@ export async function PATCH(request: NextRequest) {
   const status = text(body.status)
   const actorName = text(body.actorName) || '가족'
   const note = text(body.note)
+  const familyCode = code6(body.familyCode)
+  const ops = isOpsAuthed(request)
 
   if (!requestId || !status) {
     return NextResponse.json({ ok: false, message: 'requestId와 status가 필요합니다.' }, { status: 400 })
   }
+
+  if (!ops && !familyCode) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '상태를 변경하려면 가족코드가 필요합니다.'
+      },
+      { status: 400 }
+    )
+  }
+
+  const filter =
+    'id=eq.' +
+    encodeURIComponent(requestId) +
+    (ops ? '' : '&family_code=eq.' + encodeURIComponent(familyCode))
 
   const patch: Row = {
     status,
@@ -409,11 +527,9 @@ export async function PATCH(request: NextRequest) {
     patch.completed_note = note || `${actorName} 처리 완료`
   }
 
-  if (note) {
-    patch.completed_note = note
-  }
+  if (note) patch.completed_note = note
 
-  const result = await rest('care_response_requests?id=eq.' + encodeURIComponent(requestId), {
+  const result = await rest('care_response_requests?' + filter, {
     method: 'PATCH',
     headers: { Prefer: 'return=representation' },
     body: JSON.stringify(patch)
@@ -428,7 +544,7 @@ export async function PATCH(request: NextRequest) {
     body: JSON.stringify([
       {
         request_id: requestId,
-        actor_type: 'user',
+        actor_type: ops ? 'ops' : 'family',
         actor_name: actorName,
         update_type: status,
         message: note || `${actorName} 상태 변경: ${status}`,
