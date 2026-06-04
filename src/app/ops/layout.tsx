@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
-import { OpsLayoutClient } from '@/components/ops/OpsLayoutClient'
+import { OpsPasswordGate } from '@/components/ops/OpsPasswordGate'
 
 export default function OpsLayout({ children }: { children: ReactNode }) {
-  return <OpsLayoutClient>{children}</OpsLayoutClient>
+  return <OpsPasswordGate>{children}</OpsPasswordGate>
 }

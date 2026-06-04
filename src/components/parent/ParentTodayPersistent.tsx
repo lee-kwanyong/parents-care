@@ -189,7 +189,7 @@ export function ParentTodayPersistent() {
 
           {session ? (
             <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
-              연결됨: {session.parentName || '부모님'} · 보호자 {session.guardianName || '보호자'} · 코드 {session.familyCode}
+              연결됨: {session.parentName || '부모님'} · 보호자 {session.guardianName || '보호자'} 
             </div>
           ) : (
             <form onSubmit={connectInline} className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
