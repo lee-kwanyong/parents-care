@@ -13,15 +13,13 @@ type RequestRow = {
   status?: string
   service_area?: string
   requested_action?: string
-  accepted_by_name?: string
-  completed_note?: string
-  created_at?: string
 }
 
 type ProviderRow = {
   id: string
   provider_type?: string
   provider_name?: string
+  phone?: string
   service_area?: string
   verified_status?: string
   available_status?: string
@@ -38,6 +36,10 @@ type Metrics = {
 
 function code6(value: string) {
   return value.replace(/[^\d]/g, '').slice(0, 6)
+}
+
+function phoneOnly(value: string) {
+  return value.replace(/[^\d]/g, '')
 }
 
 function readFamilyCode() {
@@ -82,34 +84,9 @@ function statusLabel(status?: string) {
   return status || '대기'
 }
 
-function riskClass(risk?: string) {
+function cardClass(risk?: string) {
   if (risk === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
   return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-}
-
-function statusClass(status?: string) {
-  if (status === 'completed') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'manual_needed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (status === 'dispatched') return 'bg-[#EEF6FF] text-[#1B4E7A] ring-[#CFE5FA]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
-}
-
-function modeHelp(scope: 'family' | 'ops') {
-  if (scope === 'ops') {
-    return '운영실 모드는 전체 후속조치 요청을 보고, 지역 제공자 등록과 주변 도움망 전파를 관리합니다.'
-  }
-
-  return '보호자 모드는 가족코드로 내 부모님 후속조치만 조회합니다. 전체 요청이나 지역 제공자 연락처는 보이지 않습니다.'
-}
-
-function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
-  return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
-      <div className="text-sm font-black opacity-70">{title}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
-      <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
-    </article>
-  )
 }
 
 export function ResponseNetworkPanel() {
@@ -120,9 +97,7 @@ export function ResponseNetworkPanel() {
   const [metrics, setMetrics] = useState<Metrics>({ total: 0, open: 0, urgent: 0, completed: 0, providers: 0 })
   const [message, setMessage] = useState('')
   const [debug, setDebug] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [showCreate, setShowCreate] = useState(false)
-  const [showProvider, setShowProvider] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const [requestForm, setRequestForm] = useState({
     familyCode: '',
@@ -174,23 +149,20 @@ export function ResponseNetworkPanel() {
       const data = await response.json().catch(() => ({}))
 
       if (!response.ok || !data.ok) {
-        setMessage(data.message || '지역 후속조치 네트워크를 불러오지 못했습니다.')
+        setMessage(data.message || '후속조치 요청을 불러오지 못했습니다.')
         setDebug(JSON.stringify(data.detail || data, null, 2))
         setRequests([])
         setProviders([])
-        setMetrics({ total: 0, open: 0, urgent: 0, completed: 0, providers: 0 })
         return
       }
 
-      if (data.needFamilyCode) {
-        setMessage(data.message || '가족코드가 필요합니다.')
-      }
+      if (data.needFamilyCode) setMessage(data.message)
 
       setRequests(Array.isArray(data.requests) ? data.requests : [])
       setProviders(Array.isArray(data.providers) ? data.providers : [])
       setMetrics(data.metrics || { total: 0, open: 0, urgent: 0, completed: 0, providers: 0 })
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '지역 후속조치 네트워크를 불러오지 못했습니다.')
+      setMessage(error instanceof Error ? error.message : '후속조치 요청을 불러오지 못했습니다.')
     } finally {
       setLoading(false)
     }
@@ -213,15 +185,13 @@ export function ResponseNetworkPanel() {
       if (!response.ok || !data.ok) {
         setMessage(data.message || '처리에 실패했습니다.')
         setDebug(JSON.stringify(data.detail || data, null, 2))
-        return false
+        return
       }
 
       setMessage(data.message || '처리되었습니다.')
-      await load()
-      return true
+      await load(scope, familyCode)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '처리 중 오류가 발생했습니다.')
-      return false
     } finally {
       setLoading(false)
     }
@@ -254,7 +224,7 @@ export function ResponseNetworkPanel() {
       }
 
       setMessage(data.message || '상태가 변경되었습니다.')
-      await load()
+      await load(scope, familyCode)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '상태 변경 중 오류가 발생했습니다.')
     } finally {
@@ -267,6 +237,7 @@ export function ResponseNetworkPanel() {
     const isOps = params.get('scope') === 'ops'
     const storedCode = readFamilyCode()
     const initialScope = isOps ? 'ops' : 'family'
+
     setScope(initialScope)
     setFamilyCode(storedCode)
     setRequestForm((prev) => ({ ...prev, familyCode: storedCode }))
@@ -285,26 +256,16 @@ export function ResponseNetworkPanel() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            지금 이 화면에서
+            부모님 신호를
             <br />
-            무엇을 해야 하는지 보여줍니다.
+            실제 행동으로 연결합니다.
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            후속조치 요청센터는 일반 소개 페이지가 아닙니다. 보호자는 내 부모님 요청만 확인하고, 운영실은 인증 후 전체 요청을 관제합니다.
+            보호자는 가족코드로 내 부모님 요청만 보고, 운영실은 인증 후 전체 요청과 지역 도움망 전파를 관리합니다.
           </p>
 
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <GuideCard number="1" title="가족코드 또는 운영실 선택" desc="보호자는 가족코드로 내 부모님 요청만 조회합니다." />
-            <GuideCard number="2" title="요청 상태 확인" desc="긴급, 주의, 전파됨, 완료 상태를 색상과 문구로 구분합니다." />
-            <GuideCard number="3" title="처리 결과 남기기" desc="확인 맡기, 주변 도움망 요청, 처리 완료를 기록합니다." />
-          </div>
-
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
-            응급상황을 앱이 직접 판단하지 않습니다. 응급 가능성이 있으면 119 또는 의료기관에 연락해야 합니다.
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             <button
               onClick={() => {
                 setScope('family')
@@ -314,6 +275,7 @@ export function ResponseNetworkPanel() {
             >
               보호자 모드
             </button>
+
             <button
               onClick={() => {
                 setScope('ops')
@@ -323,13 +285,10 @@ export function ResponseNetworkPanel() {
             >
               운영실 모드
             </button>
-            <Link href="/response/about" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-              지역 안심망 소개
-            </Link>
-          </div>
 
-          <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
-            {modeHelp(scope)}
+            <Link href="/ops/notification-dispatch" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              알림 발송센터
+            </Link>
           </div>
 
           {!isOps ? (
@@ -342,6 +301,7 @@ export function ResponseNetworkPanel() {
                 placeholder="가족코드 6자리"
                 className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
+
               <button
                 onClick={() => load('family', familyCode)}
                 disabled={loading}
@@ -353,111 +313,143 @@ export function ResponseNetworkPanel() {
           ) : null}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
-              <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
+              <pre className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
           ) : null}
         </section>
 
         <section className="grid gap-4 md:grid-cols-5">
-          <MetricCard title="열린 요청" value={`${metrics.open}개`} desc="아직 처리 중인 지역 후속조치" danger={metrics.open > 0} />
-          <MetricCard title="긴급" value={`${metrics.urgent}개`} desc="도움 요청·몸 상태·복약 위험" danger={metrics.urgent > 0} />
-          <MetricCard title="완료" value={`${metrics.completed}개`} desc="처리 완료된 요청" />
-          <MetricCard title="지역 제공자" value={`${metrics.providers}명`} desc="돌봄파트너·상점·약국·기관" />
-          <MetricCard title="전체 요청" value={`${metrics.total}개`} desc="누적 후속조치 요청" />
+          <MetricCard title="열린 요청" value={`${metrics.open}개`} desc="아직 처리 중" danger={metrics.open > 0} />
+          <MetricCard title="긴급" value={`${metrics.urgent}개`} desc="즉시 확인 필요" danger={metrics.urgent > 0} />
+          <MetricCard title="완료" value={`${metrics.completed}개`} desc="처리 완료" />
+          <MetricCard title="지역 제공자" value={`${metrics.providers}명`} desc="등록된 도움망" />
+          <MetricCard title="전체" value={`${metrics.total}개`} desc="전체 요청" />
+        </section>
+
+        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <h2 className="text-2xl font-black tracking-[-0.05em]">후속조치 요청 만들기</h2>
+
+            <div className="mt-5 grid gap-3">
+              <select
+                value={requestForm.requestType}
+                onChange={(event) => {
+                  const type = event.target.value
+                  setRequestForm({
+                    ...requestForm,
+                    requestType: type,
+                    signalLabel:
+                      type === 'meal_delivery'
+                        ? '밥을 못 먹었어요'
+                        : type === 'medication_reminder'
+                          ? '약을 못 먹었어요'
+                          : type === 'care_partner_check'
+                            ? '몸이 아파요'
+                            : type === 'pharmacy_call'
+                              ? '약 관련 확인이 필요해요'
+                              : '도움이 필요해요',
+                    riskLevel: type === 'meal_delivery' ? 'medium' : 'high'
+                  })
+                }}
+                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              >
+                <option value="urgent_neighbor_help">도움이 필요해요</option>
+                <option value="meal_delivery">밥을 못 먹었어요</option>
+                <option value="medication_reminder">약을 못 먹었어요</option>
+                <option value="care_partner_check">몸이 아파요</option>
+                <option value="pharmacy_call">약국 상담 필요</option>
+              </select>
+
+              <Input label="가족코드" value={requestForm.familyCode} onChange={(v) => setRequestForm({ ...requestForm, familyCode: code6(v) })} />
+              <Input label="부모님 이름" value={requestForm.parentName} onChange={(v) => setRequestForm({ ...requestForm, parentName: v })} />
+              <Input label="부모님 연락처" value={requestForm.parentPhone} onChange={(v) => setRequestForm({ ...requestForm, parentPhone: phoneOnly(v) })} />
+              <Input label="보호자 연락처" value={requestForm.guardianPhone} onChange={(v) => setRequestForm({ ...requestForm, guardianPhone: phoneOnly(v) })} />
+              <Input label="권역/동네" value={requestForm.serviceArea} onChange={(v) => setRequestForm({ ...requestForm, serviceArea: v })} />
+              <Input label="주소 힌트" value={requestForm.addressHint} onChange={(v) => setRequestForm({ ...requestForm, addressHint: v })} />
+
+              <button
+                onClick={() => post('createRequest', {
+                  ...requestForm,
+                  familyCode: requestForm.familyCode || familyCode
+                })}
+                disabled={loading}
+                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              >
+                후속조치 요청 생성
+              </button>
+            </div>
+          </section>
+
+          {isOps ? (
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-2xl font-black tracking-[-0.05em]">지역 제공자 등록</h2>
+
+              <div className="mt-5 grid gap-3">
+                <select
+                  value={providerForm.providerType}
+                  onChange={(event) => setProviderForm({ ...providerForm, providerType: event.target.value })}
+                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                >
+                  <option value="care_partner">돌봄파트너</option>
+                  <option value="caregiver">요양보호사</option>
+                  <option value="local_store">지역상점</option>
+                  <option value="meal_provider">도시락/반찬가게</option>
+                  <option value="pharmacy">약국</option>
+                  <option value="welfare_org">수행기관</option>
+                  <option value="gov_center">지자체</option>
+                  <option value="family">가족</option>
+                </select>
+
+                <Input label="이름/상호" value={providerForm.providerName} onChange={(v) => setProviderForm({ ...providerForm, providerName: v })} />
+                <Input label="연락처" value={providerForm.phone} onChange={(v) => setProviderForm({ ...providerForm, phone: phoneOnly(v) })} />
+                <Input label="권역/동네" value={providerForm.serviceArea} onChange={(v) => setProviderForm({ ...providerForm, serviceArea: v })} />
+                <Input label="자격/역할" value={providerForm.qualification} onChange={(v) => setProviderForm({ ...providerForm, qualification: v })} />
+
+                <button
+                  onClick={() => post('createProvider', providerForm)}
+                  disabled={loading || !providerForm.providerName.trim()}
+                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                >
+                  지역 제공자 등록
+                </button>
+              </div>
+            </section>
+          ) : (
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-2xl font-black tracking-[-0.05em]">보호자 안내</h2>
+              <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
+                보호자 모드에서는 내 부모님 관련 요청만 조회하고 처리할 수 있습니다. 주변 도움망 전파와 제공자 등록은 운영실 모드에서만 가능합니다.
+              </p>
+            </section>
+          )}
         </section>
 
         <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 className="text-3xl font-black tracking-[-0.06em]">현재 처리할 요청</h2>
-              <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                긴급 요청은 먼저 확인하고, 처리한 사람과 결과를 남겨주세요.
-              </p>
-            </div>
-
-            <button
-              onClick={() => setShowCreate((value) => !value)}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
-            >
-              {showCreate ? '요청 만들기 닫기' : '직접 요청 만들기'}
-            </button>
-          </div>
-
-          {showCreate ? (
-            <div className="mt-5 rounded-[2rem] bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:p-5">
-              <h3 className="text-xl font-black tracking-[-0.05em]">후속조치 요청 만들기</h3>
-
-              <div className="mt-4 grid gap-3 md:grid-cols-2">
-                <select
-                  value={requestForm.requestType}
-                  onChange={(event) => {
-                    const type = event.target.value
-                    setRequestForm({
-                      ...requestForm,
-                      requestType: type,
-                      signalLabel:
-                        type === 'meal_delivery'
-                          ? '밥을 못 먹었어요'
-                          : type === 'medication_reminder'
-                            ? '약을 못 먹었어요'
-                            : type === 'pharmacy_call'
-                              ? '약 관련 확인이 필요해요'
-                              : type === 'care_partner_check'
-                                ? '몸이 아파요'
-                                : '도움이 필요해요',
-                      riskLevel: type === 'meal_delivery' ? 'medium' : 'high'
-                    })
-                  }}
-                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-                >
-                  <option value="urgent_neighbor_help">도움이 필요해요 → 가까운 돌봄망 확인</option>
-                  <option value="meal_delivery">밥을 못 먹었어요 → 식사/지역상점 연결</option>
-                  <option value="medication_reminder">약을 못 먹었어요 → 복약 확인</option>
-                  <option value="care_partner_check">몸이 아파요 → 돌봄파트너 확인</option>
-                  <option value="pharmacy_call">약국 상담 필요 → 약국 연결</option>
-                </select>
-
-                <Input label="가족코드" value={requestForm.familyCode} onChange={(v) => setRequestForm({ ...requestForm, familyCode: code6(v) })} />
-                <Input label="부모님 이름" value={requestForm.parentName} onChange={(v) => setRequestForm({ ...requestForm, parentName: v })} />
-                <Input label="부모님 연락처" value={requestForm.parentPhone} onChange={(v) => setRequestForm({ ...requestForm, parentPhone: v })} />
-                <Input label="보호자 연락처" value={requestForm.guardianPhone} onChange={(v) => setRequestForm({ ...requestForm, guardianPhone: v })} />
-                <Input label="권역/동네" value={requestForm.serviceArea} onChange={(v) => setRequestForm({ ...requestForm, serviceArea: v })} />
-                <Input label="주소 힌트" value={requestForm.addressHint} onChange={(v) => setRequestForm({ ...requestForm, addressHint: v })} />
-
-                <button
-                  onClick={() => post('createRequest', requestForm)}
-                  disabled={loading}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50 md:col-span-2"
-                >
-                  후속조치 요청 생성
-                </button>
-              </div>
-            </div>
-          ) : null}
+          <h2 className="text-3xl font-black tracking-[-0.06em]">현재 요청</h2>
 
           <div className="mt-5 space-y-3">
             {openRequests.length === 0 ? (
               <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
-                현재 열린 지역 후속조치 요청이 없습니다.
+                현재 열린 후속조치 요청이 없습니다.
               </div>
             ) : (
               openRequests.map((request) => (
-                <article key={request.id} className={'rounded-[2rem] p-5 ring-1 ' + riskClass(request.risk_level)}>
+                <article key={request.id} className={'rounded-[2rem] p-5 ring-1 ' + cardClass(request.risk_level)}>
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                     <div className="min-w-0">
                       <div className="flex flex-wrap gap-2">
                         <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
                           {request.risk_level === 'high' ? '긴급' : '주의'}
                         </span>
-                        <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(request.status)}>
+                        <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
                           {statusLabel(request.status)}
                         </span>
                         <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
@@ -504,14 +496,6 @@ export function ResponseNetworkPanel() {
                       >
                         처리 완료
                       </button>
-
-                      <button
-                        onClick={() => patch(request, 'cancelled', '요청 취소')}
-                        disabled={loading}
-                        className="rounded-xl bg-white/60 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
-                      >
-                        취소
-                      </button>
                     </div>
                   </div>
                 </article>
@@ -522,57 +506,7 @@ export function ResponseNetworkPanel() {
 
         {isOps ? (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-3xl font-black tracking-[-0.06em]">지역 도움망 관리</h2>
-                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                  운영실에서 검증된 돌봄파트너, 상점, 약국, 수행기관을 등록합니다.
-                </p>
-              </div>
-
-              <button
-                onClick={() => setShowProvider((value) => !value)}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
-              >
-                {showProvider ? '등록 닫기' : '제공자 등록'}
-              </button>
-            </div>
-
-            {showProvider ? (
-              <div className="mt-5 rounded-[2rem] bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:p-5">
-                <div className="grid gap-3 md:grid-cols-2">
-                  <select
-                    value={providerForm.providerType}
-                    onChange={(event) => setProviderForm({ ...providerForm, providerType: event.target.value })}
-                    className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-                  >
-                    <option value="care_partner">돌봄파트너</option>
-                    <option value="caregiver">요양보호사</option>
-                    <option value="local_store">지역상점</option>
-                    <option value="meal_provider">도시락/반찬가게</option>
-                    <option value="pharmacy">약국</option>
-                    <option value="welfare_org">수행기관</option>
-                    <option value="gov_center">지자체</option>
-                    <option value="family">가족</option>
-                  </select>
-
-                  <Input label="이름/상호" value={providerForm.providerName} onChange={(v) => setProviderForm({ ...providerForm, providerName: v })} />
-                  <Input label="연락처" value={providerForm.phone} onChange={(v) => setProviderForm({ ...providerForm, phone: v })} />
-                  <Input label="권역/동네" value={providerForm.serviceArea} onChange={(v) => setProviderForm({ ...providerForm, serviceArea: v })} />
-                  <Input label="자격/역할" value={providerForm.qualification} onChange={(v) => setProviderForm({ ...providerForm, qualification: v })} />
-                  <Input label="응답 예상 시간 분" value={providerForm.responseTimeMin} onChange={(v) => setProviderForm({ ...providerForm, responseTimeMin: v.replace(/[^\d]/g, '') })} />
-                  <Input label="메모" value={providerForm.notes} onChange={(v) => setProviderForm({ ...providerForm, notes: v })} />
-
-                  <button
-                    onClick={() => post('createProvider', providerForm)}
-                    disabled={loading || !providerForm.providerName.trim()}
-                    className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50 md:col-span-2"
-                  >
-                    지역 제공자 등록
-                  </button>
-                </div>
-              </div>
-            ) : null}
+            <h2 className="text-2xl font-black tracking-[-0.05em]">등록된 지역 제공자</h2>
 
             <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {providers.length === 0 ? (
@@ -587,9 +521,6 @@ export function ResponseNetworkPanel() {
                     <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
                       {provider.service_area || '권역 미지정'} · {provider.response_time_min || 30}분 내 응답 목표
                     </p>
-                    <p className="mt-1 text-xs font-black text-[#7A9692]">
-                      {provider.verified_status || 'pending'} · {provider.available_status || 'available'}
-                    </p>
                   </article>
                 ))
               )}
@@ -601,11 +532,11 @@ export function ResponseNetworkPanel() {
           <Link href="/response/about" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
             지역 안심망 소개
           </Link>
-          <Link href="/family/actions" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            가족 실행 보드
+          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            지역 도움망 요청함
           </Link>
-          <Link href="/gov/cases" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            지자체 사례관리
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            알림 발송센터
           </Link>
           <button
             onClick={() => load(scope, familyCode)}
@@ -619,14 +550,12 @@ export function ResponseNetworkPanel() {
   )
 }
 
-function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
+function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
-        {number}
-      </div>
-      <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>
-      <p className="mt-1 text-xs font-bold leading-6 text-[#637B76]">{desc}</p>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+      <div className="text-sm font-black opacity-70">{title}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
+      <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
     </article>
   )
 }

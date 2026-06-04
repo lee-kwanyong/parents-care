@@ -141,24 +141,15 @@ function providerTypesFor(requestType: string) {
   return ['care_partner', 'family']
 }
 
-function emptyResponse(message: string, familyCode = '') {
-  return NextResponse.json({
-    ok: true,
-    needFamilyCode: true,
-    message,
-    familyCode,
-    requests: [],
-    providers: [],
-    matches: [],
-    updates: [],
-    metrics: {
-      total: 0,
-      open: 0,
-      urgent: 0,
-      completed: 0,
-      providers: 0
-    }
-  })
+function metrics(requests: Row[], providers: Row[]) {
+  const open = requests.filter((row) => !['completed', 'cancelled'].includes(text(row.status)))
+  return {
+    total: requests.length,
+    open: open.length,
+    urgent: open.filter((row) => text(row.risk_level) === 'high').length,
+    completed: requests.filter((row) => text(row.status) === 'completed').length,
+    providers: providers.length
+  }
 }
 
 export async function GET(request: NextRequest) {
@@ -170,51 +161,51 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '운영실 인증이 필요합니다. 먼저 /ops 에서 운영실 비밀번호로 로그인해주세요.'
+        message: '운영실 인증이 필요합니다. 먼저 /ops 에서 로그인해주세요.'
       },
       { status: 401 }
     )
   }
 
   if (!familyCode && scope !== 'ops') {
-    return emptyResponse('가족코드 6자리를 입력하면 내 부모님 관련 후속조치만 조회합니다.')
+    return NextResponse.json({
+      ok: true,
+      needFamilyCode: true,
+      message: '가족코드 6자리를 입력하면 내 부모님 관련 후속조치만 조회합니다.',
+      requests: [],
+      providers: [],
+      matches: [],
+      metrics: metrics([], [])
+    })
   }
 
   const requestPath =
     'care_response_requests?select=*&order=created_at.desc&limit=300' +
     (scope === 'ops' ? '' : '&family_code=eq.' + encodeURIComponent(familyCode))
 
-  const [requestsResult, providersResult, matchesResult, updatesResult] = await Promise.all([
+  const [requestResult, providerResult, matchResult] = await Promise.all([
     rest(requestPath),
     scope === 'ops'
       ? rest('care_providers?select=*&order=created_at.desc&limit=300')
       : rest('care_providers?select=provider_type,provider_name,service_area,available_status,verified_status,response_time_min&order=created_at.desc&limit=60'),
     scope === 'ops'
       ? rest('care_response_matches?select=*&order=created_at.desc&limit=500')
-      : rest('care_response_matches?select=request_id,match_status,created_at&order=created_at.desc&limit=100'),
-    scope === 'ops'
-      ? rest('care_response_updates?select=*&order=created_at.desc&limit=500')
-      : rest('care_response_updates?select=request_id,actor_type,actor_name,update_type,message,created_at&order=created_at.desc&limit=100')
+      : rest('care_response_matches?select=request_id,match_status,created_at&order=created_at.desc&limit=100')
   ])
 
-  if (!requestsResult.ok) {
+  if (!requestResult.ok) {
     return NextResponse.json(
       {
         ok: false,
-        message: '지역 후속조치 요청을 불러오지 못했습니다.',
-        detail: requestsResult.error
+        message: '후속조치 요청을 불러오지 못했습니다.',
+        detail: requestResult.error
       },
       { status: 500 }
     )
   }
 
-  const requests = rows(requestsResult)
-  const providers = rows(providersResult)
-  const matches = rows(matchesResult)
-  const updates = rows(updatesResult)
-
-  const open = requests.filter((row) => !['completed', 'cancelled'].includes(text(row.status)))
-  const urgent = open.filter((row) => text(row.risk_level) === 'high')
+  const requests = rows(requestResult)
+  const providers = rows(providerResult)
 
   return NextResponse.json({
     ok: true,
@@ -222,15 +213,8 @@ export async function GET(request: NextRequest) {
     familyCode,
     requests,
     providers,
-    matches,
-    updates,
-    metrics: {
-      total: requests.length,
-      open: open.length,
-      urgent: urgent.length,
-      completed: requests.filter((row) => text(row.status) === 'completed').length,
-      providers: providers.length
-    }
+    matches: rows(matchResult),
+    metrics: metrics(requests, providers)
   })
 }
 
@@ -370,21 +354,22 @@ export async function POST(request: NextRequest) {
     }
 
     const requestResult = await rest('care_response_requests?select=*&id=eq.' + encodeURIComponent(requestId) + '&limit=1')
+    const requestRow = rows(requestResult)[0]
 
-    if (!requestResult.ok || !Array.isArray(requestResult.data) || requestResult.data.length === 0) {
+    if (!requestResult.ok || !requestRow) {
       return NextResponse.json({ ok: false, message: '요청을 찾지 못했습니다.', detail: requestResult.error }, { status: 404 })
     }
 
-    const requestRow = requestResult.data[0] as Row
     const requestType = text(requestRow.request_type)
     const types = providerTypesFor(requestType)
-    const providerQuery =
-      'care_providers?select=*&available_status=eq.available&provider_type=in.(' +
-      types.map(encodeURIComponent).join(',') +
-      ')&order=response_time_min.asc&limit=10'
 
-    const providersResult = await rest(providerQuery)
-    const providers = rows(providersResult)
+    const providerResult = await rest(
+      'care_providers?select=*&available_status=eq.available&provider_type=in.(' +
+        types.map(encodeURIComponent).join(',') +
+        ')&order=response_time_min.asc&limit=10'
+    )
+
+    const providers = rows(providerResult)
 
     if (providers.length === 0) {
       await rest('care_response_requests?id=eq.' + encodeURIComponent(requestId), {
@@ -402,21 +387,33 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const matchRows = providers.map((provider) => ({
-      request_id: requestId,
-      provider_id: provider.id,
-      match_status: 'notified',
-      payload: {
-        requestType,
-        providerType: provider.provider_type
-      },
-      updated_at: new Date().toISOString()
-    }))
+    const existingResult = await rest(
+      'care_response_matches?select=provider_id&request_id=eq.' +
+        encodeURIComponent(requestId) +
+        '&limit=200'
+    )
 
-    await rest('care_response_matches', {
-      method: 'POST',
-      body: JSON.stringify(matchRows)
-    })
+    const existingProviderIds = new Set(rows(existingResult).map((row) => text(row.provider_id)))
+
+    const newProviders = providers.filter((provider) => !existingProviderIds.has(text(provider.id)))
+
+    if (newProviders.length > 0) {
+      await rest('care_response_matches', {
+        method: 'POST',
+        body: JSON.stringify(
+          newProviders.map((provider) => ({
+            request_id: requestId,
+            provider_id: provider.id,
+            match_status: 'notified',
+            payload: {
+              requestType,
+              providerType: provider.provider_type
+            },
+            updated_at: new Date().toISOString()
+          }))
+        )
+      })
+    }
 
     await rest('care_response_requests?id=eq.' + encodeURIComponent(requestId), {
       method: 'PATCH',
@@ -427,7 +424,7 @@ export async function POST(request: NextRequest) {
       })
     })
 
-    const outboxRows = providers
+    const outboxRows = newProviders
       .filter((provider) => phone(provider.phone))
       .map((provider) => ({
         family_code: text(requestRow.family_code),
@@ -439,9 +436,9 @@ export async function POST(request: NextRequest) {
           requestTypeLabel(requestType) +
           '\n' +
           text(requestRow.signal_label) +
-          '\n확인 가능하면 안부웍스 요청센터에서 수락해주세요.\nhttps://parents-care.net/response',
+          '\n확인 가능하면 안부웍스 요청함에서 수락해주세요.\nhttps://parents-care.net/provider/requests',
         reason: 'care-response-dispatch',
-        target_url: '/response',
+        target_url: '/provider/requests',
         status: 'queued',
         provider: 'response-network',
         source_key: 'response-dispatch-' + requestId + '-' + provider.id,
@@ -466,9 +463,9 @@ export async function POST(request: NextRequest) {
           actor_type: 'system',
           actor_name: '안부웍스',
           update_type: 'dispatched',
-          message: `${providers.length}명의 지역 제공자에게 요청을 보냈습니다.`,
+          message: `${newProviders.length}명의 지역 제공자에게 요청을 보냈습니다.`,
           payload: {
-            providers
+            providers: newProviders
           }
         }
       ])
@@ -476,8 +473,8 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       ok: true,
-      message: `${providers.length}명의 지역 제공자에게 요청을 보냈습니다.`,
-      matched: providers.length
+      message: `${newProviders.length}명의 지역 제공자에게 요청을 보냈습니다.`,
+      matched: newProviders.length
     })
   }
 
