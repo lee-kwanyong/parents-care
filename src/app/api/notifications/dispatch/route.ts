@@ -347,6 +347,7 @@ async function createTestOutbox(input: {
         title: text(input.title) || '[안부웍스] 테스트 문자',
         body: text(input.body) || '안부웍스 알림 발송 테스트입니다.',
         reason: 'ops-notification-test',
+        template_code: 'ops-notification-test',
         target_url: '/ops/notification-dispatch',
         status: 'queued',
         provider: 'notification-dispatch-center',
