@@ -73,9 +73,9 @@ function providerTypeLabel(type?: string) {
 
 function statusLabel(status?: string) {
   if (status === 'open') return '새 요청'
-  if (status === 'dispatched') return '전파됨'
+  if (status === 'dispatched') return '주변 도움망 전파'
   if (status === 'manual_needed') return '수동 연결 필요'
-  if (status === 'accepted') return '수락됨'
+  if (status === 'accepted') return '확인 맡음'
   if (status === 'in_progress') return '확인 중'
   if (status === 'completed') return '완료'
   if (status === 'cancelled') return '취소'
@@ -90,7 +90,16 @@ function riskClass(risk?: string) {
 function statusClass(status?: string) {
   if (status === 'completed') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
   if (status === 'manual_needed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (status === 'dispatched') return 'bg-[#EEF6FF] text-[#1B4E7A] ring-[#CFE5FA]'
   return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+}
+
+function modeHelp(scope: 'family' | 'ops') {
+  if (scope === 'ops') {
+    return '운영실 모드는 전체 후속조치 요청을 보고, 지역 제공자 등록과 주변 도움망 전파를 관리합니다.'
+  }
+
+  return '보호자 모드는 가족코드로 내 부모님 후속조치만 조회합니다. 전체 요청이나 지역 제공자 연락처는 보이지 않습니다.'
 }
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
@@ -112,6 +121,8 @@ export function ResponseNetworkPanel() {
   const [message, setMessage] = useState('')
   const [debug, setDebug] = useState('')
   const [loading, setLoading] = useState(true)
+  const [showCreate, setShowCreate] = useState(false)
+  const [showProvider, setShowProvider] = useState(false)
 
   const [requestForm, setRequestForm] = useState({
     familyCode: '',
@@ -274,14 +285,20 @@ export function ResponseNetworkPanel() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            위험 신호를
+            지금 이 화면에서
             <br />
-            처리 가능한 행동으로 연결합니다.
+            무엇을 해야 하는지 보여줍니다.
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            이 화면은 일반 소개 페이지가 아니라 실제 후속조치 요청을 관리하는 화면입니다. 보호자는 가족코드로 내 부모님 요청만 보고, 운영실은 인증 후 전체 요청을 관제합니다.
+            후속조치 요청센터는 일반 소개 페이지가 아닙니다. 보호자는 내 부모님 요청만 확인하고, 운영실은 인증 후 전체 요청을 관제합니다.
           </p>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            <GuideCard number="1" title="가족코드 또는 운영실 선택" desc="보호자는 가족코드로 내 부모님 요청만 조회합니다." />
+            <GuideCard number="2" title="요청 상태 확인" desc="긴급, 주의, 전파됨, 완료 상태를 색상과 문구로 구분합니다." />
+            <GuideCard number="3" title="처리 결과 남기기" desc="확인 맡기, 주변 도움망 요청, 처리 완료를 기록합니다." />
+          </div>
 
           <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
             응급상황을 앱이 직접 판단하지 않습니다. 응급 가능성이 있으면 119 또는 의료기관에 연락해야 합니다.
@@ -309,6 +326,10 @@ export function ResponseNetworkPanel() {
             <Link href="/response/about" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
               지역 안심망 소개
             </Link>
+          </div>
+
+          <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            {modeHelp(scope)}
           </div>
 
           {!isOps ? (
@@ -353,200 +374,226 @@ export function ResponseNetworkPanel() {
           <MetricCard title="전체 요청" value={`${metrics.total}개`} desc="누적 후속조치 요청" />
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-2xl font-black tracking-[-0.05em]">후속조치 요청 만들기</h2>
-            <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-              보호자는 가족코드 기반으로, 운영실은 전체 대상자 대상으로 요청을 만들 수 있습니다.
-            </p>
-
-            <div className="mt-5 space-y-3">
-              <select
-                value={requestForm.requestType}
-                onChange={(event) => {
-                  const type = event.target.value
-                  setRequestForm({
-                    ...requestForm,
-                    requestType: type,
-                    signalLabel:
-                      type === 'meal_delivery'
-                        ? '밥을 못 먹었어요'
-                        : type === 'medication_reminder'
-                          ? '약을 못 먹었어요'
-                          : type === 'pharmacy_call'
-                            ? '약 관련 확인이 필요해요'
-                            : type === 'care_partner_check'
-                              ? '몸이 아파요'
-                              : '도움이 필요해요',
-                    riskLevel: type === 'meal_delivery' ? 'medium' : 'high'
-                  })
-                }}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-              >
-                <option value="urgent_neighbor_help">도움이 필요해요 → 가까운 돌봄망 확인</option>
-                <option value="meal_delivery">밥을 못 먹었어요 → 식사/지역상점 연결</option>
-                <option value="medication_reminder">약을 못 먹었어요 → 복약 확인</option>
-                <option value="care_partner_check">몸이 아파요 → 돌봄파트너 확인</option>
-                <option value="pharmacy_call">약국 상담 필요 → 약국 연결</option>
-              </select>
-
-              <Input label="가족코드" value={requestForm.familyCode} onChange={(v) => setRequestForm({ ...requestForm, familyCode: code6(v) })} />
-              <Input label="부모님 이름" value={requestForm.parentName} onChange={(v) => setRequestForm({ ...requestForm, parentName: v })} />
-              <Input label="부모님 연락처" value={requestForm.parentPhone} onChange={(v) => setRequestForm({ ...requestForm, parentPhone: v })} />
-              <Input label="보호자 연락처" value={requestForm.guardianPhone} onChange={(v) => setRequestForm({ ...requestForm, guardianPhone: v })} />
-              <Input label="권역/동네" value={requestForm.serviceArea} onChange={(v) => setRequestForm({ ...requestForm, serviceArea: v })} />
-              <Input label="주소 힌트" value={requestForm.addressHint} onChange={(v) => setRequestForm({ ...requestForm, addressHint: v })} />
-
-              <button
-                onClick={() => post('createRequest', requestForm)}
-                disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
-              >
-                후속조치 요청 생성
-              </button>
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-3xl font-black tracking-[-0.06em]">현재 처리할 요청</h2>
+              <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+                긴급 요청은 먼저 확인하고, 처리한 사람과 결과를 남겨주세요.
+              </p>
             </div>
-          </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-2xl font-black tracking-[-0.05em]">현재 열린 요청</h2>
+            <button
+              onClick={() => setShowCreate((value) => !value)}
+              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+            >
+              {showCreate ? '요청 만들기 닫기' : '직접 요청 만들기'}
+            </button>
+          </div>
 
-            <div className="mt-5 space-y-3">
-              {openRequests.length === 0 ? (
-                <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
-                  현재 열린 지역 후속조치 요청이 없습니다.
-                </div>
-              ) : (
-                openRequests.map((request) => (
-                  <article key={request.id} className={'rounded-[2rem] p-5 ring-1 ' + riskClass(request.risk_level)}>
-                    <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                      <div className="min-w-0">
-                        <div className="flex flex-wrap gap-2">
-                          <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
-                            {request.risk_level === 'high' ? '긴급' : '주의'}
-                          </span>
-                          <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(request.status)}>
-                            {statusLabel(request.status)}
-                          </span>
-                          <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
-                            {requestTypeLabel(request.request_type)}
-                          </span>
-                        </div>
+          {showCreate ? (
+            <div className="mt-5 rounded-[2rem] bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:p-5">
+              <h3 className="text-xl font-black tracking-[-0.05em]">후속조치 요청 만들기</h3>
 
-                        <h3 className="mt-4 text-2xl font-black tracking-[-0.05em]">
-                          {request.signal_label || requestTypeLabel(request.request_type)}
-                        </h3>
+              <div className="mt-4 grid gap-3 md:grid-cols-2">
+                <select
+                  value={requestForm.requestType}
+                  onChange={(event) => {
+                    const type = event.target.value
+                    setRequestForm({
+                      ...requestForm,
+                      requestType: type,
+                      signalLabel:
+                        type === 'meal_delivery'
+                          ? '밥을 못 먹었어요'
+                          : type === 'medication_reminder'
+                            ? '약을 못 먹었어요'
+                            : type === 'pharmacy_call'
+                              ? '약 관련 확인이 필요해요'
+                              : type === 'care_partner_check'
+                                ? '몸이 아파요'
+                                : '도움이 필요해요',
+                      riskLevel: type === 'meal_delivery' ? 'medium' : 'high'
+                    })
+                  }}
+                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                >
+                  <option value="urgent_neighbor_help">도움이 필요해요 → 가까운 돌봄망 확인</option>
+                  <option value="meal_delivery">밥을 못 먹었어요 → 식사/지역상점 연결</option>
+                  <option value="medication_reminder">약을 못 먹었어요 → 복약 확인</option>
+                  <option value="care_partner_check">몸이 아파요 → 돌봄파트너 확인</option>
+                  <option value="pharmacy_call">약국 상담 필요 → 약국 연결</option>
+                </select>
 
-                        <p className="mt-3 text-sm font-bold leading-7">
-                          {request.parent_name || '부모님'} · {request.service_area || '권역 미지정'} · 가족코드 {request.family_code || '-'}
-                        </p>
+                <Input label="가족코드" value={requestForm.familyCode} onChange={(v) => setRequestForm({ ...requestForm, familyCode: code6(v) })} />
+                <Input label="부모님 이름" value={requestForm.parentName} onChange={(v) => setRequestForm({ ...requestForm, parentName: v })} />
+                <Input label="부모님 연락처" value={requestForm.parentPhone} onChange={(v) => setRequestForm({ ...requestForm, parentPhone: v })} />
+                <Input label="보호자 연락처" value={requestForm.guardianPhone} onChange={(v) => setRequestForm({ ...requestForm, guardianPhone: v })} />
+                <Input label="권역/동네" value={requestForm.serviceArea} onChange={(v) => setRequestForm({ ...requestForm, serviceArea: v })} />
+                <Input label="주소 힌트" value={requestForm.addressHint} onChange={(v) => setRequestForm({ ...requestForm, addressHint: v })} />
 
-                        <div className="mt-4 rounded-2xl bg-white/70 p-4 text-sm font-black leading-7 ring-1 ring-current">
-                          {request.requested_action || '가족이 먼저 확인하고 필요한 지역 후속조치를 연결하세요.'}
-                        </div>
+                <button
+                  onClick={() => post('createRequest', requestForm)}
+                  disabled={loading}
+                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50 md:col-span-2"
+                >
+                  후속조치 요청 생성
+                </button>
+              </div>
+            </div>
+          ) : null}
+
+          <div className="mt-5 space-y-3">
+            {openRequests.length === 0 ? (
+              <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+                현재 열린 지역 후속조치 요청이 없습니다.
+              </div>
+            ) : (
+              openRequests.map((request) => (
+                <article key={request.id} className={'rounded-[2rem] p-5 ring-1 ' + riskClass(request.risk_level)}>
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap gap-2">
+                        <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
+                          {request.risk_level === 'high' ? '긴급' : '주의'}
+                        </span>
+                        <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(request.status)}>
+                          {statusLabel(request.status)}
+                        </span>
+                        <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
+                          {requestTypeLabel(request.request_type)}
+                        </span>
                       </div>
 
-                      <div className="grid min-w-52 gap-2">
-                        {isOps ? (
-                          <button
-                            onClick={() => post('dispatch', { requestId: request.id })}
-                            disabled={loading}
-                            className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
-                          >
-                            주변 도움망에 요청
-                          </button>
-                        ) : null}
+                      <h3 className="mt-4 text-2xl font-black tracking-[-0.05em]">
+                        {request.signal_label || requestTypeLabel(request.request_type)}
+                      </h3>
 
-                        <button
-                          onClick={() => patch(request, 'accepted', isOps ? '운영실이 확인을 맡았습니다.' : '가족이 확인을 맡았습니다.')}
-                          disabled={loading}
-                          className="rounded-xl bg-white/80 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
-                        >
-                          확인 맡기
-                        </button>
+                      <p className="mt-3 text-sm font-bold leading-7">
+                        {request.parent_name || '부모님'} · {request.service_area || '권역 미지정'} · 가족코드 {request.family_code || '-'}
+                      </p>
 
-                        <button
-                          onClick={() => patch(request, 'completed', '후속조치 확인 완료')}
-                          disabled={loading}
-                          className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
-                        >
-                          처리 완료
-                        </button>
-
-                        <button
-                          onClick={() => patch(request, 'cancelled', '요청 취소')}
-                          disabled={loading}
-                          className="rounded-xl bg-white/60 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
-                        >
-                          취소
-                        </button>
+                      <div className="mt-4 rounded-2xl bg-white/70 p-4 text-sm font-black leading-7 ring-1 ring-current">
+                        {request.requested_action || '가족이 먼저 확인하고 필요한 지역 후속조치를 연결하세요.'}
                       </div>
                     </div>
+
+                    <div className="grid min-w-52 gap-2">
+                      {isOps ? (
+                        <button
+                          onClick={() => post('dispatch', { requestId: request.id })}
+                          disabled={loading}
+                          className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                        >
+                          주변 도움망에 요청
+                        </button>
+                      ) : null}
+
+                      <button
+                        onClick={() => patch(request, 'accepted', isOps ? '운영실이 확인을 맡았습니다.' : '가족이 확인을 맡았습니다.')}
+                        disabled={loading}
+                        className="rounded-xl bg-white/80 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
+                      >
+                        확인 맡기
+                      </button>
+
+                      <button
+                        onClick={() => patch(request, 'completed', '후속조치 확인 완료')}
+                        disabled={loading}
+                        className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                      >
+                        처리 완료
+                      </button>
+
+                      <button
+                        onClick={() => patch(request, 'cancelled', '요청 취소')}
+                        disabled={loading}
+                        className="rounded-xl bg-white/60 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
+                      >
+                        취소
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              ))
+            )}
+          </div>
+        </section>
+
+        {isOps ? (
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-3xl font-black tracking-[-0.06em]">지역 도움망 관리</h2>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+                  운영실에서 검증된 돌봄파트너, 상점, 약국, 수행기관을 등록합니다.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setShowProvider((value) => !value)}
+                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+              >
+                {showProvider ? '등록 닫기' : '제공자 등록'}
+              </button>
+            </div>
+
+            {showProvider ? (
+              <div className="mt-5 rounded-[2rem] bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:p-5">
+                <div className="grid gap-3 md:grid-cols-2">
+                  <select
+                    value={providerForm.providerType}
+                    onChange={(event) => setProviderForm({ ...providerForm, providerType: event.target.value })}
+                    className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  >
+                    <option value="care_partner">돌봄파트너</option>
+                    <option value="caregiver">요양보호사</option>
+                    <option value="local_store">지역상점</option>
+                    <option value="meal_provider">도시락/반찬가게</option>
+                    <option value="pharmacy">약국</option>
+                    <option value="welfare_org">수행기관</option>
+                    <option value="gov_center">지자체</option>
+                    <option value="family">가족</option>
+                  </select>
+
+                  <Input label="이름/상호" value={providerForm.providerName} onChange={(v) => setProviderForm({ ...providerForm, providerName: v })} />
+                  <Input label="연락처" value={providerForm.phone} onChange={(v) => setProviderForm({ ...providerForm, phone: v })} />
+                  <Input label="권역/동네" value={providerForm.serviceArea} onChange={(v) => setProviderForm({ ...providerForm, serviceArea: v })} />
+                  <Input label="자격/역할" value={providerForm.qualification} onChange={(v) => setProviderForm({ ...providerForm, qualification: v })} />
+                  <Input label="응답 예상 시간 분" value={providerForm.responseTimeMin} onChange={(v) => setProviderForm({ ...providerForm, responseTimeMin: v.replace(/[^\d]/g, '') })} />
+                  <Input label="메모" value={providerForm.notes} onChange={(v) => setProviderForm({ ...providerForm, notes: v })} />
+
+                  <button
+                    onClick={() => post('createProvider', providerForm)}
+                    disabled={loading || !providerForm.providerName.trim()}
+                    className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50 md:col-span-2"
+                  >
+                    지역 제공자 등록
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+              {providers.length === 0 ? (
+                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                  아직 등록된 지역 제공자가 없습니다.
+                </div>
+              ) : (
+                providers.map((provider) => (
+                  <article key={provider.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                    <div className="text-xs font-black text-[#11977F]">{providerTypeLabel(provider.provider_type)}</div>
+                    <h3 className="mt-2 text-xl font-black tracking-[-0.05em]">{provider.provider_name}</h3>
+                    <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+                      {provider.service_area || '권역 미지정'} · {provider.response_time_min || 30}분 내 응답 목표
+                    </p>
+                    <p className="mt-1 text-xs font-black text-[#7A9692]">
+                      {provider.verified_status || 'pending'} · {provider.available_status || 'available'}
+                    </p>
                   </article>
                 ))
               )}
             </div>
-          </section>
-        </section>
-
-        {isOps ? (
-          <section className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <h2 className="text-2xl font-black tracking-[-0.05em]">지역 제공자 등록</h2>
-
-              <div className="mt-5 space-y-3">
-                <select
-                  value={providerForm.providerType}
-                  onChange={(event) => setProviderForm({ ...providerForm, providerType: event.target.value })}
-                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-                >
-                  <option value="care_partner">돌봄파트너</option>
-                  <option value="caregiver">요양보호사</option>
-                  <option value="local_store">지역상점</option>
-                  <option value="meal_provider">도시락/반찬가게</option>
-                  <option value="pharmacy">약국</option>
-                  <option value="welfare_org">수행기관</option>
-                  <option value="gov_center">지자체</option>
-                  <option value="family">가족</option>
-                </select>
-
-                <Input label="이름/상호" value={providerForm.providerName} onChange={(v) => setProviderForm({ ...providerForm, providerName: v })} />
-                <Input label="연락처" value={providerForm.phone} onChange={(v) => setProviderForm({ ...providerForm, phone: v })} />
-                <Input label="권역/동네" value={providerForm.serviceArea} onChange={(v) => setProviderForm({ ...providerForm, serviceArea: v })} />
-                <Input label="자격/역할" value={providerForm.qualification} onChange={(v) => setProviderForm({ ...providerForm, qualification: v })} />
-                <Input label="응답 예상 시간 분" value={providerForm.responseTimeMin} onChange={(v) => setProviderForm({ ...providerForm, responseTimeMin: v.replace(/[^\d]/g, '') })} />
-                <Input label="메모" value={providerForm.notes} onChange={(v) => setProviderForm({ ...providerForm, notes: v })} />
-
-                <button
-                  onClick={() => post('createProvider', providerForm)}
-                  disabled={loading || !providerForm.providerName.trim()}
-                  className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
-                >
-                  지역 제공자 등록
-                </button>
-              </div>
-            </section>
-
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <h2 className="text-2xl font-black tracking-[-0.05em]">등록된 도움망</h2>
-
-              <div className="mt-5 grid gap-3 md:grid-cols-2">
-                {providers.length === 0 ? (
-                  <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
-                    아직 등록된 지역 제공자가 없습니다.
-                  </div>
-                ) : (
-                  providers.map((provider) => (
-                    <article key={provider.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                      <div className="text-xs font-black text-[#11977F]">{providerTypeLabel(provider.provider_type)}</div>
-                      <h3 className="mt-2 text-xl font-black tracking-[-0.05em]">{provider.provider_name}</h3>
-                      <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                        {provider.service_area || '권역 미지정'} · {provider.response_time_min || 30}분 내 응답 목표
-                      </p>
-                    </article>
-                  ))
-                )}
-              </div>
-            </section>
           </section>
         ) : null}
 
@@ -569,6 +616,18 @@ export function ResponseNetworkPanel() {
         </div>
       </section>
     </main>
+  )
+}
+
+function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
+  return (
+    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+        {number}
+      </div>
+      <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>
+      <p className="mt-1 text-xs font-bold leading-6 text-[#637B76]">{desc}</p>
+    </article>
   )
 }
 
