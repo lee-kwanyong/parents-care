@@ -44,6 +44,7 @@ const guestMenu: MenuGroup[] = [
       { label: '부모님 연결코드', href: '/family-link', desc: '부모님께 보낼 연결코드 생성' },
       { label: '다른 가족 초대', href: '/family/invite', desc: '형제·자매·배우자를 부모님 리포트에 초대' },
       { label: '지역 안심망 소개', href: '/response/about', desc: '가족·돌봄파트너·지역상점·기관 연결 구조 소개' },
+      { label: '지역 도움망 요청함', href: '/provider/requests', desc: '돌봄파트너·상점·약국이 받은 요청 처리' },
       { label: '가족 초대코드 입력', href: '/family/join', desc: '초대받은 가족이 코드와 휴대폰 뒤 4자리 입력' },
       { label: '부모님 리포트', href: '/child/dashboard', desc: '식사·복약·몸상태 확인' },
       { label: '부모님 케어', href: '/child/report', desc: '자녀용 부모님 상태 리포트' },
