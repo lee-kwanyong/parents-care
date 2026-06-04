@@ -1,4 +1,4 @@
-import { createHash, timingSafeEqual } from 'crypto'
+import { createHash, randomBytes, timingSafeEqual } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { SolapiMessageService } from 'solapi'
 
@@ -138,38 +138,27 @@ function statusMetrics(items: Row[]) {
   }
 }
 
-function buildProviderRequestLink(toPhone: string) {
-  return `${siteUrl()}/provider/requests?phone=${encodeURIComponent(toPhone)}`
+function requestTypeLabel(type: string) {
+  if (type === 'meal_delivery') return '식사 연결'
+  if (type === 'medication_reminder') return '복약 확인'
+  if (type === 'urgent_neighbor_help') return '긴급 도움'
+  if (type === 'care_partner_check') return '돌봄 확인'
+  if (type === 'pharmacy_call') return '약국 상담'
+  return '안부 확인'
 }
 
-function buildText(row: Row) {
-  const title = text(row.title) || '[안부웍스] 알림'
-  const body = text(row.body)
-  const reason = text(row.reason)
-  const toPhone = phone(row.to_phone)
-  const targetUrl = text(row.target_url)
+function hashToken(token: string) {
+  return createHash('sha256').update(token).digest('hex')
+}
 
-  if (reason === 'care-response-dispatch') {
-    const lines = [
-      '[안부웍스] 지역 후속조치 요청',
-      body.replace(/https?:\/\/\S+/g, '').trim(),
-      '',
-      '요청 확인:',
-      buildProviderRequestLink(toPhone),
-      '',
-      '응급상황이 의심되면 119 또는 의료기관에 연락하세요.'
-    ].filter(Boolean)
+function makeProviderToken() {
+  return randomBytes(24).toString('base64url')
+}
 
-    return lines.join('\n').slice(0, 1500)
-  }
-
-  const link = targetUrl
-    ? targetUrl.startsWith('http')
-      ? targetUrl
-      : siteUrl() + targetUrl
-    : ''
-
-  return [title, body, link].filter(Boolean).join('\n').slice(0, 1500)
+function rowPayload(row: Row): Row {
+  const payload = row.payload
+  if (payload && typeof payload === 'object' && !Array.isArray(payload)) return payload as Row
+  return {}
 }
 
 function resultGroupId(result: unknown) {
@@ -196,6 +185,91 @@ async function patchOutbox(id: string, patch: Row) {
   })
 }
 
+async function createProviderRequestToken(row: Row) {
+  const payload = rowPayload(row)
+  const requestId = text(payload.requestId)
+  const providerId = text(payload.providerId)
+
+  if (!requestId || !providerId) {
+    return ''
+  }
+
+  const matchResult = await rest(
+    'care_response_matches?select=*&request_id=eq.' +
+      encodeURIComponent(requestId) +
+      '&provider_id=eq.' +
+      encodeURIComponent(providerId) +
+      '&limit=1'
+  )
+
+  const match = rows(matchResult)[0]
+  const matchId = text(match?.id)
+
+  const rawToken = makeProviderToken()
+  const tokenHash = hashToken(rawToken)
+
+  await rest('care_response_access_tokens', {
+    method: 'POST',
+    body: JSON.stringify([
+      {
+        token_hash: tokenHash,
+        request_id: requestId,
+        provider_id: providerId,
+        match_id: matchId || null,
+        purpose: 'provider_request',
+        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(),
+        payload: {
+          outboxId: text(row.id),
+          reason: text(row.reason)
+        }
+      }
+    ])
+  })
+
+  return `${siteUrl()}/provider/requests?t=${encodeURIComponent(rawToken)}`
+}
+
+async function buildProviderRequestLink(row: Row) {
+  if (text(row.reason) === 'care-response-dispatch') {
+    const tokenLink = await createProviderRequestToken(row)
+    if (tokenLink) return tokenLink
+  }
+
+  const toPhone = phone(row.to_phone)
+  return `${siteUrl()}/provider/requests${toPhone ? '?phone=' + encodeURIComponent(toPhone) : ''}`
+}
+
+async function buildSmsText(row: Row) {
+  const title = text(row.title) || '[안부웍스] 알림'
+  const body = text(row.body)
+  const reason = text(row.reason)
+  const targetUrl = text(row.target_url)
+
+  if (reason === 'care-response-dispatch') {
+    const link = await buildProviderRequestLink(row)
+    const lines = [
+      '[안부웍스] 지역 후속조치 요청',
+      body.replace(/https?:\/\/\S+/g, '').trim(),
+      '',
+      '요청 확인:',
+      link,
+      '',
+      '수락 전에는 상세 개인정보가 제한됩니다.',
+      '응급상황이 의심되면 119 또는 의료기관에 연락하세요.'
+    ].filter(Boolean)
+
+    return lines.join('\n').slice(0, 1500)
+  }
+
+  const link = targetUrl
+    ? targetUrl.startsWith('http')
+      ? targetUrl
+      : siteUrl() + targetUrl
+    : ''
+
+  return [title, body, link].filter(Boolean).join('\n').slice(0, 1500)
+}
+
 async function sendOne(row: Row) {
   const id = text(row.id)
   const toPhone = phone(row.to_phone)
@@ -220,6 +294,7 @@ async function sendOne(row: Row) {
     return { ok: false, id, message: '수신번호가 없습니다.' }
   }
 
+  const smsText = await buildSmsText(row)
   const cfg = solapiConfig()
 
   if (!cfg.apiKey || !cfg.apiSecret || !cfg.sender) {
@@ -231,7 +306,8 @@ async function sendOne(row: Row) {
         dispatchResult: {
           ok: false,
           mode: 'outbox-only',
-          error: 'SOLAPI_API_KEY, SOLAPI_API_SECRET, SOLAPI_SENDER 환경변수가 필요합니다.'
+          error: 'SOLAPI_API_KEY, SOLAPI_API_SECRET, SOLAPI_SENDER 환경변수가 필요합니다.',
+          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
         }
       }
     })
@@ -242,8 +318,6 @@ async function sendOne(row: Row) {
       message: 'SOLAPI 환경변수가 없어 outbox-only로 처리했습니다.'
     }
   }
-
-  const smsText = buildText(row)
 
   try {
     const messageService = new SolapiMessageService(cfg.apiKey, cfg.apiSecret)
@@ -267,7 +341,7 @@ async function sendOne(row: Row) {
           ok: true,
           mode: 'solapi-sms',
           data: result,
-          text: smsText
+          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
         }
       }
     })
@@ -288,7 +362,7 @@ async function sendOne(row: Row) {
           ok: false,
           mode: 'solapi-sms',
           error: errorMessage(error),
-          text: smsText
+          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
         }
       }
     })

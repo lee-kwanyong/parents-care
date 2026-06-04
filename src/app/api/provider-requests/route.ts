@@ -1,3 +1,4 @@
+import { createHash } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
@@ -18,6 +19,10 @@ function text(value: unknown) {
 
 function phone(value: unknown) {
   return text(value).replace(/[^\d]/g, '')
+}
+
+function hashToken(token: string) {
+  return createHash('sha256').update(token).digest('hex')
 }
 
 function supabaseBaseUrl() {
@@ -122,8 +127,223 @@ function sanitizeRequest(request: Row, matchStatus: string) {
   }
 }
 
+function providerPublic(provider: Row) {
+  return {
+    id: text(provider.id),
+    provider_type: text(provider.provider_type),
+    provider_type_label: providerTypeLabel(text(provider.provider_type)),
+    provider_name: text(provider.provider_name),
+    service_area: text(provider.service_area),
+    verified_status: text(provider.verified_status),
+    available_status: text(provider.available_status)
+  }
+}
+
+function itemFrom(match: Row, provider: Row, request: Row) {
+  const matchStatus = text(match.match_status)
+
+  return {
+    match: {
+      id: text(match.id),
+      request_id: text(match.request_id),
+      provider_id: text(match.provider_id),
+      match_status: matchStatus,
+      notified_at: text(match.notified_at),
+      accepted_at: text(match.accepted_at),
+      completed_at: text(match.completed_at),
+      note: text(match.note)
+    },
+    provider: providerPublic(provider),
+    request: sanitizeRequest(request, matchStatus)
+  }
+}
+
+async function loadByToken(rawToken: string) {
+  const tokenHash = hashToken(rawToken)
+  const nowIso = new Date().toISOString()
+
+  const tokenResult = await rest(
+    'care_response_access_tokens?select=*&token_hash=eq.' +
+      encodeURIComponent(tokenHash) +
+      '&expires_at=gt.' +
+      encodeURIComponent(nowIso) +
+      '&revoked_at=is.null&limit=1'
+  )
+
+  const tokenRow = rows(tokenResult)[0]
+
+  if (!tokenRow) {
+    return {
+      ok: false,
+      status: 403,
+      message: '요청 링크가 만료되었거나 유효하지 않습니다.'
+    }
+  }
+
+  await rest('care_response_access_tokens?id=eq.' + encodeURIComponent(text(tokenRow.id)), {
+    method: 'PATCH',
+    body: JSON.stringify({
+      used_at: new Date().toISOString()
+    })
+  })
+
+  const [providerResult, requestResult, matchResult] = await Promise.all([
+    rest('care_providers?select=*&id=eq.' + encodeURIComponent(text(tokenRow.provider_id)) + '&limit=1'),
+    rest('care_response_requests?select=*&id=eq.' + encodeURIComponent(text(tokenRow.request_id)) + '&limit=1'),
+    text(tokenRow.match_id)
+      ? rest('care_response_matches?select=*&id=eq.' + encodeURIComponent(text(tokenRow.match_id)) + '&limit=1')
+      : rest(
+          'care_response_matches?select=*&request_id=eq.' +
+            encodeURIComponent(text(tokenRow.request_id)) +
+            '&provider_id=eq.' +
+            encodeURIComponent(text(tokenRow.provider_id)) +
+            '&limit=1'
+        )
+  ])
+
+  const provider = rows(providerResult)[0]
+  const request = rows(requestResult)[0]
+  const match = rows(matchResult)[0]
+
+  if (!provider || !request || !match) {
+    return {
+      ok: false,
+      status: 404,
+      message: '요청 상세를 찾지 못했습니다.'
+    }
+  }
+
+  return {
+    ok: true,
+    tokenRow,
+    provider,
+    request,
+    match,
+    item: itemFrom(match, provider, request)
+  }
+}
+
+async function loadByPhone(providerPhone: string) {
+  const providerResult = await rest('care_providers?select=*&phone=eq.' + encodeURIComponent(providerPhone) + '&limit=20')
+
+  if (!providerResult.ok) {
+    return {
+      ok: false,
+      status: 500,
+      message: '지역 도움망 정보를 불러오지 못했습니다.',
+      detail: providerResult.error
+    }
+  }
+
+  const providers = rows(providerResult)
+
+  if (providers.length === 0) {
+    return {
+      ok: true,
+      notRegistered: true,
+      message: '등록된 지역 도움망 연락처가 아닙니다. 운영실에서 먼저 제공자를 등록해야 합니다.',
+      providers: [],
+      items: []
+    }
+  }
+
+  const providerIds = providers.map((provider) => text(provider.id)).filter(Boolean)
+
+  const matchResult = await rest(
+    'care_response_matches?select=*&provider_id=in.(' +
+      providerIds.map(encodeURIComponent).join(',') +
+      ')&order=created_at.desc&limit=200'
+  )
+
+  if (!matchResult.ok) {
+    return {
+      ok: false,
+      status: 500,
+      message: '받은 요청을 불러오지 못했습니다.',
+      detail: matchResult.error
+    }
+  }
+
+  const matches = rows(matchResult)
+  const requestIds = [...new Set(matches.map((match) => text(match.request_id)).filter(Boolean))]
+
+  let requests: Row[] = []
+
+  if (requestIds.length > 0) {
+    const requestResult = await rest(
+      'care_response_requests?select=*&id=in.(' +
+        requestIds.map(encodeURIComponent).join(',') +
+        ')&order=created_at.desc&limit=200'
+    )
+
+    if (!requestResult.ok) {
+      return {
+        ok: false,
+        status: 500,
+        message: '요청 상세를 불러오지 못했습니다.',
+        detail: requestResult.error
+      }
+    }
+
+    requests = rows(requestResult)
+  }
+
+  const requestMap: Record<string, Row> = {}
+  const providerMap: Record<string, Row> = {}
+
+  for (const requestRow of requests) requestMap[text(requestRow.id)] = requestRow
+  for (const provider of providers) providerMap[text(provider.id)] = provider
+
+  const items = matches.map((match) => {
+    const requestRow = requestMap[text(match.request_id)] || {}
+    const provider = providerMap[text(match.provider_id)] || {}
+
+    return itemFrom(match, provider, requestRow)
+  })
+
+  return {
+    ok: true,
+    providers,
+    items
+  }
+}
+
+function metrics(items: Array<ReturnType<typeof itemFrom>>) {
+  return {
+    total: items.length,
+    notified: items.filter((item) => item.match.match_status === 'notified').length,
+    accepted: items.filter((item) => ['accepted', 'in_progress'].includes(item.match.match_status)).length,
+    completed: items.filter((item) => item.match.match_status === 'completed').length
+  }
+}
+
 export async function GET(request: NextRequest) {
+  const rawToken = text(request.nextUrl.searchParams.get('t'))
   const providerPhone = phone(request.nextUrl.searchParams.get('phone'))
+
+  if (rawToken) {
+    const loaded = await loadByToken(rawToken)
+
+    if (!loaded.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: loaded.message
+        },
+        { status: loaded.status || 400 }
+      )
+    }
+
+    const item = loaded.item as ReturnType<typeof itemFrom>
+
+    return NextResponse.json({
+      ok: true,
+      tokenMode: true,
+      providers: [loaded.provider],
+      items: [item],
+      metrics: metrics([item])
+    })
+  }
 
   if (!providerPhone) {
     return NextResponse.json({
@@ -141,152 +361,61 @@ export async function GET(request: NextRequest) {
     })
   }
 
-  const providerResult = await rest('care_providers?select=*&phone=eq.' + encodeURIComponent(providerPhone) + '&limit=20')
+  const loaded = await loadByPhone(providerPhone)
 
-  if (!providerResult.ok) {
+  if (!loaded.ok) {
     return NextResponse.json(
       {
         ok: false,
-        message: '지역 도움망 정보를 불러오지 못했습니다.',
-        detail: providerResult.error
+        message: loaded.message,
+        detail: loaded.detail
       },
-      { status: 500 }
+      { status: loaded.status || 500 }
     )
   }
 
-  const providers = rows(providerResult)
-
-  if (providers.length === 0) {
-    return NextResponse.json({
-      ok: true,
-      notRegistered: true,
-      message: '등록된 지역 도움망 연락처가 아닙니다. 운영실에서 먼저 제공자를 등록해야 합니다.',
-      providers: [],
-      items: [],
-      metrics: {
-        total: 0,
-        notified: 0,
-        accepted: 0,
-        completed: 0
-      }
-    })
-  }
-
-  const providerIds = providers.map((provider) => text(provider.id)).filter(Boolean)
-
-  const matchResult = await rest(
-    'care_response_matches?select=*&provider_id=in.(' +
-      providerIds.map(encodeURIComponent).join(',') +
-      ')&order=created_at.desc&limit=200'
-  )
-
-  if (!matchResult.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '받은 요청을 불러오지 못했습니다.',
-        detail: matchResult.error
-      },
-      { status: 500 }
-    )
-  }
-
-  const matches = rows(matchResult)
-  const requestIds = [...new Set(matches.map((match) => text(match.request_id)).filter(Boolean))]
-
-  let requests: Row[] = []
-
-  if (requestIds.length > 0) {
-    const requestResult = await rest(
-      'care_response_requests?select=*&id=in.(' +
-        requestIds.map(encodeURIComponent).join(',') +
-        ')&order=created_at.desc&limit=200'
-    )
-
-    if (!requestResult.ok) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: '요청 상세를 불러오지 못했습니다.',
-          detail: requestResult.error
-        },
-        { status: 500 }
-      )
-    }
-
-    requests = rows(requestResult)
-  }
-
-  const requestMap: Record<string, Row> = {}
-
-  for (const requestRow of requests) {
-    requestMap[text(requestRow.id)] = requestRow
-  }
-
-  const providerMap: Record<string, Row> = {}
-
-  for (const provider of providers) {
-    providerMap[text(provider.id)] = provider
-  }
-
-  const items = matches.map((match) => {
-    const matchStatus = text(match.match_status)
-    const requestRow = requestMap[text(match.request_id)] || {}
-    const provider = providerMap[text(match.provider_id)] || {}
-
-    return {
-      match: {
-        id: text(match.id),
-        request_id: text(match.request_id),
-        provider_id: text(match.provider_id),
-        match_status: matchStatus,
-        notified_at: text(match.notified_at),
-        accepted_at: text(match.accepted_at),
-        completed_at: text(match.completed_at),
-        note: text(match.note)
-      },
-      provider: {
-        id: text(provider.id),
-        provider_type: text(provider.provider_type),
-        provider_type_label: providerTypeLabel(text(provider.provider_type)),
-        provider_name: text(provider.provider_name),
-        service_area: text(provider.service_area),
-        verified_status: text(provider.verified_status),
-        available_status: text(provider.available_status)
-      },
-      request: sanitizeRequest(requestRow, matchStatus)
-    }
-  })
+  const items = (loaded.items || []) as Array<ReturnType<typeof itemFrom>>
 
   return NextResponse.json({
     ok: true,
-    providers,
+    providers: loaded.providers || [],
     items,
-    metrics: {
-      total: items.length,
-      notified: items.filter((item) => item.match.match_status === 'notified').length,
-      accepted: items.filter((item) => ['accepted', 'in_progress'].includes(item.match.match_status)).length,
-      completed: items.filter((item) => item.match.match_status === 'completed').length
-    }
+    metrics: metrics(items),
+    notRegistered: loaded.notRegistered || false,
+    message: loaded.message
   })
 }
 
-export async function PATCH(request: NextRequest) {
-  const body = await request.json().catch(() => ({}))
-
+async function resolveActor(body: Row) {
+  const rawToken = text(body.token)
   const providerPhone = phone(body.phone)
   const matchId = text(body.matchId)
-  const action = text(body.action)
-  const note = text(body.note)
 
-  if (!providerPhone || !matchId || !action) {
-    return NextResponse.json(
-      {
+  if (rawToken) {
+    const loaded = await loadByToken(rawToken)
+
+    if (!loaded.ok) {
+      return {
         ok: false,
-        message: '연락처, 요청 ID, 처리 상태가 필요합니다.'
-      },
-      { status: 400 }
-    )
+        status: loaded.status || 403,
+        message: loaded.message || '요청 링크가 유효하지 않습니다.'
+      }
+    }
+
+    return {
+      ok: true,
+      provider: loaded.provider as Row,
+      match: loaded.match as Row,
+      request: loaded.request as Row
+    }
+  }
+
+  if (!providerPhone || !matchId) {
+    return {
+      ok: false,
+      status: 400,
+      message: '연락처 또는 보안 링크가 필요합니다.'
+    }
   }
 
   const providerResult = await rest('care_providers?select=*&phone=eq.' + encodeURIComponent(providerPhone) + '&limit=20')
@@ -294,13 +423,11 @@ export async function PATCH(request: NextRequest) {
   const providerIds = providers.map((provider) => text(provider.id)).filter(Boolean)
 
   if (providerIds.length === 0) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '등록된 지역 도움망 연락처가 아닙니다.'
-      },
-      { status: 403 }
-    )
+    return {
+      ok: false,
+      status: 403,
+      message: '등록된 지역 도움망 연락처가 아닙니다.'
+    }
   }
 
   const matchResult = await rest(
@@ -314,18 +441,60 @@ export async function PATCH(request: NextRequest) {
   const matchRows = rows(matchResult)
 
   if (matchRows.length === 0) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '처리할 수 있는 요청을 찾지 못했습니다.'
-      },
-      { status: 404 }
-    )
+    return {
+      ok: false,
+      status: 404,
+      message: '처리할 수 있는 요청을 찾지 못했습니다.'
+    }
   }
 
   const match = matchRows[0]
-  const requestId = text(match.request_id)
   const provider = providers.find((row) => text(row.id) === text(match.provider_id)) || providers[0]
+
+  const requestResult = await rest('care_response_requests?select=*&id=eq.' + encodeURIComponent(text(match.request_id)) + '&limit=1')
+  const requestRow = rows(requestResult)[0]
+
+  return {
+    ok: true,
+    provider,
+    match,
+    request: requestRow
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const body = await request.json().catch(() => ({}))
+  const action = text(body.action)
+  const note = text(body.note)
+
+  if (!action) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '처리 상태가 필요합니다.'
+      },
+      { status: 400 }
+    )
+  }
+
+  const actor = await resolveActor(body as Row)
+
+  if (!actor.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: actor.message
+      },
+      { status: actor.status || 400 }
+    )
+  }
+
+  const match = actor.match as Row
+  const provider = actor.provider as Row
+  const requestRow = actor.request as Row
+
+  const matchId = text(match.id)
+  const requestId = text(match.request_id)
   const providerName = text(provider.provider_name) || '지역 도움망'
 
   let matchPatch: Row = {
@@ -439,7 +608,7 @@ export async function PATCH(request: NextRequest) {
     method: 'POST',
     body: JSON.stringify([
       {
-        request_id: requestId,
+        request_id: requestId || text(requestRow.id),
         actor_type: 'provider',
         actor_name: providerName,
         update_type: updateType,

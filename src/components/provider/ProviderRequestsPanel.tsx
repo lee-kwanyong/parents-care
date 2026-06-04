@@ -86,6 +86,8 @@ function MetricCard({ title, value, desc, danger }: { title: string; value: stri
 
 export function ProviderRequestsPanel() {
   const [phone, setPhone] = useState('')
+  const [token, setToken] = useState('')
+  const [tokenMode, setTokenMode] = useState(false)
   const [items, setItems] = useState<ProviderItem[]>([])
   const [metrics, setMetrics] = useState<Metrics>({ total: 0, notified: 0, accepted: 0, completed: 0 })
   const [message, setMessage] = useState('')
@@ -103,7 +105,46 @@ export function ProviderRequestsPanel() {
     [items]
   )
 
-  async function load(targetPhone = phone) {
+  async function loadByToken(targetToken = token) {
+    if (!targetToken) {
+      setMessage('요청 링크가 없습니다.')
+      return
+    }
+
+    setToken(targetToken)
+    setTokenMode(true)
+
+    setLoading(true)
+    setMessage('')
+    setDebug('')
+
+    try {
+      const response = await fetch('/api/provider-requests?t=' + encodeURIComponent(targetToken), {
+        cache: 'no-store'
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok || !data.ok) {
+        setMessage(data.message || '요청 링크를 확인하지 못했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
+        setItems([])
+        setMetrics({ total: 0, notified: 0, accepted: 0, completed: 0 })
+        return
+      }
+
+      if (data.message) setMessage(data.message)
+
+      setItems(Array.isArray(data.items) ? data.items : [])
+      setMetrics(data.metrics || { total: 0, notified: 0, accepted: 0, completed: 0 })
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '요청 링크를 확인하지 못했습니다.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function loadByPhone(targetPhone = phone) {
     const cleanPhone = phoneOnly(targetPhone)
 
     if (!cleanPhone) {
@@ -112,6 +153,7 @@ export function ProviderRequestsPanel() {
     }
 
     setPhone(cleanPhone)
+    setTokenMode(false)
     window.localStorage.setItem('anbu_provider_phone', cleanPhone)
 
     setLoading(true)
@@ -148,7 +190,7 @@ export function ProviderRequestsPanel() {
     const cleanPhone = phoneOnly(phone)
     const note = noteById[item.match.id] || ''
 
-    if (!cleanPhone) {
+    if (!tokenMode && !cleanPhone) {
       setMessage('등록된 연락처를 입력해주세요.')
       return
     }
@@ -162,7 +204,8 @@ export function ProviderRequestsPanel() {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          phone: cleanPhone,
+          token: tokenMode ? token : '',
+          phone: tokenMode ? '' : cleanPhone,
           matchId: item.match.id,
           action,
           note
@@ -178,7 +221,9 @@ export function ProviderRequestsPanel() {
       }
 
       setMessage(data.message || '처리되었습니다.')
-      await load(cleanPhone)
+
+      if (tokenMode) await loadByToken(token)
+      else await loadByPhone(cleanPhone)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '상태 변경 중 오류가 발생했습니다.')
     } finally {
@@ -187,10 +232,27 @@ export function ProviderRequestsPanel() {
   }
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const t = params.get('t') || ''
+    const p = params.get('phone') || ''
+
+    if (t) {
+      setToken(t)
+      setTokenMode(true)
+      loadByToken(t)
+      return
+    }
+
+    if (p) {
+      setPhone(phoneOnly(p))
+      loadByPhone(p)
+      return
+    }
+
     const storedPhone = window.localStorage.getItem('anbu_provider_phone') || ''
     if (storedPhone) {
       setPhone(storedPhone)
-      load(storedPhone)
+      loadByPhone(storedPhone)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -214,7 +276,7 @@ export function ProviderRequestsPanel() {
           </p>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <GuideCard number="1" title="연락처 입력" desc="운영실에 등록된 연락처로 본인 요청만 확인합니다." />
+            <GuideCard number="1" title={tokenMode ? '보안 링크 확인' : '연락처 입력'} desc={tokenMode ? '문자 링크로 들어온 요청만 안전하게 확인합니다.' : '운영실에 등록된 연락처로 본인 요청만 확인합니다.'} />
             <GuideCard number="2" title="요청 수락" desc="수락 전에는 상세 연락처와 주소가 제한됩니다." />
             <GuideCard number="3" title="처리 완료" desc="전화·방문·식사 연결 등 가능한 조치 후 결과를 남깁니다." />
           </div>
@@ -223,23 +285,29 @@ export function ProviderRequestsPanel() {
             응급상황을 앱이 직접 판단하지 않습니다. 현장에서 응급 가능성이 보이면 119 또는 의료기관에 즉시 연락해야 합니다.
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-[1fr_10rem]">
-            <input
-              value={phone}
-              onChange={(event) => setPhone(phoneOnly(event.target.value))}
-              inputMode="tel"
-              placeholder="등록된 연락처 입력"
-              className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-            />
+          {tokenMode ? (
+            <div className="mt-6 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              보안 요청 링크로 접속했습니다. 연락처 입력 없이 이 요청을 확인할 수 있습니다.
+            </div>
+          ) : (
+            <div className="mt-6 grid gap-3 sm:grid-cols-[1fr_10rem]">
+              <input
+                value={phone}
+                onChange={(event) => setPhone(phoneOnly(event.target.value))}
+                inputMode="tel"
+                placeholder="등록된 연락처 입력"
+                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              />
 
-            <button
-              onClick={() => load(phone)}
-              disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
-            >
-              {loading ? '조회 중' : '요청 조회'}
-            </button>
-          </div>
+              <button
+                onClick={() => loadByPhone(phone)}
+                disabled={loading}
+                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              >
+                {loading ? '조회 중' : '요청 조회'}
+              </button>
+            </div>
+          )}
 
           {message ? (
             <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
@@ -425,7 +493,7 @@ export function ProviderRequestsPanel() {
             보호자 후속조치
           </Link>
           <button
-            onClick={() => load(phone)}
+            onClick={() => (tokenMode ? loadByToken(token) : loadByPhone(phone))}
             className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
           >
             새로고침
