@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
 
 type OutboxItem = {
   id: string
@@ -33,6 +33,10 @@ type Config = {
   hasApiSecret: boolean
   hasSender: boolean
   senderMasked: string
+}
+
+function phoneOnly(value: string) {
+  return value.replace(/[^\d]/g, '')
 }
 
 function statusClass(status?: string) {
@@ -72,11 +76,10 @@ export function NotificationDispatchPanel() {
   const [testBody, setTestBody] = useState('안부웍스 알림 발송 테스트입니다.')
 
   const recentItems = useMemo(() => items.slice(0, 80), [items])
+  const ready = config.hasApiKey && config.hasApiSecret && config.hasSender
 
   async function load() {
     setLoading(true)
-    setMessage('')
-    setDebug('')
 
     try {
       const response = await fetch('/api/notifications/dispatch', { cache: 'no-store' })
@@ -115,13 +118,13 @@ export function NotificationDispatchPanel() {
 
       if (!response.ok || !data.ok) {
         setMessage(data.message || '처리에 실패했습니다.')
-        setDebug(JSON.stringify(data.detail || data.results || data, null, 2))
+        setDebug(JSON.stringify(data.detail || data.result || data.results || data, null, 2))
         await load()
         return
       }
 
       setMessage(data.message || '처리되었습니다.')
-      setDebug(data.results ? JSON.stringify(data.results, null, 2) : '')
+      setDebug(data.result || data.results ? JSON.stringify(data.result || data.results, null, 2) : '')
       await load()
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '처리 중 오류가 발생했습니다.')
@@ -133,8 +136,6 @@ export function NotificationDispatchPanel() {
   useEffect(() => {
     load()
   }, [])
-
-  const ready = config.hasApiKey && config.hasApiSecret && config.hasSender
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
@@ -151,7 +152,7 @@ export function NotificationDispatchPanel() {
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            /response?scope=ops에서 “주변 도움망에 요청”을 누르면 발송 대기함에 쌓입니다. 이 화면에서 SOLAPI SMS로 실제 발송하고 성공·실패를 확인합니다.
+            테스트 문자는 먼저 대기열에 넣고, 최근 알림 기록 최상단에서 발송 상태를 확인합니다.
           </p>
 
           <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (ready ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')}>
@@ -221,7 +222,7 @@ export function NotificationDispatchPanel() {
             <div className="mt-5 grid gap-3">
               <input
                 value={testPhone}
-                onChange={(event) => setTestPhone(event.target.value.replace(/[^\d]/g, ''))}
+                onChange={(event) => setTestPhone(phoneOnly(event.target.value))}
                 inputMode="tel"
                 placeholder="수신번호 예: 01012345678"
                 className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
@@ -247,6 +248,14 @@ export function NotificationDispatchPanel() {
                 className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 테스트 문자 대기열에 넣기
+              </button>
+
+              <button
+                onClick={() => post('enqueueAndSendTest', { toPhone: testPhone, toName: testName, body: testBody })}
+                disabled={loading || !testPhone}
+                className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              >
+                테스트 문자 바로 발송
               </button>
             </div>
           </section>
@@ -278,7 +287,7 @@ export function NotificationDispatchPanel() {
                       <p className="mt-2 text-sm font-bold leading-7 opacity-80">
                         {item.to_name || '-'} · {item.to_phone || '-'}
                       </p>
-                      <p className="mt-2 text-sm font-bold leading-7 opacity-80">
+                      <p className="mt-2 whitespace-pre-wrap text-sm font-bold leading-7 opacity-80">
                         {item.body || '-'}
                       </p>
                     </div>

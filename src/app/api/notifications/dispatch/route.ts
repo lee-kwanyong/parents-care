@@ -1,9 +1,11 @@
-import { createHash, randomBytes, timingSafeEqual } from 'crypto'
+import { createHash, randomUUID, timingSafeEqual } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { SolapiMessageService } from 'solapi'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
+
+type Row = Record<string, unknown>
 
 type RestResult = {
   ok: boolean
@@ -12,9 +14,12 @@ type RestResult = {
   error: unknown
 }
 
-type Row = Record<string, unknown>
-
-const OPS_COOKIE_NAME = 'anbu_ops_token'
+const OPS_COOKIE_NAMES = [
+  'anbu_ops_token',
+  'OPS_SESSION_TOKEN',
+  'ops_session_token',
+  'ops_session'
+]
 
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
@@ -29,7 +34,7 @@ function opsPassword() {
 }
 
 function authSecret() {
-  return process.env.ANBU_OPS_AUTH_SECRET || 'anbuworks-ops-auth-secret'
+  return process.env.ANBU_OPS_AUTH_SECRET || process.env.OPS_AUTH_SECRET || 'anbuworks-ops-auth-secret'
 }
 
 function tokenFor(password: string) {
@@ -44,21 +49,27 @@ function safeEqual(a: string, b: string) {
 }
 
 function isOpsAuthed(request: NextRequest) {
-  const configuredPassword = opsPassword()
-  const token = request.cookies.get(OPS_COOKIE_NAME)?.value || ''
+  const password = opsPassword()
+  if (!password) return false
 
-  if (!configuredPassword || !token) return false
+  const expected = tokenFor(password)
 
-  try {
-    return safeEqual(token, tokenFor(configuredPassword))
-  } catch {
-    return false
+  for (const name of OPS_COOKIE_NAMES) {
+    const token = request.cookies.get(name)?.value || ''
+    if (!token) continue
+
+    try {
+      if (safeEqual(token, expected)) return true
+    } catch {
+      continue
+    }
   }
+
+  return false
 }
 
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  if (!raw) return ''
   return raw.replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '')
 }
 
@@ -78,7 +89,7 @@ function solapiConfig() {
   }
 }
 
-function configured() {
+function solapiReady() {
   const cfg = solapiConfig()
   return Boolean(cfg.apiKey && cfg.apiSecret && cfg.sender)
 }
@@ -128,7 +139,7 @@ function rows(result: RestResult): Row[] {
   return result.ok && Array.isArray(result.data) ? result.data as Row[] : []
 }
 
-function statusMetrics(items: Row[]) {
+function metrics(items: Row[]) {
   return {
     total: items.length,
     queued: items.filter((item) => text(item.status) === 'queued').length,
@@ -138,43 +149,40 @@ function statusMetrics(items: Row[]) {
   }
 }
 
-function requestTypeLabel(type: string) {
-  if (type === 'meal_delivery') return '식사 연결'
-  if (type === 'medication_reminder') return '복약 확인'
-  if (type === 'urgent_neighbor_help') return '긴급 도움'
-  if (type === 'care_partner_check') return '돌봄 확인'
-  if (type === 'pharmacy_call') return '약국 상담'
-  return '안부 확인'
-}
-
-function hashToken(token: string) {
-  return createHash('sha256').update(token).digest('hex')
-}
-
-function makeProviderToken() {
-  return randomBytes(24).toString('base64url')
-}
-
-function rowPayload(row: Row): Row {
-  const payload = row.payload
-  if (payload && typeof payload === 'object' && !Array.isArray(payload)) return payload as Row
-  return {}
-}
-
-function resultGroupId(result: unknown) {
-  const data = result as Record<string, unknown>
-  const groupInfo = data?.groupInfo as Record<string, unknown> | undefined
-  return text(groupInfo?.groupId || data?.groupId || data?._id)
+function maskSender(sender: string) {
+  if (!sender) return ''
+  if (sender.length <= 7) return sender.slice(0, 3) + '****'
+  return sender.slice(0, 3) + '****' + sender.slice(-4)
 }
 
 function errorMessage(error: unknown) {
   if (error instanceof Error) return error.message
-
   try {
     return JSON.stringify(error)
   } catch {
     return String(error)
   }
+}
+
+function groupId(result: unknown) {
+  const data = result as Record<string, unknown>
+  const groupInfo = data.groupInfo as Record<string, unknown> | undefined
+  return text(groupInfo?.groupId || groupInfo?._id || data.groupId || data._id)
+}
+
+function targetLink(row: Row) {
+  const target = text(row.target_url)
+  if (!target) return ''
+  if (target.startsWith('http')) return target
+  return siteUrl() + target
+}
+
+function buildSms(row: Row) {
+  const title = text(row.title) || '[안부웍스] 알림'
+  const body = text(row.body)
+  const link = targetLink(row)
+
+  return [title, body, link].filter(Boolean).join('\n').slice(0, 1500)
 }
 
 async function patchOutbox(id: string, patch: Row) {
@@ -185,97 +193,16 @@ async function patchOutbox(id: string, patch: Row) {
   })
 }
 
-async function createProviderRequestToken(row: Row) {
-  const payload = rowPayload(row)
-  const requestId = text(payload.requestId)
-  const providerId = text(payload.providerId)
-
-  if (!requestId || !providerId) {
-    return ''
-  }
-
-  const matchResult = await rest(
-    'care_response_matches?select=*&request_id=eq.' +
-      encodeURIComponent(requestId) +
-      '&provider_id=eq.' +
-      encodeURIComponent(providerId) +
-      '&limit=1'
-  )
-
-  const match = rows(matchResult)[0]
-  const matchId = text(match?.id)
-
-  const rawToken = makeProviderToken()
-  const tokenHash = hashToken(rawToken)
-
-  await rest('care_response_access_tokens', {
-    method: 'POST',
-    body: JSON.stringify([
-      {
-        token_hash: tokenHash,
-        request_id: requestId,
-        provider_id: providerId,
-        match_id: matchId || null,
-        purpose: 'provider_request',
-        expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7).toISOString(),
-        payload: {
-          outboxId: text(row.id),
-          reason: text(row.reason)
-        }
-      }
-    ])
-  })
-
-  return `${siteUrl()}/provider/requests?t=${encodeURIComponent(rawToken)}`
-}
-
-async function buildProviderRequestLink(row: Row) {
-  if (text(row.reason) === 'care-response-dispatch') {
-    const tokenLink = await createProviderRequestToken(row)
-    if (tokenLink) return tokenLink
-  }
-
-  const toPhone = phone(row.to_phone)
-  return `${siteUrl()}/provider/requests${toPhone ? '?phone=' + encodeURIComponent(toPhone) : ''}`
-}
-
-async function buildSmsText(row: Row) {
-  const title = text(row.title) || '[안부웍스] 알림'
-  const body = text(row.body)
-  const reason = text(row.reason)
-  const targetUrl = text(row.target_url)
-
-  if (reason === 'care-response-dispatch') {
-    const link = await buildProviderRequestLink(row)
-    const lines = [
-      '[안부웍스] 지역 후속조치 요청',
-      body.replace(/https?:\/\/\S+/g, '').trim(),
-      '',
-      '요청 확인:',
-      link,
-      '',
-      '수락 전에는 상세 개인정보가 제한됩니다.',
-      '응급상황이 의심되면 119 또는 의료기관에 연락하세요.'
-    ].filter(Boolean)
-
-    return lines.join('\n').slice(0, 1500)
-  }
-
-  const link = targetUrl
-    ? targetUrl.startsWith('http')
-      ? targetUrl
-      : siteUrl() + targetUrl
-    : ''
-
-  return [title, body, link].filter(Boolean).join('\n').slice(0, 1500)
-}
-
 async function sendOne(row: Row) {
   const id = text(row.id)
   const toPhone = phone(row.to_phone)
 
   if (!id) {
-    return { ok: false, id, message: '알림 ID가 없습니다.' }
+    return {
+      ok: false,
+      id,
+      message: '알림 ID가 없습니다.'
+    }
   }
 
   if (!toPhone) {
@@ -291,11 +218,15 @@ async function sendOne(row: Row) {
       }
     })
 
-    return { ok: false, id, message: '수신번호가 없습니다.' }
+    return {
+      ok: false,
+      id,
+      message: '수신번호가 없습니다.'
+    }
   }
 
-  const smsText = await buildSmsText(row)
   const cfg = solapiConfig()
+  const smsText = buildSms(row)
 
   if (!cfg.apiKey || !cfg.apiSecret || !cfg.sender) {
     await patchOutbox(id, {
@@ -307,7 +238,7 @@ async function sendOne(row: Row) {
           ok: false,
           mode: 'outbox-only',
           error: 'SOLAPI_API_KEY, SOLAPI_API_SECRET, SOLAPI_SENDER 환경변수가 필요합니다.',
-          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
+          textPreview: smsText
         }
       }
     })
@@ -315,25 +246,22 @@ async function sendOne(row: Row) {
     return {
       ok: false,
       id,
-      message: 'SOLAPI 환경변수가 없어 outbox-only로 처리했습니다.'
+      message: 'SOLAPI 환경변수가 없어 대기함만 저장했습니다.'
     }
   }
 
   try {
-    const messageService = new SolapiMessageService(cfg.apiKey, cfg.apiSecret)
-
-    const result = await messageService.send({
+    const service = new SolapiMessageService(cfg.apiKey, cfg.apiSecret)
+    const result = await service.send({
       to: toPhone,
       from: cfg.sender,
       text: smsText
     })
 
-    const groupId = resultGroupId(result)
-
     await patchOutbox(id, {
       status: 'sent',
       provider: 'solapi-sms',
-      provider_message_id: groupId || null,
+      provider_message_id: groupId(result) || null,
       sent_at: new Date().toISOString(),
       payload: {
         original: row,
@@ -341,7 +269,7 @@ async function sendOne(row: Row) {
           ok: true,
           mode: 'solapi-sms',
           data: result,
-          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
+          textPreview: smsText
         }
       }
     })
@@ -350,7 +278,7 @@ async function sendOne(row: Row) {
       ok: true,
       id,
       message: '발송 완료',
-      providerMessageId: groupId
+      providerMessageId: groupId(result)
     }
   } catch (error) {
     await patchOutbox(id, {
@@ -362,7 +290,7 @@ async function sendOne(row: Row) {
           ok: false,
           mode: 'solapi-sms',
           error: errorMessage(error),
-          textPreview: smsText.replace(/t=[^&\s]+/g, 't=***')
+          textPreview: smsText
         }
       }
     })
@@ -375,18 +303,75 @@ async function sendOne(row: Row) {
   }
 }
 
+async function loadOutbox() {
+  const result = await rest('notification_outbox?select=*&order=created_at.desc&limit=200')
+
+  if (!result.ok) return result
+
+  return {
+    ok: true,
+    status: 200,
+    data: rows(result),
+    error: null
+  }
+}
+
+async function createTestOutbox(input: {
+  toPhone: string
+  toName: string
+  body: string
+  title?: string
+}) {
+  const toPhone = phone(input.toPhone)
+
+  if (!toPhone) {
+    return {
+      ok: false,
+      status: 400,
+      data: null,
+      error: '테스트 수신번호가 필요합니다.'
+    }
+  }
+
+  const now = Date.now()
+  const sourceKey = 'ops-test-' + now + '-' + randomUUID()
+
+  return rest('notification_outbox', {
+    method: 'POST',
+    headers: { Prefer: 'return=representation' },
+    body: JSON.stringify([
+      {
+        channel: 'sms',
+        to_name: text(input.toName) || '테스트',
+        to_phone: toPhone,
+        title: text(input.title) || '[안부웍스] 테스트 문자',
+        body: text(input.body) || '안부웍스 알림 발송 테스트입니다.',
+        reason: 'ops-notification-test',
+        target_url: '/ops/notification-dispatch',
+        status: 'queued',
+        provider: 'notification-dispatch-center',
+        source_key: sourceKey,
+        payload: {
+          source: 'ops-test',
+          createdFrom: '/ops/notification-dispatch'
+        }
+      }
+    ])
+  })
+}
+
 export async function GET(request: NextRequest) {
   if (!isOpsAuthed(request)) {
     return NextResponse.json(
       {
         ok: false,
-        message: '운영실 인증이 필요합니다. 먼저 /ops 에서 로그인해주세요.'
+        message: '운영실 인증이 필요합니다.'
       },
       { status: 401 }
     )
   }
 
-  const result = await rest('notification_outbox?select=*&order=created_at.desc&limit=200')
+  const result = await loadOutbox()
 
   if (!result.ok) {
     return NextResponse.json(
@@ -399,19 +384,19 @@ export async function GET(request: NextRequest) {
     )
   }
 
-  const items = rows(result)
+  const items = Array.isArray(result.data) ? result.data as Row[] : []
 
   return NextResponse.json({
     ok: true,
-    configured: configured(),
+    configured: solapiReady(),
     config: {
       hasApiKey: Boolean(solapiConfig().apiKey),
       hasApiSecret: Boolean(solapiConfig().apiSecret),
       hasSender: Boolean(solapiConfig().sender),
-      senderMasked: solapiConfig().sender ? solapiConfig().sender.slice(0, 3) + '****' + solapiConfig().sender.slice(-4) : ''
+      senderMasked: maskSender(solapiConfig().sender)
     },
     items,
-    metrics: statusMetrics(items)
+    metrics: metrics(items)
   })
 }
 
@@ -420,7 +405,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         ok: false,
-        message: '운영실 인증이 필요합니다. 먼저 /ops 에서 로그인해주세요.'
+        message: '운영실 인증이 필요합니다.'
       },
       { status: 401 }
     )
@@ -429,58 +414,42 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const action = text(body.action)
 
-  if (action === 'enqueueTest') {
-    const toPhone = phone(body.toPhone)
-    const toName = text(body.toName) || '테스트'
-    const title = text(body.title) || '[안부웍스] 테스트 알림'
-    const content = text(body.body) || '안부웍스 알림 발송 테스트입니다.'
+  if (action === 'enqueueTest' || action === 'enqueueAndSendTest') {
+    const created = await createTestOutbox({
+      toPhone: text(body.toPhone),
+      toName: text(body.toName),
+      body: text(body.body),
+      title: text(body.title)
+    })
 
-    if (!toPhone) {
+    if (!created.ok) {
       return NextResponse.json(
         {
           ok: false,
-          message: '테스트 수신번호가 필요합니다.'
+          message: '테스트 문자를 대기열에 넣지 못했습니다.',
+          detail: created.error
         },
-        { status: 400 }
+        { status: created.status || 500 }
       )
     }
 
-    const result = await rest('notification_outbox', {
-      method: 'POST',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify([
-        {
-          channel: 'sms',
-          to_name: toName,
-          to_phone: toPhone,
-          title,
-          body: content,
-          reason: 'ops-notification-test',
-          target_url: '/provider/requests',
-          status: 'queued',
-          provider: 'notification-dispatch-center',
-          payload: {
-            source: 'ops-test'
-          }
-        }
-      ])
-    })
+    const item = Array.isArray(created.data) ? created.data[0] as Row : created.data as Row
 
-    if (!result.ok) {
-      return NextResponse.json(
-        {
-          ok: false,
-          message: '테스트 알림을 대기열에 넣지 못했습니다.',
-          detail: result.error
-        },
-        { status: 500 }
-      )
+    if (action === 'enqueueAndSendTest') {
+      const result = await sendOne(item)
+
+      return NextResponse.json({
+        ok: result.ok,
+        message: result.message,
+        item,
+        result
+      })
     }
 
     return NextResponse.json({
       ok: true,
-      message: '테스트 알림을 발송 대기열에 넣었습니다.',
-      item: Array.isArray(result.data) ? result.data[0] : result.data
+      message: '테스트 문자를 대기열에 넣었습니다.',
+      item
     })
   }
 
@@ -498,8 +467,9 @@ export async function POST(request: NextRequest) {
     }
 
     const result = await rest('notification_outbox?select=*&id=eq.' + encodeURIComponent(id) + '&limit=1')
+    const item = rows(result)[0]
 
-    if (!result.ok || !Array.isArray(result.data) || result.data.length === 0) {
+    if (!item) {
       return NextResponse.json(
         {
           ok: false,
@@ -510,7 +480,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const dispatchResult = await sendOne(result.data[0] as Row)
+    const dispatchResult = await sendOne(item)
 
     return NextResponse.json({
       ok: dispatchResult.ok,
@@ -534,24 +504,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           ok: false,
-          message: '발송 대기 목록을 불러오지 못했습니다.',
+          message: '발송 대상 목록을 불러오지 못했습니다.',
           detail: result.error
         },
         { status: 500 }
       )
     }
 
-    const items = rows(result)
-    const results = []
+    const sendResults = []
 
-    for (const item of items) {
-      results.push(await sendOne(item))
+    for (const item of rows(result)) {
+      sendResults.push(await sendOne(item))
     }
 
     return NextResponse.json({
       ok: true,
-      message: `${results.length}건 처리했습니다.`,
-      results
+      message: `${sendResults.length}건 처리했습니다.`,
+      results: sendResults
     })
   }
 
