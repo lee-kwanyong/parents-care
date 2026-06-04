@@ -74,6 +74,7 @@ const guestMenu: MenuGroup[] = [
     title: '운영',
     items: [
       { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
+      { label: '알림 발송센터', href: '/ops/notification-dispatch', desc: '후속조치 요청 SMS 발송·실패 재시도' },
       { label: '실증 운영실', href: '/ops/pilot', desc: '실증·응답률·확인율 관리' },
       { label: 'Risk-to-Action', href: '/ops/risk-action', desc: '위험 신호 행동가이드' },
       { label: '결과 라벨링', href: '/ops/outcomes', desc: '실제 결과 기록' },
