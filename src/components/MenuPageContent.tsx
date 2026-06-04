@@ -175,6 +175,7 @@ const guestGroups: MenuGroup[] = [
     title: '운영',
     items: [
       { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
+      { label: '자동 에스컬레이션', href: '/ops/response-escalation', desc: '미수락·미완료 요청 자동 재알림' },
       { label: '알림 발송센터', href: '/ops/notification-dispatch', desc: '후속조치 요청 SMS 발송·실패 재시도' },
       { label: '지역 후속조치 관제', href: '/response?scope=ops', desc: '운영실 인증 후 전체 요청 관제' },
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
