@@ -11,6 +11,7 @@ type OutboxItem = {
   to_phone?: string
   title?: string
   body?: string
+  template_code?: string
   reason?: string
   target_url?: string
   status?: string
@@ -18,6 +19,16 @@ type OutboxItem = {
   provider_message_id?: string | null
   created_at?: string
   sent_at?: string | null
+}
+
+type MessageTemplate = {
+  code: string
+  category: string
+  title: string
+  body: string
+  default_target_url: string
+  sort_order: number
+  is_active: boolean
 }
 
 type Metrics = {
@@ -66,6 +77,8 @@ function MetricCard({ title, value, desc, danger }: { title: string; value: stri
 
 export function NotificationDispatchPanel() {
   const [items, setItems] = useState<OutboxItem[]>([])
+  const [templates, setTemplates] = useState<MessageTemplate[]>([])
+  const [selectedTemplateCode, setSelectedTemplateCode] = useState('ops-test')
   const [metrics, setMetrics] = useState<Metrics>({ total: 0, queued: 0, sent: 0, failed: 0, outboxOnly: 0 })
   const [config, setConfig] = useState<Config>({ hasApiKey: false, hasApiSecret: false, hasSender: false, senderMasked: '' })
   const [message, setMessage] = useState('')
@@ -73,10 +86,27 @@ export function NotificationDispatchPanel() {
   const [loading, setLoading] = useState(false)
   const [testPhone, setTestPhone] = useState('')
   const [testName, setTestName] = useState('이관용')
+  const [testTitle, setTestTitle] = useState('[안부웍스] 테스트 문자')
   const [testBody, setTestBody] = useState('안부웍스 알림 발송 테스트입니다.')
 
   const recentItems = useMemo(() => items.slice(0, 80), [items])
   const ready = config.hasApiKey && config.hasApiSecret && config.hasSender
+
+  const selectedTemplate = useMemo(
+    () => templates.find((item) => item.code === selectedTemplateCode) || templates[0],
+    [templates, selectedTemplateCode]
+  )
+
+  function applyTemplate(code: string) {
+    const template = templates.find((item) => item.code === code)
+
+    setSelectedTemplateCode(code)
+
+    if (template) {
+      setTestTitle(template.title)
+      setTestBody(template.body)
+    }
+  }
 
   async function load() {
     setLoading(true)
@@ -92,9 +122,18 @@ export function NotificationDispatchPanel() {
         return
       }
 
+      const nextTemplates = Array.isArray(data.templates) ? data.templates : []
+
       setItems(Array.isArray(data.items) ? data.items : [])
+      setTemplates(nextTemplates)
       setMetrics(data.metrics || { total: 0, queued: 0, sent: 0, failed: 0, outboxOnly: 0 })
       setConfig(data.config || { hasApiKey: false, hasApiSecret: false, hasSender: false, senderMasked: '' })
+
+      if (nextTemplates.length > 0 && !nextTemplates.some((item: MessageTemplate) => item.code === selectedTemplateCode)) {
+        setSelectedTemplateCode(nextTemplates[0].code)
+        setTestTitle(nextTemplates[0].title)
+        setTestBody(nextTemplates[0].body)
+      }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '알림 발송함을 불러오지 못했습니다.')
     } finally {
@@ -135,6 +174,7 @@ export function NotificationDispatchPanel() {
 
   useEffect(() => {
     load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
@@ -146,13 +186,13 @@ export function NotificationDispatchPanel() {
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            지역 도움망 요청을
+            문자 초안을 선택해서
             <br />
-            실제 문자로 보냅니다.
+            바로 보냅니다.
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            테스트 문자는 먼저 대기열에 넣고, 최근 알림 기록 최상단에서 발송 상태를 확인합니다.
+            상황별 문자 초안을 선택하고, 필요한 부분만 수정한 뒤 대기열에 넣거나 바로 발송할 수 있습니다.
           </p>
 
           <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (ready ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')}>
@@ -185,7 +225,7 @@ export function NotificationDispatchPanel() {
           <MetricCard title="전체" value={`${metrics.total}개`} desc="최근 알림 기록" />
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">발송 실행</h2>
 
@@ -214,12 +254,32 @@ export function NotificationDispatchPanel() {
                 새로고침
               </button>
             </div>
+
+            <div className="mt-6 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              대량 발송 전에는 반드시 내 번호로 초안 1건을 테스트해주세요.
+            </div>
           </section>
 
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-2xl font-black tracking-[-0.05em]">테스트 문자</h2>
+            <h2 className="text-2xl font-black tracking-[-0.05em]">문자 초안 선택</h2>
 
             <div className="mt-5 grid gap-3">
+              <select
+                value={selectedTemplateCode}
+                onChange={(event) => applyTemplate(event.target.value)}
+                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              >
+                {templates.map((template) => (
+                  <option key={template.code} value={template.code}>
+                    {template.category} · {template.title}
+                  </option>
+                ))}
+              </select>
+
+              <div className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+                선택된 초안: {selectedTemplate?.category || '-'} · {selectedTemplate?.code || '-'}
+              </div>
+
               <input
                 value={testPhone}
                 onChange={(event) => setTestPhone(phoneOnly(event.target.value))}
@@ -235,30 +295,71 @@ export function NotificationDispatchPanel() {
                 className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
+              <input
+                value={testTitle}
+                onChange={(event) => setTestTitle(event.target.value)}
+                placeholder="문자 제목"
+                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              />
+
               <textarea
                 value={testBody}
                 onChange={(event) => setTestBody(event.target.value)}
-                placeholder="테스트 문구"
-                className="min-h-24 w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                placeholder="문자 내용"
+                className="min-h-40 w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black leading-7 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
-              <button
-                onClick={() => post('enqueueTest', { toPhone: testPhone, toName: testName, body: testBody })}
-                disabled={loading || !testPhone}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
-              >
-                테스트 문자 대기열에 넣기
-              </button>
+              <div className="grid gap-3 md:grid-cols-2">
+                <button
+                  onClick={() => post('enqueueTemplate', {
+                    toPhone: testPhone,
+                    toName: testName,
+                    title: testTitle,
+                    body: testBody,
+                    templateCode: selectedTemplateCode
+                  })}
+                  disabled={loading || !testPhone}
+                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                >
+                  선택한 초안 대기열에 넣기
+                </button>
 
-              <button
-                onClick={() => post('enqueueAndSendTest', { toPhone: testPhone, toName: testName, body: testBody })}
-                disabled={loading || !testPhone}
-                className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
-              >
-                테스트 문자 바로 발송
-              </button>
+                <button
+                  onClick={() => post('enqueueAndSendTemplate', {
+                    toPhone: testPhone,
+                    toName: testName,
+                    title: testTitle,
+                    body: testBody,
+                    templateCode: selectedTemplateCode
+                  })}
+                  disabled={loading || !testPhone}
+                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+                >
+                  선택한 초안 바로 발송
+                </button>
+              </div>
             </div>
           </section>
+        </section>
+
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <h2 className="text-3xl font-black tracking-[-0.06em]">초안 빠른 선택</h2>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {templates.map((template) => (
+              <button
+                key={template.code}
+                onClick={() => applyTemplate(template.code)}
+                className={'rounded-2xl p-4 text-left ring-1 ' + (selectedTemplateCode === template.code ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')}
+              >
+                <div className="text-xs font-black opacity-75">{template.category}</div>
+                <div className="mt-2 text-lg font-black tracking-[-0.05em]">{template.title}</div>
+                <p className="mt-2 line-clamp-3 text-xs font-bold leading-6 opacity-75">
+                  {template.body}
+                </p>
+              </button>
+            ))}
+          </div>
         </section>
 
         <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
@@ -279,7 +380,7 @@ export function NotificationDispatchPanel() {
                           {statusLabel(item.status)}
                         </span>
                         <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
-                          {item.reason || '알림'}
+                          {item.template_code || item.reason || '알림'}
                         </span>
                       </div>
 
