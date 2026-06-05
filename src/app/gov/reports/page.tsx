@@ -1,10 +1,10 @@
-import { GovPlatformPanel } from '@/components/gov/GovPlatformPanel'
+import { GovReportsPanel } from '@/components/gov/GovReportsPanel'
 
 export const metadata = {
-  title: '성과보고 | 안부웍스 지자체 운영실',
-  description: '실증 성과지표와 월간 리포트 초안을 확인합니다.'
+  title: '지자체 운영보고서 | 안부웍스',
+  description: '실증 대상자, 안부 신호, 후속조치, 도움망, 문자 발송, 자동운영 기록을 지자체 제출용으로 집계합니다.'
 }
 
 export default function GovReportsPage() {
-  return <GovPlatformPanel initialTab="reports" />
+  return <GovReportsPanel />
 }

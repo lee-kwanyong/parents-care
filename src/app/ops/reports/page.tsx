@@ -1,3 +1,15 @@
-import { AppShell } from '@/components/AppShell'
-import { Card, CardTitle } from '@/components/Card'
-export default function Page() { return <AppShell title="리포트 검수·발송" subtitle="진료 내용, 약, 서류, 비용, 다음 액션을 검수 후 보호자에게 보냅니다."><Card><CardTitle title="리포트 품질 게이트" description="보호자가 바로 이해할 수 있게 30초 요약과 자세한 리포트를 분리합니다." /></Card></AppShell> }
+import { GovReportsPanel } from '@/components/gov/GovReportsPanel'
+
+export const metadata = {
+  title: '운영실 운영보고서 | 안부웍스',
+  description: '운영실 자동운영, 후속조치, 도움망, 문자 발송 성과를 집계합니다.'
+}
+
+export default function OpsReportsPage() {
+  return (
+    <GovReportsPanel
+      title="운영실 운영보고서"
+      subtitle="운영실 자동운영, 후속조치, 도움망 요청, 문자 발송 성과를 주간·월간 보고서로 집계합니다."
+    />
+  )
+}
