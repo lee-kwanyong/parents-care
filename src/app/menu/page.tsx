@@ -1,10 +1,16 @@
-import { MenuPageContent } from '@/components/MenuPageContent'
+import { AdminMenuHub } from '@/components/admin/AdminMenuHub'
 
 export const metadata = {
-  title: '메뉴 | 부모님 안심케어',
-  description: '부모님 안심케어의 주요 화면으로 이동합니다.'
+  title: '전체 메뉴 | 안부웍스',
+  description: '안부웍스 전체 메뉴입니다.'
 }
 
 export default function MenuPage() {
-  return <MenuPageContent />
+  return (
+    <AdminMenuHub
+      role="all"
+      title="전체 메뉴"
+      subtitle="필요한 역할과 화면으로 바로 이동하세요."
+    />
+  )
 }

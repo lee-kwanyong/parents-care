@@ -26,6 +26,11 @@ const guestMenu: MenuGroup[] = [
     items: [
       { label: '홈', href: '/', desc: '처음 화면으로 이동' },
       { label: '로그인/회원가입', href: '/login', desc: '보호자 로그인 및 역할 선택' },
+      { label: '운영실 페이지', href: '/portal/ops', desc: '운영실 자동운영·관제 화면 모음' },
+      { label: '요양보호사 페이지', href: '/portal/care-worker', desc: '도움망 요청 수락·처리 화면 모음' },
+      { label: '자녀 페이지', href: '/portal/child', desc: '보호자 리포트·후속조치 화면 모음' },
+      { label: '부모님 페이지', href: '/portal/parent', desc: '부모님 안부 입력 화면 모음' },
+      { label: '전체 어드민 메뉴', href: '/admin-menu', desc: '역할별 전체 화면 모음' },
       { label: '보호자 회원가입', href: '/signup/guardian', desc: '이메일·Google·Kakao 계정으로 시작' },
       { label: '홈 화면에 추가', href: '/install', desc: '휴대폰 홈 화면에 앱처럼 추가' }
     ]
