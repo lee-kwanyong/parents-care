@@ -453,6 +453,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/pilot-manual",
+    "title": "운영실 실증 운영 매뉴얼",
+    "description": "운영실 기준으로 실증 단계별 체크리스트와 교육 기록을 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "매뉴얼",
+    "priority": 61,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/reports",
     "title": "운영 보고서",
     "description": "운영실 처리 기록과 보고서를 확인합니다.",
@@ -541,6 +554,19 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "패키지",
     "priority": 76,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/pilot-manual",
+    "title": "지자체 실증 운영 매뉴얼",
+    "description": "1–2개월 인프라 구축, 3–5개월 관제 최적화, 6개월 성과 도출 운영 순서를 관리합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "매뉴얼",
+    "priority": 77,
     "opsOnly": true
   },
   {
