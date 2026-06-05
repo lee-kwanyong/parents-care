@@ -271,6 +271,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/households",
+    "title": "실증 대상자 관리",
+    "description": "관리 대상자, 가족코드, 보호자, 권역, 위험군, 동의 상태를 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "대상자",
+    "priority": 49,
+    "opsOnly": true
+  },
+  {
     "href": "/ops",
     "title": "운영실 홈",
     "description": "운영실에서 필요한 모든 관리 화면으로 이동합니다.",
