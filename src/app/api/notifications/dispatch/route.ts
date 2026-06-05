@@ -458,7 +458,7 @@ async function sendOne(row: Row) {
 }
 
 async function loadOutbox() {
-  const result = await rest('notification_outbox?select=*&order=created_at.desc&limit=200')
+  const result = await rest('notification_outbox?select=*&archived_at=is.null&order=created_at.desc&limit=200')
 
   if (!result.ok) return result
 
@@ -665,7 +665,7 @@ export async function POST(request: NextRequest) {
     const result = await rest(
       'notification_outbox?select=*&status=eq.' +
         encodeURIComponent(status) +
-        '&order=created_at.asc&limit=' +
+        '&archived_at=is.null&order=created_at.asc&limit=' +
         limit
     )
 

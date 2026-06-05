@@ -349,6 +349,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/notification-cleanup",
+    "title": "알림 기록 정리센터",
+    "description": "테스트 문자, 실패 기록, 오래된 대기 알림, 발송 완료 기록을 운영 화면에서 분리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "정리",
+    "priority": 55,
+    "opsOnly": true
+  },
+  {
     "href": "/response?scope=ops",
     "title": "운영실 후속조치 관제",
     "description": "전체 후속조치 요청을 보고 지역 도움망으로 전파합니다.",
