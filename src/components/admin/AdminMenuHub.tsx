@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useMemo, useState } from 'react'
 import {
   linksForRole,
   menuLinks,
@@ -16,6 +17,8 @@ type AdminMenuHubProps = {
   subtitle?: string
 }
 
+type ViewMode = 'accordion' | 'line'
+
 const roleOrder: PortalRole[] = ['all', 'parent', 'child', 'careWorker', 'ops']
 
 function groupLinks(links: MenuLink[]) {
@@ -27,12 +30,12 @@ function groupLinks(links: MenuLink[]) {
   }, {})
 }
 
-function roleLabel(role: PortalRole) {
-  return roleMeta[role]?.title || '전체 메뉴'
-}
-
-function roleDesc(role: PortalRole) {
-  return roleMeta[role]?.description || '안부웍스 전체 화면을 확인합니다.'
+function rolePath(role: PortalRole) {
+  if (role === 'all') return '/admin-menu'
+  if (role === 'parent') return '/portal/parent'
+  if (role === 'child') return '/portal/child'
+  if (role === 'careWorker') return '/portal/care-worker'
+  return '/portal/ops'
 }
 
 function badgeClass(role: PortalRole) {
@@ -46,7 +49,7 @@ function badgeClass(role: PortalRole) {
 function importantLinks(role: PortalRole) {
   if (role === 'parent') {
     return linksForRole('parent').filter((link) =>
-      ['/parent', '/family-link', '/portal/parent'].includes(link.href)
+      ['/parent', '/parent/checkin', '/family-link', '/portal/parent'].includes(link.href)
     )
   }
 
@@ -78,7 +81,7 @@ function importantLinks(role: PortalRole) {
     ...linksForRole('parent').slice(0, 2),
     ...linksForRole('child').slice(0, 2),
     ...linksForRole('careWorker').slice(0, 2),
-    ...linksForRole('ops').slice(0, 4)
+    ...linksForRole('ops').slice(0, 5)
   ].filter(Boolean)
 }
 
@@ -88,11 +91,43 @@ export function AdminMenuHub({
   title,
   subtitle
 }: AdminMenuHubProps) {
-  const currentRole = role
-  const visibleLinks = linksForRole(currentRole)
-  const grouped = groupLinks(visibleLinks)
-  const quickLinks = importantLinks(currentRole)
-  const totalCount = currentRole === 'all' ? menuLinks.length : visibleLinks.length
+  const [viewMode, setViewMode] = useState<ViewMode>('accordion')
+
+  const visibleLinks = useMemo(() => linksForRole(role), [role])
+  const grouped = useMemo(() => groupLinks(visibleLinks), [visibleLinks])
+  const categories = useMemo(() => Object.keys(grouped), [grouped])
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({})
+
+  const quickLinks = useMemo(() => importantLinks(role), [role])
+  const totalCount = role === 'all' ? menuLinks.length : visibleLinks.length
+
+  function isOpen(category: string, index: number) {
+    if (openGroups[category] !== undefined) return openGroups[category]
+    return index < 4
+  }
+
+  function toggleGroup(category: string, index: number) {
+    setOpenGroups({
+      ...openGroups,
+      [category]: !isOpen(category, index)
+    })
+  }
+
+  function openAll() {
+    const next: Record<string, boolean> = {}
+    categories.forEach((category) => {
+      next[category] = true
+    })
+    setOpenGroups(next)
+  }
+
+  function closeAll() {
+    const next: Record<string, boolean> = {}
+    categories.forEach((category) => {
+      next[category] = false
+    })
+    setOpenGroups(next)
+  }
 
   return (
     <main className={(embedded ? '' : 'min-h-screen') + ' bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8'}>
@@ -103,97 +138,183 @@ export function AdminMenuHub({
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            {title || roleLabel(currentRole)}
+            {title || roleMeta[role].title}
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            {subtitle || roleDesc(currentRole)}
+            {subtitle || roleMeta[role].description}
           </p>
 
-          <div className="mt-5 flex flex-wrap gap-2">
-            {roleOrder.map((item) => (
-              <Link
-                key={item}
-                href={
-                  item === 'all'
-                    ? '/admin-menu'
-                    : item === 'parent'
-                      ? '/portal/parent'
-                      : item === 'child'
-                        ? '/portal/child'
-                        : item === 'careWorker'
-                          ? '/portal/care-worker'
-                          : '/portal/ops'
-                }
-                className={
-                  'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
-                  (currentRole === item ? badgeClass(item) : 'bg-white text-[#173B36] ring-[#D8EEE8]')
-                }
-              >
-                {roleMeta[item].shortTitle}
-              </Link>
-            ))}
+          <div className="mt-5 overflow-x-auto">
+            <div className="flex min-w-max gap-2">
+              {roleOrder.map((item) => (
+                <Link
+                  key={item}
+                  href={rolePath(item)}
+                  className={
+                    'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
+                    (role === item ? badgeClass(item) : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  }
+                >
+                  {roleMeta[item].shortTitle}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-4">
-            <MetricCard title="현재 역할" value={roleMeta[currentRole].shortTitle} desc={roleDesc(currentRole)} />
-            <MetricCard title="메뉴 수" value={`${totalCount}개`} desc="이 역할에서 사용할 수 있는 화면" />
-            <MetricCard title="운영 핵심" value="자동화" desc="신호·알림·배정·완료 흐름을 연결" />
-            <MetricCard title="실증 방향" value="B2G" desc="지자체 관제·보고·도움망 운영 기준" />
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setViewMode('accordion')}
+              className={
+                'rounded-2xl px-5 py-3 text-sm font-black ring-1 ' +
+                (viewMode === 'accordion'
+                  ? 'bg-[#193B38] text-white ring-[#193B38]'
+                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+              }
+            >
+              펼쳐보기
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewMode('line')}
+              className={
+                'rounded-2xl px-5 py-3 text-sm font-black ring-1 ' +
+                (viewMode === 'line'
+                  ? 'bg-[#193B38] text-white ring-[#193B38]'
+                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+              }
+            >
+              가로 일자 목록
+            </button>
+
+            <button
+              type="button"
+              onClick={openAll}
+              className="rounded-2xl bg-[#F8FCFB] px-5 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            >
+              모두 펼치기
+            </button>
+
+            <button
+              type="button"
+              onClick={closeAll}
+              className="rounded-2xl bg-[#F8FCFB] px-5 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            >
+              모두 접기
+            </button>
+          </div>
+
+          <div className="mt-6 grid gap-2 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:grid-cols-4">
+            <InfoLine label="현재 역할" value={roleMeta[role].shortTitle} />
+            <InfoLine label="메뉴 수" value={`${totalCount}개`} />
+            <InfoLine label="표시 방식" value={viewMode === 'accordion' ? '펼쳐보기' : '가로 일자'} />
+            <InfoLine label="운영 방식" value="역할별 통합" />
           </div>
         </section>
 
         {quickLinks.length > 0 ? (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-3xl font-black tracking-[-0.06em]">바로 쓰는 핵심 메뉴</h2>
-            <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-              이 역할에서 가장 자주 쓰는 화면입니다.
-            </p>
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <h2 className="text-3xl font-black tracking-[-0.06em]">바로 쓰는 핵심 메뉴</h2>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+                  가로로 쭉 넘기며 선택하는 핵심 메뉴입니다.
+                </p>
+              </div>
+              <div className="text-sm font-black text-[#11977F]">{quickLinks.length}개</div>
+            </div>
 
-            <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {quickLinks.map((link) => (
-                <MenuCard key={link.href + link.title} link={link} highlight />
-              ))}
+            <div className="mt-5 overflow-x-auto pb-2">
+              <div className="flex min-w-max gap-3">
+                {quickLinks.map((link) => (
+                  <QuickLine key={link.href + link.title} link={link} />
+                ))}
+              </div>
             </div>
           </section>
         ) : null}
 
-        {Object.entries(grouped).map(([category, links]) => (
-          <section key={category} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-3xl font-black tracking-[-0.06em]">{category}</h2>
-                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                  {links.length}개 화면
-                </p>
-              </div>
+        {viewMode === 'accordion' ? (
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <h2 className="text-3xl font-black tracking-[-0.06em]">펼쳐보기 메뉴</h2>
+            <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+              카테고리를 눌러 펼치고, 필요한 화면으로 바로 이동하세요.
+            </p>
 
-              {category.includes('운영실') ? (
-                <Link
-                  href="/ops"
-                  className="rounded-2xl bg-[#193B38] px-5 py-3 text-center text-sm font-black text-white"
-                >
-                  운영실 홈
-                </Link>
-              ) : null}
-            </div>
+            <div className="mt-5 divide-y divide-[#D8EEE8] overflow-hidden rounded-2xl ring-1 ring-[#D8EEE8]">
+              {Object.entries(grouped).map(([category, links], index) => {
+                const opened = isOpen(category, index)
 
-            <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-              {links.map((link) => (
-                <MenuCard key={link.href + link.title} link={link} />
-              ))}
+                return (
+                  <section key={category} className="bg-white">
+                    <button
+                      type="button"
+                      onClick={() => toggleGroup(category, index)}
+                      className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left hover:bg-[#F8FCFB]"
+                    >
+                      <div className="min-w-0">
+                        <div className="text-xl font-black tracking-[-0.05em]">{opened ? '▾' : '▸'} {category}</div>
+                        <div className="mt-1 text-xs font-bold text-[#637B76]">{links.length}개 화면</div>
+                      </div>
+                      <div className="rounded-full bg-[#E8FAF5] px-3 py-1 text-xs font-black text-[#11977F]">
+                        {opened ? '접기' : '펼치기'}
+                      </div>
+                    </button>
+
+                    {opened ? (
+                      <div className="border-t border-[#D8EEE8] bg-[#FBFFFD]">
+                        {links.map((link) => (
+                          <MenuLine key={link.href + link.title} link={link} />
+                        ))}
+                      </div>
+                    ) : null}
+                  </section>
+                )
+              })}
             </div>
           </section>
-        ))}
+        ) : (
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <h2 className="text-3xl font-black tracking-[-0.06em]">가로 일자 목록</h2>
+            <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
+              모든 메뉴를 카드 없이 한 줄 목록으로 표시합니다.
+            </p>
+
+            <div className="mt-5 overflow-x-auto">
+              <div className="min-w-[960px] overflow-hidden rounded-2xl ring-1 ring-[#D8EEE8]">
+                <div className="grid grid-cols-[12rem_16rem_1fr_16rem_7rem] gap-3 bg-[#F8FCFB] px-4 py-3 text-xs font-black text-[#637B76]">
+                  <div>구분</div>
+                  <div>메뉴</div>
+                  <div>설명</div>
+                  <div>경로</div>
+                  <div>이동</div>
+                </div>
+
+                <div className="divide-y divide-[#D8EEE8] bg-white">
+                  {visibleLinks.map((link) => (
+                    <MenuTableRow key={link.href + link.title} link={link} />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         <section className="rounded-[2rem] bg-[#193B38] p-5 text-white shadow-sm sm:p-6">
-          <h2 className="text-2xl font-black tracking-[-0.05em]">운영 흐름 요약</h2>
+          <h2 className="text-2xl font-black tracking-[-0.05em]">운영 흐름</h2>
 
-          <div className="mt-5 grid gap-3 md:grid-cols-4">
-            <FlowCard number="1" title="부모님" desc="식사·복약·몸 상태·도움 요청 신호를 남깁니다." />
-            <FlowCard number="2" title="자녀" desc="상태와 다음 할 일을 보고 후속조치를 확인합니다." />
-            <FlowCard number="3" title="도움망" desc="요청을 수락하고 전화·방문·식사·복약 확인 결과를 남깁니다." />
-            <FlowCard number="4" title="운영실" desc="오토파일럿, Heartbeat, 알림, 배정, 리포트를 관리합니다." />
+          <div className="mt-5 overflow-x-auto">
+            <div className="flex min-w-max items-center gap-3">
+              <FlowStep number="1" title="부모님" desc="안부 신호 입력" />
+              <FlowArrow />
+              <FlowStep number="2" title="자녀" desc="상태·다음 할 일 확인" />
+              <FlowArrow />
+              <FlowStep number="3" title="도움망" desc="요청 수락·처리 완료" />
+              <FlowArrow />
+              <FlowStep number="4" title="운영실" desc="오토파일럿·알림·배정" />
+            </div>
           </div>
         </section>
       </section>
@@ -201,61 +322,101 @@ export function AdminMenuHub({
   )
 }
 
-function MetricCard({ title, value, desc }: { title: string; value: string; desc: string }) {
+function InfoLine({ label, value }: { label: string; value: string }) {
   return (
-    <article className="rounded-[2rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
-      <div className="text-sm font-black text-[#637B76]">{title}</div>
-      <div className="mt-2 text-3xl font-black tracking-[-0.08em] text-[#173B36]">{value}</div>
-      <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{desc}</p>
-    </article>
+    <div className="flex items-center justify-between gap-3 rounded-xl bg-white px-4 py-3 ring-1 ring-[#D8EEE8]">
+      <span className="text-xs font-black text-[#637B76]">{label}</span>
+      <span className="text-sm font-black text-[#173B36]">{value}</span>
+    </div>
   )
 }
 
-function FlowCard({ number, title, desc }: { number: string; title: string; desc: string }) {
-  return (
-    <article className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/20">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xs font-black text-[#193B38]">
-        {number}
-      </div>
-      <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>
-      <p className="mt-1 text-xs font-bold leading-6 text-white/75">{desc}</p>
-    </article>
-  )
-}
-
-function MenuCard({ link, highlight }: { link: MenuLink; highlight?: boolean }) {
+function QuickLine({ link }: { link: MenuLink }) {
   return (
     <Link
       href={link.href}
-      className={
-        'group rounded-2xl p-5 ring-1 transition hover:-translate-y-0.5 hover:shadow-lg ' +
-        (highlight
-          ? 'bg-[#193B38] text-white ring-[#193B38]'
-          : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')
-      }
+      className="flex min-w-[18rem] items-center justify-between gap-4 rounded-full bg-[#193B38] px-5 py-4 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <div className="min-w-0">
+        <div className="truncate text-sm font-black">{link.title}</div>
+        <div className="mt-1 truncate text-xs font-bold text-white/65">{link.href}</div>
+      </div>
+      <span className="shrink-0 text-lg font-black">→</span>
+    </Link>
+  )
+}
+
+function MenuLine({ link }: { link: MenuLink }) {
+  return (
+    <Link
+      href={link.href}
+      className="grid gap-2 border-b border-[#D8EEE8] px-4 py-4 transition last:border-b-0 hover:bg-white sm:grid-cols-[10rem_16rem_1fr_6rem] sm:items-center"
     >
       <div className="flex flex-wrap gap-2">
-        <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + (highlight ? 'bg-white/10 text-white ring-white/20' : 'bg-white text-[#11977F] ring-[#D8EEE8]')}>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#11977F] ring-1 ring-[#D8EEE8]">
           {link.badge || link.category}
         </span>
-
         {link.opsOnly ? (
-          <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + (highlight ? 'bg-white/10 text-white ring-white/20' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')}>
+          <span className="rounded-full bg-[#FFF8E8] px-3 py-1 text-xs font-black text-[#795313] ring-1 ring-[#F4D8A5]">
             운영실
           </span>
         ) : null}
       </div>
 
-      <h3 className="mt-4 text-xl font-black tracking-[-0.05em]">{link.title}</h3>
-      <p className={'mt-2 text-sm font-bold leading-7 ' + (highlight ? 'text-white/75' : 'text-[#637B76]')}>
-        {link.description}
-      </p>
+      <div className="min-w-0 text-base font-black tracking-[-0.04em] text-[#173B36]">
+        {link.title}
+      </div>
 
-      <div className={'mt-4 text-xs font-black ' + (highlight ? 'text-white/60' : 'text-[#11977F]')}>
-        {link.href}
+      <div className="min-w-0 text-sm font-bold leading-6 text-[#637B76]">
+        {link.description}
+      </div>
+
+      <div className="text-sm font-black text-[#11977F]">
+        이동 →
       </div>
     </Link>
   )
+}
+
+function MenuTableRow({ link }: { link: MenuLink }) {
+  return (
+    <div className="grid grid-cols-[12rem_16rem_1fr_16rem_7rem] gap-3 px-4 py-3 text-sm font-bold text-[#173B36] hover:bg-[#F8FCFB]">
+      <div className="flex items-center gap-2">
+        <span className="truncate rounded-full bg-[#E8FAF5] px-3 py-1 text-xs font-black text-[#11977F]">
+          {link.badge || link.category}
+        </span>
+      </div>
+
+      <div className="truncate font-black">{link.title}</div>
+      <div className="truncate text-[#637B76]">{link.description}</div>
+      <div className="truncate text-xs text-[#637B76]">{link.href}</div>
+
+      <Link
+        href={link.href}
+        className="rounded-full bg-[#193B38] px-3 py-2 text-center text-xs font-black text-white"
+      >
+        이동
+      </Link>
+    </div>
+  )
+}
+
+function FlowStep({ number, title, desc }: { number: string; title: string; desc: string }) {
+  return (
+    <div className="flex min-w-[15rem] items-center gap-3 rounded-full bg-white/10 px-4 py-3 ring-1 ring-white/20">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-[#193B38]">
+        {number}
+      </div>
+      <div className="min-w-0">
+        <div className="text-sm font-black">{title}</div>
+        <div className="mt-1 text-xs font-bold text-white/65">{desc}</div>
+      </div>
+    </div>
+  )
+}
+
+function FlowArrow() {
+  return <div className="text-2xl font-black text-white/40">→</div>
 }
 
 export default AdminMenuHub
