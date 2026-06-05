@@ -414,6 +414,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/privacy-audit",
+    "title": "개인정보 동의·열람 감사센터",
+    "description": "대상자 동의 상태와 운영실·도움망·지자체 개인정보 열람 기록을 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "개인정보",
+    "priority": 59,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/pilot",
     "title": "실증 운영실",
     "description": "실증 운영 현황을 관리합니다.",
@@ -488,6 +501,19 @@ export const menuLinks: MenuLink[] = [
       "ops"
     ],
     "badge": "제출",
+    "priority": 75,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/privacy-audit",
+    "title": "지자체 개인정보 열람 감사",
+    "description": "지자체 실증 제출용 개인정보 동의·열람 감사 기록을 확인합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "감사",
     "priority": 75,
     "opsOnly": true
   },
