@@ -3,6 +3,39 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
+type ProviderCandidate = {
+  id: string
+  provider_name?: string
+  provider_type?: string
+  provider_type_label?: string
+  phone?: string
+  service_area?: string
+  response_time_min?: number
+  candidate_score?: number
+}
+
+type PlaybookStep = {
+  step_order: number
+  delay_minutes: number
+  action_code: string
+  action_label: string
+  action_detail: string
+  escalation_level: string
+  auto_execute: boolean
+  requires_human_confirm: boolean
+}
+
+type TimelineItem = {
+  id?: string
+  action_type?: string
+  update_type?: string
+  contact_type?: string
+  result_status?: string
+  message?: string
+  memo?: string
+  created_at?: string
+}
+
 type Incident = {
   id: string
   status: string
@@ -20,6 +53,16 @@ type Incident = {
   nextActionLabel: string
   nextActionDetail: string
   slaLabel: string
+  playbookSteps: PlaybookStep[]
+  candidates: ProviderCandidate[]
+  callScript: string[]
+  assignment?: {
+    assigned_to_name?: string
+    assigned_role?: string
+    note?: string
+  } | null
+  contactAttempts: TimelineItem[]
+  timeline: TimelineItem[]
   request: {
     id: string
     guardian_phone?: string
@@ -27,16 +70,7 @@ type Incident = {
     address_hint?: string
     completed_note?: string
   }
-  acceptedProvider?: {
-    provider_name?: string
-    provider_type?: string
-    phone?: string
-  }
-  matches: Array<{
-    id: string
-    match_status?: string
-    provider_id?: string
-  }>
+  acceptedProvider?: ProviderCandidate | null
 }
 
 type Metrics = {
@@ -48,6 +82,8 @@ type Metrics = {
   queued: number
   sent: number
   logs: number
+  contacts: number
+  assignments: number
 }
 
 type AutopilotLog = {
@@ -88,12 +124,15 @@ function MetricCard({ title, value, desc, danger }: { title: string; value: stri
 export function OpsAutopilotPanel() {
   const [incidents, setIncidents] = useState<Incident[]>([])
   const [logs, setLogs] = useState<AutopilotLog[]>([])
-  const [metrics, setMetrics] = useState<Metrics>({ open: 0, urgent: 0, manualNeeded: 0, waitingProvider: 0, providers: 0, queued: 0, sent: 0, logs: 0 })
+  const [metrics, setMetrics] = useState<Metrics>({ open: 0, urgent: 0, manualNeeded: 0, waitingProvider: 0, providers: 0, queued: 0, sent: 0, logs: 0, contacts: 0, assignments: 0 })
   const [message, setMessage] = useState('')
   const [debug, setDebug] = useState('')
   const [loading, setLoading] = useState(false)
   const [autoSend, setAutoSend] = useState(false)
   const [noteById, setNoteById] = useState<Record<string, string>>({})
+  const [operatorById, setOperatorById] = useState<Record<string, string>>({})
+  const [contactTypeById, setContactTypeById] = useState<Record<string, string>>({})
+  const [contactStatusById, setContactStatusById] = useState<Record<string, string>>({})
 
   const urgentIncidents = useMemo(
     () => incidents.filter((incident) => incident.severityLabel === 'Red' || incident.status === 'manual_needed'),
@@ -121,7 +160,7 @@ export function OpsAutopilotPanel() {
 
       setIncidents(Array.isArray(data.incidents) ? data.incidents : [])
       setLogs(Array.isArray(data.logs) ? data.logs : [])
-      setMetrics(data.metrics || { open: 0, urgent: 0, manualNeeded: 0, waitingProvider: 0, providers: 0, queued: 0, sent: 0, logs: 0 })
+      setMetrics(data.metrics || { open: 0, urgent: 0, manualNeeded: 0, waitingProvider: 0, providers: 0, queued: 0, sent: 0, logs: 0, contacts: 0, assignments: 0 })
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '오토파일럿 데이터를 불러오지 못했습니다.')
     } finally {
@@ -169,23 +208,24 @@ export function OpsAutopilotPanel() {
       <section className="mx-auto max-w-7xl space-y-5">
         <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-            운영실 오토파일럿
+            운영실 오토파일럿 v2
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            신호가 생기면
+            신호별 플레이북으로
             <br />
-            다음 행동을 자동으로 만듭니다.
+            운영실이 자동 대응합니다.
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            부모님 안부 신호를 위험도, 경과 시간, 도움망 수락 여부에 따라 정렬하고 운영실이 바로 실행할 다음 조치를 추천합니다.
+            위험도, 경과 시간, 도움망 수락 여부를 기준으로 다음 행동을 추천하고, 보호자 알림·도움망 요청·통화 기록·완료 처리를 한 화면에서 실행합니다.
           </p>
 
-          <div className="mt-5 grid gap-3 md:grid-cols-3">
-            <GuideCard number="1" title="사건 자동 정렬" desc="긴급·수동연결·미수락 요청을 최상단으로 올립니다." />
-            <GuideCard number="2" title="다음 할 일 추천" desc="보호자 알림, 도움망 요청, 운영실 확인중, 완료 처리를 추천합니다." />
-            <GuideCard number="3" title="자동 실행" desc="오토파일럿 실행 시 보호자 알림과 도움망 요청을 자동으로 대기열에 넣습니다." />
+          <div className="mt-5 grid gap-3 md:grid-cols-4">
+            <GuideCard number="1" title="플레이북" desc="신호별 SLA와 행동 순서를 데이터화했습니다." />
+            <GuideCard number="2" title="후보 추천" desc="요청 유형과 권역에 맞는 도움망 후보를 점수화합니다." />
+            <GuideCard number="3" title="전화 스크립트" desc="운영실 직원이 바로 읽을 수 있는 확인 문구를 제공합니다." />
+            <GuideCard number="4" title="타임라인" desc="문자, 통화, 배정, 완료 기록을 사건별로 모읍니다." />
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -220,7 +260,7 @@ export function OpsAutopilotPanel() {
           </div>
 
           <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
-            응급상황을 앱이 직접 판단하지 않습니다. 현장에서 응급 가능성이 있으면 119 또는 의료기관 연락을 안내하고, 운영실은 확인·연결·기록을 수행합니다.
+            응급상황을 앱이 직접 판단하지 않습니다. 운영실은 확인·연결·기록을 수행하고, 응급 가능성이 있으면 119 또는 의료기관 연락을 안내합니다.
           </div>
 
           {message ? (
@@ -237,65 +277,52 @@ export function OpsAutopilotPanel() {
           ) : null}
         </section>
 
-        <section className="grid gap-4 md:grid-cols-4 lg:grid-cols-8">
-          <MetricCard title="열린 사건" value={`${metrics.open}개`} desc="처리 중인 요청" danger={metrics.open > 0} />
-          <MetricCard title="긴급" value={`${metrics.urgent}개`} desc="즉시 확인 우선" danger={metrics.urgent > 0} />
-          <MetricCard title="수동 연결" value={`${metrics.manualNeeded}개`} desc="운영실 전화 필요" danger={metrics.manualNeeded > 0} />
+        <section className="grid gap-4 md:grid-cols-4 lg:grid-cols-10">
+          <MetricCard title="열린 사건" value={`${metrics.open}개`} desc="처리 중" danger={metrics.open > 0} />
+          <MetricCard title="긴급" value={`${metrics.urgent}개`} desc="즉시 확인" danger={metrics.urgent > 0} />
+          <MetricCard title="수동 연결" value={`${metrics.manualNeeded}개`} desc="전화 필요" danger={metrics.manualNeeded > 0} />
           <MetricCard title="미수락" value={`${metrics.waitingProvider}개`} desc="도움망 대기" danger={metrics.waitingProvider > 0} />
-          <MetricCard title="도움망" value={`${metrics.providers}명`} desc="등록된 제공자" />
-          <MetricCard title="발송 대기" value={`${metrics.queued}개`} desc="문자 대기열" danger={metrics.queued > 0} />
-          <MetricCard title="발송 완료" value={`${metrics.sent}개`} desc="문자 발송 기록" />
-          <MetricCard title="로그" value={`${metrics.logs}개`} desc="자동 조치 기록" />
+          <MetricCard title="도움망" value={`${metrics.providers}명`} desc="등록 제공자" />
+          <MetricCard title="배정" value={`${metrics.assignments}건`} desc="담당자 배정" />
+          <MetricCard title="통화" value={`${metrics.contacts}건`} desc="연락 기록" />
+          <MetricCard title="문자 대기" value={`${metrics.queued}개`} desc="발송 대기" danger={metrics.queued > 0} />
+          <MetricCard title="발송 완료" value={`${metrics.sent}개`} desc="문자 기록" />
+          <MetricCard title="로그" value={`${metrics.logs}개`} desc="자동 기록" />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <h2 className="text-3xl font-black tracking-[-0.06em]">긴급·수동 연결 사건</h2>
-          <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-            이 영역의 사건부터 처리하세요. 도움 요청, 수동 연결 필요, 도움망 미수락 사건이 우선입니다.
-          </p>
+        <IncidentSection
+          title="긴급·수동 연결 사건"
+          desc="이 영역의 사건부터 처리하세요. 도움 요청, 수동 연결 필요, 도움망 미수락 사건이 우선입니다."
+          empty="현재 긴급 사건이 없습니다."
+          incidents={urgentIncidents}
+          loading={loading}
+          noteById={noteById}
+          operatorById={operatorById}
+          contactTypeById={contactTypeById}
+          contactStatusById={contactStatusById}
+          setNoteById={setNoteById}
+          setOperatorById={setOperatorById}
+          setContactTypeById={setContactTypeById}
+          setContactStatusById={setContactStatusById}
+          onAction={post}
+        />
 
-          <div className="mt-5 space-y-3">
-            {urgentIncidents.length === 0 ? (
-              <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
-                현재 긴급 사건이 없습니다.
-              </div>
-            ) : (
-              urgentIncidents.map((incident) => (
-                <IncidentCard
-                  key={incident.id}
-                  incident={incident}
-                  loading={loading}
-                  note={noteById[incident.id] || ''}
-                  onNote={(value) => setNoteById({ ...noteById, [incident.id]: value })}
-                  onAction={post}
-                />
-              ))
-            )}
-          </div>
-        </section>
-
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <h2 className="text-3xl font-black tracking-[-0.06em]">주의·관찰 사건</h2>
-
-          <div className="mt-5 space-y-3">
-            {normalIncidents.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
-                현재 주의 사건이 없습니다.
-              </div>
-            ) : (
-              normalIncidents.map((incident) => (
-                <IncidentCard
-                  key={incident.id}
-                  incident={incident}
-                  loading={loading}
-                  note={noteById[incident.id] || ''}
-                  onNote={(value) => setNoteById({ ...noteById, [incident.id]: value })}
-                  onAction={post}
-                />
-              ))
-            )}
-          </div>
-        </section>
+        <IncidentSection
+          title="주의·관찰 사건"
+          desc="식사·복약·몸 상태 확인 등 시간 경과에 따라 승격될 수 있는 사건입니다."
+          empty="현재 주의 사건이 없습니다."
+          incidents={normalIncidents}
+          loading={loading}
+          noteById={noteById}
+          operatorById={operatorById}
+          contactTypeById={contactTypeById}
+          contactStatusById={contactStatusById}
+          setNoteById={setNoteById}
+          setOperatorById={setOperatorById}
+          setContactTypeById={setContactTypeById}
+          setContactStatusById={setContactStatusById}
+          onAction={post}
+        />
 
         <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">최근 오토파일럿 로그</h2>
@@ -351,23 +378,84 @@ function GuideCard({ number, title, desc }: { number: string; title: string; des
   )
 }
 
+function IncidentSection(props: {
+  title: string
+  desc: string
+  empty: string
+  incidents: Incident[]
+  loading: boolean
+  noteById: Record<string, string>
+  operatorById: Record<string, string>
+  contactTypeById: Record<string, string>
+  contactStatusById: Record<string, string>
+  setNoteById: (value: Record<string, string>) => void
+  setOperatorById: (value: Record<string, string>) => void
+  setContactTypeById: (value: Record<string, string>) => void
+  setContactStatusById: (value: Record<string, string>) => void
+  onAction: (action: string, payload: Record<string, unknown>) => void
+}) {
+  return (
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <h2 className="text-3xl font-black tracking-[-0.06em]">{props.title}</h2>
+      <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{props.desc}</p>
+
+      <div className="mt-5 space-y-3">
+        {props.incidents.length === 0 ? (
+          <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            {props.empty}
+          </div>
+        ) : (
+          props.incidents.map((incident) => (
+            <IncidentCard
+              key={incident.id}
+              incident={incident}
+              loading={props.loading}
+              note={props.noteById[incident.id] || ''}
+              operator={props.operatorById[incident.id] || ''}
+              contactType={props.contactTypeById[incident.id] || 'guardian'}
+              contactStatus={props.contactStatusById[incident.id] || 'connected'}
+              onNote={(value) => props.setNoteById({ ...props.noteById, [incident.id]: value })}
+              onOperator={(value) => props.setOperatorById({ ...props.operatorById, [incident.id]: value })}
+              onContactType={(value) => props.setContactTypeById({ ...props.contactTypeById, [incident.id]: value })}
+              onContactStatus={(value) => props.setContactStatusById({ ...props.contactStatusById, [incident.id]: value })}
+              onAction={props.onAction}
+            />
+          ))
+        )}
+      </div>
+    </section>
+  )
+}
+
 function IncidentCard({
   incident,
   loading,
   note,
+  operator,
+  contactType,
+  contactStatus,
   onNote,
+  onOperator,
+  onContactType,
+  onContactStatus,
   onAction
 }: {
   incident: Incident
   loading: boolean
   note: string
+  operator: string
+  contactType: string
+  contactStatus: string
   onNote: (value: string) => void
+  onOperator: (value: string) => void
+  onContactType: (value: string) => void
+  onContactStatus: (value: string) => void
   onAction: (action: string, payload: Record<string, unknown>) => void
 }) {
   return (
     <article className={'rounded-[2rem] p-5 ring-1 ' + severityClass(incident.severityLabel)}>
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0">
+      <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
+        <div className="min-w-0 flex-1">
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full bg-white/70 px-3 py-1 text-xs font-black ring-1 ring-current">
               {incident.severityLabel === 'Red' ? '긴급' : incident.severityLabel === 'Orange' ? '확인 필요' : '주의'}
@@ -389,7 +477,13 @@ function IncidentCard({
             {incident.parentName} · {incident.serviceArea} · 가족코드 {incident.familyCode || '-'}
           </p>
 
-          <div className="mt-4 grid gap-3 md:grid-cols-2">
+          {incident.assignment ? (
+            <div className="mt-3 rounded-2xl bg-white/70 p-4 text-sm font-black leading-7 ring-1 ring-current">
+              담당자: {incident.assignment.assigned_to_name || '운영실'} · {incident.assignment.note || '배정됨'}
+            </div>
+          ) : null}
+
+          <div className="mt-4 grid gap-3 lg:grid-cols-2">
             <div className="rounded-2xl bg-white/70 p-4 text-sm font-black leading-7 ring-1 ring-current">
               다음 할 일: {incident.nextActionLabel}
               <br />
@@ -403,11 +497,67 @@ function IncidentCard({
             </div>
           </div>
 
-          {incident.acceptedProvider ? (
-            <div className="mt-3 rounded-2xl bg-white/70 p-4 text-sm font-black leading-7 ring-1 ring-current">
-              수락한 도움망: {incident.acceptedProvider.provider_name || '지역 도움망'}
+          <details className="mt-3 rounded-2xl bg-white/70 p-4 ring-1 ring-current">
+            <summary className="cursor-pointer text-sm font-black">플레이북 보기</summary>
+            <div className="mt-3 space-y-2">
+              {incident.playbookSteps.map((step) => (
+                <div key={`${step.step_order}-${step.action_code}`} className="rounded-xl bg-white/60 p-3 text-xs font-bold leading-6 ring-1 ring-current">
+                  {step.step_order}. {step.action_label} · {step.delay_minutes}분 기준 · {step.escalation_level}
+                  <br />
+                  {step.action_detail}
+                </div>
+              ))}
             </div>
-          ) : null}
+          </details>
+
+          <details className="mt-3 rounded-2xl bg-white/70 p-4 ring-1 ring-current">
+            <summary className="cursor-pointer text-sm font-black">운영실 전화 스크립트</summary>
+            <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm font-bold leading-7">
+              {incident.callScript.map((line, index) => (
+                <li key={index}>{line}</li>
+              ))}
+            </ol>
+          </details>
+
+          <details className="mt-3 rounded-2xl bg-white/70 p-4 ring-1 ring-current">
+            <summary className="cursor-pointer text-sm font-black">추천 도움망 후보</summary>
+            <div className="mt-3 grid gap-2 md:grid-cols-2">
+              {incident.candidates.length === 0 ? (
+                <div className="rounded-xl bg-white/60 p-3 text-xs font-bold leading-6 ring-1 ring-current">
+                  추천 가능한 도움망이 없습니다.
+                </div>
+              ) : (
+                incident.candidates.map((provider) => (
+                  <div key={provider.id} className="rounded-xl bg-white/60 p-3 text-xs font-bold leading-6 ring-1 ring-current">
+                    {provider.provider_name || '지역 도움망'} · {provider.provider_type_label || provider.provider_type}
+                    <br />
+                    권역 {provider.service_area || '-'} · 점수 {provider.candidate_score || 0} · {provider.response_time_min || 30}분 목표
+                  </div>
+                ))
+              )}
+            </div>
+          </details>
+
+          <details className="mt-3 rounded-2xl bg-white/70 p-4 ring-1 ring-current">
+            <summary className="cursor-pointer text-sm font-black">사건 타임라인</summary>
+            <div className="mt-3 space-y-2">
+              {incident.timeline.length === 0 ? (
+                <div className="rounded-xl bg-white/60 p-3 text-xs font-bold leading-6 ring-1 ring-current">
+                  아직 타임라인 기록이 없습니다.
+                </div>
+              ) : (
+                incident.timeline.slice(0, 8).map((item, index) => (
+                  <div key={item.id || index} className="rounded-xl bg-white/60 p-3 text-xs font-bold leading-6 ring-1 ring-current">
+                    {item.action_type || item.update_type || item.contact_type || '기록'} · {item.result_status || ''}
+                    <br />
+                    {item.message || item.memo || '-'}
+                    <br />
+                    <span className="opacity-70">{item.created_at || ''}</span>
+                  </div>
+                ))
+              )}
+            </div>
+          </details>
 
           <textarea
             value={note}
@@ -417,24 +567,26 @@ function IncidentCard({
           />
         </div>
 
-        <div className="grid min-w-56 gap-2">
+        <div className="grid min-w-64 gap-2">
           {incident.request.guardian_phone ? (
-            <a
-              href={`tel:${incident.request.guardian_phone}`}
-              className="rounded-xl bg-white/80 px-4 py-3 text-center text-sm font-black ring-1 ring-current"
-            >
+            <a href={`tel:${incident.request.guardian_phone}`} className="rounded-xl bg-white/80 px-4 py-3 text-center text-sm font-black ring-1 ring-current">
               보호자 전화
             </a>
           ) : null}
 
           {incident.request.parent_phone ? (
-            <a
-              href={`tel:${incident.request.parent_phone}`}
-              className="rounded-xl bg-white/80 px-4 py-3 text-center text-sm font-black ring-1 ring-current"
-            >
+            <a href={`tel:${incident.request.parent_phone}`} className="rounded-xl bg-white/80 px-4 py-3 text-center text-sm font-black ring-1 ring-current">
               부모님 전화
             </a>
           ) : null}
+
+          <button
+            onClick={() => onAction('executeRecommended', { requestId: incident.id, note })}
+            disabled={loading}
+            className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+          >
+            추천 조치 실행
+          </button>
 
           <button
             onClick={() => onAction('notifyGuardian', { requestId: incident.id })}
@@ -447,9 +599,52 @@ function IncidentCard({
           <button
             onClick={() => onAction('dispatchProviders', { requestId: incident.id })}
             disabled={loading}
-            className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+            className="rounded-xl bg-white/80 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
           >
             도움망 요청
+          </button>
+
+          <input
+            value={operator}
+            onChange={(event) => onOperator(event.target.value)}
+            placeholder="담당자명"
+            className="rounded-xl border border-current bg-white/70 px-4 py-3 text-sm font-bold outline-none placeholder:text-current/50"
+          />
+
+          <button
+            onClick={() => onAction('assignOperator', { requestId: incident.id, assignedToName: operator || '운영실', note })}
+            disabled={loading}
+            className="rounded-xl bg-white/80 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
+          >
+            담당자 배정
+          </button>
+
+          <select
+            value={contactType}
+            onChange={(event) => onContactType(event.target.value)}
+            className="rounded-xl border border-current bg-white/70 px-4 py-3 text-sm font-bold outline-none"
+          >
+            <option value="guardian">보호자 통화</option>
+            <option value="parent">부모님 통화</option>
+          </select>
+
+          <select
+            value={contactStatus}
+            onChange={(event) => onContactStatus(event.target.value)}
+            className="rounded-xl border border-current bg-white/70 px-4 py-3 text-sm font-bold outline-none"
+          >
+            <option value="connected">통화 연결</option>
+            <option value="no_answer">부재중</option>
+            <option value="callback_needed">재통화 필요</option>
+            <option value="emergency_advised">119/의료기관 안내</option>
+          </select>
+
+          <button
+            onClick={() => onAction('recordContact', { requestId: incident.id, contactType, resultStatus: contactStatus, note })}
+            disabled={loading}
+            className="rounded-xl bg-white/80 px-4 py-3 text-sm font-black ring-1 ring-current disabled:opacity-50"
+          >
+            통화기록 저장
           </button>
 
           <button
