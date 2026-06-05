@@ -46,45 +46,6 @@ function badgeClass(role: PortalRole) {
   return 'bg-white text-[#173B36] ring-[#D8EEE8]'
 }
 
-function importantLinks(role: PortalRole) {
-  if (role === 'parent') {
-    return linksForRole('parent').filter((link) =>
-      ['/parent', '/parent/checkin', '/family-link', '/portal/parent'].includes(link.href)
-    )
-  }
-
-  if (role === 'child') {
-    return linksForRole('child').filter((link) =>
-      ['/child/dashboard', '/response', '/family-link', '/family/actions', '/portal/child'].includes(link.href)
-    )
-  }
-
-  if (role === 'careWorker') {
-    return linksForRole('careWorker').filter((link) =>
-      ['/provider/requests', '/response/about', '/portal/care-worker'].includes(link.href)
-    )
-  }
-
-  if (role === 'ops') {
-    return linksForRole('ops').filter((link) =>
-      [
-        '/ops/autopilot',
-        '/ops/heartbeat',
-        '/ops/network',
-        '/ops/notification-dispatch',
-        '/response?scope=ops'
-      ].includes(link.href)
-    )
-  }
-
-  return [
-    ...linksForRole('parent').slice(0, 2),
-    ...linksForRole('child').slice(0, 2),
-    ...linksForRole('careWorker').slice(0, 2),
-    ...linksForRole('ops').slice(0, 5)
-  ].filter(Boolean)
-}
-
 export function AdminMenuHub({
   role = 'all',
   embedded = false,
@@ -98,7 +59,6 @@ export function AdminMenuHub({
   const categories = useMemo(() => Object.keys(grouped), [grouped])
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({})
 
-  const quickLinks = useMemo(() => importantLinks(role), [role])
   const totalCount = role === 'all' ? menuLinks.length : visibleLinks.length
 
   function isOpen(category: string, index: number) {
@@ -214,28 +174,6 @@ export function AdminMenuHub({
           </div>
         </section>
 
-        {quickLinks.length > 0 ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <h2 className="text-3xl font-black tracking-[-0.06em]">바로 쓰는 핵심 메뉴</h2>
-                <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                  가로로 쭉 넘기며 선택하는 핵심 메뉴입니다.
-                </p>
-              </div>
-              <div className="text-sm font-black text-[#11977F]">{quickLinks.length}개</div>
-            </div>
-
-            <div className="mt-5 overflow-x-auto pb-2">
-              <div className="flex min-w-max gap-3">
-                {quickLinks.map((link) => (
-                  <QuickLine key={link.href + link.title} link={link} />
-                ))}
-              </div>
-            </div>
-          </section>
-        ) : null}
-
         {viewMode === 'accordion' ? (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
             <h2 className="text-3xl font-black tracking-[-0.06em]">펼쳐보기 메뉴</h2>
@@ -328,21 +266,6 @@ function InfoLine({ label, value }: { label: string; value: string }) {
       <span className="text-xs font-black text-[#637B76]">{label}</span>
       <span className="text-sm font-black text-[#173B36]">{value}</span>
     </div>
-  )
-}
-
-function QuickLine({ link }: { link: MenuLink }) {
-  return (
-    <Link
-      href={link.href}
-      className="flex min-w-[18rem] items-center justify-between gap-4 rounded-full bg-[#193B38] px-5 py-4 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg"
-    >
-      <div className="min-w-0">
-        <div className="truncate text-sm font-black">{link.title}</div>
-        <div className="mt-1 truncate text-xs font-bold text-white/65">{link.href}</div>
-      </div>
-      <span className="shrink-0 text-lg font-black">→</span>
-    </Link>
   )
 }
 
