@@ -1,74 +1,105 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
 
-type DocKey = 'proposal' | 'pilot' | 'kpi' | 'security' | 'email'
+type ChecklistItem = {
+  id: string
+  title: string
+  ok: boolean
+  detail: string
+  status: string
+}
 
-type Docs = Record<DocKey, string>
+type FileItem = {
+  name: string
+  label: string
+  mime: string
+  content: string
+  rows: number
+}
 
-type ApiData = {
-  input: {
-    projectTitle: string
-    targetTrack: string
-    targetRegion: string
-    targetHouseholds: number
-    pilotMonths: number
-    requestedBudgetKrw: number
-    createdByName: string
+type RecentPackage = {
+  id: string
+  title?: string
+  period_start?: string
+  period_end?: string
+  status?: string
+  ready_score?: number
+  created_at?: string
+}
+
+type SubmissionPackage = {
+  ok: boolean
+  title: string
+  period: {
+    key: string
+    start: string
+    end: string
   }
-  docs: Docs & {
-    summary: string
-  }
-  checklist: string[]
-  safeWording: Array<{
-    before: string
-    after: string
+  readyScore: number
+  summary: string
+  summaryLines: string[]
+  checklist: ChecklistItem[]
+  metrics: Record<string, number>
+  files: FileItem[]
+  filesManifest: Array<{
+    name: string
+    label: string
+    mime: string
+    rows: number
   }>
+  recentPackages: RecentPackage[]
+  generatedAt: string
 }
 
-const docLabels: Record<DocKey, string> = {
-  proposal: 'R&D 제안서',
-  pilot: '실증계획서',
-  kpi: 'KPI 매트릭스',
-  security: '보안·개인정보',
-  email: '지자체 제안 메일'
+function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
+  return (
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+      <div className="text-sm font-black opacity-70">{title}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
+      <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
+    </article>
+  )
 }
 
-function money(value: string) {
-  return value.replace(/[^\d]/g, '')
+function formatNumber(value: number | undefined) {
+  return Number(value || 0).toLocaleString('ko-KR')
 }
 
-function qs(params: Record<string, string>) {
-  return new URLSearchParams(params).toString()
+function downloadFile(file: FileItem) {
+  const blob = new Blob([file.content], { type: file.mime + ';charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = file.name
+  a.click()
+  URL.revokeObjectURL(url)
 }
 
-export function GovSubmissionPackagePanel() {
-  const [projectTitle, setProjectTitle] = useState('안부지문 기반 고령자 생활리듬 변화감지 및 IoT 스마트 실버 케어 통합돌봄 플랫폼 개발·실증')
-  const [targetTrack, setTargetTrack] = useState('스마트 사회서비스 시범사업형 + 지자체 지역사회 통합돌봄 실증형 R&D')
-  const [targetRegion, setTargetRegion] = useState('전남·경북 등 고령화 지수 상위 기초지자체')
-  const [targetHouseholds, setTargetHouseholds] = useState('100')
-  const [pilotMonths, setPilotMonths] = useState('6')
-  const [requestedBudgetKrw, setRequestedBudgetKrw] = useState('100000000')
-  const [createdByName, setCreatedByName] = useState('안부웍스')
-
-  const [data, setData] = useState<ApiData | null>(null)
-  const [activeDoc, setActiveDoc] = useState<DocKey>('proposal')
+export function GovSubmissionPackagePanel({
+  title = '지자체 제출 패키지',
+  subtitle = '대상자 현황, 운영보고서, 사건 처리 이력, 알림 기록, 개인정보 감사 로그를 하나의 제출 묶음으로 생성합니다.'
+}: {
+  title?: string
+  subtitle?: string
+}) {
+  const [period, setPeriod] = useState<'today' | 'week' | 'month' | 'last30' | 'custom'>('week')
+  const [customStart, setCustomStart] = useState(new Date().toISOString().slice(0, 10))
+  const [customEnd, setCustomEnd] = useState(new Date().toISOString().slice(0, 10))
+  const [pkg, setPkg] = useState<SubmissionPackage | null>(null)
   const [message, setMessage] = useState('')
   const [debug, setDebug] = useState('')
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
-  const query = useMemo(() => {
-    return qs({
-      projectTitle,
-      targetTrack,
-      targetRegion,
-      targetHouseholds,
-      pilotMonths,
-      requestedBudgetKrw,
-      createdByName
-    })
-  }, [projectTitle, targetTrack, targetRegion, targetHouseholds, pilotMonths, requestedBudgetKrw, createdByName])
+  const metrics = pkg?.metrics || {}
+
+  const readyLabel = useMemo(() => {
+    if (!pkg) return '확인 전'
+    if (pkg.readyScore >= 90) return '제출 가능'
+    if (pkg.readyScore >= 70) return '보완 후 제출'
+    return '점검 필요'
+  }, [pkg])
 
   async function load() {
     setLoading(true)
@@ -76,16 +107,24 @@ export function GovSubmissionPackagePanel() {
     setDebug('')
 
     try {
-      const response = await fetch('/api/gov-submission?' + query, { cache: 'no-store' })
-      const json = await response.json().catch(() => ({}))
+      const params = new URLSearchParams()
+      params.set('period', period)
 
-      if (!response.ok || !json.ok) {
-        setMessage(json.message || '제출 패키지를 불러오지 못했습니다.')
-        setDebug(JSON.stringify(json.detail || json, null, 2))
+      if (period === 'custom') {
+        params.set('start', customStart)
+        params.set('end', customEnd)
+      }
+
+      const response = await fetch('/api/gov-submission-package?' + params.toString(), { cache: 'no-store' })
+      const data = await response.json().catch(() => ({}))
+
+      if (!response.ok || !data.ok) {
+        setMessage(data.message || '제출 패키지를 불러오지 못했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
         return
       }
 
-      setData(json)
+      setPkg(data)
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '제출 패키지를 불러오지 못했습니다.')
     } finally {
@@ -99,29 +138,29 @@ export function GovSubmissionPackagePanel() {
     setDebug('')
 
     try {
-      const response = await fetch('/api/gov-submission', {
+      const params = new URLSearchParams()
+      params.set('period', period)
+
+      if (period === 'custom') {
+        params.set('start', customStart)
+        params.set('end', customEnd)
+      }
+
+      const response = await fetch('/api/gov-submission-package?' + params.toString(), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          projectTitle,
-          targetTrack,
-          targetRegion,
-          targetHouseholds: Number(targetHouseholds) || 100,
-          pilotMonths: Number(pilotMonths) || 6,
-          requestedBudgetKrw: Number(requestedBudgetKrw) || 100000000,
-          createdByName
-        })
+        body: JSON.stringify({ action: 'savePackage' })
       })
 
-      const json = await response.json().catch(() => ({}))
+      const data = await response.json().catch(() => ({}))
 
-      if (!response.ok || !json.ok) {
-        setMessage(json.message || '제출 패키지 저장에 실패했습니다.')
-        setDebug(JSON.stringify(json.detail || json, null, 2))
+      if (!response.ok || !data.ok) {
+        setMessage(data.message || '제출 패키지 저장에 실패했습니다.')
+        setDebug(JSON.stringify(data.detail || data, null, 2))
         return
       }
 
-      setMessage(json.message || '제출 패키지가 저장되었습니다.')
+      setMessage(data.message || '제출 패키지를 저장했습니다.')
       await load()
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '제출 패키지 저장 중 오류가 발생했습니다.')
@@ -130,238 +169,269 @@ export function GovSubmissionPackagePanel() {
     }
   }
 
-  async function copyDoc() {
-    const content = data?.docs?.[activeDoc] || ''
-    if (!content) return
+  function downloadAll() {
+    if (!pkg) return
 
-    try {
-      await navigator.clipboard.writeText(content)
-      setMessage(`${docLabels[activeDoc]} 내용이 복사되었습니다.`)
-    } catch {
-      setMessage('복사에 실패했습니다. 아래 내용을 직접 선택해 복사해주세요.')
-    }
+    pkg.files.forEach((file, index) => {
+      setTimeout(() => downloadFile(file), index * 250)
+    })
   }
 
   useEffect(() => {
     load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const activeContent = data?.docs?.[activeDoc] || ''
+  }, [period])
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
         <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-            지자체 지원사업 제출 패키지
+            지자체 제출 묶음
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            제안서·실증계획·KPI를
-            <br />
-            한 번에 준비합니다.
+            {title}
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            안부웍스의 부모님 안부 입력, 안부지문 리포트, 가족 실행 보드, 지자체 운영실, 스마트 복약통·UWB 관제 방향을 지자체 지원사업 제출 문서로 변환합니다.
+            {subtitle}
           </p>
 
+          <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            이 화면은 제출 준비용 패키지입니다. 실제 제출 전에는 개인정보 동의 상태와 열람 로그, 사건 타임라인, 운영보고서가 모두 준비되었는지 확인하세요.
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center gap-3">
+            {[
+              ['today', '오늘'],
+              ['week', '이번 주'],
+              ['month', '이번 달'],
+              ['last30', '최근 30일'],
+              ['custom', '직접 선택']
+            ].map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setPeriod(key as typeof period)}
+                className={
+                  'rounded-2xl px-5 py-3 text-sm font-black ring-1 ' +
+                  (period === key
+                    ? 'bg-[#193B38] text-white ring-[#193B38]'
+                    : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                }
+              >
+                {label}
+              </button>
+            ))}
+
+            {period === 'custom' ? (
+              <>
+                <input
+                  type="date"
+                  value={customStart}
+                  onChange={(event) => setCustomStart(event.target.value)}
+                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-black outline-none"
+                />
+                <input
+                  type="date"
+                  value={customEnd}
+                  onChange={(event) => setCustomEnd(event.target.value)}
+                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-black outline-none"
+                />
+              </>
+            ) : null}
+
+            <button
+              onClick={load}
+              disabled={loading}
+              className="rounded-2xl bg-[#F8FCFB] px-5 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+            >
+              조회
+            </button>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            <button
+              onClick={savePackage}
+              disabled={loading || !pkg}
+              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+            >
+              제출 패키지 저장
+            </button>
+
+            <button
+              onClick={downloadAll}
+              disabled={!pkg}
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+            >
+              전체 파일 다운로드
+            </button>
+
+            <button
+              onClick={() => window.print()}
+              disabled={!pkg}
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+            >
+              인쇄/PDF 저장
+            </button>
+
+            <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              운영보고서
+            </Link>
+
+            <Link href="/gov/privacy-audit" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              개인정보 감사
+            </Link>
+          </div>
+
+          {pkg ? (
+            <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (pkg.readyScore >= 80 ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')}>
+              제출 준비도: {pkg.readyScore}점 · {readyLabel}
+              <br />
+              보고 기간: {pkg.period.start} ~ {pkg.period.end} · 생성시각: {pkg.generatedAt}
+            </div>
+          ) : null}
+
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
-              <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
-              <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
+            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+              <summary className="cursor-pointer text-sm font-black">상세 보기</summary>
+              <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
           ) : null}
         </section>
 
-        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-2xl font-black tracking-[-0.05em]">제출 조건 설정</h2>
+        {pkg ? (
+          <>
+            <section className="grid gap-4 md:grid-cols-4 lg:grid-cols-8">
+              <MetricCard title="준비도" value={`${pkg.readyScore}점`} desc={readyLabel} danger={pkg.readyScore < 80} />
+              <MetricCard title="운영 가구" value={`${formatNumber(metrics.activeHouseholds)}명`} desc="제출 대상" danger={!metrics.activeHouseholds} />
+              <MetricCard title="A그룹" value={`${formatNumber(metrics.groupA)}명`} desc="고위험" danger={metrics.groupA > 0} />
+              <MetricCard title="동의 대기" value={`${formatNumber(metrics.consentPending)}명`} desc="확인 필요" danger={metrics.consentPending > 0} />
+              <MetricCard title="사건" value={`${formatNumber(metrics.requests)}건`} desc="기간 내 처리" />
+              <MetricCard title="긴급" value={`${formatNumber(metrics.urgentRequests)}건`} desc="위험 신호" danger={metrics.urgentRequests > 0} />
+              <MetricCard title="개인정보 로그" value={`${formatNumber(metrics.privacyLogs)}건`} desc="감사 기록" danger={!metrics.privacyLogs} />
+              <MetricCard title="파일" value={`${pkg.files.length}개`} desc="제출 묶음" />
+            </section>
 
-            <div className="mt-5 space-y-3">
-              <Input label="과제명" value={projectTitle} onChange={setProjectTitle} />
-              <Input label="지원 트랙" value={targetTrack} onChange={setTargetTrack} />
-              <Input label="대상 지역" value={targetRegion} onChange={setTargetRegion} />
-              <Input label="실증 가구 수" value={targetHouseholds} onChange={(v) => setTargetHouseholds(v.replace(/[^\d]/g, ''))} />
-              <Input label="실증 기간 개월" value={pilotMonths} onChange={(v) => setPilotMonths(v.replace(/[^\d]/g, ''))} />
-              <Input label="신청 예산 원" value={requestedBudgetKrw} onChange={(v) => setRequestedBudgetKrw(money(v))} />
-              <Input label="작성자" value={createdByName} onChange={setCreatedByName} />
+            <section className="grid gap-5 lg:grid-cols-[1fr_0.9fr]">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+                <h2 className="text-3xl font-black tracking-[-0.06em]">제출 요약</h2>
 
-              <div className="grid gap-3 sm:grid-cols-3">
-                <button
-                  onClick={load}
-                  disabled={loading}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
-                >
-                  {loading ? '생성 중' : '문서 다시 생성'}
-                </button>
-
-                <button
-                  onClick={savePackage}
-                  disabled={loading}
-                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
-                >
-                  제출 패키지 저장
-                </button>
-
-                <Link
-                  href={'/gov/submission/print?' + query}
-                  className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white"
-                >
-                  PDF 저장용 인쇄본
-                </Link>
-              </div>
-            </div>
-          </section>
-
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-2xl font-black tracking-[-0.05em]">제출 준비 체크리스트</h2>
-
-            <div className="mt-5 space-y-3">
-              {(data?.checklist || []).map((item, index) => (
-                <div key={item} className="flex gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8FAF5] text-sm font-black text-[#11977F]">
-                    {index + 1}
-                  </div>
-                  <div className="text-sm font-black leading-7 text-[#637B76]">
-                    {item}
-                  </div>
+                <div className="mt-5 space-y-3">
+                  {pkg.summaryLines.map((line, index) => (
+                    <div key={index} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 ring-1 ring-[#D8EEE8]">
+                      {index + 1}. {line}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </section>
-        </section>
+              </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <h2 className="text-3xl font-black tracking-[-0.06em]">생성 문서</h2>
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+                <h2 className="text-3xl font-black tracking-[-0.06em]">제출 체크리스트</h2>
+
+                <div className="mt-5 space-y-3">
+                  {pkg.checklist.map((item) => (
+                    <div
+                      key={item.id}
+                      className={
+                        'rounded-2xl p-4 ring-1 ' +
+                        (item.ok ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+                      }
+                    >
+                      <div className="text-sm font-black">{item.ok ? '준비됨' : '점검 필요'} · {item.title}</div>
+                      <div className="mt-1 text-xs font-bold leading-6 opacity-75">{item.detail}</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </section>
+
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-3xl font-black tracking-[-0.06em]">제출 파일 묶음</h2>
               <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                문서를 선택해서 복사하거나 Markdown 파일로 다운로드하세요.
+                각 파일은 CSV 또는 JSON으로 저장됩니다. 필요하면 전체 파일 다운로드를 누르세요.
               </p>
-            </div>
 
-            <div className="flex flex-wrap gap-2">
-              {(Object.keys(docLabels) as DocKey[]).map((key) => (
-                <button
-                  key={key}
-                  onClick={() => setActiveDoc(key)}
-                  className={
-                    'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
-                    (activeDoc === key
-                      ? 'bg-[#193B38] text-white ring-[#193B38]'
-                      : 'bg-white text-[#173B36] ring-[#D8EEE8]')
-                  }
-                >
-                  {docLabels[key]}
-                </button>
-              ))}
-            </div>
-          </div>
+              <div className="mt-5 grid gap-3 md:grid-cols-2">
+                {pkg.files.map((file) => (
+                  <article key={file.name} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0">
+                        <div className="text-lg font-black tracking-[-0.04em]">{file.label}</div>
+                        <div className="mt-2 text-xs font-bold leading-6 text-[#637B76]">
+                          {file.name}
+                          <br />
+                          {file.rows}행 · {file.mime}
+                        </div>
+                      </div>
 
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            {(Object.keys(docLabels) as DocKey[]).map((key) => (
-              <a
-                key={key}
-                href={`/api/gov-submission?format=markdown&type=${key}&${query}`}
-                className="rounded-2xl bg-[#F8FCFB] px-4 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
-              >
-                {docLabels[key]} 다운로드
-              </a>
-            ))}
-          </div>
-
-          <div className="mt-5 rounded-[2rem] bg-[#123F38] p-5 text-white">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="text-sm font-black text-[#A7F2E3]">{docLabels[activeDoc]}</div>
-                <h3 className="mt-2 text-2xl font-black tracking-[-0.05em]">미리보기</h3>
+                      <button
+                        onClick={() => downloadFile(file)}
+                        className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white"
+                      >
+                        다운로드
+                      </button>
+                    </div>
+                  </article>
+                ))}
               </div>
+            </section>
 
-              <button
-                onClick={copyDoc}
-                className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#173B36]"
-              >
-                내용 복사
-              </button>
-            </div>
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <h2 className="text-3xl font-black tracking-[-0.06em]">최근 저장된 제출 패키지</h2>
 
-            <pre className="mt-5 max-h-[34rem] overflow-auto whitespace-pre-wrap rounded-2xl bg-[#0B2D28] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
-              {activeContent || '문서를 불러오는 중입니다.'}
-            </pre>
-          </div>
-        </section>
+              <div className="mt-5 space-y-3">
+                {pkg.recentPackages.length === 0 ? (
+                  <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                    아직 저장된 제출 패키지가 없습니다.
+                  </div>
+                ) : (
+                  pkg.recentPackages.slice(0, 10).map((item) => (
+                    <article key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                      <div className="text-sm font-black">{item.title || '제출 패키지'}</div>
+                      <div className="mt-1 text-xs font-bold leading-6 text-[#637B76]">
+                        {item.period_start || ''} ~ {item.period_end || ''} · 준비도 {item.ready_score || 0}점 · {item.status || '-'}
+                        <br />
+                        {item.created_at || ''}
+                      </div>
+                    </article>
+                  ))
+                )}
+              </div>
+            </section>
+          </>
+        ) : (
+          <section className="rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D8EEE8]">
+            <div className="text-2xl font-black">제출 패키지를 불러오는 중입니다.</div>
+          </section>
+        )}
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <h2 className="text-3xl font-black tracking-[-0.06em]">공공 제안용 표현 보정</h2>
-          <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-            지자체·정부과제 문서는 확정·보장형 표현보다 목표·검증·연계 가능성 중심으로 작성합니다.
-          </p>
-
-          <div className="mt-5 grid gap-3">
-            {(data?.safeWording || []).map((item) => (
-              <article key={item.before} className="grid gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] md:grid-cols-2">
-                <div>
-                  <div className="text-xs font-black text-[#8A2525]">수정 전</div>
-                  <div className="mt-1 text-sm font-bold leading-6 text-[#637B76]">{item.before}</div>
-                </div>
-
-                <div>
-                  <div className="text-xs font-black text-[#116D5F]">제출용 표현</div>
-                  <div className="mt-1 text-sm font-black leading-6 text-[#173B36]">{item.after}</div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/gov/dashboard" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
-            지자체 운영실
+        <div className="grid gap-3 sm:grid-cols-5">
+          <Link href="/gov/reports" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+            운영보고서
           </Link>
-          <Link href="/gov/iot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            IoT 관제 준비
+          <Link href="/gov/cases" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            사건 이력
           </Link>
-          <Link href="/gov/proposal" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            R&D 제안 패키지
+          <Link href="/gov/privacy-audit" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            개인정보 감사
           </Link>
-          <Link href={'/gov/submission/print?' + query} className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">
-            PDF 저장용 인쇄본
+          <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            대상자 관리
           </Link>
-          <Link href="/gov/export" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
-            CSV 내보내기
-          </Link>
+          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            새로고침
+          </button>
         </div>
       </section>
     </main>
-  )
-}
-
-function Input({
-  label,
-  value,
-  onChange
-}: {
-  label: string
-  value: string
-  onChange: (value: string) => void
-}) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
-      />
-    </label>
   )
 }
 

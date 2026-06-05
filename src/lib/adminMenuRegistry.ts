@@ -427,6 +427,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/submission-package",
+    "title": "운영실 제출 패키지",
+    "description": "운영실에서 지자체 제출용 증빙 파일 묶음을 생성합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "제출",
+    "priority": 60,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/pilot",
     "title": "실증 운영실",
     "description": "실증 운영 현황을 관리합니다.",
@@ -515,6 +528,19 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "감사",
     "priority": 75,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/submission-package",
+    "title": "지자체 제출 패키지",
+    "description": "대상자 현황, 운영보고서, 사건 이력, 알림, 개인정보 감사 로그를 제출 묶음으로 생성합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "패키지",
+    "priority": 76,
     "opsOnly": true
   },
   {
