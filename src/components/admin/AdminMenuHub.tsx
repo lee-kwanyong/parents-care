@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
+  developerMenuLinks,
   linksForRole,
   menuLinks,
   roleMeta,
@@ -46,24 +47,36 @@ function badgeClass(role: PortalRole) {
   return 'bg-white text-[#173B36] ring-[#D8EEE8]'
 }
 
+function withDebug(path: string, debug: boolean) {
+  if (!debug) return path
+  return path.includes('?') ? path + '&debug=1' : path + '?debug=1'
+}
+
 export function AdminMenuHub({
   role = 'all',
   embedded = false,
   title,
   subtitle
 }: AdminMenuHubProps) {
+  const [debugMode, setDebugMode] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('accordion')
-
-  const visibleLinks = useMemo(() => linksForRole(role), [role])
-  const grouped = useMemo(() => groupLinks(visibleLinks), [visibleLinks])
-  const categories = useMemo(() => Object.keys(grouped), [grouped])
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({})
 
-  const totalCount = role === 'all' ? menuLinks.length : visibleLinks.length
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    setDebugMode(new URLSearchParams(window.location.search).get('debug') === '1')
+  }, [])
+
+  const visibleLinks = useMemo(() => linksForRole(role, debugMode), [role, debugMode])
+  const grouped = useMemo(() => groupLinks(visibleLinks), [visibleLinks])
+  const categories = useMemo(() => Object.keys(grouped), [grouped])
+
+  const baseMenuCount = menuLinks.length
+  const hiddenCount = developerMenuLinks.length
 
   function isOpen(category: string, index: number) {
     if (openGroups[category] !== undefined) return openGroups[category]
-    return index < 4
+    return index < 5
   }
 
   function toggleGroup(category: string, index: number) {
@@ -94,7 +107,7 @@ export function AdminMenuHub({
       <section className="mx-auto max-w-7xl space-y-5">
         <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
-            안부웍스 역할별 메뉴
+            통합 운영 메뉴
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -105,12 +118,17 @@ export function AdminMenuHub({
             {subtitle || roleMeta[role].description}
           </p>
 
+          <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            기본 메뉴는 실제 운영에 필요한 핵심 화면만 보여줍니다.
+            숨긴 개발자 경로 {hiddenCount}개는 필요할 때만 debug 모드에서 확인합니다.
+          </div>
+
           <div className="mt-5 overflow-x-auto">
             <div className="flex min-w-max gap-2">
               {roleOrder.map((item) => (
                 <Link
                   key={item}
-                  href={rolePath(item)}
+                  href={withDebug(rolePath(item), debugMode)}
                   className={
                     'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                     (role === item ? badgeClass(item) : 'bg-white text-[#173B36] ring-[#D8EEE8]')
@@ -164,21 +182,39 @@ export function AdminMenuHub({
             >
               모두 접기
             </button>
+
+            {debugMode ? (
+              <Link
+                href={rolePath(role)}
+                className="rounded-2xl bg-[#FFF8E8] px-5 py-3 text-sm font-black text-[#795313] ring-1 ring-[#F4D8A5]"
+              >
+                개발자 경로 숨기기
+              </Link>
+            ) : (
+              <Link
+                href={withDebug(rolePath(role), true)}
+                className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-[#637B76] ring-1 ring-[#D8EEE8]"
+              >
+                개발자 전체 경로 보기
+              </Link>
+            )}
           </div>
 
           <div className="mt-6 grid gap-2 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] sm:grid-cols-4">
             <InfoLine label="현재 역할" value={roleMeta[role].shortTitle} />
-            <InfoLine label="메뉴 수" value={`${totalCount}개`} />
-            <InfoLine label="표시 방식" value={viewMode === 'accordion' ? '펼쳐보기' : '가로 일자'} />
-            <InfoLine label="운영 방식" value="역할별 통합" />
+            <InfoLine label="기본 메뉴" value={`${baseMenuCount}개`} />
+            <InfoLine label="현재 표시" value={`${visibleLinks.length}개`} />
+            <InfoLine label="개발자 경로" value={debugMode ? '표시 중' : '숨김'} />
           </div>
         </section>
 
         {viewMode === 'accordion' ? (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-3xl font-black tracking-[-0.06em]">펼쳐보기 메뉴</h2>
+            <h2 className="text-3xl font-black tracking-[-0.06em]">
+              {debugMode ? '전체 개발자 경로 포함 메뉴' : '통합 핵심 메뉴'}
+            </h2>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-              카테고리를 눌러 펼치고, 필요한 화면으로 바로 이동하세요.
+              카테고리를 눌러 펼치고, 필요한 화면으로 이동하세요.
             </p>
 
             <div className="mt-5 divide-y divide-[#D8EEE8] overflow-hidden rounded-2xl ring-1 ring-[#D8EEE8]">
@@ -193,9 +229,14 @@ export function AdminMenuHub({
                       className="flex w-full items-center justify-between gap-4 px-4 py-4 text-left hover:bg-[#F8FCFB]"
                     >
                       <div className="min-w-0">
-                        <div className="text-xl font-black tracking-[-0.05em]">{opened ? '▾' : '▸'} {category}</div>
-                        <div className="mt-1 text-xs font-bold text-[#637B76]">{links.length}개 화면</div>
+                        <div className="text-xl font-black tracking-[-0.05em]">
+                          {opened ? '▾' : '▸'} {category}
+                        </div>
+                        <div className="mt-1 text-xs font-bold text-[#637B76]">
+                          {links.length}개 화면
+                        </div>
                       </div>
+
                       <div className="rounded-full bg-[#E8FAF5] px-3 py-1 text-xs font-black text-[#11977F]">
                         {opened ? '접기' : '펼치기'}
                       </div>
@@ -215,9 +256,11 @@ export function AdminMenuHub({
           </section>
         ) : (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-            <h2 className="text-3xl font-black tracking-[-0.06em]">가로 일자 목록</h2>
+            <h2 className="text-3xl font-black tracking-[-0.06em]">
+              {debugMode ? '전체 개발자 경로 일자 목록' : '통합 핵심 메뉴 일자 목록'}
+            </h2>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-              모든 메뉴를 카드 없이 한 줄 목록으로 표시합니다.
+              카드 없이 한 줄 목록으로 표시합니다.
             </p>
 
             <div className="mt-5 overflow-x-auto">
@@ -241,7 +284,7 @@ export function AdminMenuHub({
         )}
 
         <section className="rounded-[2rem] bg-[#193B38] p-5 text-white shadow-sm sm:p-6">
-          <h2 className="text-2xl font-black tracking-[-0.05em]">운영 흐름</h2>
+          <h2 className="text-2xl font-black tracking-[-0.05em]">통합 운영 흐름</h2>
 
           <div className="mt-5 overflow-x-auto">
             <div className="flex min-w-max items-center gap-3">
@@ -252,6 +295,8 @@ export function AdminMenuHub({
               <FlowStep number="3" title="도움망" desc="요청 수락·처리 완료" />
               <FlowArrow />
               <FlowStep number="4" title="운영실" desc="오토파일럿·알림·배정" />
+              <FlowArrow />
+              <FlowStep number="5" title="지자체" desc="관제·보고·실증" />
             </div>
           </div>
         </section>
