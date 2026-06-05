@@ -58,6 +58,7 @@ const guestMenu: MenuGroup[] = [
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
       { label: '지역 후속조치 관제', href: '/response?scope=ops', desc: '운영실 인증 후 전체 요청 관제' },
       { label: '운영실 오토파일럿', href: '/ops/autopilot', desc: '신호 발생 시 다음 행동 자동 추천·실행' },
+      { label: '운영실 자동운영 Heartbeat', href: '/ops/heartbeat', desc: '오토파일럿·에스컬레이션·문자 대기열 주기 점검' },
       { label: '자동 에스컬레이션', href: '/ops/response-escalation', desc: '미수락·미완료 요청 자동 재알림' },
       { label: '대상자 관리', href: '/gov/recipients', desc: '실증 대상자와 담당자를 관리' },
       { label: '사례관리', href: '/gov/cases', desc: '전화 확인·방문 필요·완료 기록' },

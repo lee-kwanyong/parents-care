@@ -171,6 +171,26 @@ function isOpsAuthed(request: NextRequest) {
   return false
 }
 
+
+function hasDispatchSecret(request: NextRequest) {
+  const secrets = [
+    process.env.CRON_SECRET || '',
+    process.env.OPS_AUTOPILOT_SECRET || '',
+    process.env.RESPONSE_ESCALATION_SECRET || ''
+  ].filter(Boolean)
+
+  if (secrets.length === 0) return false
+
+  const queryToken = text(request.nextUrl.searchParams.get('token'))
+  const auth = text(request.headers.get('authorization')).replace(/^Bearer\s+/i, '')
+
+  return secrets.includes(queryToken) || secrets.includes(auth)
+}
+
+function canUseDispatch(request: NextRequest) {
+  return isOpsAuthed(request) || hasDispatchSecret(request)
+}
+
 function supabaseBaseUrl() {
   const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
   return raw.replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '')
@@ -500,7 +520,7 @@ async function createTemplateOutbox(input: {
 }
 
 export async function GET(request: NextRequest) {
-  if (!isOpsAuthed(request)) {
+  if (!canUseDispatch(request)) {
     return NextResponse.json(
       {
         ok: false,
@@ -544,7 +564,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!isOpsAuthed(request)) {
+  if (!canUseDispatch(request)) {
     return NextResponse.json(
       {
         ok: false,
