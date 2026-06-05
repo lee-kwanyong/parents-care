@@ -375,6 +375,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/incidents",
+    "title": "사건 타임라인",
+    "description": "신호, 문자, 도움망, 수락, 통화, 배정, 완료 기록을 사건별로 통합합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "타임라인",
+    "priority": 57,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/admin-menu",
     "title": "운영실 전체 메뉴",
     "description": "운영실 인증 후 전체 메뉴를 확인합니다.",
