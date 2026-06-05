@@ -13,29 +13,29 @@ export type MenuLink = {
 
 export const roleMeta: Record<PortalRole, { title: string; shortTitle: string; description: string }> = {
   "all": {
-    "title": "통합 운영 메뉴",
+    "title": "필수 통합 운영 메뉴",
     "shortTitle": "전체",
-    "description": "실제 운영에 필요한 핵심 메뉴만 통합해서 보여줍니다."
+    "description": "실제 운영에 필요한 필수 메뉴를 다시 포함했습니다."
   },
   "parent": {
-    "title": "부모님 메뉴",
+    "title": "부모님 필수 메뉴",
     "shortTitle": "부모님",
-    "description": "부모님이 안부 신호를 입력하는 화면만 모았습니다."
+    "description": "부모님이 안부 신호를 입력하고 접속하는 필수 화면입니다."
   },
   "child": {
-    "title": "자녀·보호자 메뉴",
+    "title": "자녀·보호자 필수 메뉴",
     "shortTitle": "자녀",
-    "description": "부모님 상태, 리포트, 후속조치 확인 화면만 모았습니다."
+    "description": "부모님 상태, 리포트, 후속조치를 확인하는 필수 화면입니다."
   },
   "careWorker": {
-    "title": "요양보호사·케어파트너 메뉴",
+    "title": "요양보호사·케어파트너 필수 메뉴",
     "shortTitle": "도움망",
-    "description": "요청 수락과 처리 완료에 필요한 화면만 모았습니다."
+    "description": "요청 수락과 처리 완료에 필요한 필수 화면입니다."
   },
   "ops": {
-    "title": "운영실 통합 메뉴",
+    "title": "운영실 필수 메뉴",
     "shortTitle": "운영실",
-    "description": "운영실 자동운영, 도움망, 알림, 지자체 제출 메뉴를 통합했습니다."
+    "description": "자동운영, 도움망, 알림, 후속조치, 지자체 제출을 위한 필수 화면입니다."
   }
 } as Record<PortalRole, { title: string; shortTitle: string; description: string }>
 
@@ -52,7 +52,7 @@ export const menuLinks: MenuLink[] = [
       "careWorker",
       "ops"
     ],
-    "badge": "공통",
+    "badge": "홈",
     "priority": 1,
     "opsOnly": false
   },
@@ -75,7 +75,7 @@ export const menuLinks: MenuLink[] = [
   {
     "href": "/admin-menu",
     "title": "전체 통합 메뉴",
-    "description": "안부웍스 운영 핵심 메뉴를 한 곳에서 확인합니다.",
+    "description": "운영에 필요한 핵심 화면과 개발자 경로를 관리합니다.",
     "category": "공통",
     "roles": [
       "all",
@@ -154,7 +154,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/parent",
     "title": "부모님 안부 입력",
     "description": "식사, 복약, 몸 상태, 도움 요청 신호를 남깁니다.",
-    "category": "부모님",
+    "category": "부모님 필수",
     "roles": [
       "all",
       "parent"
@@ -164,10 +164,23 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/parent/today",
+    "title": "오늘 안부 체크",
+    "description": "오늘 식사, 복약, 몸 상태를 확인합니다.",
+    "category": "부모님 필수",
+    "roles": [
+      "all",
+      "parent"
+    ],
+    "badge": "체크",
+    "priority": 21,
+    "opsOnly": false
+  },
+  {
     "href": "/family-link",
     "title": "부모님 연결코드",
     "description": "보호자가 부모님과 연결할 6자리 코드를 만듭니다.",
-    "category": "자녀·보호자",
+    "category": "자녀·보호자 필수",
     "roles": [
       "all",
       "child"
@@ -180,7 +193,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/child/dashboard",
     "title": "자녀 리포트",
     "description": "부모님 안부 기록과 리포트를 확인합니다.",
-    "category": "자녀·보호자",
+    "category": "자녀·보호자 필수",
     "roles": [
       "all",
       "child"
@@ -193,7 +206,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/response",
     "title": "보호자 후속조치",
     "description": "부모님 신호에 대한 후속조치를 보호자 기준으로 확인합니다.",
-    "category": "자녀·보호자",
+    "category": "자녀·보호자 필수",
     "roles": [
       "all",
       "child"
@@ -206,7 +219,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/family/actions",
     "title": "가족 실행 보드",
     "description": "가족이 맡은 실행 요청을 확인하고 처리합니다.",
-    "category": "자녀·보호자",
+    "category": "자녀·보호자 필수",
     "roles": [
       "all",
       "child"
@@ -219,7 +232,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/response/about",
     "title": "지역 안심망 소개",
     "description": "가족, 돌봄파트너, 지역상점, 약국, 수행기관 연결 구조를 설명합니다.",
-    "category": "자녀·보호자",
+    "category": "자녀·보호자 필수",
     "roles": [
       "all",
       "child",
@@ -231,10 +244,23 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/family/invite",
+    "title": "다른 가족 초대",
+    "description": "다른 가족을 보호자 그룹에 초대합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "초대",
+    "priority": 35,
+    "opsOnly": false
+  },
+  {
     "href": "/provider/requests",
     "title": "지역 도움망 요청함",
     "description": "요양보호사, 케어파트너, 상점, 약국이 받은 요청을 수락하고 완료합니다.",
-    "category": "요양보호사·케어파트너",
+    "category": "요양보호사·케어파트너 필수",
     "roles": [
       "all",
       "careWorker",
@@ -248,7 +274,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops",
     "title": "운영실 홈",
     "description": "운영실에서 필요한 모든 관리 화면으로 이동합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -261,7 +287,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops/autopilot",
     "title": "운영실 오토파일럿",
     "description": "부모님 신호별 플레이북으로 다음 조치를 추천하고 실행합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -274,7 +300,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops/heartbeat",
     "title": "운영실 자동운영 Heartbeat",
     "description": "오토파일럿, 에스컬레이션, 문자 대기열을 주기적으로 점검합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -287,7 +313,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops/network",
     "title": "도움망 네트워크",
     "description": "돌봄파트너, 요양보호사, 지역상점, 약국, 수행기관을 등록·관리합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -300,7 +326,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops/notification-dispatch",
     "title": "알림 발송센터",
     "description": "문자 초안을 선택해 SMS를 대기열에 넣거나 바로 발송합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -313,7 +339,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/response?scope=ops",
     "title": "운영실 후속조치 관제",
     "description": "전체 후속조치 요청을 보고 지역 도움망으로 전파합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -326,7 +352,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/ops/response-escalation",
     "title": "자동 에스컬레이션",
     "description": "미수락·미완료 요청을 수동 연결 필요 상태로 승격합니다.",
-    "category": "운영실 핵심",
+    "category": "운영실 필수",
     "roles": [
       "all",
       "ops"
@@ -336,10 +362,49 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/admin-menu",
+    "title": "운영실 전체 메뉴",
+    "description": "운영실 인증 후 전체 메뉴를 확인합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "전체",
+    "priority": 57,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/pilot",
+    "title": "실증 운영실",
+    "description": "실증 운영 현황을 관리합니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "실증",
+    "priority": 61,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/reports",
+    "title": "운영 보고서",
+    "description": "운영실 처리 기록과 보고서를 확인합니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "보고서",
+    "priority": 62,
+    "opsOnly": true
+  },
+  {
     "href": "/gov/readiness",
     "title": "지자체 제출 준비상태",
     "description": "환경변수, DB, 공공 제출 체크리스트를 확인합니다.",
-    "category": "정부·지자체",
+    "category": "정부·지자체 필수",
     "roles": [
       "all",
       "ops"
@@ -352,7 +417,7 @@ export const menuLinks: MenuLink[] = [
     "href": "/gov/submission/print",
     "title": "지자체 제출본 출력",
     "description": "A4 제출본을 인쇄 또는 PDF로 저장합니다.",
-    "category": "정부·지자체",
+    "category": "정부·지자체 필수",
     "roles": [
       "all",
       "ops"
@@ -360,1354 +425,1649 @@ export const menuLinks: MenuLink[] = [
     "badge": "제출",
     "priority": 71,
     "opsOnly": true
-  }
-] as MenuLink[]
-
-export const developerMenuLinks: MenuLink[] = [
+  },
+  {
+    "href": "/gov/reports",
+    "title": "지자체 운영 보고서",
+    "description": "주간·월간 운영보고서를 확인합니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "보고서",
+    "priority": 73,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/submission",
+    "title": "지자체 제출 패키지",
+    "description": "제안서, 제출본, 운영 자료를 관리합니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "제출",
+    "priority": 75,
+    "opsOnly": true
+  },
+  {
+    "href": "/privacy",
+    "title": "개인정보처리방침",
+    "description": "개인정보 처리 기준을 확인합니다.",
+    "category": "공통",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "개인정보",
+    "priority": 80,
+    "opsOnly": false
+  },
+  {
+    "href": "/terms",
+    "title": "이용약관",
+    "description": "서비스 이용약관을 확인합니다.",
+    "category": "공통",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "약관",
+    "priority": 81,
+    "opsOnly": false
+  },
   {
     "href": "/parent/consent",
     "title": "Consent",
-    "description": "/parent/consent 경로로 이동합니다.",
-    "category": "개발자 경로 · 부모님",
+    "description": "부모님 안부 입력과 접속에 필요한 추가 화면입니다.",
+    "category": "부모님 추가 필수",
     "roles": [
       "all",
       "parent"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "부모님",
+    "priority": 120,
     "opsOnly": false
   },
   {
     "href": "/parent/convenience",
     "title": "Convenience",
-    "description": "/parent/convenience 경로로 이동합니다.",
-    "category": "개발자 경로 · 부모님",
+    "description": "부모님 안부 입력과 접속에 필요한 추가 화면입니다.",
+    "category": "부모님 추가 필수",
     "roles": [
       "all",
       "parent"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "부모님",
+    "priority": 120,
     "opsOnly": false
   },
   {
     "href": "/parent/install",
     "title": "Install",
-    "description": "/parent/install 경로로 이동합니다.",
-    "category": "개발자 경로 · 부모님",
+    "description": "부모님 안부 입력과 접속에 필요한 추가 화면입니다.",
+    "category": "부모님 추가 필수",
     "roles": [
       "all",
       "parent"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "부모님",
+    "priority": 120,
     "opsOnly": false
   },
   {
     "href": "/parent/login",
     "title": "Login",
-    "description": "/parent/login 경로로 이동합니다.",
-    "category": "개발자 경로 · 부모님",
+    "description": "부모님 안부 입력과 접속에 필요한 추가 화면입니다.",
+    "category": "부모님 추가 필수",
     "roles": [
       "all",
       "parent"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "부모님",
+    "priority": 120,
     "opsOnly": false
   },
   {
-    "href": "/parent/today",
+    "href": "/child/assignments",
+    "title": "Assignments",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/care-reports",
+    "title": "Care Reports",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/cases",
+    "title": "Cases",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child",
+    "title": "Child",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/convenience",
+    "title": "Convenience",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/costs",
+    "title": "Costs",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/daily-care",
+    "title": "Daily Care",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/discharge",
+    "title": "Discharge",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/documents",
+    "title": "Documents",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/family",
+    "title": "Family",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/family-code",
+    "title": "Family Code",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/files",
+    "title": "Files",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/intake-inbox",
+    "title": "Intake Inbox",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/family/join",
+    "title": "Join",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/manager-evaluations",
+    "title": "Manager Evaluations",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/matching",
+    "title": "Matching",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/meals",
+    "title": "Meals",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/appointments/new",
+    "title": "New",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/notifications",
+    "title": "Notifications",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/report",
+    "title": "Report",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/reports",
+    "title": "Reports",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/routines",
+    "title": "Routines",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/safety-loop",
+    "title": "Safety Loop",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/social-care",
+    "title": "Social Care",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/summaries",
+    "title": "Summaries",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/tasks",
+    "title": "Tasks",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/today",
     "title": "Today",
-    "description": "/parent/today 경로로 이동합니다.",
-    "category": "개발자 경로 · 부모님",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
     "roles": [
       "all",
-      "parent"
+      "child"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "자녀",
+    "priority": 130,
     "opsOnly": false
   },
   {
-    "href": "/ops/admin-menu",
-    "title": "Admin Menu",
-    "description": "/ops/admin-menu 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "href": "/child/weekly-report",
+    "title": "Weekly Report",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
     "roles": [
       "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/worry",
+    "title": "Worry",
+    "description": "자녀·보호자 확인과 후속조치에 필요한 추가 화면입니다.",
+    "category": "자녀·보호자 추가 필수",
+    "roles": [
+      "all",
+      "child"
+    ],
+    "badge": "자녀",
+    "priority": 130,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-partner/apply",
+    "title": "Apply",
+    "description": "요양보호사·케어파트너 요청 처리에 필요한 추가 화면입니다.",
+    "category": "요양보호사·케어파트너 추가 필수",
+    "roles": [
+      "all",
+      "careWorker",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
+    "badge": "도움망",
+    "priority": 140,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-partner/guide",
+    "title": "Guide",
+    "description": "요양보호사·케어파트너 요청 처리에 필요한 추가 화면입니다.",
+    "category": "요양보호사·케어파트너 추가 필수",
+    "roles": [
+      "all",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "도움망",
+    "priority": 140,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-partner/report-guide",
+    "title": "Report Guide",
+    "description": "요양보호사·케어파트너 요청 처리에 필요한 추가 화면입니다.",
+    "category": "요양보호사·케어파트너 추가 필수",
+    "roles": [
+      "all",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "도움망",
+    "priority": 140,
+    "opsOnly": false
   },
   {
     "href": "/ops/anbu-control",
     "title": "Anbu Control",
-    "description": "/ops/anbu-control 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/assignments",
     "title": "Assignments",
-    "description": "/ops/assignments 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/audit",
     "title": "Audit",
-    "description": "/ops/audit 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/automation",
     "title": "Automation",
-    "description": "/ops/automation 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/care-cases",
     "title": "Care Cases",
-    "description": "/ops/care-cases 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/care-passport",
     "title": "Care Passport",
-    "description": "/ops/care-passport 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/care-reports-review",
     "title": "Care Reports Review",
-    "description": "/ops/care-reports-review 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/care-requests",
     "title": "Care Requests",
-    "description": "/ops/care-requests 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/cases",
     "title": "Cases",
-    "description": "/ops/cases 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/command-center",
     "title": "Command Center",
-    "description": "/ops/command-center 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/contact-center",
     "title": "Contact Center",
-    "description": "/ops/contact-center 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/convenience",
     "title": "Convenience",
-    "description": "/ops/convenience 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/costs",
     "title": "Costs",
-    "description": "/ops/costs 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/crm",
     "title": "Crm",
-    "description": "/ops/crm 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/cron-health",
     "title": "Cron Health",
-    "description": "/ops/cron-health 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/daily-care",
     "title": "Daily Care",
-    "description": "/ops/daily-care 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/dashboard",
     "title": "Dashboard",
-    "description": "/ops/dashboard 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/demo-scenario",
     "title": "Demo Scenario",
-    "description": "/ops/demo-scenario 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/discharge",
     "title": "Discharge",
-    "description": "/ops/discharge 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/documents",
     "title": "Documents",
-    "description": "/ops/documents 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/families",
     "title": "Families",
-    "description": "/ops/families 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/files",
     "title": "Files",
-    "description": "/ops/files 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/flow-qa",
     "title": "Flow Qa",
-    "description": "/ops/flow-qa 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/intake",
     "title": "Intake",
-    "description": "/ops/intake 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/intake-inbox",
     "title": "Intake Inbox",
-    "description": "/ops/intake-inbox 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/integrations",
     "title": "Integrations",
-    "description": "/ops/integrations 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
-    "badge": "debug",
-    "priority": 900,
+    "badge": "운영실",
+    "priority": 150,
     "opsOnly": true
   },
   {
     "href": "/ops/kakao-templates",
     "title": "Kakao Templates",
-    "description": "/ops/kakao-templates 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
     "roles": [
       "all",
       "ops"
     ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/manager-field",
+    "title": "Manager Field",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/manager-matching",
+    "title": "Manager Matching",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/manager-offers",
+    "title": "Manager Offers",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/manager-verification",
+    "title": "Manager Verification",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/manager-vetting",
+    "title": "Manager Vetting",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/managers",
+    "title": "Managers",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/matching",
+    "title": "Matching",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/meals",
+    "title": "Meals",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/metrics",
+    "title": "Metrics",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/notifications",
+    "title": "Notifications",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/outbox",
+    "title": "Outbox",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/outcomes",
+    "title": "Outcomes",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/outreach-crm",
+    "title": "Outreach Crm",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/partner-db",
+    "title": "Partner Db",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/partners",
+    "title": "Partners",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/plan-builder",
+    "title": "Plan Builder",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/qa",
+    "title": "Qa",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/risk-action",
+    "title": "Risk Action",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/risks",
+    "title": "Risks",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/routines",
+    "title": "Routines",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/safety",
+    "title": "Safety",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/social-care",
+    "title": "Social Care",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/subscriptions",
+    "title": "Subscriptions",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/tasks",
+    "title": "Tasks",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/technology",
+    "title": "Technology",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/today",
+    "title": "Today",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/worry-center",
+    "title": "Worry Center",
+    "description": "운영실 관리와 자동운영에 필요한 추가 화면입니다.",
+    "category": "운영실 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "운영실",
+    "priority": 150,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/audit",
+    "title": "Audit",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/cases",
+    "title": "Cases",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/compliance",
+    "title": "Compliance",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/dashboard",
+    "title": "Dashboard",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/export",
+    "title": "Export",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov",
+    "title": "Gov",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/iot",
+    "title": "Iot",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/proposal",
+    "title": "Proposal",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/recipients",
+    "title": "Recipients",
+    "description": "지자체 실증, 제출, 보고에 필요한 추가 화면입니다.",
+    "category": "정부·지자체 추가 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "B2G",
+    "priority": 160,
+    "opsOnly": true
+  }
+] as MenuLink[]
+
+export const developerMenuLinks: MenuLink[] = [
+  {
+    "href": "/care-cases",
+    "title": "Care Cases",
+    "description": "/care-cases 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
     "badge": "debug",
     "priority": 900,
-    "opsOnly": true
+    "opsOnly": false
+  },
+  {
+    "href": "/care-comfort",
+    "title": "Care Comfort",
+    "description": "/care-comfort 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-costs",
+    "title": "Care Costs",
+    "description": "/care-costs 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-difference",
+    "title": "Care Difference",
+    "description": "/care-difference 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-discharge",
+    "title": "Care Discharge",
+    "description": "/care-discharge 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-documents",
+    "title": "Care Documents",
+    "description": "/care-documents 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-files",
+    "title": "Care Files",
+    "description": "/care-files 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-intake",
+    "title": "Care Intake",
+    "description": "/care-intake 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-matching",
+    "title": "Care Matching",
+    "description": "/care-matching 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-meal",
+    "title": "Care Meal",
+    "description": "/care-meal 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-meals",
+    "title": "Care Meals",
+    "description": "/care-meals 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-notifications",
+    "title": "Care Notifications",
+    "description": "/care-notifications 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-packs",
+    "title": "Care Packs",
+    "description": "/care-packs 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-passport",
+    "title": "Care Passport",
+    "description": "/care-passport 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-request",
+    "title": "Care Request",
+    "description": "/care-request 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-room",
+    "title": "Care Room",
+    "description": "/care-room 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-routines",
+    "title": "Care Routines",
+    "description": "/care-routines 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-schedule",
+    "title": "Care Schedule",
+    "description": "/care-schedule 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-scope",
+    "title": "Care Scope",
+    "description": "/care-scope 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-social",
+    "title": "Care Social",
+    "description": "/care-social 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-plans/discharge",
+    "title": "Discharge",
+    "description": "/care-plans/discharge 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
+  },
+  {
+    "href": "/care-request/thanks",
+    "title": "Thanks",
+    "description": "/care-request/thanks 경로로 이동합니다.",
+    "category": "개발자 경로 · 도움망",
+    "roles": [
+      "all",
+      "careWorker"
+    ],
+    "badge": "debug",
+    "priority": 900,
+    "opsOnly": false
   },
   {
     "href": "/ops/login",
     "title": "Login",
     "description": "/ops/login 경로로 이동합니다.",
     "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/manager-field",
-    "title": "Manager Field",
-    "description": "/ops/manager-field 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/manager-matching",
-    "title": "Manager Matching",
-    "description": "/ops/manager-matching 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/manager-offers",
-    "title": "Manager Offers",
-    "description": "/ops/manager-offers 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/manager-verification",
-    "title": "Manager Verification",
-    "description": "/ops/manager-verification 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/manager-vetting",
-    "title": "Manager Vetting",
-    "description": "/ops/manager-vetting 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/managers",
-    "title": "Managers",
-    "description": "/ops/managers 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/matching",
-    "title": "Matching",
-    "description": "/ops/matching 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/meals",
-    "title": "Meals",
-    "description": "/ops/meals 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/metrics",
-    "title": "Metrics",
-    "description": "/ops/metrics 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/notifications",
-    "title": "Notifications",
-    "description": "/ops/notifications 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/outbox",
-    "title": "Outbox",
-    "description": "/ops/outbox 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/outcomes",
-    "title": "Outcomes",
-    "description": "/ops/outcomes 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/outreach-crm",
-    "title": "Outreach Crm",
-    "description": "/ops/outreach-crm 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/partner-db",
-    "title": "Partner Db",
-    "description": "/ops/partner-db 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/partners",
-    "title": "Partners",
-    "description": "/ops/partners 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/pilot",
-    "title": "Pilot",
-    "description": "/ops/pilot 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/plan-builder",
-    "title": "Plan Builder",
-    "description": "/ops/plan-builder 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/qa",
-    "title": "Qa",
-    "description": "/ops/qa 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/reports",
-    "title": "Reports",
-    "description": "/ops/reports 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/risk-action",
-    "title": "Risk Action",
-    "description": "/ops/risk-action 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/risks",
-    "title": "Risks",
-    "description": "/ops/risks 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/routines",
-    "title": "Routines",
-    "description": "/ops/routines 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/safety",
-    "title": "Safety",
-    "description": "/ops/safety 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/social-care",
-    "title": "Social Care",
-    "description": "/ops/social-care 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/subscriptions",
-    "title": "Subscriptions",
-    "description": "/ops/subscriptions 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/tasks",
-    "title": "Tasks",
-    "description": "/ops/tasks 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/technology",
-    "title": "Technology",
-    "description": "/ops/technology 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/today",
-    "title": "Today",
-    "description": "/ops/today 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/worry-center",
-    "title": "Worry Center",
-    "description": "/ops/worry-center 경로로 이동합니다.",
-    "category": "개발자 경로 · 운영실",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/child/assignments",
-    "title": "Assignments",
-    "description": "/child/assignments 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/care-reports",
-    "title": "Care Reports",
-    "description": "/child/care-reports 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/cases",
-    "title": "Cases",
-    "description": "/child/cases 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child",
-    "title": "Child",
-    "description": "/child 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/convenience",
-    "title": "Convenience",
-    "description": "/child/convenience 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/costs",
-    "title": "Costs",
-    "description": "/child/costs 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/daily-care",
-    "title": "Daily Care",
-    "description": "/child/daily-care 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/discharge",
-    "title": "Discharge",
-    "description": "/child/discharge 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/documents",
-    "title": "Documents",
-    "description": "/child/documents 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/family",
-    "title": "Family",
-    "description": "/child/family 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/family-code",
-    "title": "Family Code",
-    "description": "/family-code 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/files",
-    "title": "Files",
-    "description": "/child/files 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/intake-inbox",
-    "title": "Intake Inbox",
-    "description": "/child/intake-inbox 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/family/invite",
-    "title": "Invite",
-    "description": "/family/invite 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/family/join",
-    "title": "Join",
-    "description": "/family/join 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/manager-evaluations",
-    "title": "Manager Evaluations",
-    "description": "/child/manager-evaluations 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/matching",
-    "title": "Matching",
-    "description": "/child/matching 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/meals",
-    "title": "Meals",
-    "description": "/child/meals 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/appointments/new",
-    "title": "New",
-    "description": "/child/appointments/new 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/notifications",
-    "title": "Notifications",
-    "description": "/child/notifications 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/report",
-    "title": "Report",
-    "description": "/child/report 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/reports",
-    "title": "Reports",
-    "description": "/child/reports 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/routines",
-    "title": "Routines",
-    "description": "/child/routines 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/safety-loop",
-    "title": "Safety Loop",
-    "description": "/child/safety-loop 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/social-care",
-    "title": "Social Care",
-    "description": "/child/social-care 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/summaries",
-    "title": "Summaries",
-    "description": "/child/summaries 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/tasks",
-    "title": "Tasks",
-    "description": "/child/tasks 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/today",
-    "title": "Today",
-    "description": "/child/today 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/weekly-report",
-    "title": "Weekly Report",
-    "description": "/child/weekly-report 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/worry",
-    "title": "Worry",
-    "description": "/child/worry 경로로 이동합니다.",
-    "category": "개발자 경로 · 자녀",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/gov/audit",
-    "title": "Audit",
-    "description": "/gov/audit 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/cases",
-    "title": "Cases",
-    "description": "/gov/cases 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/compliance",
-    "title": "Compliance",
-    "description": "/gov/compliance 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/dashboard",
-    "title": "Dashboard",
-    "description": "/gov/dashboard 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/export",
-    "title": "Export",
-    "description": "/gov/export 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov",
-    "title": "Gov",
-    "description": "/gov 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/iot",
-    "title": "Iot",
-    "description": "/gov/iot 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/proposal",
-    "title": "Proposal",
-    "description": "/gov/proposal 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/recipients",
-    "title": "Recipients",
-    "description": "/gov/recipients 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/reports",
-    "title": "Reports",
-    "description": "/gov/reports 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": true
-  },
-  {
-    "href": "/gov/submission",
-    "title": "Submission",
-    "description": "/gov/submission 경로로 이동합니다.",
-    "category": "개발자 경로 · 지자체",
     "roles": [
       "all",
       "ops"
@@ -1801,18 +2161,6 @@ export const developerMenuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/care-partner/apply",
-    "title": "Apply",
-    "description": "/care-partner/apply 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
     "href": "/manager/apply",
     "title": "Apply",
     "description": "/manager/apply 경로로 이동합니다.",
@@ -1876,246 +2224,6 @@ export const developerMenuLinks: MenuLink[] = [
     "href": "/auth/callback-client",
     "title": "Callback Client",
     "description": "/auth/callback-client 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-cases",
-    "title": "Care Cases",
-    "description": "/care-cases 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-comfort",
-    "title": "Care Comfort",
-    "description": "/care-comfort 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-costs",
-    "title": "Care Costs",
-    "description": "/care-costs 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-difference",
-    "title": "Care Difference",
-    "description": "/care-difference 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-discharge",
-    "title": "Care Discharge",
-    "description": "/care-discharge 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-documents",
-    "title": "Care Documents",
-    "description": "/care-documents 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-files",
-    "title": "Care Files",
-    "description": "/care-files 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-intake",
-    "title": "Care Intake",
-    "description": "/care-intake 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-matching",
-    "title": "Care Matching",
-    "description": "/care-matching 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-meal",
-    "title": "Care Meal",
-    "description": "/care-meal 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-meals",
-    "title": "Care Meals",
-    "description": "/care-meals 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-notifications",
-    "title": "Care Notifications",
-    "description": "/care-notifications 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-packs",
-    "title": "Care Packs",
-    "description": "/care-packs 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-passport",
-    "title": "Care Passport",
-    "description": "/care-passport 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-request",
-    "title": "Care Request",
-    "description": "/care-request 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-room",
-    "title": "Care Room",
-    "description": "/care-room 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-routines",
-    "title": "Care Routines",
-    "description": "/care-routines 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-schedule",
-    "title": "Care Schedule",
-    "description": "/care-schedule 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-scope",
-    "title": "Care Scope",
-    "description": "/care-scope 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-social",
-    "title": "Care Social",
-    "description": "/care-social 경로로 이동합니다.",
     "category": "개발자 전체 경로",
     "roles": [
       "all"
@@ -2245,18 +2353,6 @@ export const developerMenuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/care-plans/discharge",
-    "title": "Discharge",
-    "description": "/care-plans/discharge 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
     "href": "/manager/earnings",
     "title": "Earnings",
     "description": "/manager/earnings 경로로 이동합니다.",
@@ -2296,18 +2392,6 @@ export const developerMenuLinks: MenuLink[] = [
     "href": "/signup/guardian",
     "title": "Guardian",
     "description": "/signup/guardian 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-partner/guide",
-    "title": "Guide",
-    "description": "/care-partner/guide 경로로 이동합니다.",
     "category": "개발자 전체 경로",
     "roles": [
       "all"
@@ -2677,18 +2761,6 @@ export const developerMenuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/privacy",
-    "title": "Privacy",
-    "description": "/privacy 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
     "href": "/privacy-consent",
     "title": "Privacy Consent",
     "description": "/privacy-consent 경로로 이동합니다.",
@@ -2728,18 +2800,6 @@ export const developerMenuLinks: MenuLink[] = [
     "href": "/manager/register",
     "title": "Register",
     "description": "/manager/register 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-partner/report-guide",
-    "title": "Report Guide",
-    "description": "/care-partner/report-guide 경로로 이동합니다.",
     "category": "개발자 전체 경로",
     "roles": [
       "all"
@@ -2836,30 +2896,6 @@ export const developerMenuLinks: MenuLink[] = [
     "href": "/legal/terms",
     "title": "Terms",
     "description": "/legal/terms 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/terms",
-    "title": "Terms",
-    "description": "/terms 경로로 이동합니다.",
-    "category": "개발자 전체 경로",
-    "roles": [
-      "all"
-    ],
-    "badge": "debug",
-    "priority": 900,
-    "opsOnly": false
-  },
-  {
-    "href": "/care-request/thanks",
-    "title": "Thanks",
-    "description": "/care-request/thanks 경로로 이동합니다.",
     "category": "개발자 전체 경로",
     "roles": [
       "all"

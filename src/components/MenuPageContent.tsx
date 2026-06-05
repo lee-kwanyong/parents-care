@@ -11,8 +11,8 @@ export function MenuPageContent(_props: MenuPageContentProps = {}) {
     <AdminMenuHub
       role="all"
       embedded
-      title="통합 메뉴"
-      subtitle="실제 운영에 필요한 핵심 화면만 역할별로 정리했습니다."
+      title="필수 통합 메뉴"
+      subtitle="부모님, 자녀·보호자, 요양보호사·케어파트너, 운영실, 지자체 제출에 필요한 필수 화면을 모았습니다."
     />
   )
 }

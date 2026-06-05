@@ -119,7 +119,7 @@ export function AdminMenuHub({
           </p>
 
           <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
-            기본 메뉴는 실제 운영에 필요한 핵심 화면만 보여줍니다.
+            기본 메뉴는 실제 운영에 필요한 필수 화면을 보여줍니다.
             숨긴 개발자 경로 {hiddenCount}개는 필요할 때만 debug 모드에서 확인합니다.
           </div>
 
@@ -211,7 +211,7 @@ export function AdminMenuHub({
         {viewMode === 'accordion' ? (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
             <h2 className="text-3xl font-black tracking-[-0.06em]">
-              {debugMode ? '전체 개발자 경로 포함 메뉴' : '통합 핵심 메뉴'}
+              {debugMode ? '전체 개발자 경로 포함 메뉴' : '필수 통합 메뉴'}
             </h2>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
               카테고리를 눌러 펼치고, 필요한 화면으로 이동하세요.
@@ -257,7 +257,7 @@ export function AdminMenuHub({
         ) : (
           <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
             <h2 className="text-3xl font-black tracking-[-0.06em]">
-              {debugMode ? '전체 개발자 경로 일자 목록' : '통합 핵심 메뉴 일자 목록'}
+              {debugMode ? '전체 개발자 경로 일자 목록' : '필수 통합 메뉴 일자 목록'}
             </h2>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
               카드 없이 한 줄 목록으로 표시합니다.
