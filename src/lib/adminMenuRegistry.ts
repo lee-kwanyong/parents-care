@@ -479,6 +479,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/demo-runner",
+    "title": "운영실 실증 시연 모드",
+    "description": "운영실에서 지자체 시연용 대상자·사건·도움망·문자·보고서 흐름을 생성합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "시연",
+    "priority": 62,
+    "opsOnly": true
+  },
+  {
     "href": "/gov/readiness",
     "title": "지자체 제출 준비상태",
     "description": "환경변수, DB, 공공 제출 체크리스트를 확인합니다.",
@@ -567,6 +580,19 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "매뉴얼",
     "priority": 77,
+    "opsOnly": true
+  },
+  {
+    "href": "/gov/demo-runner",
+    "title": "지자체 실증 시연 모드",
+    "description": "버튼 하나로 대상자, 사건, 도움망, 문자 대기열, 타임라인, 보고서 반영 흐름을 생성합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "시연",
+    "priority": 78,
     "opsOnly": true
   },
   {
