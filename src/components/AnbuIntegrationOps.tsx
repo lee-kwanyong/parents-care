@@ -19,7 +19,7 @@ type NotificationResult = {
 
 function Card({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6 ' + className}>
+    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6 ' + className}>
       {children}
     </section>
   )
@@ -31,8 +31,8 @@ function Badge({ configured }: { configured: boolean }) {
       className={
         'rounded-full px-3 py-1 text-xs font-black ring-1 ' +
         (configured
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
       }
     >
       {configured ? '설정됨' : '미설정'}
@@ -103,10 +103,10 @@ export function AnbuIntegrationOps() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 외부연동
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -136,10 +136,10 @@ export function AnbuIntegrationOps() {
             <h2 className="text-2xl font-black tracking-[-0.05em]">테스트 알림 보내기</h2>
             <form onSubmit={sendTest} className="mt-5 grid gap-3">
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">채널</span>
+                <span className="text-sm font-black text-[#637B76]">채널</span>
                 <select
                   name="channel"
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
                 >
                   <option value="app">앱 알림</option>
                   <option value="sms">SMS</option>
@@ -153,18 +153,18 @@ export function AnbuIntegrationOps() {
               <Input label="이메일" name="toEmail" placeholder="선택" />
               <Input label="제목" name="title" placeholder="예: 부모님 안부 확인 필요" />
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">내용</span>
+                <span className="text-sm font-black text-[#637B76]">내용</span>
                 <textarea
                   name="body"
                   rows={4}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold leading-6"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold leading-6"
                   placeholder="예: 오늘 점심 약 확인이 아직 되지 않았습니다."
                 />
               </label>
 
               <button
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
                 {loading ? '처리 중...' : '테스트 알림 생성'}
               </button>
@@ -190,11 +190,11 @@ export function AnbuIntegrationOps() {
             <Card className="bg-[#F8FFFC]">
               <h2 className="text-2xl font-black tracking-[-0.05em]">처리 결과</h2>
               {result ? (
-                <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+                <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
                   {JSON.stringify(result, null, 2)}
                 </pre>
               ) : (
-                <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 실행 결과가 없습니다.
                 </p>
               )}
@@ -214,7 +214,7 @@ export function AnbuIntegrationOps() {
               'TOSS_SECRET_KEY',
               'CRON_SECRET'
             ].map((item) => (
-              <div key={item} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <div key={item} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 {item}
               </div>
             ))}
@@ -236,11 +236,11 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
       />
     </label>
   )

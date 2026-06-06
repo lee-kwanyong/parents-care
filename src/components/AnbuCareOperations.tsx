@@ -77,7 +77,7 @@ export function OpsCareRequestsScreen() {
         <Summary label="리포트 제출" value={summary.reported} />
       </div>
 
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <div className="flex items-end justify-between gap-3">
           <div>
             <h2 className="text-2xl font-black tracking-[-0.05em]">케어 요청 목록</h2>
@@ -87,7 +87,7 @@ export function OpsCareRequestsScreen() {
           <button
             onClick={load}
             disabled={loading}
-            className="rounded-2xl bg-[#193B38] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+            className="rounded-2xl bg-[#247A71] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
           >
             새로고침
           </button>
@@ -98,7 +98,7 @@ export function OpsCareRequestsScreen() {
             <Empty message="아직 케어 요청이 없습니다." />
           ) : (
             requests.map((request) => (
-              <article key={text(request.id)} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+              <article key={text(request.id)} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <div className="flex flex-wrap gap-2">
                   <Badge text={text(request.status) || 'requested'} />
                   <Badge text={serviceTypeLabel(request.request_type)} />
@@ -117,13 +117,13 @@ export function OpsCareRequestsScreen() {
                   {text(request.details) || '요청 내용 없음'}
                 </p>
 
-                <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-sm font-black text-[#11977F]">배정/리포트</div>
+                <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-sm font-black text-[#2AA897]">배정/리포트</div>
 
                   {Array.isArray(request.matches) && request.matches.length > 0 ? (
                     <div className="mt-3 space-y-3">
                       {request.matches.map((match: Row) => (
-                        <div key={text(match.id)} className="rounded-xl bg-[#F8FCFB] p-3">
+                        <div key={text(match.id)} className="rounded-xl bg-[#FAFFFD] p-3">
                           <p className="text-sm font-black">
                             파트너: {text(match.partner?.applicant_name) || '-'} · 상태: {text(match.match_status) || '-'}
                           </p>
@@ -211,7 +211,7 @@ export function PartnerTasksScreen() {
       desc="케어파트너는 의료 판단이 아니라 생활확인, 병원동행, 식사·복약 확인 결과를 사실 중심으로 기록합니다."
     >
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex items-end justify-between gap-3">
             <div>
               <h2 className="text-2xl font-black tracking-[-0.05em]">배정 업무</h2>
@@ -221,7 +221,7 @@ export function PartnerTasksScreen() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-4 py-3 text-xs font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-4 py-3 text-xs font-black text-white disabled:opacity-60"
             >
               새로고침
             </button>
@@ -239,8 +239,8 @@ export function PartnerTasksScreen() {
                   className={
                     'w-full rounded-2xl p-4 text-left ring-1 transition ' +
                     (selectedTask?.match?.id === task.match?.id
-                      ? 'bg-[#EFFFF9] ring-[#BEEFE3]'
-                      : 'bg-[#F8FCFB] ring-[#D8EEE8]')
+                      ? 'bg-[#EFFFFA] ring-[#BEEFE3]'
+                      : 'bg-[#FAFFFD] ring-[#D6EDE7]')
                   }
                 >
                   <div className="flex flex-wrap gap-2">
@@ -261,7 +261,7 @@ export function PartnerTasksScreen() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">업무 리포트 작성</h2>
 
           {!selectedTask ? (
@@ -285,7 +285,7 @@ export function PartnerTasksScreen() {
 
               <button
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
                 {loading ? '저장 중...' : '리포트 제출'}
               </button>
@@ -325,7 +325,7 @@ export function ChildCareReportsScreen() {
       title="케어파트너가 작성한 부모님 확인 리포트를 봅니다."
       desc="병원동행, 복약확인, 식사확인, 생활확인 결과를 보호자가 한눈에 볼 수 있게 정리합니다."
     >
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <div className="flex items-end justify-between gap-3">
           <div>
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 리포트</h2>
@@ -335,7 +335,7 @@ export function ChildCareReportsScreen() {
           <button
             onClick={load}
             disabled={loading}
-            className="rounded-2xl bg-[#193B38] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+            className="rounded-2xl bg-[#247A71] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
           >
             새로고침
           </button>
@@ -346,7 +346,7 @@ export function ChildCareReportsScreen() {
             <Empty message="아직 제출된 케어 리포트가 없습니다." />
           ) : (
             reports.map((report) => (
-              <article key={text(report.id)} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+              <article key={text(report.id)} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <div className="flex flex-wrap gap-2">
                   <Badge text={text(report.report_status) || 'submitted'} />
                   <Badge text={serviceTypeLabel(report.request?.request_type)} />
@@ -391,10 +391,10 @@ function PageShell({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             {eyebrow}
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -412,9 +412,9 @@ function PageShell({
 
 function Summary({ label, value }: { label: string; value: number }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{value}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{value}</div>
     </section>
   )
 }
@@ -429,7 +429,7 @@ function Badge({ text }: { text: string }) {
 
 function Empty({ message }: { message: string }) {
   return (
-    <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+    <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
       {message}
     </p>
   )
@@ -437,8 +437,8 @@ function Empty({ message }: { message: string }) {
 
 function InfoBox({ title, desc }: { title: string; desc: string }) {
   return (
-    <div className="rounded-2xl bg-[#EFFFF9] p-4 ring-1 ring-[#CDEFE5]">
-      <div className="text-lg font-black text-[#116D5F]">{title}</div>
+    <div className="rounded-2xl bg-[#EFFFFA] p-4 ring-1 ring-[#CDEFE7]">
+      <div className="text-lg font-black text-[#2AA897]">{title}</div>
       <p className="mt-2 text-sm font-bold leading-7 text-[#4E6D69]">{desc}</p>
     </div>
   )
@@ -459,13 +459,13 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -484,13 +484,13 @@ function TextArea({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <textarea
         name={name}
         rows={4}
         required={required}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -500,8 +500,8 @@ function ReportSection({ title, value }: { title: string; value: string }) {
   if (!value) return null
 
   return (
-    <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-      <div className="text-xs font-black text-[#11977F]">{title}</div>
+    <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+      <div className="text-xs font-black text-[#2AA897]">{title}</div>
       <p className="mt-2 whitespace-pre-line text-sm font-bold leading-7 text-[#4E6D69]">{value}</p>
     </div>
   )
@@ -509,9 +509,9 @@ function ReportSection({ title, value }: { title: string; value: string }) {
 
 function RawBox({ result }: { result: unknown }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">처리 결과 원본</h2>
-      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
         {JSON.stringify(result, null, 2)}
       </pre>
     </section>

@@ -30,9 +30,9 @@ function timeLabel(value?: string) {
 }
 
 function severityClass(severity?: string) {
-  if (severity === 'critical') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (severity === 'warning') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (severity === 'critical') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (severity === 'warning') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 export function AnbuAuditLogPage() {
@@ -104,10 +104,10 @@ export function AnbuAuditLogPage() {
   }, [logs])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 감사 로그
           </div>
 
@@ -123,28 +123,28 @@ export function AnbuAuditLogPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               {loading ? '불러오는 중...' : '새로고침'}
             </button>
 
             <button
               onClick={() => setShowRaw((value) => !value)}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               {showRaw ? '원본 숨기기' : '원본 보기'}
             </button>
 
             <button
               onClick={logout}
-              className="rounded-2xl bg-[#FFF1F1] px-5 py-4 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]"
+              className="rounded-2xl bg-[#FFF4F4] px-5 py-4 text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8]"
             >
               운영실 로그아웃
             </button>
 
             <Link
               href="/ops/dashboard"
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               운영실 홈
             </Link>
@@ -159,7 +159,7 @@ export function AnbuAuditLogPage() {
           <Summary label="실패" value={summary.failed} />
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <h2 className="text-2xl font-black tracking-[-0.05em]">필터</h2>
@@ -169,7 +169,7 @@ export function AnbuAuditLogPage() {
             <select
               value={severity}
               onChange={(event) => setSeverity(event.target.value)}
-              className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+              className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
             >
               <option value="">전체</option>
               <option value="info">정보</option>
@@ -179,25 +179,25 @@ export function AnbuAuditLogPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">운영 메모 기록</h2>
 
           <form onSubmit={writeMemo} className="mt-5 grid gap-3 md:grid-cols-[12rem_10rem_1fr_10rem]">
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">작성자</span>
+              <span className="text-sm font-black text-[#637B76]">작성자</span>
               <input
                 value={actorName}
                 onChange={(event) => setActorName(event.target.value)}
-                className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+                className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
               />
             </label>
 
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">심각도</span>
+              <span className="text-sm font-black text-[#637B76]">심각도</span>
               <select
                 value={manualSeverity}
                 onChange={(event) => setManualSeverity(event.target.value)}
-                className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+                className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
               >
                 <option value="info">정보</option>
                 <option value="warning">주의</option>
@@ -206,12 +206,12 @@ export function AnbuAuditLogPage() {
             </label>
 
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">메모</span>
+              <span className="text-sm font-black text-[#637B76]">메모</span>
               <input
                 value={memo}
                 onChange={(event) => setMemo(event.target.value)}
                 placeholder="예: 오늘 테스트 SMS 발송 중지 상태 유지"
-                className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+                className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
               />
             </label>
 
@@ -226,17 +226,17 @@ export function AnbuAuditLogPage() {
           </form>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">최근 로그</h2>
 
           <div className="mt-5 grid gap-3">
             {logs.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 표시할 감사 로그가 없습니다. Supabase SQL을 먼저 실행했는지 확인해주세요.
               </p>
             ) : (
               logs.map((log) => (
-                <article key={log.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={log.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex flex-wrap gap-2">
                     <Badge text={log.severity || 'info'} className={severityClass(log.severity)} />
                     <Badge text={log.status || 'ok'} />
@@ -263,9 +263,9 @@ export function AnbuAuditLogPage() {
         </section>
 
         {showRaw ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">원본 데이터</h2>
-            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(result, null, 2)}
             </pre>
           </section>
@@ -277,9 +277,9 @@ export function AnbuAuditLogPage() {
 
 function Summary({ label, value }: { label: string; value: number }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{value}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{value}</div>
     </section>
   )
 }

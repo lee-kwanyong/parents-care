@@ -187,7 +187,7 @@ function MenuPortal({
       >
         <div className="mb-5 flex items-center justify-between gap-3">
           <div>
-            <div className="text-2xl font-black tracking-[-0.06em] text-[#173B36]">
+            <div className="text-2xl font-black tracking-[-0.06em] text-[#17443F]">
               메뉴
             </div>
             <div className="mt-1 text-sm font-bold text-[#7A9692]">
@@ -198,7 +198,7 @@ function MenuPortal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full bg-[#F8FCFB] px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-full bg-[#FAFFFD] px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             닫기
           </button>
@@ -219,7 +219,7 @@ function MenuPortal({
                         key={`${group.title}-${item.label}`}
                         type="button"
                         onClick={onParentLogout}
-                        className="block w-full rounded-2xl bg-[#FFF1F1] p-4 text-left text-[#8A2525] ring-1 ring-[#F3BBBB] transition hover:bg-[#FFE6E6]"
+                        className="block w-full rounded-2xl bg-[#FFF4F4] p-4 text-left text-[#8A3030] ring-1 ring-[#F3C8C8] transition hover:bg-[#FFE6E6]"
                         style={{
                           writingMode: 'horizontal-tb',
                           textOrientation: 'mixed'
@@ -240,13 +240,13 @@ function MenuPortal({
                       key={`${group.title}-${item.href}-${item.label}`}
                       href={item.href || '/'}
                       onClick={onClose}
-                      className="block w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
+                      className="block w-full rounded-2xl bg-[#FAFFFD] p-4 text-left ring-1 ring-[#D6EDE7] transition hover:bg-[#EFFFFA]"
                       style={{
                         writingMode: 'horizontal-tb',
                         textOrientation: 'mixed'
                       }}
                     >
-                      <div className="whitespace-normal break-keep text-base font-black leading-6 text-[#173B36]">
+                      <div className="whitespace-normal break-keep text-base font-black leading-6 text-[#17443F]">
                         {item.label}
                       </div>
                       <div className="mt-1 whitespace-normal break-keep text-sm font-bold leading-6 text-[#637B76]">
@@ -337,7 +337,7 @@ export function GlobalHeader() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-[#D8EEE8] bg-white/95 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-[#D6EDE7] bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
           <Link href={logoHref} className="flex min-w-0 items-center gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#DFF7F0] text-xl">
@@ -345,7 +345,7 @@ export function GlobalHeader() {
             </span>
 
             <span className="min-w-0">
-              <span className="block truncate text-base font-black tracking-[-0.05em] text-[#173B36]">
+              <span className="block truncate text-base font-black tracking-[-0.05em] text-[#17443F]">
                 부모님 안심케어
               </span>
               <span className="block truncate text-[11px] font-bold text-[#5F7D77]">
@@ -356,7 +356,7 @@ export function GlobalHeader() {
 
           <div className="flex shrink-0 items-center gap-2">
             {isParent ? (
-              <span className="hidden rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F] ring-1 ring-[#CDEFE5] sm:inline-flex">
+              <span className="hidden rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7] sm:inline-flex">
                 연결 완료
               </span>
             ) : null}
@@ -364,7 +364,7 @@ export function GlobalHeader() {
             <button
               type="button"
               onClick={() => setOpen(true)}
-              className="rounded-full bg-[#F8FCFB] px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-full bg-[#FAFFFD] px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
               aria-expanded={open}
             >
               메뉴
@@ -373,7 +373,7 @@ export function GlobalHeader() {
             {!isParent ? (
               <Link
                 href="/login"
-                className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white"
+                className="rounded-full bg-[#247A71] px-4 py-2 text-sm font-black text-white"
               >
                 로그인/회원가입
               </Link>

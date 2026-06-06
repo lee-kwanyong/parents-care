@@ -271,7 +271,7 @@ export function OpsIntakeBoard() {
                 type="button"
                 onClick={() => postAction({ action: 'create_demo_intake' })}
                 disabled={working}
-                className="rounded-3xl bg-[#193B38] px-5 py-4 font-black text-white disabled:opacity-60"
+                className="rounded-3xl bg-[#247A71] px-5 py-4 font-black text-white disabled:opacity-60"
               >
                 데모 접수 만들기
               </button>
@@ -325,7 +325,7 @@ export function OpsIntakeBoard() {
                       'w-full rounded-2xl p-4 text-left ring-1 transition ' +
                       (selectedId === item.id
                         ? 'bg-emerald-50 ring-emerald-400'
-                        : 'bg-[#F8FCFB] ring-[#E3EFEC] hover:bg-white')
+                        : 'bg-[#FAFFFD] ring-[#E3EFEC] hover:bg-white')
                     }
                   >
                     <div className="flex flex-wrap gap-2">
@@ -520,7 +520,7 @@ function Input({
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
       <div className="text-xs font-black text-[#718A87]">{label}</div>
       <div className="mt-1 text-base font-black">{value}</div>
     </div>

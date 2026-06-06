@@ -355,7 +355,7 @@ export function OpsManagerMatchingBoard() {
                       'w-full rounded-2xl p-4 text-left ring-1 transition ' +
                       (selectedRequestId === request.id
                         ? 'bg-emerald-50 ring-emerald-400'
-                        : 'bg-[#F8FCFB] ring-[#E3EFEC] hover:bg-white')
+                        : 'bg-[#FAFFFD] ring-[#E3EFEC] hover:bg-white')
                     }
                   >
                     <div className="flex flex-wrap items-center gap-2">
@@ -389,7 +389,7 @@ export function OpsManagerMatchingBoard() {
               type="button"
               disabled={!selectedRequestId || creating}
               onClick={() => postAction({ action: 'generate_offers', matchingRequestId: selectedRequestId, topN: 5 })}
-              className="mt-5 w-full rounded-3xl bg-[#193B38] px-6 py-5 text-lg font-black text-white disabled:opacity-60"
+              className="mt-5 w-full rounded-3xl bg-[#247A71] px-6 py-5 text-lg font-black text-white disabled:opacity-60"
             >
               {creating ? '생성 중...' : '후보 매니저 제안 생성'}
             </button>
@@ -402,7 +402,7 @@ export function OpsManagerMatchingBoard() {
                 <Empty message="아직 이 요청에 생성된 제안이 없습니다." />
               ) : (
                 requestOffers.map((offer) => (
-                  <div key={offer.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                  <div key={offer.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                     <div className="flex flex-wrap gap-2">
                       <Badge text={labelOffer(offer.offer_status)} />
                       <Badge text={`${offer.offer_score || 0}점`} />
@@ -443,7 +443,7 @@ export function OpsManagerMatchingBoard() {
 
                       <Link
                         href={`/manager?managerProfileId=${encodeURIComponent(offer.manager_profile_id || '')}`}
-                        className="rounded-2xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white"
+                        className="rounded-2xl bg-[#247A71] px-4 py-3 text-center text-sm font-black text-white"
                       >
                         매니저 화면 열기
                       </Link>
@@ -466,7 +466,7 @@ export function OpsManagerMatchingBoard() {
                 </div>
               ) : (
                 managers.map((manager) => (
-                  <div key={manager.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                  <div key={manager.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                     <div className="text-xl font-black">{manager.manager_name}</div>
                     <p className="mt-2 text-sm font-bold leading-6 text-[#607D79]">
                       {(manager.available_regions || []).join(', ') || '지역 미정'} · {(manager.specialties || []).join(', ') || '역량 미정'}

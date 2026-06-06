@@ -188,9 +188,9 @@ export function OpsPartnerConsole({ mode = 'partners' }: { mode?: 'partners' | '
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-7xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 운영실
         </div>
 
@@ -207,19 +207,19 @@ export function OpsPartnerConsole({ mode = 'partners' }: { mode?: 'partners' | '
             value={adminCode}
             onChange={(event) => setAdminCode(event.target.value)}
             placeholder="관리자 코드"
-            className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           />
           <button
             onClick={load}
             disabled={loading}
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
           >
             {loading ? '불러오는 중...' : '목록 불러오기'}
           </button>
         </div>
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {message}
           </div>
         ) : null}
@@ -261,7 +261,7 @@ function PartnersView({
       ) : null}
 
       {applications.map((app) => (
-        <article key={app.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <article key={app.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
               <div className="flex flex-wrap gap-2">
@@ -289,13 +289,13 @@ function PartnersView({
               </p>
 
               {app.memo ? (
-                <p className="mt-3 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D8EEE8]">
+                <p className="mt-3 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D6EDE7]">
                   {app.memo}
                 </p>
               ) : null}
 
               {app.verification_memo ? (
-                <p className="mt-3 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+                <p className="mt-3 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-bold leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
                   운영실 메모: {app.verification_memo}
                 </p>
               ) : null}
@@ -305,14 +305,14 @@ function PartnersView({
               <button onClick={() => updatePartnerStatus(app.id, 'approved')} className="rounded-2xl bg-[#20C5A8] px-4 py-3 text-sm font-black text-white">
                 승인
               </button>
-              <button onClick={() => updatePartnerStatus(app.id, 'hold')} className="rounded-2xl bg-[#FFF8E8] px-4 py-3 text-sm font-black text-[#795313]">
+              <button onClick={() => updatePartnerStatus(app.id, 'hold')} className="rounded-2xl bg-[#FFF9EE] px-4 py-3 text-sm font-black text-[#795C22]">
                 보류
               </button>
-              <button onClick={() => updatePartnerStatus(app.id, 'rejected')} className="rounded-2xl bg-[#FFF1F1] px-4 py-3 text-sm font-black text-[#8A2525]">
+              <button onClick={() => updatePartnerStatus(app.id, 'rejected')} className="rounded-2xl bg-[#FFF4F4] px-4 py-3 text-sm font-black text-[#8A3030]">
                 거절
               </button>
               {app.verification_status === 'approved' ? (
-                <button onClick={() => setSelectedPartner(app)} className="rounded-2xl bg-[#193B38] px-4 py-3 text-sm font-black text-white">
+                <button onClick={() => setSelectedPartner(app)} className="rounded-2xl bg-[#247A71] px-4 py-3 text-sm font-black text-white">
                   이 파트너 배정
                 </button>
               ) : null}
@@ -341,12 +341,12 @@ function AssignmentsView({
 }) {
   return (
     <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">새 배정 만들기</h2>
 
         <div className="mt-4 grid gap-2">
           {approvedPartners.length === 0 ? (
-            <p className="rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <p className="rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               승인된 케어파트너가 없습니다. 먼저 파트너를 승인하세요.
             </p>
           ) : null}
@@ -358,8 +358,8 @@ function AssignmentsView({
               className={
                 'rounded-2xl p-4 text-left text-sm font-black ring-1 ' +
                 (selectedPartner?.id === partner.id
-                  ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                  : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')
+                  ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                  : 'bg-[#FAFFFD] text-[#17443F] ring-[#D6EDE7]')
               }
             >
               {partner.applicant_name} · {partner.region || '지역 미입력'} · {partner.phone || '-'}
@@ -373,15 +373,15 @@ function AssignmentsView({
           <Input name="taskTitle" label="배정 제목" placeholder="예: 어머니 점심 약 확인" required />
           <Input name="scheduledAt" label="예정 시간" placeholder="선택 입력" type="datetime-local" />
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">업무 설명</span>
-            <textarea name="taskDescription" className="min-h-24 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
+            <span className="text-sm font-black text-[#637B76]">업무 설명</span>
+            <textarea name="taskDescription" className="min-h-24 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
           </label>
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">운영실 메모</span>
-            <textarea name="opsMemo" className="min-h-24 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
+            <span className="text-sm font-black text-[#637B76]">운영실 메모</span>
+            <textarea name="opsMemo" className="min-h-24 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
           </label>
 
-          <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+          <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
             배정 생성
           </button>
         </form>
@@ -393,7 +393,7 @@ function AssignmentsView({
         ) : null}
 
         {assignments.map((assignment) => (
-          <article key={assignment.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <article key={assignment.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <div className="flex flex-wrap gap-2">
               <Badge text={assignmentStatusLabels[assignment.assignment_status || 'assigned'] || assignment.assignment_status || '배정됨'} />
               <Badge text={assignment.task_type || '생활확인'} />
@@ -415,13 +415,13 @@ function AssignmentsView({
             ) : null}
 
             {assignment.task_description ? (
-              <p className="mt-3 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D8EEE8]">
+              <p className="mt-3 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D6EDE7]">
                 {assignment.task_description}
               </p>
             ) : null}
 
             {assignment.report_summary ? (
-              <p className="mt-3 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-bold leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <p className="mt-3 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-bold leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 완료 리포트: {assignment.report_summary}
               </p>
             ) : null}
@@ -446,7 +446,7 @@ function AssignmentsView({
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+    <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
       {text}
     </span>
   )
@@ -454,7 +454,7 @@ function Badge({ text }: { text: string }) {
 
 function EmptyCard({ text }: { text: string }) {
   return (
-    <div className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D8EEE8]">
+    <div className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D6EDE7]">
       {text}
     </div>
   )
@@ -475,13 +475,13 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

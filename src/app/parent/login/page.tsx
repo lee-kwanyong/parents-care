@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function ParentLoginPage() {
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <ParentLoginPanel />
     </main>
   )

@@ -24,10 +24,10 @@ const automationItems = [
 
 export default function OpsAutomationPage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 자동 알림
           </div>
 
@@ -42,8 +42,8 @@ export default function OpsAutomationPage() {
 
         <div className="grid gap-4 md:grid-cols-2">
           {automationItems.map((item, index) => (
-            <section key={item.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <section key={item.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
                 {index + 1}
               </div>
               <h2 className="mt-5 text-2xl font-black tracking-[-0.05em]">{item.title}</h2>
@@ -52,7 +52,7 @@ export default function OpsAutomationPage() {
           ))}
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">수동 테스트 주소</h2>
 
           <div className="mt-5 space-y-3">
@@ -67,13 +67,13 @@ export default function OpsAutomationPage() {
             </CodeBox>
           </div>
 
-          <p className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <p className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-bold leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             실제 운영에서는 CRON_SECRET 값을 URL에 직접 노출하지 않는 것이 좋습니다.
             Vercel Cron은 Authorization Bearer 방식으로 자동 호출하도록 설정됩니다.
           </p>
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">다음 확인 순서</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#E7FFF7]">
             <li>1. /family-link 에서 부모님 전화번호와 보호자 전화번호를 모두 넣고 연결코드를 만듭니다.</li>
@@ -90,9 +90,9 @@ export default function OpsAutomationPage() {
 
 function CodeBox({ label, children }: { label: string; children: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="text-xs font-black text-[#11977F]">{label}</div>
-      <code className="mt-2 block break-all text-sm font-black text-[#173B36]">{children}</code>
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="text-xs font-black text-[#2AA897]">{label}</div>
+      <code className="mt-2 block break-all text-sm font-black text-[#17443F]">{children}</code>
     </div>
   )
 }

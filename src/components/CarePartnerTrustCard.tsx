@@ -127,7 +127,7 @@ export function CarePartnerTrustCard({
           {managerProfileId ? (
             <Link
               href={`/manager?managerProfileId=${encodeURIComponent(managerProfileId)}`}
-              className="rounded-2xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white"
+              className="rounded-2xl bg-[#247A71] px-4 py-3 text-center text-sm font-black text-white"
             >
               케어파트너 화면 열기
             </Link>
@@ -152,7 +152,7 @@ function InfoBlock({
   items: string[]
 }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
       <div className="text-xs font-black text-[#718A87]">{title}</div>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {items.slice(0, 4).map((item) => (

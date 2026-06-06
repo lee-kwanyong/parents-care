@@ -73,18 +73,18 @@ function bucketLabel(bucket?: string) {
 }
 
 function rowClass(item: OutboxItem) {
-  if (item.is_archived) return 'bg-[#F8FCFB] text-[#637B76] ring-[#D8EEE8]'
-  if (item.status === 'failed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (item.is_stale_queued) return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  if (item.is_test) return 'bg-[#EEF6FF] text-[#1B4E7A] ring-[#CFE5FA]'
-  if (item.status === 'queued') return 'bg-white text-[#173B36] ring-[#D8EEE8]'
-  if (item.status === 'sent') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+  if (item.is_archived) return 'bg-[#FAFFFD] text-[#637B76] ring-[#D6EDE7]'
+  if (item.status === 'failed') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (item.is_stale_queued) return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  if (item.is_test) return 'bg-[#F3F8FF] text-[#255B83] ring-[#D8EAFB]'
+  if (item.status === 'queued') return 'bg-white text-[#17443F] ring-[#D6EDE7]'
+  if (item.status === 'sent') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  return 'bg-white text-[#17443F] ring-[#D6EDE7]'
 }
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -173,10 +173,10 @@ export function NotificationCleanupPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             알림 기록 정리센터
           </div>
 
@@ -190,36 +190,36 @@ export function NotificationCleanupPanel() {
             실제 처리해야 할 발송 대기 알림만 남기고, 테스트 문자·과거 실패·발송 완료 기록은 보관 처리합니다.
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             보관은 삭제가 아닙니다. /ops/notification-cleanup에서 언제든 보관 기록을 확인하고 복구할 수 있습니다.
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={() => post('archiveTests')} disabled={loading || metrics.tests === 0} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50">
+            <button onClick={() => post('archiveTests')} disabled={loading || metrics.tests === 0} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50">
               테스트 기록 보관
             </button>
-            <button onClick={() => post('archiveSent')} disabled={loading || metrics.sent === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+            <button onClick={() => post('archiveSent')} disabled={loading || metrics.sent === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
               발송 완료 보관
             </button>
-            <button onClick={() => post('archiveFailed')} disabled={loading || metrics.failed === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB] disabled:opacity-50">
+            <button onClick={() => post('archiveFailed')} disabled={loading || metrics.failed === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8] disabled:opacity-50">
               실패 기록 보관
             </button>
-            <button onClick={() => post('cancelStaleQueued', { hours: 24 })} disabled={loading || metrics.staleQueued === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#795313] ring-1 ring-[#F4D8A5] disabled:opacity-50">
+            <button onClick={() => post('cancelStaleQueued', { hours: 24 })} disabled={loading || metrics.staleQueued === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#795C22] ring-1 ring-[#F3DEB5] disabled:opacity-50">
               24시간 초과 대기 취소
             </button>
-            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
               새로고침
             </button>
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">처리 결과 보기</summary>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -238,7 +238,7 @@ export function NotificationCleanupPanel() {
           <MetricCard title="보관" value={`${metrics.archived}건`} desc="숨김 기록" />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-3xl font-black tracking-[-0.06em]">알림 기록</h2>
@@ -266,8 +266,8 @@ export function NotificationCleanupPanel() {
                   className={
                     'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                     (filter === key
-                      ? 'bg-[#193B38] text-white ring-[#193B38]'
-                      : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                      ? 'bg-[#247A71] text-white ring-[#247A71]'
+                      : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                   }
                 >
                   {label}
@@ -278,7 +278,7 @@ export function NotificationCleanupPanel() {
 
           <div className="mt-5 space-y-3">
             {filteredItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 표시할 알림 기록이 없습니다.
               </div>
             ) : (
@@ -357,18 +357,18 @@ export function NotificationCleanupPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">최근 정리 로그</h2>
 
           <div className="mt-5 space-y-3">
             {logs.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 정리 로그가 없습니다.
               </div>
             ) : (
               logs.slice(0, 20).map((log) => (
-                <article key={log.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{log.action_type || 'cleanup'}</div>
+                <article key={log.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{log.action_type || 'cleanup'}</div>
                   <div className="mt-2 text-sm font-black leading-7">{log.message || '-'} · {log.affected_count || 0}건</div>
                   <div className="mt-1 text-xs font-bold text-[#637B76]">{log.created_at || ''}</div>
                 </article>
@@ -378,19 +378,19 @@ export function NotificationCleanupPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             알림 발송센터
           </Link>
-          <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             오토파일럿
           </Link>
-          <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             사건 타임라인
           </Link>
-          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             운영보고서
           </Link>
-          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             새로고침
           </button>
         </div>

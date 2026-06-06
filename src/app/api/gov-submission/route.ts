@@ -441,7 +441,7 @@ function buildPrintHtml(input: SubmissionInput, docs: ReturnType<typeof generate
   .toolbar button {
     border: 0;
     border-radius: 999px;
-    background: #193B38;
+    background: #247A71;
     color: white;
     font-weight: 900;
     padding: 12px 18px;
@@ -519,7 +519,7 @@ function buildPrintHtml(input: SubmissionInput, docs: ReturnType<typeof generate
     font-size: 21px;
     letter-spacing: -0.04em;
     page-break-after: avoid;
-    color: #123F38;
+    color: #247A71;
   }
   h3 {
     margin: 20px 0 8px;
@@ -560,7 +560,7 @@ function buildPrintHtml(input: SubmissionInput, docs: ReturnType<typeof generate
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 3px solid #193B38;
+    border-bottom: 3px solid #247A71;
     padding-bottom: 12px;
     margin-bottom: 18px;
   }

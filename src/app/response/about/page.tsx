@@ -47,18 +47,18 @@ export default function ResponseAboutPage() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_52%,#F6FBFF_100%)] px-4 py-7 text-[#194843] sm:px-5 sm:py-10">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF7_0%,#D1F4ED_52%,#EFFBFF_100%)] p-5 shadow-[0_18px_54px_rgba(49,151,136,0.12)] ring-1 ring-[#BEE8DF] sm:rounded-[2.7rem] sm:p-8 lg:p-10">
+        <section className="overflow-hidden rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF7_0%,#D8F6F0_52%,#F4FBFF_100%)] p-5 shadow-[0_18px_54px_rgba(49,151,136,0.12)] ring-1 ring-[#D6EDE7] sm:rounded-[2.7rem] sm:p-8 lg:p-10">
           <div className="inline-flex rounded-full bg-white/55 px-4 py-2 text-sm font-black text-[#267B70] shadow-sm ring-1 ring-[#CDEFE7]">
             안부웍스 지역 안심망
           </div>
 
-          <h1 className="mt-8 max-w-5xl text-4xl font-black leading-tight tracking-[-0.08em] text-[#164641] sm:text-5xl lg:text-6xl">
+          <h1 className="mt-8 max-w-5xl text-4xl font-black leading-tight tracking-[-0.08em] text-[#17443F] sm:text-5xl lg:text-6xl">
             서로가 서로를 보호하고
             <br />
             위험할 때 가까운 사람이 돕습니다.
           </h1>
 
-          <p className="mt-6 max-w-5xl text-base font-extrabold leading-8 text-[#416B65] sm:text-lg">
+          <p className="mt-6 max-w-5xl text-base font-extrabold leading-8 text-[#637B76] sm:text-lg">
             부모님의 안부 신호를 가족, 돌봄파트너, 지역상점, 약국, 수행기관, 지자체가 처리 가능한 행동으로 자동 연결하는 플랫폼입니다.
           </p>
 
@@ -83,7 +83,7 @@ export default function ResponseAboutPage() {
 
             <Link
               href="/response"
-              className="rounded-2xl bg-white/38 px-5 py-4 text-center text-sm font-black text-[#194843] shadow-sm ring-1 ring-[#B8DDD6] transition hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-lg"
+              className="rounded-2xl bg-white/38 px-5 py-4 text-center text-sm font-black text-[#194843] shadow-sm ring-1 ring-[#D6EDE7] transition hover:-translate-y-0.5 hover:bg-white/70 hover:shadow-lg"
             >
               보호자 후속조치 조회
             </Link>
@@ -91,7 +91,7 @@ export default function ResponseAboutPage() {
         </section>
 
         <section className="rounded-[2rem] bg-white/92 p-5 shadow-[0_16px_44px_rgba(49,151,136,0.08)] ring-1 ring-[#D7EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#27A291]">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             헷갈리지 않는 3단계
           </div>
 
@@ -103,7 +103,7 @@ export default function ResponseAboutPage() {
             {steps.map((step) => (
               <article
                 key={step.number}
-                className="rounded-3xl bg-[linear-gradient(180deg,#FBFFFE_0%,#F6FCFA_100%)] p-5 shadow-sm ring-1 ring-[#D8EEE8]"
+                className="rounded-3xl bg-[linear-gradient(180deg,#FBFFFE_0%,#F6FCFA_100%)] p-5 shadow-sm ring-1 ring-[#D6EDE7]"
               >
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2EC4B6] text-sm font-black text-white shadow-sm">
                   {step.number}
@@ -116,7 +116,7 @@ export default function ResponseAboutPage() {
         </section>
 
         <section className="rounded-[2rem] bg-white/92 p-5 shadow-[0_16px_44px_rgba(49,151,136,0.08)] ring-1 ring-[#D7EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#27A291]">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             안부 신호별 후속조치
           </div>
 
@@ -130,7 +130,7 @@ export default function ResponseAboutPage() {
             {actionCards.map((card) => (
               <article
                 key={card.title}
-                className="rounded-3xl bg-[#F8FCFB] p-5 shadow-sm ring-1 ring-[#D8EEE8]"
+                className="rounded-3xl bg-[#FAFFFD] p-5 shadow-sm ring-1 ring-[#D6EDE7]"
               >
                 <h3 className="text-xl font-black tracking-[-0.05em] text-[#194843]">{card.title}</h3>
                 <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{card.desc}</p>
@@ -147,16 +147,16 @@ export default function ResponseAboutPage() {
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-4">
-            <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D6EDE7]">
               사건 타임라인
             </Link>
-            <Link href="/ops/network" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/network" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D6EDE7]">
               도움망 네트워크
             </Link>
-            <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D8EEE8]">
+            <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D6EDE7]">
               운영보고서
             </Link>
-            <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D8EEE8]">
+            <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#194843] ring-1 ring-[#D6EDE7]">
               제출 패키지
             </Link>
           </div>

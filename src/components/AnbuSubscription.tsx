@@ -25,7 +25,7 @@ type SubscriptionStatus = {
 
 function cardClass(planId: string) {
   if (planId === 'basic') return 'bg-[#F8FFFC] ring-[#BEEFE3]'
-  return 'bg-white ring-[#D8EEE8]'
+  return 'bg-white ring-[#D6EDE7]'
 }
 
 export function AnbuSubscriptionPage() {
@@ -82,10 +82,10 @@ export function AnbuSubscriptionPage() {
   const plans = status?.plans || []
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             안부웍스 구독
           </div>
 
@@ -101,14 +101,14 @@ export function AnbuSubscriptionPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               {loading ? '확인 중...' : '구독 상태 새로고침'}
             </button>
 
             <Link
               href="/child/weekly-report"
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               주간 리포트 보기
             </Link>
@@ -116,12 +116,12 @@ export function AnbuSubscriptionPage() {
         </section>
 
         {message ? (
-          <section className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <section className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {message}
           </section>
         ) : null}
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">현재 상태</h2>
 
           <div className="mt-5 grid gap-4 md:grid-cols-4">
@@ -132,10 +132,10 @@ export function AnbuSubscriptionPage() {
           </div>
 
           {!status?.familyCode ? (
-            <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-bold leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               부모님 연결코드가 없습니다. 먼저 부모님을 연결해야 체험 구독을 시작할 수 있습니다.
               <div className="mt-3">
-                <Link href="/family-link" className="rounded-xl bg-[#193B38] px-4 py-2 text-sm font-black text-white">
+                <Link href="/family-link" className="rounded-xl bg-[#247A71] px-4 py-2 text-sm font-black text-white">
                   부모님 연결하기
                 </Link>
               </div>
@@ -147,12 +147,12 @@ export function AnbuSubscriptionPage() {
           {plans.map((plan) => (
             <section key={plan.id} className={'rounded-[2rem] p-5 shadow-sm ring-1 sm:p-6 ' + cardClass(plan.id)}>
               <h2 className="text-2xl font-black tracking-[-0.05em]">{plan.name}</h2>
-              <div className="mt-3 text-3xl font-black text-[#11977F]">{plan.priceLabel}</div>
+              <div className="mt-3 text-3xl font-black text-[#2AA897]">{plan.priceLabel}</div>
               <p className="mt-3 min-h-[4.5rem] text-sm font-bold leading-7 text-[#637B76]">{plan.desc}</p>
 
               <div className="mt-5 space-y-2">
                 {plan.features.map((feature) => (
-                  <div key={feature} className="rounded-2xl bg-white p-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+                  <div key={feature} className="rounded-2xl bg-white p-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                     ✓ {feature}
                   </div>
                 ))}
@@ -162,21 +162,21 @@ export function AnbuSubscriptionPage() {
                 <button
                   onClick={startTrial}
                   disabled={loading || !status?.canStartTrial}
-                  className="mt-5 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
+                  className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
                 >
                   {status?.canStartTrial ? plan.cta : '체험/구독 사용 중'}
                 </button>
               ) : plan.id === 'plus' ? (
                 <Link
                   href="/contact"
-                  className="mt-5 block w-full rounded-2xl bg-white px-5 py-4 text-center text-base font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                  className="mt-5 block w-full rounded-2xl bg-white px-5 py-4 text-center text-base font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
                 >
                   상담 문의
                 </Link>
               ) : (
                 <Link
                   href="/family-link"
-                  className="mt-5 block w-full rounded-2xl bg-white px-5 py-4 text-center text-base font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                  className="mt-5 block w-full rounded-2xl bg-white px-5 py-4 text-center text-base font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
                 >
                   무료로 시작
                 </Link>
@@ -185,7 +185,7 @@ export function AnbuSubscriptionPage() {
           ))}
         </div>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">다음 유료화 흐름</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#E7FFF7]">
             <li>1. 보호자가 부모님을 연결합니다.</li>
@@ -201,9 +201,9 @@ export function AnbuSubscriptionPage() {
 
 function StatusBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
       <div className="text-xs font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 break-words text-lg font-black text-[#173B36]">{value}</div>
+      <div className="mt-2 break-words text-lg font-black text-[#17443F]">{value}</div>
     </div>
   )
 }

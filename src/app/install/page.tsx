@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function InstallPage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-3xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             홈 화면에 추가하기
           </div>
 
@@ -25,7 +25,7 @@ export default function InstallPage() {
           </p>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">iPhone Safari</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#637B76]">
             <li>1. Safari에서 parents-care.net을 엽니다.</li>
@@ -35,7 +35,7 @@ export default function InstallPage() {
           </ol>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">Android Chrome</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#637B76]">
             <li>1. Chrome에서 parents-care.net을 엽니다.</li>
@@ -48,14 +48,14 @@ export default function InstallPage() {
         <div className="grid gap-3 sm:grid-cols-2">
           <Link
             href="/family-link"
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
           >
             부모님과 연결
           </Link>
 
           <Link
             href="/"
-            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             홈으로 돌아가기
           </Link>

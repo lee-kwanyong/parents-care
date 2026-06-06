@@ -54,15 +54,15 @@ function interestLabel(value?: string) {
 }
 
 function statusClass(status?: string) {
-  if (status === 'new') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  if (status === 'qualified') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'closed') return 'bg-[#F8FCFB] text-[#637B76] ring-[#D8EEE8]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+  if (status === 'new') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  if (status === 'qualified') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'closed') return 'bg-[#FAFFFD] text-[#637B76] ring-[#D6EDE7]'
+  return 'bg-white text-[#17443F] ring-[#D6EDE7]'
 }
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -195,10 +195,10 @@ export function GovProposalLeadsPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             제안 문의 관리
           </div>
 
@@ -213,28 +213,28 @@ export function GovProposalLeadsPanel() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50">
+            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50">
               새로고침
             </button>
-            <button onClick={downloadCsv} disabled={leads.length === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+            <button onClick={downloadCsv} disabled={leads.length === 0} className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
               CSV 다운로드
             </button>
-            <Link href="/proposal" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/proposal" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               외부 제안 페이지
             </Link>
-            <Link href="/gov/demo-runner" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/gov/demo-runner" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               시연 모드
             </Link>
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">상세 보기</summary>
               <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -253,7 +253,7 @@ export function GovProposalLeadsPanel() {
         </section>
 
         <section className="grid gap-5 xl:grid-cols-[0.85fr_1.15fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <h2 className="text-3xl font-black tracking-[-0.06em]">문의 목록</h2>
@@ -277,8 +277,8 @@ export function GovProposalLeadsPanel() {
                     className={
                       'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                       (filter === key
-                        ? 'bg-[#193B38] text-white ring-[#193B38]'
-                        : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                        ? 'bg-[#247A71] text-white ring-[#247A71]'
+                        : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                     }
                   >
                     {label}
@@ -289,7 +289,7 @@ export function GovProposalLeadsPanel() {
 
             <div className="mt-5 space-y-3">
               {filteredLeads.length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   표시할 문의가 없습니다.
                 </div>
               ) : (
@@ -301,7 +301,7 @@ export function GovProposalLeadsPanel() {
                     className={
                       'w-full rounded-2xl p-4 text-left ring-1 ' +
                       (selected?.id === lead.id
-                        ? 'bg-[#193B38] text-white ring-[#193B38]'
+                        ? 'bg-[#247A71] text-white ring-[#247A71]'
                         : statusClass(lead.status))
                     }
                   >
@@ -324,7 +324,7 @@ export function GovProposalLeadsPanel() {
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             {selected ? (
               <>
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
@@ -348,66 +348,66 @@ export function GovProposalLeadsPanel() {
 
                   <div className="grid gap-2 lg:min-w-48">
                     {selected.phone ? (
-                      <a href={`tel:${selected.phone}`} className="rounded-xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white">
+                      <a href={`tel:${selected.phone}`} className="rounded-xl bg-[#247A71] px-4 py-3 text-center text-sm font-black text-white">
                         전화하기
                       </a>
                     ) : null}
                     {selected.email ? (
-                      <a href={`mailto:${selected.email}`} className="rounded-xl bg-white px-4 py-3 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+                      <a href={`mailto:${selected.email}`} className="rounded-xl bg-white px-4 py-3 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                         이메일
                       </a>
                     ) : null}
                   </div>
                 </div>
 
-                <section className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <section className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <h3 className="text-xl font-black tracking-[-0.05em]">문의 내용</h3>
                   <p className="mt-3 whitespace-pre-wrap text-sm font-bold leading-7 text-[#637B76]">
                     {selected.message || '문의 내용이 없습니다.'}
                   </p>
                 </section>
 
-                <section className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <section className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <h3 className="text-xl font-black tracking-[-0.05em]">후속 관리</h3>
 
                   <div className="mt-4 grid gap-3 md:grid-cols-2">
                     <label className="grid gap-2">
-                      <span className="text-sm font-black text-[#55736E]">담당자</span>
+                      <span className="text-sm font-black text-[#637B76]">담당자</span>
                       <input
                         value={assignedTo}
                         onChange={(event) => setAssignedTo(event.target.value)}
-                        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                       />
                     </label>
 
                     <label className="grid gap-2">
-                      <span className="text-sm font-black text-[#55736E]">후속 메모</span>
+                      <span className="text-sm font-black text-[#637B76]">후속 메모</span>
                       <input
                         value={followupNote}
                         onChange={(event) => setFollowupNote(event.target.value)}
-                        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                       />
                     </label>
                   </div>
 
                   <div className="mt-4 grid gap-2 md:grid-cols-4">
-                    <button onClick={() => updateLead('contacted')} disabled={loading} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+                    <button onClick={() => updateLead('contacted')} disabled={loading} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
                       연락 완료
                     </button>
-                    <button onClick={() => updateLead('qualified')} disabled={loading} className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50">
+                    <button onClick={() => updateLead('qualified')} disabled={loading} className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50">
                       유효 문의
                     </button>
-                    <button onClick={() => updateLead('closed')} disabled={loading} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+                    <button onClick={() => updateLead('closed')} disabled={loading} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
                       종료
                     </button>
-                    <button onClick={() => updateLead('new')} disabled={loading} className="rounded-xl bg-[#F8FCFB] px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50">
+                    <button onClick={() => updateLead('new')} disabled={loading} className="rounded-xl bg-[#FAFFFD] px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50">
                       신규로 복구
                     </button>
                   </div>
                 </section>
               </>
             ) : (
-              <div className="rounded-2xl bg-[#F8FCFB] p-8 text-center text-sm font-black text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-8 text-center text-sm font-black text-[#637B76] ring-1 ring-[#D6EDE7]">
                 문의를 선택해주세요.
               </div>
             )}
@@ -415,19 +415,19 @@ export function GovProposalLeadsPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/proposal" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/proposal" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             외부 제안 페이지
           </Link>
-          <Link href="/gov/demo-runner" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/demo-runner" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             시연 모드
           </Link>
-          <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             제출 패키지
           </Link>
-          <Link href="/gov/pilot-manual" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/pilot-manual" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             실증 매뉴얼
           </Link>
-          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             새로고침
           </button>
         </div>

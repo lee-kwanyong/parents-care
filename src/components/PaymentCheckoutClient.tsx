@@ -143,7 +143,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
   if (!plan) {
     return (
       <section className="mx-auto max-w-4xl px-5 py-8">
-        <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+        <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
           지원하지 않는 요금제입니다.
         </div>
       </section>
@@ -151,9 +151,9 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
   }
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 결제
         </div>
 
@@ -169,7 +169,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">선택한 요금제</h2>
 
           <div className="mt-4 grid gap-3">
@@ -181,8 +181,8 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
                 className={
                   'rounded-2xl p-4 text-left ring-1 transition ' +
                   (planId === item.id
-                    ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                    : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')
+                    ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                    : 'bg-[#FAFFFD] text-[#17443F] ring-[#D6EDE7]')
                 }
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -195,7 +195,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">결제 정보</h2>
 
           <form onSubmit={handlePayment} className="mt-5 grid gap-3">
@@ -204,7 +204,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
             <Input label="이메일" value={buyerEmail} onChange={setBuyerEmail} placeholder="선택 입력" />
             <Input label="부모님 연결코드" value={familyCode} onChange={setFamilyCode} placeholder="선택 입력. 예: 462015" />
 
-            <div className="rounded-[1.75rem] bg-[#123F38] p-5 text-white">
+            <div className="rounded-[1.75rem] bg-[#247A71] p-5 text-white">
               <div className="text-sm font-black text-[#9DF4DD]">결제 금액</div>
               <div className="mt-2 text-4xl font-black tracking-[-0.06em]">
                 {formatWon(plan.amount)}
@@ -215,27 +215,27 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
             </div>
 
             {message ? (
-              <div className="rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+              <div className="rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
                 {message}
               </div>
             ) : null}
 
             {order ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-4 text-xs font-bold leading-6 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-4 text-xs font-bold leading-6 text-[#637B76] ring-1 ring-[#D6EDE7]">
                 주문번호: {order.order_id}
               </div>
             ) : null}
 
             <button
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
             >
               {loading ? '결제 준비 중...' : '결제하기'}
             </button>
 
             <Link
               href="/setup/payments"
-              className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-center text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]"
+              className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-center text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]"
             >
               결제 설정 확인
             </Link>
@@ -243,7 +243,7 @@ export function PaymentCheckoutClient({ initialPlanId = 'basic' }: { initialPlan
         </section>
       </div>
 
-      <div className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8] sm:p-6">
+      <div className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7] sm:p-6">
         결제는 의료행위나 응급 판단에 대한 비용이 아닙니다. 안부 확인, 보호자 알림, 운영실 확인, 케어파트너 연결 서비스 이용료입니다.
       </div>
     </section>
@@ -265,13 +265,13 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         required={required}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

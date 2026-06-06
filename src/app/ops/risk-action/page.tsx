@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-3xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영 메뉴
           </div>
 
@@ -25,14 +25,14 @@ export default function Page() {
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link
               href="/ops/pilot"
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
             >
               실증 운영실
             </Link>
 
             <Link
               href="/"
-              className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               홈으로
             </Link>

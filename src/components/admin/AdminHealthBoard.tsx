@@ -123,7 +123,7 @@ export function AdminHealthBoard() {
         <div className="mt-5 flex flex-wrap gap-3">
           <Link
             href="/admin?next=/admin/health"
-            className="rounded-3xl bg-[#193B38] px-5 py-4 font-black text-white"
+            className="rounded-3xl bg-[#247A71] px-5 py-4 font-black text-white"
           >
             관리자 로그인
           </Link>
@@ -168,7 +168,7 @@ export function AdminHealthBoard() {
 
           <Link
             href="/ops"
-            className="rounded-3xl bg-[#193B38] px-5 py-4 font-black text-white"
+            className="rounded-3xl bg-[#247A71] px-5 py-4 font-black text-white"
           >
             운영실로 이동
           </Link>
@@ -201,7 +201,7 @@ export function AdminHealthBoard() {
           <h2 className="text-2xl font-black">환경변수</h2>
           <div className="mt-4 space-y-3">
             {data.envChecks.map((item) => (
-              <div key={item.name} className="flex items-center justify-between gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+              <div key={item.name} className="flex items-center justify-between gap-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                 <div>
                   <div className="text-sm font-black">{item.name}</div>
                   <div className="mt-1 text-xs font-bold text-[#7D9894]">
@@ -220,7 +220,7 @@ export function AdminHealthBoard() {
           <h2 className="text-2xl font-black">필수 테이블</h2>
           <div className="mt-4 space-y-3">
             {data.tableChecks.map((item) => (
-              <div key={item.name} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+              <div key={item.name} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <div className="text-sm font-black">{item.label}</div>
@@ -259,7 +259,7 @@ export function AdminHealthBoard() {
             <Link
               key={item.path}
               href={item.path}
-              className="rounded-2xl bg-[#F8FCFB] p-4 font-black text-[#426C68] ring-1 ring-[#E3EFEC] transition hover:bg-white"
+              className="rounded-2xl bg-[#FAFFFD] p-4 font-black text-[#426C68] ring-1 ring-[#E3EFEC] transition hover:bg-white"
             >
               <div className="text-sm">{item.label}</div>
               <div className="mt-1 text-xs text-[#8AA29E]">{item.path}</div>

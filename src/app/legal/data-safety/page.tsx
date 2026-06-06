@@ -17,7 +17,7 @@ export default function DataSafetyPage() {
         <div className="overflow-x-auto">
           <table className="w-full min-w-[44rem] border-separate border-spacing-y-2 text-left">
             <thead>
-              <tr className="text-xs font-black text-[#55736E]">
+              <tr className="text-xs font-black text-[#637B76]">
                 <th className="px-3 py-2">분류</th>
                 <th className="px-3 py-2">데이터</th>
                 <th className="px-3 py-2">목적</th>
@@ -25,8 +25,8 @@ export default function DataSafetyPage() {
             </thead>
             <tbody>
               {dataSafetyRows.map((row) => (
-                <tr key={row.type} className="rounded-2xl bg-[#F8FCFB] text-sm font-bold text-[#637B76]">
-                  <td className="rounded-l-2xl px-3 py-3 font-black text-[#173B36]">{row.type}</td>
+                <tr key={row.type} className="rounded-2xl bg-[#FAFFFD] text-sm font-bold text-[#637B76]">
+                  <td className="rounded-l-2xl px-3 py-3 font-black text-[#17443F]">{row.type}</td>
                   <td className="px-3 py-3">{row.data}</td>
                   <td className="rounded-r-2xl px-3 py-3">{row.purpose}</td>
                 </tr>

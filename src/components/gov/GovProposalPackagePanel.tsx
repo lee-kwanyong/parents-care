@@ -46,10 +46,10 @@ const safeWording = [
 
 export function GovProposalPackagePanel() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             지자체 지원사업·R&D 제안 패키지 v2
           </div>
 
@@ -64,13 +64,13 @@ export function GovProposalPackagePanel() {
           </p>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <Link href="/gov/dashboard" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+            <Link href="/gov/dashboard" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
               지자체 운영실
             </Link>
-            <Link href="/gov/iot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/gov/iot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               IoT 관제 준비
             </Link>
-            <Link href="/gov/export" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/gov/export" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               성과 데이터 내보내기
             </Link>
           </div>
@@ -85,12 +85,12 @@ export function GovProposalPackagePanel() {
 
         <section className="grid gap-5 lg:grid-cols-2">
           {packages.map((item) => (
-            <article key={item.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <article key={item.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">{item.title}</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{item.desc}</p>
               <div className="mt-5 grid gap-2">
                 {item.items.map((sub) => (
-                  <div key={sub} className="rounded-2xl bg-[#F8FCFB] p-3 text-sm font-black text-[#637B76] ring-1 ring-[#D8EEE8]">
+                  <div key={sub} className="rounded-2xl bg-[#FAFFFD] p-3 text-sm font-black text-[#637B76] ring-1 ring-[#D6EDE7]">
                     {sub}
                   </div>
                 ))}
@@ -99,7 +99,7 @@ export function GovProposalPackagePanel() {
           ))}
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">공공 제안용 표현 보정</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
             지자체·정부과제 제출용 문서는 보장형 표현보다 목표·검증·연계 가능성 중심으로 작성합니다.
@@ -107,21 +107,21 @@ export function GovProposalPackagePanel() {
 
           <div className="mt-5 grid gap-3">
             {safeWording.map((item) => (
-              <article key={item.before} className="grid gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] md:grid-cols-2">
+              <article key={item.before} className="grid gap-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7] md:grid-cols-2">
                 <div>
-                  <div className="text-xs font-black text-[#8A2525]">수정 전</div>
+                  <div className="text-xs font-black text-[#8A3030]">수정 전</div>
                   <div className="mt-1 text-sm font-bold leading-6 text-[#637B76]">{item.before}</div>
                 </div>
                 <div>
-                  <div className="text-xs font-black text-[#116D5F]">제안서용 표현</div>
-                  <div className="mt-1 text-sm font-black leading-6 text-[#173B36]">{item.after}</div>
+                  <div className="text-xs font-black text-[#2AA897]">제안서용 표현</div>
+                  <div className="mt-1 text-sm font-black leading-6 text-[#17443F]">{item.after}</div>
                 </div>
               </article>
             ))}
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">최종 제안명</h2>
           <p className="mt-4 text-xl font-black leading-9 text-[#E7FFF7]">
             안부지문 기반 고령자 생활리듬 변화감지 및 IoT 스마트 실버 케어 통합돌봄 플랫폼 개발·실증
@@ -137,9 +137,9 @@ export function GovProposalPackagePanel() {
 
 function Metric({ title, value, desc }: { title: string; value: string; desc: string }) {
   return (
-    <article className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <article className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{title}</div>
-      <div className="mt-2 text-3xl font-black tracking-[-0.07em] text-[#173B36]">{value}</div>
+      <div className="mt-2 text-3xl font-black tracking-[-0.07em] text-[#17443F]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{desc}</p>
     </article>
   )

@@ -37,10 +37,10 @@ function saveAccessibilityPreferences(preferences: AccessibilityPreferences) {
 }
 
 function statusBadgeClass(status: PermissionStatusText) {
-  if (status === '허용됨') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === '거부됨') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (status === '허용됨') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === '거부됨') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
   if (status === '지원 안 됨') return 'bg-[#F7F7F7] text-[#6F7775] ring-[#E3E3E3]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 async function ensureServiceWorkerRegistration() {
@@ -189,9 +189,9 @@ export function AppPermissionCenter() {
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-5xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 앱 권한
         </div>
 
@@ -206,7 +206,7 @@ export function AppPermissionCenter() {
         </p>
 
         {message ? (
-          <div className="mt-6 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#126F61] ring-1 ring-[#CDEFE5]">
+          <div className="mt-6 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#126F61] ring-1 ring-[#CDEFE7]">
             {message}
           </div>
         ) : null}
@@ -239,7 +239,7 @@ export function AppPermissionCenter() {
           ]}
         />
 
-        <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex items-start justify-between gap-3">
             <div>
               <h2 className="text-2xl font-black tracking-[-0.05em]">접근성 지원</h2>
@@ -248,7 +248,7 @@ export function AppPermissionCenter() {
               </p>
             </div>
 
-            <span className="shrink-0 rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <span className="shrink-0 rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {enabledAccessibilityCount}개 적용
             </span>
           </div>
@@ -286,7 +286,7 @@ export function AppPermissionCenter() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+      <div className="mt-5 rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">접근성 권한 안내</h2>
         <p className="mt-3 text-sm font-bold leading-7 text-[#CDEEE6]">
           웹앱은 Android나 iPhone의 시스템 접근성 권한창을 직접 띄울 수 없습니다.
@@ -311,7 +311,7 @@ export function AppPermissionCenter() {
         </div>
       </div>
 
-      <div className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+      <div className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
         안부온은 의료 진단, 처방, 응급 판단을 제공하지 않습니다.
         앱 알림과 위치는 부모님 안부 확인, 보호자 알림, 케어파트너 연결을 돕기 위한 목적으로만 사용해야 합니다.
         응급상황은 119 또는 의료기관에 연락하세요.
@@ -336,7 +336,7 @@ function PermissionCard({
   notes: string[]
 }) {
   return (
-    <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h2 className="text-2xl font-black tracking-[-0.05em]">{title}</h2>
@@ -351,14 +351,14 @@ function PermissionCard({
       <button
         type="button"
         onClick={onClick}
-        className="mt-5 w-full rounded-2xl bg-[#193B38] px-4 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#24423F]"
+        className="mt-5 w-full rounded-2xl bg-[#247A71] px-4 py-4 text-base font-black text-white shadow-sm transition hover:bg-[#24423F]"
       >
         {buttonLabel}
       </button>
 
       <div className="mt-4 space-y-2">
         {notes.map((note) => (
-          <p key={note} className="rounded-2xl bg-[#F8FCFB] p-3 text-xs font-bold leading-6 text-[#5F7772]">
+          <p key={note} className="rounded-2xl bg-[#FAFFFD] p-3 text-xs font-bold leading-6 text-[#5F7772]">
             {note}
           </p>
         ))}
@@ -385,8 +385,8 @@ function AccessibilityToggle({
       className={
         'w-full rounded-2xl p-4 text-left ring-1 transition ' +
         (checked
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-[#F8FCFB] text-[#24423F] ring-[#DCEDE7]')
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-[#FAFFFD] text-[#24423F] ring-[#DCEDE7]')
       }
     >
       <div className="flex items-center justify-between gap-3">

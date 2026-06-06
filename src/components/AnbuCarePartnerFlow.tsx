@@ -82,7 +82,7 @@ export function CarePartnerApplyScreen() {
       title="요양보호사·병원동행·생활확인 파트너를 모집합니다."
       desc="활동 지역과 가능 업무를 등록하면 운영실이 검토 후 승인합니다. 의료행위가 아닌 안부확인·생활확인·병원동행 중심입니다."
     >
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <form onSubmit={submit} className="grid gap-4 md:grid-cols-2">
           <Input label="이름" name="applicantName" required />
           <Input label="연락처" name="phone" required />
@@ -105,14 +105,14 @@ export function CarePartnerApplyScreen() {
             <TextArea label="추가 메모" name="experience" placeholder="희망 지역, 가능한 업무 범위, 자격증 정보 등" />
           </div>
 
-          <label className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8] md:col-span-2">
+          <label className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7] md:col-span-2">
             <input type="checkbox" required className="mr-2" />
             개인정보 수집 및 케어파트너 검증 목적 이용에 동의합니다.
           </label>
 
           <button
             disabled={loading}
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60 md:col-span-2"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60 md:col-span-2"
           >
             {loading ? '접수 중...' : '케어파트너 신청하기'}
           </button>
@@ -182,7 +182,7 @@ export function OpsPartnersScreen() {
         <Summary label="승인/활동" value={summary.approved} />
       </div>
 
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <h2 className="text-2xl font-black tracking-[-0.05em]">파트너 신청 목록</h2>
@@ -193,7 +193,7 @@ export function OpsPartnersScreen() {
             <select
               value={status}
               onChange={(event) => setStatus(event.target.value)}
-              className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold"
+              className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold"
             >
               <option value="">전체</option>
               {partnerVerificationStatuses.map((item) => (
@@ -204,7 +204,7 @@ export function OpsPartnersScreen() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-3 text-sm font-black text-white disabled:opacity-60"
             >
               새로고침
             </button>
@@ -213,7 +213,7 @@ export function OpsPartnersScreen() {
 
         <div className="mt-5 grid gap-3">
           {partners.length === 0 ? (
-            <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
               표시할 파트너가 없습니다.
             </p>
           ) : (
@@ -221,7 +221,7 @@ export function OpsPartnersScreen() {
               const memo = parseMemo(partner.memo)
 
               return (
-                <article key={partner.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={partner.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex flex-wrap gap-2">
                     <Badge text={statusLabel(partner.verification_status || 'new')} />
                     <Badge text={partner.region || '-'} />
@@ -244,11 +244,11 @@ export function OpsPartnersScreen() {
                   </p>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    <button onClick={() => verify(partner.id || '', 'reviewing', partner.memo || '')} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#173B36] ring-1 ring-[#D8EEE8]">검토 중</button>
+                    <button onClick={() => verify(partner.id || '', 'reviewing', partner.memo || '')} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#17443F] ring-1 ring-[#D6EDE7]">검토 중</button>
                     <button onClick={() => verify(partner.id || '', 'approved', partner.memo || '')} className="rounded-xl bg-[#20C5A8] px-4 py-2 text-xs font-black text-white">승인</button>
-                    <button onClick={() => verify(partner.id || '', 'active', partner.memo || '')} className="rounded-xl bg-[#193B38] px-4 py-2 text-xs font-black text-white">활동 중</button>
-                    <button onClick={() => verify(partner.id || '', 'hold', partner.memo || '')} className="rounded-xl bg-[#FFF8E8] px-4 py-2 text-xs font-black text-[#795313] ring-1 ring-[#F4D8A5]">보류</button>
-                    <button onClick={() => verify(partner.id || '', 'rejected', partner.memo || '')} className="rounded-xl bg-[#FFF1F1] px-4 py-2 text-xs font-black text-[#8A2525] ring-1 ring-[#F3BBBB]">거절</button>
+                    <button onClick={() => verify(partner.id || '', 'active', partner.memo || '')} className="rounded-xl bg-[#247A71] px-4 py-2 text-xs font-black text-white">활동 중</button>
+                    <button onClick={() => verify(partner.id || '', 'hold', partner.memo || '')} className="rounded-xl bg-[#FFF9EE] px-4 py-2 text-xs font-black text-[#795C22] ring-1 ring-[#F3DEB5]">보류</button>
+                    <button onClick={() => verify(partner.id || '', 'rejected', partner.memo || '')} className="rounded-xl bg-[#FFF4F4] px-4 py-2 text-xs font-black text-[#8A3030] ring-1 ring-[#F3C8C8]">거절</button>
                   </div>
                 </article>
               )
@@ -324,7 +324,7 @@ export function GuardianCareMatchingScreen() {
       title="부모님 상황에 맞는 케어파트너를 추천받습니다."
       desc="병원동행, 복약확인, 식사확인, 생활확인, 방문확인 요청을 등록하면 운영실 승인 파트너 중 지역과 업무가 맞는 후보를 보여줍니다."
     >
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <form onSubmit={submit} className="grid gap-4 md:grid-cols-2">
           <Input label="6자리 가족코드" name="familyCode" placeholder="선택 입력" />
           <Input label="보호자 이름" name="guardianName" required />
@@ -333,8 +333,8 @@ export function GuardianCareMatchingScreen() {
           <Input label="지역" name="region" placeholder="예: 청주, 강남, 송파" required />
 
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">요청 유형</span>
-            <select name="requestType" required className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold">
+            <span className="text-sm font-black text-[#637B76]">요청 유형</span>
+            <select name="requestType" required className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold">
               {careRequestTypes.map((type) => (
                 <option key={type.id} value={type.id}>{type.label}</option>
               ))}
@@ -348,23 +348,23 @@ export function GuardianCareMatchingScreen() {
             <TextArea label="요청 내용" name="details" placeholder="병원명, 이동 필요 여부, 확인해야 할 내용 등을 적어주세요." />
           </div>
 
-          <button disabled={loading} className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60 md:col-span-2">
+          <button disabled={loading} className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60 md:col-span-2">
             {loading ? '요청 중...' : '케어 요청하고 추천 보기'}
           </button>
         </form>
       </section>
 
-      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">추천 케어파트너</h2>
 
         <div className="mt-5 grid gap-3">
           {recommendations.length === 0 ? (
-            <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
               요청을 등록하면 추천 파트너가 표시됩니다. 승인된 파트너가 없으면 운영실에서 먼저 승인해주세요.
             </p>
           ) : (
             recommendations.map((partner) => (
-              <article key={partner.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+              <article key={partner.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <div className="flex flex-wrap gap-2">
                   <Badge text={`점수 ${partner.matchScore || 0}`} />
                   <Badge text={partner.region || '-'} />
@@ -406,10 +406,10 @@ function PageShell({
   children: React.ReactNode
 }) {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             {eyebrow}
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -440,13 +440,13 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -463,12 +463,12 @@ function TextArea({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <textarea
         name={name}
         rows={4}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -476,7 +476,7 @@ function TextArea({
 
 function Check({ name, label }: { name: string; label: string }) {
   return (
-    <label className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black text-[#4E6D69] ring-1 ring-[#D8EEE8]">
+    <label className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black text-[#4E6D69] ring-1 ring-[#D6EDE7]">
       <input name={name} value="yes" type="checkbox" className="mr-2" />
       {label}
     </label>
@@ -493,18 +493,18 @@ function Badge({ text }: { text: string }) {
 
 function Summary({ label, value }: { label: string; value: number }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{value}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{value}</div>
     </section>
   )
 }
 
 function ResultBox({ result }: { result: unknown }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">처리 결과</h2>
-      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
         {JSON.stringify(result, null, 2)}
       </pre>
     </section>

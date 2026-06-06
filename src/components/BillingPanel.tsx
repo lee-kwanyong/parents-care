@@ -65,9 +65,9 @@ export function BillingPanel() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 결제내역
         </div>
 
@@ -82,7 +82,7 @@ export function BillingPanel() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button onClick={load} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
             새로고침
           </button>
           
@@ -90,31 +90,31 @@ export function BillingPanel() {
       </div>
 
       {message ? (
-        <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+        <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
           {message}
         </div>
       ) : null}
 
       {loading ? (
-        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D8EEE8]">
+        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D6EDE7]">
           불러오는 중...
         </div>
       ) : null}
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">활성 구독</h2>
 
           <div className="mt-4 grid gap-3">
             {!loading && subscriptions.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 활성 구독이 없습니다.
               </p>
             ) : null}
 
             {subscriptions.map((subscription) => (
-              <div key={subscription.id} className="rounded-2xl bg-[#EFFFF9] p-4 ring-1 ring-[#CDEFE5]">
-                <div className="text-lg font-black text-[#116D5F]">{subscription.plan_name}</div>
+              <div key={subscription.id} className="rounded-2xl bg-[#EFFFFA] p-4 ring-1 ring-[#CDEFE7]">
+                <div className="text-lg font-black text-[#2AA897]">{subscription.plan_name}</div>
                 <div className="mt-2 text-sm font-bold text-[#637B76]">
                   상태: {subscription.subscription_status}
                 </div>
@@ -132,13 +132,13 @@ export function BillingPanel() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">결제 주문</h2>
 
           {!loading && orders.length === 0 ? (
-            <p className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D8EEE8]">
+            <p className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D6EDE7]">
               아직 결제 주문이 없습니다.
             </p>
           ) : null}
 
           {orders.map((order) => (
-            <article key={order.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <article key={order.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <div className="flex flex-wrap gap-2">
                 <Badge text={statusLabels[order.payment_status] || order.payment_status} />
                 <Badge text={order.plan_name} />
@@ -150,7 +150,7 @@ export function BillingPanel() {
                 주문번호: {order.order_id}
               </p>
 
-              <p className="mt-1 text-xl font-black text-[#11977F]">
+              <p className="mt-1 text-xl font-black text-[#2AA897]">
                 {Number(order.amount || 0).toLocaleString('ko-KR')}원
               </p>
 
@@ -161,7 +161,7 @@ export function BillingPanel() {
               ) : null}
 
               {order.failure_reason ? (
-                <p className="mt-3 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+                <p className="mt-3 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-bold leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
                   {order.failure_reason}
                 </p>
               ) : null}
@@ -175,7 +175,7 @@ export function BillingPanel() {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+    <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
       {text}
     </span>
   )

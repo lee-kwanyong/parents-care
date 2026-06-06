@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function PlatformRoadmapPage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8">
       <section className="mx-auto max-w-6xl">
         <PlatformRoadmapMvp />
       </section>

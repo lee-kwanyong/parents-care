@@ -82,7 +82,7 @@ export function AdminLoginPanel() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full rounded-3xl bg-[#193B38] px-6 py-5 text-xl font-black text-white disabled:opacity-60"
+          className="w-full rounded-3xl bg-[#247A71] px-6 py-5 text-xl font-black text-white disabled:opacity-60"
         >
           {saving ? '접속 중...' : '운영실 들어가기'}
         </button>

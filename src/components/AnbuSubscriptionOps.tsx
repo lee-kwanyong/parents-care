@@ -62,10 +62,10 @@ export function AnbuSubscriptionOpsPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 구독 관리
           </div>
 
@@ -81,14 +81,14 @@ export function AnbuSubscriptionOpsPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               {loading ? '처리 중...' : '새로고침'}
             </button>
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">구독 수동 활성화</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-4">
@@ -108,11 +108,11 @@ export function AnbuSubscriptionOpsPage() {
         </section>
 
         <div className="grid gap-5 lg:grid-cols-2">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 가족 연결</h2>
             <div className="mt-5 space-y-3">
               {families.length === 0 ? (
-                <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   가족 연결 데이터가 없습니다.
                 </p>
               ) : (
@@ -120,9 +120,9 @@ export function AnbuSubscriptionOpsPage() {
                   <button
                     key={family.family_code}
                     onClick={() => setFamilyCode(family.family_code || '')}
-                    className="w-full rounded-2xl bg-[#F8FCFB] p-4 text-left ring-1 ring-[#D8EEE8] transition hover:bg-[#EFFFF9]"
+                    className="w-full rounded-2xl bg-[#FAFFFD] p-4 text-left ring-1 ring-[#D6EDE7] transition hover:bg-[#EFFFFA]"
                   >
-                    <div className="text-xs font-black text-[#11977F]">{family.family_code}</div>
+                    <div className="text-xs font-black text-[#2AA897]">{family.family_code}</div>
                     <div className="mt-1 text-lg font-black">{family.parent_name || '부모님'}</div>
                     <p className="mt-1 text-sm font-bold text-[#637B76]">
                       보호자: {family.guardian_name || '-'} · {family.guardian_phone || '-'}
@@ -133,16 +133,16 @@ export function AnbuSubscriptionOpsPage() {
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 구독</h2>
             <div className="mt-5 space-y-3">
               {subscriptions.length === 0 ? (
-                <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   구독 데이터가 없습니다.
                 </p>
               ) : (
                 subscriptions.map((sub) => (
-                  <article key={sub.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <article key={sub.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="flex flex-wrap gap-2">
                       <Badge text={sub.status || '-'} />
                       <Badge text={sub.family_code || '-'} />
@@ -161,9 +161,9 @@ export function AnbuSubscriptionOpsPage() {
           </section>
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">최근 처리 결과</h2>
-          <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+          <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
             {JSON.stringify(result, null, 2)}
           </pre>
         </section>
@@ -185,12 +185,12 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

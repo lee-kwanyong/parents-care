@@ -34,9 +34,9 @@ const cards = [
 
 export default function LoginPage() {
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-4 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-4 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-5xl space-y-4 sm:space-y-6">
-        <section className="rounded-[1.75rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
+        <section className="rounded-[1.75rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <h1 className="text-3xl font-black tracking-[-0.07em] sm:text-5xl">
             로그인·회원가입
           </h1>
@@ -45,12 +45,12 @@ export default function LoginPage() {
           </p>
         </section>
 
-        <section className="rounded-[1.75rem] bg-[#F0FBF8] p-5 ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
+        <section className="rounded-[1.75rem] bg-[#F0FBF8] p-5 ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+            <span className="rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
               시작하기
             </span>
-            <span className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <span className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#637B76] ring-1 ring-[#D6EDE7]">
               역할별 화면
             </span>
           </div>
@@ -67,7 +67,7 @@ export default function LoginPage() {
             <Link
               key={card.href}
               href={card.href}
-              className="block rounded-[1.5rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] transition hover:-translate-y-1 hover:bg-[#F8FFFC] hover:shadow-[0_18px_44px_rgba(20,82,70,0.10)] sm:rounded-[2rem] sm:p-6"
+              className="block rounded-[1.5rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] transition hover:-translate-y-1 hover:bg-[#F8FFFC] hover:shadow-[0_18px_44px_rgba(20,82,70,0.10)] sm:rounded-[2rem] sm:p-6"
             >
               <div className="text-3xl sm:text-4xl">{card.emoji}</div>
               <h3 className="mt-4 text-xl font-black tracking-[-0.05em] sm:mt-5 sm:text-2xl">

@@ -104,7 +104,7 @@ export function CareRequestSummaryCard({
       ) : null}
 
       {rawText ? (
-        <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+        <div className="mt-4 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
           <div className="text-xs font-black text-[#718A87]">상황 메모</div>
           <p className="mt-2 whitespace-pre-line text-sm font-bold leading-6 text-[#607D79]">
             {rawText}
@@ -117,7 +117,7 @@ export function CareRequestSummaryCard({
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
       <div className="text-xs font-black text-[#718A87]">{label}</div>
       <div className="mt-1 text-sm font-black text-[#24423F]">{value}</div>
     </div>
@@ -126,7 +126,7 @@ function Info({ label, value }: { label: string; value: string }) {
 
 function TagBox({ title, items }: { title: string; items: string[] }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
       <div className="text-xs font-black text-[#718A87]">{title}</div>
       <div className="mt-2 flex flex-wrap gap-1.5">
         {items.slice(0, 6).map((item) => (

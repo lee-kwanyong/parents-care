@@ -58,9 +58,9 @@ export function ChildAssignmentsPanel() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           보호자 배정 현황
         </div>
 
@@ -75,7 +75,7 @@ export function ChildAssignmentsPanel() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <button onClick={load} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
             새로고침
           </button>
           <Link href="/care-request" className="rounded-2xl bg-[#20C5A8] px-5 py-4 text-sm font-black text-white">
@@ -85,26 +85,26 @@ export function ChildAssignmentsPanel() {
       </div>
 
       {message ? (
-        <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+        <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
           {message}
         </div>
       ) : null}
 
       {loading ? (
-        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D8EEE8]">
+        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D6EDE7]">
           불러오는 중...
         </div>
       ) : null}
 
       <div className="mt-5 grid gap-4">
         {!loading && assignments.length === 0 ? (
-          <div className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D8EEE8]">
+          <div className="rounded-[2rem] bg-white p-6 text-sm font-black leading-7 text-[#637B76] shadow-sm ring-1 ring-[#D6EDE7]">
             아직 배정된 케어파트너가 없습니다. 부모님 연결 후 운영실에 케어 요청을 남겨주세요.
           </div>
         ) : null}
 
         {assignments.map((assignment) => (
-          <article key={assignment.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <article key={assignment.id} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <div className="flex flex-wrap gap-2">
               <Badge text={statusLabels[assignment.assignment_status || 'assigned'] || assignment.assignment_status || '배정됨'} />
               <Badge text={assignment.task_type || '생활확인'} />
@@ -125,13 +125,13 @@ export function ChildAssignmentsPanel() {
             ) : null}
 
             {assignment.task_description ? (
-              <p className="mt-3 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D8EEE8]">
+              <p className="mt-3 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D6EDE7]">
                 {assignment.task_description}
               </p>
             ) : null}
 
             {assignment.report_summary ? (
-              <p className="mt-3 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-bold leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <p className="mt-3 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-bold leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 완료 리포트: {assignment.report_summary}
               </p>
             ) : null}
@@ -144,7 +144,7 @@ export function ChildAssignmentsPanel() {
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+    <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
       {text}
     </span>
   )

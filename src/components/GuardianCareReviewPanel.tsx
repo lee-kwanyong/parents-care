@@ -84,7 +84,7 @@ export function GuardianCareReviewPanel({
   }
 
   return (
-    <form onSubmit={submit} className="mt-5 rounded-[1.5rem] bg-[#F8FCFB] p-5 ring-1 ring-[#E3EFEC]">
+    <form onSubmit={submit} className="mt-5 rounded-[1.5rem] bg-[#FAFFFD] p-5 ring-1 ring-[#E3EFEC]">
       <div className="flex flex-wrap gap-2">
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#2F756B] ring-1 ring-[#CBEAE4]">
           보호자 평가
@@ -155,7 +155,7 @@ export function GuardianCareReviewPanel({
       <button
         type="submit"
         disabled={saving}
-        className="mt-4 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+        className="mt-4 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
       >
         {saving ? '저장 중...' : '평가 저장하기'}
       </button>

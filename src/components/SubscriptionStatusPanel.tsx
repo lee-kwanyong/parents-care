@@ -101,9 +101,9 @@ export function SubscriptionStatusPanel() {
   const plan = status?.plan
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 구독상태
         </div>
 
@@ -120,7 +120,7 @@ export function SubscriptionStatusPanel() {
         <div className="mt-6 flex flex-wrap gap-3">
           <button
             onClick={load}
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
           >
             새로고침
           </button>
@@ -128,29 +128,29 @@ export function SubscriptionStatusPanel() {
         </div>
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             {message}
           </div>
         ) : null}
       </div>
 
       {loading ? (
-        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D8EEE8]">
+        <div className="mt-5 rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D6EDE7]">
           불러오는 중...
         </div>
       ) : null}
 
       {!loading && !status?.connected ? (
-        <div className="mt-5 rounded-[2rem] bg-[#FFF8E8] p-6 shadow-sm ring-1 ring-[#F4D8A5]">
-          <h2 className="text-2xl font-black tracking-[-0.05em] text-[#795313]">
+        <div className="mt-5 rounded-[2rem] bg-[#FFF9EE] p-6 shadow-sm ring-1 ring-[#F3DEB5]">
+          <h2 className="text-2xl font-black tracking-[-0.05em] text-[#795C22]">
             부모님 연결이 먼저 필요합니다.
           </h2>
-          <p className="mt-3 text-sm font-bold leading-7 text-[#795313]">
+          <p className="mt-3 text-sm font-bold leading-7 text-[#795C22]">
             구독 상태는 부모님 연결코드 기준으로 관리됩니다. 먼저 보호자가 부모님 연결코드를 만들어주세요.
           </p>
           <Link
             href="/family-link"
-            className="mt-5 inline-flex rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+            className="mt-5 inline-flex rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
           >
             부모님 연결하기
           </Link>
@@ -160,14 +160,14 @@ export function SubscriptionStatusPanel() {
       {plan && status?.connected ? (
         <>
           <div className="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <div className="text-sm font-black text-[#11977F]">현재 플랜</div>
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+              <div className="text-sm font-black text-[#2AA897]">현재 플랜</div>
               <h2 className="mt-2 text-4xl font-black tracking-[-0.07em]">{plan.name}</h2>
-              <div className="mt-3 text-3xl font-black text-[#11977F]">{plan.displayPrice}</div>
+              <div className="mt-3 text-3xl font-black text-[#2AA897]">{plan.displayPrice}</div>
               <p className="mt-4 text-sm font-bold leading-7 text-[#637B76]">{plan.description}</p>
 
               {status.subscription?.current_period_end ? (
-                <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="mt-4 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black text-[#637B76] ring-1 ring-[#D6EDE7]">
                   이용기간 종료: {new Date(status.subscription.current_period_end).toLocaleDateString('ko-KR')}
                 </div>
               ) : null}
@@ -175,15 +175,15 @@ export function SubscriptionStatusPanel() {
               {plan.id === 'free' && !status.subscription ? (
                 <button
                   onClick={startFreeTrial}
-                  className="mt-5 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+                  className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
                 >
                   무료 체험 시작
                 </button>
               ) : null}
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <div className="text-sm font-black text-[#11977F]">오늘 안부 체크 사용량</div>
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+              <div className="text-sm font-black text-[#2AA897]">오늘 안부 체크 사용량</div>
               <h2 className="mt-2 text-4xl font-black tracking-[-0.07em]">
                 {status.usage.dailyCheckCount} / {status.usage.dailyLimit}
               </h2>
@@ -192,18 +192,18 @@ export function SubscriptionStatusPanel() {
               </p>
 
               {status.usage.limitReached ? (
-                <div className="mt-4 rounded-2xl bg-[#FFF1F1] p-4 text-sm font-black leading-7 text-[#8A2525] ring-1 ring-[#F3BBBB]">
+                <div className="mt-4 rounded-2xl bg-[#FFF4F4] p-4 text-sm font-black leading-7 text-[#8A3030] ring-1 ring-[#F3C8C8]">
                   오늘 안부 체크 한도를 모두 사용했습니다. 더 자주 확인하려면 상위 플랜으로 전환하세요.
                 </div>
               ) : (
-                <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+                <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                   오늘 안부 체크를 더 보낼 수 있습니다.
                 </div>
               )}
             </section>
           </div>
 
-          <section className="mt-5 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="mt-5 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">사용 가능한 기능</h2>
 
             <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-4">
@@ -218,13 +218,13 @@ export function SubscriptionStatusPanel() {
             </div>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              <Link href="/checkout?plan=basic" className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-center text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <Link href="/checkout?plan=basic" className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-center text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 베이직 전환
               </Link>
-              <Link href="/checkout?plan=family" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 text-center text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <Link href="/checkout?plan=family" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 text-center text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 패밀리 전환
               </Link>
-              <Link href="/checkout?plan=plus" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+              <Link href="/checkout?plan=plus" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
                 플러스 전환
               </Link>
             </div>
@@ -241,7 +241,7 @@ function Feature({ label, enabled }: { label: string; enabled: boolean }) {
       className={
         'rounded-2xl p-4 text-sm font-black leading-6 ring-1 ' +
         (enabled
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
           : 'bg-[#F7F7F7] text-[#7A8482] ring-[#E3E3E3]')
       }
     >

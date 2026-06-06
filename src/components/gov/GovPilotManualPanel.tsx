@@ -53,7 +53,7 @@ type Metrics = {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -70,8 +70,8 @@ function roleLabel(role: string) {
 }
 
 function statusClass(status: string) {
-  if (status === 'done') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (status === 'done') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 export function GovPilotManualPanel({
@@ -193,10 +193,10 @@ export function GovPilotManualPanel({
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             실증 운영 매뉴얼
           </div>
 
@@ -208,7 +208,7 @@ export function GovPilotManualPanel({
             {subtitle}
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+          <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
             이 화면은 지자체 담당자, 생활지원사, 요양보호사, 운영실이 같은 운영 순서를 보도록 만드는 실증용 매뉴얼입니다.
           </div>
 
@@ -216,7 +216,7 @@ export function GovPilotManualPanel({
             <button
               onClick={() => post('seedProgress')}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               체크리스트 초기화
             </button>
@@ -224,14 +224,14 @@ export function GovPilotManualPanel({
             <button
               onClick={downloadCsv}
               disabled={checklist.length === 0}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               체크리스트 CSV
             </button>
 
             <button
               onClick={() => window.print()}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               인쇄/PDF
             </button>
@@ -239,20 +239,20 @@ export function GovPilotManualPanel({
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               새로고침
             </button>
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">처리 결과 보기</summary>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -268,13 +268,13 @@ export function GovPilotManualPanel({
           <MetricCard title="교육 인원" value={`${metrics.attendees}명`} desc="누적 참석자" />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">3단계 실증 운영 시나리오</h2>
 
           <div className="mt-5 grid gap-3 lg:grid-cols-3">
             {phases.map((phase) => (
-              <article key={phase.key} className="rounded-2xl bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
-                <div className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-[#11977F] ring-1 ring-[#D8EEE8]">
+              <article key={phase.key} className="rounded-2xl bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7]">
+                <div className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#D6EDE7]">
                   {phase.period}
                 </div>
 
@@ -284,7 +284,7 @@ export function GovPilotManualPanel({
                   {phase.objective}
                 </p>
 
-                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm font-bold leading-7 text-[#173B36]">
+                <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm font-bold leading-7 text-[#17443F]">
                   {phase.steps.map((step) => (
                     <li key={step}>{step}</li>
                   ))}
@@ -294,12 +294,12 @@ export function GovPilotManualPanel({
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">역할별 운영 책임</h2>
 
           <div className="mt-5 grid gap-3 lg:grid-cols-4">
             {roles.map((role) => (
-              <article key={role.key} className="rounded-2xl bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
+              <article key={role.key} className="rounded-2xl bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7]">
                 <h3 className="text-xl font-black tracking-[-0.05em]">{role.title}</h3>
                 <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{role.mission}</p>
 
@@ -313,7 +313,7 @@ export function GovPilotManualPanel({
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-3xl font-black tracking-[-0.06em]">실증 체크리스트</h2>
@@ -328,7 +328,7 @@ export function GovPilotManualPanel({
                 onClick={() => setActivePhase('all')}
                 className={
                   'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
-                  (activePhase === 'all' ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  (activePhase === 'all' ? 'bg-[#247A71] text-white ring-[#247A71]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                 }
               >
                 전체
@@ -341,7 +341,7 @@ export function GovPilotManualPanel({
                   onClick={() => setActivePhase(phase.key)}
                   className={
                     'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
-                    (activePhase === phase.key ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                    (activePhase === phase.key ? 'bg-[#247A71] text-white ring-[#247A71]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                   }
                 >
                   {phase.period}
@@ -352,7 +352,7 @@ export function GovPilotManualPanel({
 
           <div className="mt-5 space-y-3">
             {visibleChecklist.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 체크리스트가 없습니다. 체크리스트 초기화를 먼저 실행하세요.
               </div>
             ) : (
@@ -390,7 +390,7 @@ export function GovPilotManualPanel({
                           completedBy
                         })}
                         disabled={loading || item.status === 'done'}
-                        className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                        className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                       >
                         완료 처리
                       </button>
@@ -415,25 +415,25 @@ export function GovPilotManualPanel({
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">교육 기록 추가</h2>
 
             <div className="mt-5 grid gap-3">
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">완료 처리자</span>
+                <span className="text-sm font-black text-[#637B76]">완료 처리자</span>
                 <input
                   value={completedBy}
                   onChange={(event) => setCompletedBy(event.target.value)}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                 />
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">교육 유형</span>
+                <span className="text-sm font-black text-[#637B76]">교육 유형</span>
                 <select
                   value={trainingForm.trainingType}
                   onChange={(event) => setTrainingForm({ ...trainingForm, trainingType: event.target.value })}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                 >
                   <option value="orientation">초기 오리엔테이션</option>
                   <option value="dashboard">관제 대시보드 교육</option>
@@ -444,11 +444,11 @@ export function GovPilotManualPanel({
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">대상</span>
+                <span className="text-sm font-black text-[#637B76]">대상</span>
                 <select
                   value={trainingForm.audience}
                   onChange={(event) => setTrainingForm({ ...trainingForm, audience: event.target.value })}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                 >
                   <option value="gov">지자체 담당자</option>
                   <option value="ops">운영실</option>
@@ -458,66 +458,66 @@ export function GovPilotManualPanel({
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">강사/진행자</span>
+                <span className="text-sm font-black text-[#637B76]">강사/진행자</span>
                 <input
                   value={trainingForm.trainerName}
                   onChange={(event) => setTrainingForm({ ...trainingForm, trainerName: event.target.value })}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                 />
               </label>
 
               <div className="grid gap-3 sm:grid-cols-2">
                 <label className="grid gap-2">
-                  <span className="text-sm font-black text-[#55736E]">참석 인원</span>
+                  <span className="text-sm font-black text-[#637B76]">참석 인원</span>
                   <input
                     value={trainingForm.attendeeCount}
                     onChange={(event) => setTrainingForm({ ...trainingForm, attendeeCount: event.target.value.replace(/[^\d]/g, '') })}
-                    className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                    className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                   />
                 </label>
 
                 <label className="grid gap-2">
-                  <span className="text-sm font-black text-[#55736E]">교육일</span>
+                  <span className="text-sm font-black text-[#637B76]">교육일</span>
                   <input
                     type="date"
                     value={trainingForm.sessionDate}
                     onChange={(event) => setTrainingForm({ ...trainingForm, sessionDate: event.target.value })}
-                    className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                    className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                   />
                 </label>
               </div>
 
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">교육 메모</span>
+                <span className="text-sm font-black text-[#637B76]">교육 메모</span>
                 <textarea
                   value={trainingForm.note}
                   onChange={(event) => setTrainingForm({ ...trainingForm, note: event.target.value })}
-                  className="min-h-24 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none"
+                  className="min-h-24 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none"
                 />
               </label>
 
               <button
                 onClick={() => post('addTrainingLog', trainingForm)}
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 교육 기록 저장
               </button>
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 교육 기록</h2>
 
             <div className="mt-5 space-y-3">
               {trainings.length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 교육 기록이 없습니다.
                 </div>
               ) : (
                 trainings.slice(0, 20).map((training) => (
-                  <article key={training.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                    <div className="text-xs font-black text-[#11977F]">
+                  <article key={training.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                    <div className="text-xs font-black text-[#2AA897]">
                       {roleLabel(training.audience || '')} · {training.training_type || '교육'}
                     </div>
                     <div className="mt-2 text-sm font-black leading-7">
@@ -532,19 +532,19 @@ export function GovPilotManualPanel({
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/gov/submission-package" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/gov/submission-package" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             제출 패키지
           </Link>
-          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             운영보고서
           </Link>
-          <Link href="/gov/cases" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/cases" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             사건 이력
           </Link>
-          <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             대상자 관리
           </Link>
-          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             새로고침
           </button>
         </div>

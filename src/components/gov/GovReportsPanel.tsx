@@ -110,7 +110,7 @@ function metricDanger(value: number | undefined) {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -120,19 +120,19 @@ function MetricCard({ title, value, desc, danger }: { title: string; value: stri
 
 function BreakdownList({ title, items }: { title: string; items: Breakdown[] }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">{title}</h2>
 
       <div className="mt-5 space-y-3">
         {items.length === 0 ? (
-          <div className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+          <div className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
             데이터가 없습니다.
           </div>
         ) : (
           items.map((item) => (
-            <div key={item.label} className="flex items-center justify-between gap-3 rounded-2xl bg-[#F8FCFB] px-4 py-3 ring-1 ring-[#D8EEE8]">
+            <div key={item.label} className="flex items-center justify-between gap-3 rounded-2xl bg-[#FAFFFD] px-4 py-3 ring-1 ring-[#D6EDE7]">
               <span className="text-sm font-black">{item.label}</span>
-              <span className="text-lg font-black text-[#11977F]">{formatNumber(item.count)}건</span>
+              <span className="text-lg font-black text-[#2AA897]">{formatNumber(item.count)}건</span>
             </div>
           ))
         )}
@@ -278,10 +278,10 @@ export function GovReportsPanel({
   }, [period])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             지자체 제출 보고서
           </div>
 
@@ -293,7 +293,7 @@ export function GovReportsPanel({
             {subtitle}
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+          <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
             보고서는 실증 성과, 운영 대응, 도움망 연결, 문자 발송, 행정 자동화 근거를 남기기 위한 자료입니다.
           </div>
 
@@ -312,8 +312,8 @@ export function GovReportsPanel({
                 className={
                   'rounded-2xl px-5 py-3 text-sm font-black ring-1 ' +
                   (period === key
-                    ? 'bg-[#193B38] text-white ring-[#193B38]'
-                    : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                    ? 'bg-[#247A71] text-white ring-[#247A71]'
+                    : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                 }
               >
                 {label}
@@ -326,13 +326,13 @@ export function GovReportsPanel({
                   type="date"
                   value={customStart}
                   onChange={(event) => setCustomStart(event.target.value)}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-black outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-black outline-none"
                 />
                 <input
                   type="date"
                   value={customEnd}
                   onChange={(event) => setCustomEnd(event.target.value)}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-black outline-none"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-black outline-none"
                 />
               </>
             ) : null}
@@ -340,7 +340,7 @@ export function GovReportsPanel({
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               조회
             </button>
@@ -350,7 +350,7 @@ export function GovReportsPanel({
             <button
               onClick={saveSnapshot}
               disabled={loading || !report}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               보고서 저장
             </button>
@@ -358,7 +358,7 @@ export function GovReportsPanel({
             <button
               onClick={downloadCsv}
               disabled={!report}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               CSV 다운로드
             </button>
@@ -366,34 +366,34 @@ export function GovReportsPanel({
             <button
               onClick={() => window.print()}
               disabled={!report}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               인쇄/PDF 저장
             </button>
 
-            <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               대상자 관리
             </Link>
 
-            <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               오토파일럿
             </Link>
           </div>
 
           {report ? (
-            <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               보고 기간: {report.range.start} ~ {report.range.end} · 생성시각: {report.generatedAt}
             </div>
           ) : null}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">상세 보기</summary>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -414,19 +414,19 @@ export function GovReportsPanel({
             </section>
 
             <section className="grid gap-5 lg:grid-cols-[1fr_0.85fr]">
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-3xl font-black tracking-[-0.06em]">지자체 제출 요약</h2>
 
                 <div className="mt-5 space-y-3">
                   {report.summaryLines.map((line, index) => (
-                    <div key={index} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#173B36] ring-1 ring-[#D8EEE8]">
+                    <div key={index} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#17443F] ring-1 ring-[#D6EDE7]">
                       {index + 1}. {line}
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-3xl font-black tracking-[-0.06em]">운영 성과</h2>
 
                 <div className="mt-5 space-y-3">
@@ -448,15 +448,15 @@ export function GovReportsPanel({
               <BreakdownList title="문자 상태별" items={report.smsBreakdown} />
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">위험 가구 목록</h2>
               <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
                 기간 내 신호, 긴급 신호, 열린 사건 기준으로 정렬됩니다.
               </p>
 
               <div className="mt-5 overflow-x-auto">
-                <div className="min-w-[980px] overflow-hidden rounded-2xl ring-1 ring-[#D8EEE8]">
-                  <div className="grid grid-cols-[10rem_10rem_10rem_8rem_8rem_8rem_8rem_1fr] gap-3 bg-[#F8FCFB] px-4 py-3 text-xs font-black text-[#637B76]">
+                <div className="min-w-[980px] overflow-hidden rounded-2xl ring-1 ring-[#D6EDE7]">
+                  <div className="grid grid-cols-[10rem_10rem_10rem_8rem_8rem_8rem_8rem_1fr] gap-3 bg-[#FAFFFD] px-4 py-3 text-xs font-black text-[#637B76]">
                     <div>대상자</div>
                     <div>가족코드</div>
                     <div>권역</div>
@@ -474,7 +474,7 @@ export function GovReportsPanel({
                       </div>
                     ) : (
                       report.riskHouseholds.map((row) => (
-                        <div key={row.family_code || row.parent_name} className="grid grid-cols-[10rem_10rem_10rem_8rem_8rem_8rem_8rem_1fr] gap-3 px-4 py-4 text-sm font-bold text-[#173B36] hover:bg-[#F8FCFB]">
+                        <div key={row.family_code || row.parent_name} className="grid grid-cols-[10rem_10rem_10rem_8rem_8rem_8rem_8rem_1fr] gap-3 px-4 py-4 text-sm font-bold text-[#17443F] hover:bg-[#FAFFFD]">
                           <div className="font-black">{row.parent_name || '-'}</div>
                           <div>{row.family_code || '-'}</div>
                           <div>{row.service_area || '-'}</div>
@@ -491,12 +491,12 @@ export function GovReportsPanel({
               </div>
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">일자별 운영 추이</h2>
 
               <div className="mt-5 overflow-x-auto">
-                <div className="min-w-[760px] overflow-hidden rounded-2xl ring-1 ring-[#D8EEE8]">
-                  <div className="grid grid-cols-[10rem_1fr_1fr_1fr_1fr_1fr] gap-3 bg-[#F8FCFB] px-4 py-3 text-xs font-black text-[#637B76]">
+                <div className="min-w-[760px] overflow-hidden rounded-2xl ring-1 ring-[#D6EDE7]">
+                  <div className="grid grid-cols-[10rem_1fr_1fr_1fr_1fr_1fr] gap-3 bg-[#FAFFFD] px-4 py-3 text-xs font-black text-[#637B76]">
                     <div>일자</div>
                     <div>안부 신호</div>
                     <div>긴급</div>
@@ -521,17 +521,17 @@ export function GovReportsPanel({
               </div>
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">저장된 보고서 스냅샷</h2>
 
               <div className="mt-5 space-y-3">
                 {report.snapshots.length === 0 ? (
-                  <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                  <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                     아직 저장된 보고서가 없습니다.
                   </div>
                 ) : (
                   report.snapshots.slice(0, 10).map((snapshot) => (
-                    <article key={snapshot.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                    <article key={snapshot.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                       <div className="text-sm font-black">{snapshot.title || '운영보고서'}</div>
                       <div className="mt-1 text-xs font-bold text-[#637B76]">
                         {snapshot.period_start || ''} ~ {snapshot.period_end || ''} · {snapshot.created_at || ''}
@@ -543,7 +543,7 @@ export function GovReportsPanel({
             </section>
           </>
         ) : (
-          <section className="rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D8EEE8]">
+          <section className="rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D6EDE7]">
             <div className="text-2xl font-black">보고서를 불러오는 중입니다.</div>
           </section>
         )}
@@ -554,9 +554,9 @@ export function GovReportsPanel({
 
 function InfoLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#F8FCFB] px-4 py-3 ring-1 ring-[#D8EEE8]">
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FAFFFD] px-4 py-3 ring-1 ring-[#D6EDE7]">
       <span className="text-sm font-black text-[#637B76]">{label}</span>
-      <span className="text-lg font-black text-[#173B36]">{value}</span>
+      <span className="text-lg font-black text-[#17443F]">{value}</span>
     </div>
   )
 }

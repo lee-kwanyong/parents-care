@@ -42,15 +42,15 @@ function statusLabel(status: Status) {
 }
 
 function statusClass(status: Status) {
-  if (status === 'ready') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'warning') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (status === 'ready') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'warning') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
 }
 
 function scoreClass(score: number) {
-  if (score >= 85) return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (score >= 60) return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (score >= 85) return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (score >= 60) return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
 }
 
 function countStatus(items: CheckItem[], status: Status) {
@@ -179,10 +179,10 @@ export function GovReadinessPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             지자체 제출 전 최종 검수판
           </div>
 
@@ -197,13 +197,13 @@ export function GovReadinessPanel() {
           </p>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -247,7 +247,7 @@ export function GovReadinessPanel() {
               <CheckSection title="공공 제출 체크" items={data.sections.publicSectorChecks} />
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <h2 className="text-3xl font-black tracking-[-0.06em]">주요 페이지 접근 테스트</h2>
@@ -259,7 +259,7 @@ export function GovReadinessPanel() {
                 <button
                   onClick={() => checkRoutes(data.routeTargets)}
                   disabled={routeLoading}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   {routeLoading ? '점검 중' : '페이지 다시 점검'}
                 </button>
@@ -281,12 +281,12 @@ export function GovReadinessPanel() {
             </section>
 
             <section className="grid gap-5 lg:grid-cols-2">
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">수동 시나리오 테스트</h2>
                 <div className="mt-5 space-y-3">
                   {data.manualScenarios.map((item, index) => (
-                    <div key={item} className="flex gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+                    <div key={item} className="flex gap-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
                         {index + 1}
                       </div>
                       <div className="text-sm font-black leading-7 text-[#637B76]">{item}</div>
@@ -295,11 +295,11 @@ export function GovReadinessPanel() {
                 </div>
               </section>
 
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">추천 다음 행동</h2>
                 <div className="mt-5 space-y-3">
                   {data.recommendedNextActions.map((item, index) => (
-                    <div key={item} className="flex gap-3 rounded-2xl bg-[#EFFFF9] p-4 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+                    <div key={item} className="flex gap-3 rounded-2xl bg-[#EFFFFA] p-4 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                       <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/70 text-sm font-black">
                         {index + 1}
                       </div>
@@ -310,7 +310,7 @@ export function GovReadinessPanel() {
               </section>
             </section>
 
-            <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+            <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">제출 전 최종 판단</h2>
               <p className="mt-4 text-sm font-bold leading-7 text-[#E7FFF7]">
                 {data.readinessScore >= 85
@@ -323,7 +323,7 @@ export function GovReadinessPanel() {
               <div className="mt-5 grid gap-3 sm:grid-cols-4">
                 <button
                   onClick={copyReport}
-                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36]"
+                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F]"
                 >
                   점검 보고서 복사
                 </button>
@@ -353,7 +353,7 @@ export function GovReadinessPanel() {
             </section>
           </>
         ) : (
-          <section className="rounded-[2rem] bg-white p-6 text-center shadow-sm ring-1 ring-[#D8EEE8]">
+          <section className="rounded-[2rem] bg-white p-6 text-center shadow-sm ring-1 ring-[#D6EDE7]">
             <div className="text-2xl font-black">{loading ? '준비상태 점검 중입니다.' : '준비상태를 불러오지 못했습니다.'}</div>
           </section>
         )}
@@ -386,7 +386,7 @@ function MetricCard({
 
 function CheckSection({ title, items }: { title: string; items: CheckItem[] }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">{title}</h2>
 
       <div className="mt-5 space-y-3">

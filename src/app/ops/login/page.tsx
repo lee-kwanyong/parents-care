@@ -96,12 +96,12 @@ export default function OpsLoginPage() {
 
   if (checking) {
     return (
-      <main className="min-h-[70vh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
-        <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D8EEE8]">
+      <main className="min-h-[70vh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-8 text-[#17443F]">
+        <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D6EDE7]">
           <div className="text-2xl font-black tracking-[-0.05em]">운영실 인증 확인 중입니다.</div>
           <button
             onClick={clearCookie}
-            className="mt-5 rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="mt-5 rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             멈춰 있으면 쿠키 초기화
           </button>
@@ -111,9 +111,9 @@ export default function OpsLoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
-      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-8 text-[#17443F]">
+      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           운영실 Admin
         </div>
 
@@ -128,20 +128,20 @@ export default function OpsLoginPage() {
         </p>
 
         {!configured ? (
-          <div className="mt-5 rounded-2xl bg-[#FFF1F1] p-4 text-sm font-black leading-7 text-[#8A2525] ring-1 ring-[#F3BBBB]">
+          <div className="mt-5 rounded-2xl bg-[#FFF4F4] p-4 text-sm font-black leading-7 text-[#8A3030] ring-1 ring-[#F3C8C8]">
             Vercel 환경변수 ANBU_OPS_PASSWORD 또는 OPS_PASSWORD가 설정되어야 운영실 로그인이 가능합니다.
           </div>
         ) : null}
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             {message}
           </div>
         ) : null}
 
         <form onSubmit={submit} className="mt-6 space-y-4" autoComplete="off">
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">비밀번호</span>
+            <span className="text-sm font-black text-[#637B76]">비밀번호</span>
             <input
               type="password"
               value={password}
@@ -155,13 +155,13 @@ export default function OpsLoginPage() {
               autoCapitalize="none"
               spellCheck={false}
               placeholder=""
-              className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-5 text-center text-3xl font-black tracking-[0.18em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-5 text-center text-3xl font-black tracking-[0.18em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             />
           </label>
 
           <button
             disabled={loading || !configured}
-            className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-50"
+            className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-50"
           >
             {loading ? '확인 중...' : '운영실 들어가기'}
           </button>
@@ -169,14 +169,14 @@ export default function OpsLoginPage() {
 
         <button
           onClick={clearCookie}
-          className="mt-4 w-full rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+          className="mt-4 w-full rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
         >
           쿠키 초기화 후 다시 로그인
         </button>
 
         <a
           href="/"
-          className="mt-4 block rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+          className="mt-4 block rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
         >
           홈으로 돌아가기
         </a>

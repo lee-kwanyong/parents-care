@@ -14,7 +14,7 @@ export function HomeMobileActions() {
 
         <a
           href="#manager-app"
-          className="rounded-2xl bg-[#193B38] px-3 py-3 text-center text-xs font-black text-white"
+          className="rounded-2xl bg-[#247A71] px-3 py-3 text-center text-xs font-black text-white"
         >
           <span className="block text-xl leading-none">🧑‍⚕️</span>
           <span className="mt-1 block">매니저</span>

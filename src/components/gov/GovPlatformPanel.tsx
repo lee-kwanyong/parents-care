@@ -103,21 +103,21 @@ function code6(value: string) {
 }
 
 function riskClass(risk: string) {
-  if (risk === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (risk === 'medium') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (risk === 'high') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (risk === 'medium') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 function priorityClass(priority?: string) {
-  if (priority === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (priority === 'low') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (priority === 'high') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (priority === 'low') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 function statusClass(status?: string) {
-  if (status === 'done') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'open') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#F8FCFB] text-[#637B76] ring-[#D8EEE8]'
+  if (status === 'done') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'open') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#FAFFFD] text-[#637B76] ring-[#D6EDE7]'
 }
 
 function MetricCard({
@@ -133,12 +133,12 @@ function MetricCard({
 }) {
   const cls =
     tone === 'danger'
-      ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+      ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
       : tone === 'warn'
-        ? 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+        ? 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
         : tone === 'good'
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-white text-[#173B36] ring-[#D8EEE8]'
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-white text-[#17443F] ring-[#D6EDE7]'
 
   return (
     <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + cls}>
@@ -321,10 +321,10 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             지자체 실증 운영실 v1
           </div>
 
@@ -347,8 +347,8 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                 className={
                   'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                   (tab === item.key
-                    ? 'bg-[#193B38] text-white ring-[#193B38]'
-                    : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                    ? 'bg-[#247A71] text-white ring-[#247A71]'
+                    : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                 }
               >
                 {item.label}
@@ -357,13 +357,13 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -387,7 +387,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
             </section>
 
             <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">위험 대상자</h2>
                 <div className="mt-5 space-y-3">
                   {[...highRiskRecipients, ...mediumRiskRecipients].slice(0, 10).map((row) => (
@@ -407,18 +407,18 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                   ))}
 
                   {data && data.recipientSummaries.length === 0 ? (
-                    <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                    <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                       아직 대상자 데이터가 없습니다. 대상자 관리에서 등록하세요.
                     </div>
                   ) : null}
                 </div>
               </section>
 
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">추천 사례관리</h2>
                 <div className="mt-5 space-y-3">
                   {(data?.suggestedCases || []).length === 0 ? (
-                    <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                    <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                       현재 추천 사례관리 항목이 없습니다.
                     </div>
                   ) : (
@@ -453,7 +453,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
 
         {tab === 'recipients' ? (
           <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">대상자 등록</h2>
               <div className="mt-5 space-y-3">
                 <Input label="가족코드 6자리" value={recipientForm.familyCode} onChange={(v) => setRecipientForm({ ...recipientForm, familyCode: code6(v) })} />
@@ -469,7 +469,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                 <select
                   value={recipientForm.householdType}
                   onChange={(event) => setRecipientForm({ ...recipientForm, householdType: event.target.value })}
-                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 >
                   <option value="독거">독거</option>
                   <option value="고령부부">고령부부</option>
@@ -481,14 +481,14 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                 <button
                   onClick={createRecipient}
                   disabled={loading}
-                  className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                  className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   대상자 등록
                 </button>
               </div>
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">대상자 목록</h2>
               <div className="mt-5 space-y-3">
                 {(data?.recipientSummaries || []).map((row) => (
@@ -516,7 +516,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
 
         {tab === 'cases' ? (
           <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">사례관리 기록</h2>
               <div className="mt-5 space-y-3">
                 <Input label="가족코드 6자리" value={caseForm.familyCode} onChange={(v) => setCaseForm({ ...caseForm, familyCode: code6(v) })} />
@@ -525,7 +525,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                   value={caseForm.content}
                   onChange={(event) => setCaseForm({ ...caseForm, content: event.target.value })}
                   placeholder="전화 확인, 가족 확인 요청, 방문 필요, 기관 연계 등"
-                  className="min-h-32 w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="min-h-32 w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 />
                 <Input label="처리자" value={caseForm.actorName} onChange={(v) => setCaseForm({ ...caseForm, actorName: v })} />
                 <Input label="기관명" value={caseForm.orgName} onChange={(v) => setCaseForm({ ...caseForm, orgName: v })} />
@@ -534,7 +534,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                 <select
                   value={caseForm.priority}
                   onChange={(event) => setCaseForm({ ...caseForm, priority: event.target.value })}
-                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 >
                   <option value="high">높음</option>
                   <option value="medium">중간</option>
@@ -544,14 +544,14 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                 <button
                   onClick={() => createCase()}
                   disabled={loading || !caseForm.title.trim()}
-                  className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                  className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   사례관리 저장
                 </button>
               </div>
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">사례관리 목록</h2>
               <div className="mt-5 space-y-3">
                 {(data?.cases || []).map((item) => (
@@ -577,7 +577,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
                         <button
                           onClick={() => updateCase(item, 'done')}
                           disabled={loading || item.status === 'done'}
-                          className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                          className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                         >
                           완료
                         </button>
@@ -606,7 +606,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
               <MetricCard title="가족 확인 완료율" value={`${metrics.familyCheckRate}%`} desc="가족 실행 보드 기준" tone="good" />
             </section>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">월간 성과 리포트 초안</h2>
               <div className="mt-5 grid gap-3">
                 <ReportLine label="등록 대상자 수" value={`${metrics.totalRecipients}명`} />
@@ -623,16 +623,16 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
         ) : null}
 
         {tab === 'audit' ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">접근·처리 감사 로그</h2>
             <div className="mt-5 space-y-3">
               {(data?.auditLogs || []).length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 감사 로그가 없습니다.
                 </div>
               ) : (
                 (data?.auditLogs || []).map((item) => (
-                  <article key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <article key={item.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="text-lg font-black">{item.description || '처리 기록'}</div>
                     <p className="mt-1 text-sm font-bold leading-6 text-[#637B76]">
                       {item.actor_name || '-'} · {item.actor_role || '-'} · {item.action_type || '-'} · {item.created_at || '-'}
@@ -645,7 +645,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
         ) : null}
 
         {tab === 'export' ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-3xl font-black tracking-[-0.06em]">CSV/PDF 내보내기 준비</h2>
             <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
               현재는 대상자 CSV를 우선 제공합니다. 이후 월간 성과 PDF와 실증 결과보고 PDF로 확장합니다.
@@ -654,14 +654,14 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
               <a
                 href="/api/gov-export"
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
               >
                 대상자 CSV 다운로드
               </a>
 
               <Link
                 href="/gov/reports"
-                className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
               >
                 월간 리포트 보기
               </Link>
@@ -671,8 +671,8 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
 
         {tab === 'proposal' ? (
           <section className="space-y-5">
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-              <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+              <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
                 R&D 제안 패키지
               </div>
               <h2 className="mt-5 text-3xl font-black tracking-[-0.06em]">
@@ -690,7 +690,7 @@ export function GovPlatformPanel({ initialTab }: { initialTab: Tab }) {
               <InfoCard title="성과지표" desc="응답률, 식사·복약 확인률, 도움 요청 감지, 가족 확인 완료율, 사례관리 완료율, 평균 확인 소요시간." />
             </section>
 
-            <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+            <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
               <h3 className="text-2xl font-black tracking-[-0.05em]">준비된 문서</h3>
               <p className="mt-3 text-sm font-bold leading-7 text-[#E7FFF7]">
                 docs 폴더에 R&D 제안서, 실증 계획, KPI 매트릭스, 보안 체크리스트 초안을 생성했습니다.
@@ -714,11 +714,11 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -726,16 +726,16 @@ function Input({
 
 function ReportLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#637B76]">{label}</div>
-      <div className="text-lg font-black text-[#173B36]">{value}</div>
+      <div className="text-lg font-black text-[#17443F]">{value}</div>
     </div>
   )
 }
 
 function InfoCard({ title, desc }: { title: string; desc: string }) {
   return (
-    <article className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <article className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <h3 className="text-2xl font-black tracking-[-0.05em]">{title}</h3>
       <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{desc}</p>
     </article>

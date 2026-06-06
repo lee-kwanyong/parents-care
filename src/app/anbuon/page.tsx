@@ -29,10 +29,10 @@ const features = [
 
 export default function AnbuonPage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F4FFFB_50%,#F7FBFF_100%)] px-4 py-10 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#FFFFFF_0%,#F4FFFB_50%,#F7FBFF_100%)] px-4 py-10 text-[#17443F]">
       <section className="mx-auto max-w-6xl">
-        <div className="rounded-[2.5rem] bg-white p-8 shadow-[0_20px_60px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] md:p-12">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <div className="rounded-[2.5rem] bg-white p-8 shadow-[0_20px_60px_rgba(20,82,70,0.08)] ring-1 ring-[#D6EDE7] md:p-12">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             안부웍스 AI 안부 기능
           </div>
 
@@ -46,13 +46,13 @@ export default function AnbuonPage() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/parent/today" className="rounded-2xl bg-[#123F38] px-5 py-4 font-black text-white">
+            <Link href="/parent/today" className="rounded-2xl bg-[#247A71] px-5 py-4 font-black text-white">
               부모님 체크 화면
             </Link>
             <Link href="/child/daily-care" className="rounded-2xl bg-[#20C5A8] px-5 py-4 font-black text-white">
               보호자 알림 화면
             </Link>
-            <Link href="/ops/daily-care" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 font-black text-[#116D5F]">
+            <Link href="/ops/daily-care" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 font-black text-[#2AA897]">
               운영실 관제
             </Link>
           </div>
@@ -60,8 +60,8 @@ export default function AnbuonPage() {
 
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
-            <article key={feature.title} className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <article key={feature.title} className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
+              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
                 {index + 1}
               </div>
               <h2 className="mt-5 text-2xl font-black tracking-[-0.05em]">{feature.title}</h2>
@@ -70,7 +70,7 @@ export default function AnbuonPage() {
           ))}
         </div>
 
-        <div className="mt-6 rounded-[2rem] bg-[#123F38] p-6 text-white">
+        <div className="mt-6 rounded-[2rem] bg-[#247A71] p-6 text-white">
           <p className="text-sm font-black text-[#9DF4DD]">투자자 설명 문장</p>
           <p className="mt-3 text-2xl font-black leading-snug tracking-[-0.04em]">
             안부웍스는 AI 안부 체크에서 케어파트너 연결까지 이어지는 부모님 안심관리 플랫폼입니다.

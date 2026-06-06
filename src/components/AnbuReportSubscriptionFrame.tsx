@@ -58,8 +58,8 @@ export function AnbuReportSubscriptionFrame() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
-        <section className="mx-auto max-w-3xl rounded-[2rem] bg-white p-8 text-center text-lg font-black shadow-sm ring-1 ring-[#D8EEE8]">
+      <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
+        <section className="mx-auto max-w-3xl rounded-[2rem] bg-white p-8 text-center text-lg font-black shadow-sm ring-1 ring-[#D6EDE7]">
           구독 상태를 확인하는 중입니다.
         </section>
       </main>
@@ -71,10 +71,10 @@ export function AnbuReportSubscriptionFrame() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-5xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#FFF8E8] px-4 py-2 text-sm font-black text-[#795313] ring-1 ring-[#F4D8A5]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#FFF9EE] px-4 py-2 text-sm font-black text-[#795C22] ring-1 ring-[#F3DEB5]">
             베이직 리포트 미리보기
           </div>
 
@@ -88,7 +88,7 @@ export function AnbuReportSubscriptionFrame() {
           </p>
 
           {message ? (
-            <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
@@ -97,14 +97,14 @@ export function AnbuReportSubscriptionFrame() {
             {status?.familyCode ? (
               <button
                 onClick={startTrial}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
               >
                 7일 무료 체험 시작
               </button>
             ) : (
               <Link
                 href="/family-link"
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
               >
                 부모님 먼저 연결하기
               </Link>
@@ -112,7 +112,7 @@ export function AnbuReportSubscriptionFrame() {
 
             <Link
               href="/subscription"
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               구독 플랜 보기
             </Link>
@@ -125,7 +125,7 @@ export function AnbuReportSubscriptionFrame() {
             ['복약·식사 신호', '약 깜빡함, 식사 미확인 기록 요약'],
             ['다음 행동 추천', '보호자가 오늘 확인할 일 자동 제안']
           ].map(([title, desc]) => (
-            <section key={title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+            <section key={title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
               <h2 className="text-xl font-black tracking-[-0.05em]">{title}</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{desc}</p>
             </section>

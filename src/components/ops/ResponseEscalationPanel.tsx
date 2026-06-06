@@ -52,13 +52,13 @@ function requestTypeLabel(type?: string) {
 }
 
 function levelClass(level: string) {
-  if (level === 'urgent') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (level === 'urgent') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -136,10 +136,10 @@ export function ResponseEscalationPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             자동 에스컬레이션
           </div>
 
@@ -163,7 +163,7 @@ export function ResponseEscalationPanel() {
             <button
               onClick={run}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               {loading ? '실행 중' : '에스컬레이션 실행'}
             </button>
@@ -171,24 +171,24 @@ export function ResponseEscalationPanel() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               새로고침
             </button>
 
-            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">실행 결과 보기</summary>
               <pre className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -203,12 +203,12 @@ export function ResponseEscalationPanel() {
           <MetricCard title="누적 기록" value={`${metrics.logs}개`} desc="이미 생성된 에스컬레이션 기록" />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">긴급 에스컬레이션</h2>
 
           <div className="mt-5 space-y-3">
             {urgentItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <div className="rounded-2xl bg-[#EFFFFA] p-5 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 현재 긴급 에스컬레이션이 없습니다.
               </div>
             ) : (
@@ -217,12 +217,12 @@ export function ResponseEscalationPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">주의 에스컬레이션</h2>
 
           <div className="mt-5 space-y-3">
             {warningItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 현재 주의 에스컬레이션이 없습니다.
               </div>
             ) : (
@@ -232,18 +232,18 @@ export function ResponseEscalationPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/response?scope=ops" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/response?scope=ops" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             후속조치 관제
           </Link>
-          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             지역 도움망 요청함
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -255,8 +255,8 @@ export function ResponseEscalationPanel() {
 
 function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+    <article className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#247A71] text-xs font-black text-white">
         {number}
       </div>
       <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>

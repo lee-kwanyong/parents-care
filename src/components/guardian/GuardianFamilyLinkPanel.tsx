@@ -164,10 +164,10 @@ export function GuardianFamilyLinkPanel() {
   }
 
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-5xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             부모님과 연결
           </div>
 
@@ -183,7 +183,7 @@ export function GuardianFamilyLinkPanel() {
         </section>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_0.85fr]">
-          <form onSubmit={submit} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <form onSubmit={submit} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">연결 정보</h2>
 
             <div className="mt-5 space-y-4">
@@ -194,19 +194,19 @@ export function GuardianFamilyLinkPanel() {
 
               <button
                 disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+                className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
                 {loading ? '생성 중...' : '부모님 연결코드 만들기'}
               </button>
             </div>
           </form>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">부모님께 보낼 코드</h2>
 
             {familyCode ? (
               <>
-                <div className="mt-5 rounded-[2rem] bg-[#123F38] p-6 text-white">
+                <div className="mt-5 rounded-[2rem] bg-[#247A71] p-6 text-white">
                   <div className="text-sm font-black text-[#A7F2E3]">6자리 연결코드</div>
                   <div className="mt-3 text-6xl font-black tracking-[0.12em]">{familyCode}</div>
                   <p className="mt-4 text-sm font-bold leading-7 text-[#E7FFF7]">
@@ -225,30 +225,30 @@ export function GuardianFamilyLinkPanel() {
                   <button
                     type="button"
                     onClick={copyMessage}
-                    className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                    className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
                   >
                     {copied ? '복사 완료' : '문구 복사'}
                   </button>
                 </div>
 
-                <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#4E6D69] ring-1 ring-[#D8EEE8]">
+                <pre className="mt-4 whitespace-pre-wrap rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#4E6D69] ring-1 ring-[#D6EDE7]">
                   {sendMessage}
                 </pre>
               </>
             ) : (
-              <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 코드가 생성되지 않았습니다.
               </div>
             )}
 
             {message ? (
-              <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+              <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
                 {message}
               </div>
             ) : null}
 
             {debug ? (
-              <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+              <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
                 <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
                 <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
               </details>
@@ -257,14 +257,14 @@ export function GuardianFamilyLinkPanel() {
             <div className="mt-5 grid gap-3">
               <Link
                 href={familyCode ? `/parent/login?code=${familyCode}` : '/parent/login'}
-                className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
               >
                 부모님 코드입력 화면 보기
               </Link>
 
               <Link
                 href="/child/dashboard"
-                className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
               >
                 부모님 케어 화면 보기
               </Link>
@@ -289,12 +289,12 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

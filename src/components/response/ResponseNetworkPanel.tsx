@@ -85,8 +85,8 @@ function statusLabel(status?: string) {
 }
 
 function cardClass(risk?: string) {
-  if (risk === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (risk === 'high') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 export function ResponseNetworkPanel() {
@@ -248,10 +248,10 @@ export function ResponseNetworkPanel() {
   const isOps = scope === 'ops'
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             {isOps ? '운영실 후속조치 관제' : '보호자 후속조치 조회'}
           </div>
 
@@ -271,7 +271,7 @@ export function ResponseNetworkPanel() {
                 setScope('family')
                 load('family', familyCode)
               }}
-              className={'rounded-full px-4 py-2 text-sm font-black ring-1 ' + (!isOps ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}
+              className={'rounded-full px-4 py-2 text-sm font-black ring-1 ' + (!isOps ? 'bg-[#247A71] text-white ring-[#247A71]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}
             >
               보호자 모드
             </button>
@@ -281,12 +281,12 @@ export function ResponseNetworkPanel() {
                 setScope('ops')
                 load('ops', '')
               }}
-              className={'rounded-full px-4 py-2 text-sm font-black ring-1 ' + (isOps ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}
+              className={'rounded-full px-4 py-2 text-sm font-black ring-1 ' + (isOps ? 'bg-[#247A71] text-white ring-[#247A71]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}
             >
               운영실 모드
             </button>
 
-            <Link href="/ops/notification-dispatch" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/notification-dispatch" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>
@@ -299,13 +299,13 @@ export function ResponseNetworkPanel() {
                 inputMode="numeric"
                 maxLength={6}
                 placeholder="가족코드 6자리"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <button
                 onClick={() => load('family', familyCode)}
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 조회
               </button>
@@ -313,13 +313,13 @@ export function ResponseNetworkPanel() {
           ) : null}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -335,7 +335,7 @@ export function ResponseNetworkPanel() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">후속조치 요청 만들기</h2>
 
             <div className="mt-5 grid gap-3">
@@ -359,7 +359,7 @@ export function ResponseNetworkPanel() {
                     riskLevel: type === 'meal_delivery' ? 'medium' : 'high'
                   })
                 }}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="urgent_neighbor_help">도움이 필요해요</option>
                 <option value="meal_delivery">밥을 못 먹었어요</option>
@@ -381,7 +381,7 @@ export function ResponseNetworkPanel() {
                   familyCode: requestForm.familyCode || familyCode
                 })}
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 후속조치 요청 생성
               </button>
@@ -389,14 +389,14 @@ export function ResponseNetworkPanel() {
           </section>
 
           {isOps ? (
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">지역 제공자 등록</h2>
 
               <div className="mt-5 grid gap-3">
                 <select
                   value={providerForm.providerType}
                   onChange={(event) => setProviderForm({ ...providerForm, providerType: event.target.value })}
-                  className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 >
                   <option value="care_partner">돌봄파트너</option>
                   <option value="caregiver">요양보호사</option>
@@ -416,14 +416,14 @@ export function ResponseNetworkPanel() {
                 <button
                   onClick={() => post('createProvider', providerForm)}
                   disabled={loading || !providerForm.providerName.trim()}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   지역 제공자 등록
                 </button>
               </div>
             </section>
           ) : (
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">보호자 안내</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
                 보호자 모드에서는 내 부모님 관련 요청만 조회하고 처리할 수 있습니다. 주변 도움망 전파와 제공자 등록은 운영실 모드에서만 가능합니다.
@@ -432,12 +432,12 @@ export function ResponseNetworkPanel() {
           )}
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">현재 요청</h2>
 
           <div className="mt-5 space-y-3">
             {openRequests.length === 0 ? (
-              <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <div className="rounded-2xl bg-[#EFFFFA] p-5 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 현재 열린 후속조치 요청이 없습니다.
               </div>
             ) : (
@@ -475,7 +475,7 @@ export function ResponseNetworkPanel() {
                         <button
                           onClick={() => post('dispatch', { requestId: request.id })}
                           disabled={loading}
-                          className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                          className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                         >
                           주변 도움망에 요청
                         </button>
@@ -492,7 +492,7 @@ export function ResponseNetworkPanel() {
                       <button
                         onClick={() => patch(request, 'completed', '후속조치 확인 완료')}
                         disabled={loading}
-                        className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                        className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                       >
                         처리 완료
                       </button>
@@ -505,18 +505,18 @@ export function ResponseNetworkPanel() {
         </section>
 
         {isOps ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">등록된 지역 제공자</h2>
 
             <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {providers.length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 등록된 지역 제공자가 없습니다.
                 </div>
               ) : (
                 providers.map((provider) => (
-                  <article key={provider.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                    <div className="text-xs font-black text-[#11977F]">{providerTypeLabel(provider.provider_type)}</div>
+                  <article key={provider.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                    <div className="text-xs font-black text-[#2AA897]">{providerTypeLabel(provider.provider_type)}</div>
                     <h3 className="mt-2 text-xl font-black tracking-[-0.05em]">{provider.provider_name}</h3>
                     <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
                       {provider.service_area || '권역 미지정'} · {provider.response_time_min || 30}분 내 응답 목표
@@ -529,18 +529,18 @@ export function ResponseNetworkPanel() {
         ) : null}
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/response/about" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/response/about" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             지역 안심망 소개
           </Link>
-          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             지역 도움망 요청함
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <button
             onClick={() => load(scope, familyCode)}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -552,7 +552,7 @@ export function ResponseNetworkPanel() {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -563,11 +563,11 @@ function MetricCard({ title, value, desc, danger }: { title: string; value: stri
 function Input({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

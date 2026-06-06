@@ -73,7 +73,7 @@ export function HomeManagerPanel() {
               케어파트너
             </div>
 
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#193B38] md:text-5xl">
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.05em] text-[#17443F] md:text-5xl">
               부모님 안심케어 매니저로
               <br />
               활동할 수 있습니다.
@@ -88,7 +88,7 @@ export function HomeManagerPanel() {
               <button
                 type="button"
                 onClick={openPanel}
-                className="rounded-3xl bg-[#193B38] px-7 py-5 text-lg font-black text-white shadow-[0_14px_34px_rgba(25,59,56,0.18)]"
+                className="rounded-3xl bg-[#247A71] px-7 py-5 text-lg font-black text-white shadow-[0_14px_34px_rgba(25,59,56,0.18)]"
               >
                 케어파트너 자세히 보기
               </button>

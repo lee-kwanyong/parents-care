@@ -128,15 +128,15 @@ const sections: Section[] = [
 ]
 
 function baseToneClass(tone: Option['tone']) {
-  if (tone === 'danger') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (tone === 'warn') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (tone === 'danger') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (tone === 'warn') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 function selectedToneClass(tone: Option['tone']) {
   if (tone === 'danger') return 'bg-[#8A2525] text-white ring-[#8A2525]'
   if (tone === 'warn') return 'bg-[#9A6A12] text-white ring-[#9A6A12]'
-  return 'bg-[#116D5F] text-white ring-[#116D5F]'
+  return 'bg-[#2EC4B6] text-white ring-[#116D5F]'
 }
 
 function kstToday() {
@@ -275,8 +275,8 @@ export function ParentTodayConnectedPanel() {
 
   if (!session) {
     return (
-      <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
-        <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D8EEE8]">
+      <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-8 text-[#17443F]">
+        <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-8 text-center shadow-sm ring-1 ring-[#D6EDE7]">
           <div className="text-2xl font-black">부모님 연결 확인 중입니다.</div>
         </section>
       </main>
@@ -284,10 +284,10 @@ export function ParentTodayConnectedPanel() {
   }
 
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-4xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             부모님 연결 완료
           </div>
 
@@ -301,22 +301,22 @@ export function ParentTodayConnectedPanel() {
             식사와 약은 아침·점심·저녁으로 나뉩니다. 날짜가 바뀌면 오늘 선택은 비워지고, 이전 기록은 자녀 리포트에 남습니다.
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
             보호자 {session.guardianName || '보호자'}님과 연결되었습니다.
           </div>
 
-          <div className="mt-3 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+          <div className="mt-3 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
             오늘 날짜: {careDate}
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -325,13 +325,13 @@ export function ParentTodayConnectedPanel() {
 
         <section className="space-y-5">
           {sections.map((section) => (
-            <article key={section.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <article key={section.title} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-3xl font-black tracking-[-0.06em]">{section.title}</h2>
               <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{section.desc}</p>
 
               <div className="mt-5 space-y-4">
                 {section.groups.map((group) => (
-                  <div key={group.key} className="rounded-[1.5rem] bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <div key={group.key} className="rounded-[1.5rem] bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                       <div>
                         <h3 className="text-xl font-black tracking-[-0.04em]">{group.title}</h3>
@@ -339,11 +339,11 @@ export function ParentTodayConnectedPanel() {
                       </div>
 
                       {selected[group.key] ? (
-                        <div className="rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+                        <div className="rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
                           선택됨: {selected[group.key]}
                         </div>
                       ) : (
-                        <div className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#7A9692] ring-1 ring-[#D8EEE8]">
+                        <div className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#7A9692] ring-1 ring-[#D6EDE7]">
                           아직 선택 없음
                         </div>
                       )}
@@ -387,7 +387,7 @@ export function ParentTodayConnectedPanel() {
         </section>
 
         {lastAction ? (
-          <section className="rounded-[2rem] bg-[#123F38] p-5 text-white">
+          <section className="rounded-[2rem] bg-[#247A71] p-5 text-white">
             <div className="text-sm font-black text-[#A7F2E3]">방금 보낸 안부</div>
             <div className="mt-2 text-3xl font-black tracking-[-0.06em]">{lastAction}</div>
             <p className="mt-3 text-sm font-bold leading-7 text-[#E7FFF7]">
@@ -399,14 +399,14 @@ export function ParentTodayConnectedPanel() {
         <div className="grid gap-3 sm:grid-cols-2">
           <Link
             href="/parent/consent"
-            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             안심동의
           </Link>
 
           <Link
             href="/install"
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             홈 화면에 추가
           </Link>

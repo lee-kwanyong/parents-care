@@ -63,10 +63,10 @@ export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?
   }
 
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-[0_16px_44px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-[0_16px_44px_rgba(20,82,70,0.08)] ring-1 ring-[#D6EDE7] sm:p-6">
       <div className="flex flex-col gap-2">
         <p className="text-sm font-black text-[#13A88F]">안부온 오늘 체크</p>
-        <h2 className="text-3xl font-black tracking-[-0.05em] text-[#173B36] sm:text-4xl">
+        <h2 className="text-3xl font-black tracking-[-0.05em] text-[#17443F] sm:text-4xl">
           버튼만 눌러주세요
         </h2>
         <p className="text-base font-bold leading-7 text-[#637B76]">
@@ -75,7 +75,7 @@ export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?
       </div>
 
       {message ? (
-        <div className="mt-5 rounded-2xl bg-[#E8FAF5] p-4">
+        <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4">
           <p className="text-lg font-black text-[#126F61]">
             {message}
           </p>
@@ -84,13 +84,13 @@ export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?
             <div className="mt-3 flex flex-wrap gap-2">
               <Link
                 href="/parent/login"
-                className="rounded-xl bg-[#193B38] px-4 py-2 text-sm font-black text-white"
+                className="rounded-xl bg-[#247A71] px-4 py-2 text-sm font-black text-white"
               >
                 부모님 연결코드 입력
               </Link>
               <Link
                 href="/family-link"
-                className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#126F61] ring-1 ring-[#CDEFE5]"
+                className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#126F61] ring-1 ring-[#CDEFE7]"
               >
                 연결 방법 보기
               </Link>
@@ -102,7 +102,7 @@ export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?
       <div className="mt-5 space-y-5">
         {grouped.map(({ group, buttons }) => (
           <div key={group}>
-            <div className="mb-2 text-sm font-black text-[#55736E]">{group}</div>
+            <div className="mb-2 text-sm font-black text-[#637B76]">{group}</div>
             <div className="grid gap-3 sm:grid-cols-2">
               {buttons.map((button) => {
                 const key = `${button.checkType}-${button.status}-${button.careLabel}-${button.title}`
@@ -110,12 +110,12 @@ export function ParentDailyCareButtons({ elderName = '부모님' }: { elderName?
 
                 const toneClass =
                   button.tone === 'danger'
-                    ? 'border-[#F3BBBB] bg-[#FFF1F1] text-[#8A2525]'
+                    ? 'border-[#F3C8C8] bg-[#FFF4F4] text-[#8A3030]'
                     : button.tone === 'caution'
-                      ? 'border-[#F4D8A5] bg-[#FFF8E8] text-[#795313]'
+                      ? 'border-[#F3DEB5] bg-[#FFF9EE] text-[#795C22]'
                       : button.tone === 'neutral'
                         ? 'border-[#D8ECE8] bg-[#F7FBFF] text-[#234B68]'
-                        : 'border-[#CDEFE5] bg-[#EFFFF9] text-[#116D5F]'
+                        : 'border-[#CDEFE7] bg-[#EFFFFA] text-[#2AA897]'
 
                 return (
                   <button

@@ -75,9 +75,9 @@ function code6(value: string) {
 }
 
 function riskClass(risk?: string) {
-  if (risk === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (risk === 'medium') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (risk === 'high') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (risk === 'medium') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 function MetricCard({
@@ -93,12 +93,12 @@ function MetricCard({
 }) {
   const cls =
     tone === 'danger'
-      ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+      ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
       : tone === 'warn'
-        ? 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+        ? 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
         : tone === 'good'
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-white text-[#173B36] ring-[#D8EEE8]'
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-white text-[#17443F] ring-[#D6EDE7]'
 
   return (
     <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + cls}>
@@ -224,10 +224,10 @@ export function GovIotPlatformPanel() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             IoT 스마트 실버 케어 준비
           </div>
 
@@ -242,13 +242,13 @@ export function GovIotPlatformPanel() {
           </p>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -269,7 +269,7 @@ export function GovIotPlatformPanel() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">실증 지자체 등록</h2>
             <div className="mt-5 space-y-3">
               <Input label="실증 지자체/권역명" value={siteForm.siteName} onChange={(v) => setSiteForm({ ...siteForm, siteName: v })} />
@@ -284,23 +284,23 @@ export function GovIotPlatformPanel() {
               <button
                 onClick={() => post('createPilotSite', siteForm)}
                 disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 실증 지자체 등록
               </button>
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">실증 지자체 목록</h2>
             <div className="mt-5 space-y-3">
               {(data?.pilotSites || []).length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 등록된 실증 지자체가 없습니다.
                 </div>
               ) : (
                 (data?.pilotSites || []).map((site) => (
-                  <article key={site.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <article key={site.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <h3 className="text-xl font-black">{site.site_name || '실증 지자체'}</h3>
                     <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
                       {site.sido || '-'} {site.sigungu || ''} · 목표 {site.target_households || 0}가구 · A그룹 {site.high_risk_households || 0}가구 · B그룹 {site.general_households || 0}가구
@@ -316,7 +316,7 @@ export function GovIotPlatformPanel() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">IoT 장비 등록</h2>
             <div className="mt-5 space-y-3">
               <Input label="가족코드 6자리" value={deviceForm.familyCode} onChange={(v) => setDeviceForm({ ...deviceForm, familyCode: code6(v) })} />
@@ -325,7 +325,7 @@ export function GovIotPlatformPanel() {
               <select
                 value={deviceForm.deviceType}
                 onChange={(event) => setDeviceForm({ ...deviceForm, deviceType: event.target.value })}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="smart_pillbox">스마트 복약통</option>
                 <option value="uwb_radar">UWB 비접촉 레이더</option>
@@ -336,7 +336,7 @@ export function GovIotPlatformPanel() {
               <select
                 value={deviceForm.installGroup}
                 onChange={(event) => setDeviceForm({ ...deviceForm, installGroup: event.target.value })}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="A그룹 고위험">A그룹 고위험</option>
                 <option value="B그룹 일반관리">B그룹 일반관리</option>
@@ -345,7 +345,7 @@ export function GovIotPlatformPanel() {
               <select
                 value={deviceForm.installStatus}
                 onChange={(event) => setDeviceForm({ ...deviceForm, installStatus: event.target.value })}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="planned">설치 예정</option>
                 <option value="installed">설치 완료</option>
@@ -357,14 +357,14 @@ export function GovIotPlatformPanel() {
               <button
                 onClick={() => post('createDevice', deviceForm)}
                 disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 IoT 장비 등록
               </button>
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">IoT 이벤트 테스트</h2>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
               실제 장비 연동 전, 이벤트 데이터 구조를 먼저 검증합니다.
@@ -376,7 +376,7 @@ export function GovIotPlatformPanel() {
               <select
                 value={eventForm.deviceType}
                 onChange={(event) => setEventForm({ ...eventForm, deviceType: event.target.value })}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="smart_pillbox">스마트 복약통</option>
                 <option value="uwb_radar">UWB 비접촉 레이더</option>
@@ -402,7 +402,7 @@ export function GovIotPlatformPanel() {
                     riskLevel: eventType === 'fall_signal' || eventType === 'low_respiration' ? 'high' : 'medium'
                   })
                 }}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="missed_medication">복약 미개봉</option>
                 <option value="no_activity">무활동</option>
@@ -415,7 +415,7 @@ export function GovIotPlatformPanel() {
               <select
                 value={eventForm.riskLevel}
                 onChange={(event) => setEventForm({ ...eventForm, riskLevel: event.target.value })}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 <option value="normal">정상</option>
                 <option value="medium">주의</option>
@@ -428,7 +428,7 @@ export function GovIotPlatformPanel() {
               <button
                 onClick={() => post('createEvent', eventForm)}
                 disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 IoT 이벤트 저장
               </button>
@@ -437,11 +437,11 @@ export function GovIotPlatformPanel() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 IoT 이벤트</h2>
             <div className="mt-5 space-y-3">
               {(data?.events || []).length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 IoT 이벤트가 없습니다.
                 </div>
               ) : (
@@ -464,12 +464,12 @@ export function GovIotPlatformPanel() {
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">R&D 단계 로드맵</h2>
             <div className="mt-5 space-y-3">
               {(data?.milestones || []).map((item) => (
-                <article key={item.phase} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{item.phase} · {item.period}</div>
+                <article key={item.phase} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{item.phase} · {item.period}</div>
                   <h3 className="mt-2 text-xl font-black">{item.title}</h3>
                   <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{item.desc}</p>
                 </article>
@@ -478,16 +478,16 @@ export function GovIotPlatformPanel() {
           </section>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">등록된 IoT 장비</h2>
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             {(data?.devices || []).length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 등록된 IoT 장비가 없습니다.
               </div>
             ) : (
               (data?.devices || []).map((device) => (
-                <article key={device.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={device.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <h3 className="text-xl font-black">
                     {device.device_type === 'uwb_radar' ? 'UWB 비접촉 레이더' : '스마트 복약통'}
                   </h3>
@@ -506,21 +506,21 @@ export function GovIotPlatformPanel() {
         <div className="grid gap-3 sm:grid-cols-3">
           <Link
             href="/gov/dashboard"
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
           >
             지자체 운영실
           </Link>
 
           <Link
             href="/gov/proposal"
-            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             R&D 제안 패키지
           </Link>
 
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -541,11 +541,11 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

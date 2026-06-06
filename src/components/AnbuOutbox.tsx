@@ -26,9 +26,9 @@ function statusLabel(status: string) {
 }
 
 function statusClass(status: string) {
-  if (status === 'sent') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'failed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (status === 'outbox-only') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (status === 'sent') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'failed') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (status === 'outbox-only') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
   return 'bg-[#F7FBFF] text-[#234B68] ring-[#DCEDE7]'
 }
 
@@ -74,10 +74,10 @@ export function AnbuOutboxPage() {
   }, [items])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 알림 발송함
           </div>
 
@@ -93,7 +93,7 @@ export function AnbuOutboxPage() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-60"
             >
               새로고침
             </button>
@@ -101,14 +101,14 @@ export function AnbuOutboxPage() {
             <button
               onClick={dispatch}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               대기/실패 알림 발송
             </button>
 
             <button
               onClick={() => setShowRaw((value) => !value)}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               {showRaw ? '원본 숨기기' : '원본 보기'}
             </button>
@@ -122,17 +122,17 @@ export function AnbuOutboxPage() {
           <SummaryCard label="실패" value={summary.failed} />
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">최근 알림</h2>
 
           <div className="mt-5 grid gap-3">
             {items.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 표시할 알림이 없습니다.
               </p>
             ) : (
               items.map((item) => (
-                <article key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={item.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex flex-wrap gap-2">
                     <Badge text={statusLabel(item.status)} className={statusClass(item.status)} />
                     <Badge text={item.channel?.toUpperCase() || '알림'} />
@@ -156,9 +156,9 @@ export function AnbuOutboxPage() {
         </section>
 
         {showRaw ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 처리 결과 원본</h2>
-            <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(result, null, 2)}
             </pre>
           </section>
@@ -170,9 +170,9 @@ export function AnbuOutboxPage() {
 
 function SummaryCard({ label, value }: { label: string; value: number }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{value}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{value}</div>
     </section>
   )
 }

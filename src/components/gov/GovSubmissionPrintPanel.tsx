@@ -164,7 +164,7 @@ export function GovSubmissionPrintPanel() {
         }
         .print-toolbar button {
           border: 0;
-          background: #193B38;
+          background: #247A71;
           color: white;
         }
         .print-toolbar a {
@@ -237,7 +237,7 @@ export function GovSubmissionPrintPanel() {
           font-size: 21px;
           letter-spacing: -0.04em;
           page-break-after: avoid;
-          color: #123F38;
+          color: #247A71;
         }
         .print-content h3 {
           margin: 20px 0 8px;
@@ -281,7 +281,7 @@ export function GovSubmissionPrintPanel() {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          border-bottom: 3px solid #193B38;
+          border-bottom: 3px solid #247A71;
           padding-bottom: 12px;
           margin-bottom: 18px;
         }

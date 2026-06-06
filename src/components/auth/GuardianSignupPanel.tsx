@@ -194,16 +194,16 @@ export function GuardianSignupPanel() {
   }
 
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-3xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#DFF7F0] text-2xl">
               ♡
             </div>
 
             <div>
-              <div className="text-lg font-black tracking-[-0.05em] text-[#173B36]">
+              <div className="text-lg font-black tracking-[-0.05em] text-[#17443F]">
                 부모님 안심케어
               </div>
               <div className="text-xs font-bold text-[#5F7D77]">
@@ -212,7 +212,7 @@ export function GuardianSignupPanel() {
             </div>
           </div>
 
-          <div className="mt-8 inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+          <div className="mt-8 inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             보호자 회원가입
           </div>
 
@@ -234,7 +234,7 @@ export function GuardianSignupPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-7">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-7">
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
@@ -242,8 +242,8 @@ export function GuardianSignupPanel() {
               className={
                 'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                 (mode === 'signup'
-                  ? 'bg-[#193B38] text-white ring-[#193B38]'
-                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  ? 'bg-[#247A71] text-white ring-[#247A71]'
+                  : 'bg-white text-[#17443F] ring-[#D6EDE7]')
               }
             >
               이메일 회원가입
@@ -255,8 +255,8 @@ export function GuardianSignupPanel() {
               className={
                 'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                 (mode === 'login'
-                  ? 'bg-[#193B38] text-white ring-[#193B38]'
-                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  ? 'bg-[#247A71] text-white ring-[#247A71]'
+                  : 'bg-white text-[#17443F] ring-[#D6EDE7]')
               }
             >
               이메일 로그인
@@ -276,7 +276,7 @@ export function GuardianSignupPanel() {
               type="button"
               onClick={() => startOAuth('google')}
               disabled={loading}
-              className="flex items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60"
+              className="flex items-center justify-center gap-3 rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-60"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-xl font-black text-[#4285F4] ring-1 ring-[#E5E5E5]">
                 G
@@ -350,7 +350,7 @@ export function GuardianSignupPanel() {
 
             <button
               disabled={loading}
-              className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+              className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
             >
               {loading
                 ? '처리 중...'
@@ -361,7 +361,7 @@ export function GuardianSignupPanel() {
           </form>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
@@ -369,14 +369,14 @@ export function GuardianSignupPanel() {
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
             <Link
               href="/login"
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               역할 선택으로 돌아가기
             </Link>
 
             <Link
               href="/parent/login"
-              className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               부모님 코드 입력
             </Link>
@@ -389,11 +389,11 @@ export function GuardianSignupPanel() {
 
 function StepCard({ number, title }: { number: string; title: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
         {number}
       </div>
-      <div className="mt-3 text-sm font-black text-[#173B36]">
+      <div className="mt-3 text-sm font-black text-[#17443F]">
         {title}
       </div>
     </div>
@@ -415,13 +415,13 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

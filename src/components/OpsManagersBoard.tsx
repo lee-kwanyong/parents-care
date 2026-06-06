@@ -372,7 +372,7 @@ export function OpsManagersBoard() {
                         'w-full rounded-2xl p-4 text-left ring-1 transition ' +
                         (selectedId === application.id
                           ? 'bg-emerald-50 ring-emerald-400'
-                          : 'bg-[#F8FCFB] ring-[#E3EFEC] hover:bg-white')
+                          : 'bg-[#FAFFFD] ring-[#E3EFEC] hover:bg-white')
                       }
                     >
                       <div className="flex flex-wrap gap-2">
@@ -434,14 +434,14 @@ export function OpsManagersBoard() {
                   <Info label="수행 가능 업무" value={asList(selectedApplication.service_scopes).join(', ') || '-'} />
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                   <div className="text-sm font-black text-[#718A87]">경력 요약</div>
                   <p className="mt-2 whitespace-pre-line text-base font-bold leading-7 text-[#24423F]">
                     {selectedApplication.career_summary || '경력 요약이 없습니다.'}
                   </p>
                 </div>
 
-                <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                   <div className="text-sm font-black text-[#718A87]">소개</div>
                   <p className="mt-2 whitespace-pre-line text-base font-bold leading-7 text-[#24423F]">
                     {selectedApplication.intro_text || '소개글이 없습니다.'}
@@ -499,7 +499,7 @@ export function OpsManagersBoard() {
                       const isVerified = verifiedCodes.has(requirement.code)
 
                       return (
-                        <div key={requirement.code} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                        <div key={requirement.code} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                             <div>
                               <div className="flex flex-wrap gap-2">
@@ -536,7 +536,7 @@ export function OpsManagersBoard() {
                     <Empty message="아직 제출된 검증 자료가 없습니다." />
                   ) : (
                     selectedDocuments.map((document) => (
-                      <div key={document.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+                      <div key={document.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                         <div className="flex flex-wrap gap-2">
                           <Badge text={labelStatus(document.verification_status)} />
                           <Badge text={document.requirement_code || '항목 없음'} />
@@ -592,7 +592,7 @@ function Stat({ label, value }: { label: string; value: string | number }) {
 
 function Info({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
       <div className="text-xs font-black text-[#718A87]">{label}</div>
       <div className="mt-1 text-base font-black">{value}</div>
     </div>

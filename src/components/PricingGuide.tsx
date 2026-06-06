@@ -232,7 +232,7 @@ function MiniPrice({ title, price }: { title: string; price: string }) {
   return (
     <div className="rounded-2xl bg-white p-4 ring-1 ring-[#DDEDF5]">
       <div className="text-sm font-black text-[#365E78]">{title}</div>
-      <div className="mt-1 text-xl font-black text-[#193B38]">{price}</div>
+      <div className="mt-1 text-xl font-black text-[#17443F]">{price}</div>
     </div>
   )
 }
@@ -343,7 +343,7 @@ function CarePackageCard({
 
       <Link
         href={item.href}
-        className="mt-5 inline-flex w-full justify-center rounded-2xl bg-[#193B38] px-4 py-4 text-sm font-black text-white"
+        className="mt-5 inline-flex w-full justify-center rounded-2xl bg-[#247A71] px-4 py-4 text-sm font-black text-white"
       >
         이 케어로 접수하기
       </Link>

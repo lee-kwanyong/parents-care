@@ -95,9 +95,9 @@ type AutopilotLog = {
 }
 
 function severityClass(label: string) {
-  if (label === 'Red') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (label === 'Orange') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]'
+  if (label === 'Red') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (label === 'Orange') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#FAFFFD] text-[#17443F] ring-[#D6EDE7]'
 }
 
 function statusLabel(status: string) {
@@ -113,7 +113,7 @@ function statusLabel(status: string) {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -204,10 +204,10 @@ export function OpsAutopilotPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 오토파일럿 v2
           </div>
 
@@ -232,12 +232,12 @@ export function OpsAutopilotPanel() {
             <button
               onClick={() => post('runAutopilot', { autoSend })}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               {autoSend ? '오토파일럿 실행 + 문자 발송' : '오토파일럿 실행'}
             </button>
 
-            <label className="flex items-center gap-2 rounded-2xl bg-[#F8FCFB] px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <label className="flex items-center gap-2 rounded-2xl bg-[#FAFFFD] px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               <input
                 type="checkbox"
                 checked={autoSend}
@@ -249,28 +249,28 @@ export function OpsAutopilotPanel() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               새로고침
             </button>
 
-            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>
 
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             응급상황을 앱이 직접 판단하지 않습니다. 운영실은 확인·연결·기록을 수행하고, 응급 가능성이 있으면 119 또는 의료기관 연락을 안내합니다.
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">처리 결과 보기</summary>
               <pre className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -324,18 +324,18 @@ export function OpsAutopilotPanel() {
           onAction={post}
         />
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">최근 오토파일럿 로그</h2>
 
           <div className="mt-5 space-y-3">
             {logs.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 오토파일럿 로그가 없습니다.
               </div>
             ) : (
               logs.slice(0, 20).map((log) => (
-                <article key={log.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{log.action_type || 'log'}</div>
+                <article key={log.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{log.action_type || 'log'}</div>
                   <div className="mt-2 text-sm font-black leading-7">{log.message || '-'}</div>
                   <div className="mt-1 text-xs font-bold text-[#637B76]">{log.created_at || ''}</div>
                 </article>
@@ -345,18 +345,18 @@ export function OpsAutopilotPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/response?scope=ops" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/response?scope=ops" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             후속조치 관제
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
-          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             도움망 요청함
           </Link>
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -368,8 +368,8 @@ export function OpsAutopilotPanel() {
 
 function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+    <article className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#247A71] text-xs font-black text-white">
         {number}
       </div>
       <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>
@@ -395,13 +395,13 @@ function IncidentSection(props: {
   onAction: (action: string, payload: Record<string, unknown>) => void
 }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-3xl font-black tracking-[-0.06em]">{props.title}</h2>
       <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{props.desc}</p>
 
       <div className="mt-5 space-y-3">
         {props.incidents.length === 0 ? (
-          <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <div className="rounded-2xl bg-[#EFFFFA] p-5 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {props.empty}
           </div>
         ) : (
@@ -583,7 +583,7 @@ function IncidentCard({
           <button
             onClick={() => onAction('executeRecommended', { requestId: incident.id, note })}
             disabled={loading}
-            className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+            className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
           >
             추천 조치 실행
           </button>
@@ -658,7 +658,7 @@ function IncidentCard({
           <button
             onClick={() => onAction('markCompleted', { requestId: incident.id, note: note || '운영실 처리 완료' })}
             disabled={loading}
-            className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+            className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
           >
             처리 완료
           </button>

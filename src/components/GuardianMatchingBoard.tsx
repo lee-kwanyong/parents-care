@@ -257,7 +257,7 @@ export function GuardianMatchingBoard() {
                       'w-full rounded-2xl p-4 text-left ring-1 transition ' +
                       (selectedRequest?.id === request.id
                         ? 'bg-emerald-50 ring-emerald-400'
-                        : 'bg-[#F8FCFB] ring-[#E3EFEC] hover:bg-white')
+                        : 'bg-[#FAFFFD] ring-[#E3EFEC] hover:bg-white')
                     }
                   >
                     <div className="flex flex-wrap gap-2">
@@ -331,7 +331,7 @@ export function GuardianMatchingBoard() {
                         type="button"
                         disabled={working}
                         onClick={() => postAction('request_call', offer)}
-                        className="rounded-2xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-60"
+                        className="rounded-2xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-60"
                       >
                         전화 상담 요청
                       </button>

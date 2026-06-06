@@ -86,12 +86,12 @@ export function ParentLoginPanel() {
   }, [])
 
   return (
-    <section className="mx-auto w-full max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
-      <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto w-full max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
+      <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
         부모님 6자리 코드입력
       </div>
 
-      <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36]">
+      <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#17443F]">
         6자리 코드와
         <br />
         휴대폰 뒤 4자리를 입력하세요.
@@ -102,39 +102,39 @@ export function ParentLoginPanel() {
       </p>
 
       {message ? (
-        <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+        <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
           {message}
         </div>
       ) : null}
 
       <form onSubmit={submit} className="mt-6 space-y-4">
         <label className="grid gap-2">
-          <span className="text-sm font-black text-[#55736E]">6자리 연결코드</span>
+          <span className="text-sm font-black text-[#637B76]">6자리 연결코드</span>
           <input
             value={familyCode}
             onChange={(event) => setFamilyCode(code6(event.target.value))}
             inputMode="numeric"
             maxLength={6}
             placeholder="123456"
-            className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
+            className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D6EDE7] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
           />
         </label>
 
         <label className="grid gap-2">
-          <span className="text-sm font-black text-[#55736E]">부모님 휴대폰 번호 뒤 4자리</span>
+          <span className="text-sm font-black text-[#637B76]">부모님 휴대폰 번호 뒤 4자리</span>
           <input
             value={parentPhoneLast4}
             onChange={(event) => setParentPhoneLast4(last4(event.target.value))}
             inputMode="numeric"
             maxLength={4}
             placeholder="예: 1234"
-            className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-center text-2xl font-black tracking-[0.12em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-center text-2xl font-black tracking-[0.12em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           />
         </label>
 
         <button
           disabled={loading}
-          className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
+          className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
         >
           {loading ? '확인 중...' : '부모님 안부 화면 들어가기'}
         </button>

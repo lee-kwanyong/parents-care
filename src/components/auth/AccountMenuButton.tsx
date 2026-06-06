@@ -104,7 +104,7 @@ export function AccountMenuButton() {
   return (
     <Link
       href="/account"
-      className="rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#BEEFE3] transition hover:bg-[#DFF7F0]"
+      className="rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#BEEFE3] transition hover:bg-[#DFF7F0]"
     >
       회원정보
     </Link>

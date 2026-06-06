@@ -434,7 +434,7 @@ export function OpsNotificationCenter() {
             </button>
             <Link
               href="/ops"
-              className="rounded-3xl bg-[#193B38] px-5 py-4 font-black text-white"
+              className="rounded-3xl bg-[#247A71] px-5 py-4 font-black text-white"
             >
               운영실 홈
             </Link>
@@ -507,7 +507,7 @@ export function OpsNotificationCenter() {
                   {template.subtitle}
                 </p>
 
-                <pre className="mt-4 max-h-80 overflow-auto whitespace-pre-wrap rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-6 text-[#24423F] ring-1 ring-[#E3EFEC]">
+                <pre className="mt-4 max-h-80 overflow-auto whitespace-pre-wrap rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-6 text-[#24423F] ring-1 ring-[#E3EFEC]">
                   {template.body}
                 </pre>
 
@@ -523,7 +523,7 @@ export function OpsNotificationCenter() {
                   {template.phone ? (
                     <a
                       href={`sms:${template.phone}`}
-                      className="rounded-2xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white"
+                      className="rounded-2xl bg-[#247A71] px-4 py-3 text-center text-sm font-black text-white"
                     >
                       문자 열기
                     </a>

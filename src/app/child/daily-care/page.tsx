@@ -21,9 +21,9 @@ type StatusData = {
 }
 
 function stateClass(state?: AnbuSignalState) {
-  if (state === '확인 필요') return 'bg-[#FFF1F1] text-[#842525] ring-[#F2B8B8]'
-  if (state === '주의') return 'bg-[#FFF8E8] text-[#735212] ring-[#F0D299]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (state === '확인 필요') return 'bg-[#FFF4F4] text-[#842525] ring-[#F2B8B8]'
+  if (state === '주의') return 'bg-[#FFF9EE] text-[#735212] ring-[#F0D299]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 export default function ChildDailyCarePage() {
@@ -53,7 +53,7 @@ export default function ChildDailyCarePage() {
   const summary = data?.summary
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -68,7 +68,7 @@ export default function ChildDailyCarePage() {
 
           <button
             onClick={load}
-            className="rounded-2xl bg-[#123F38] px-5 py-4 font-black text-white shadow-sm"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 font-black text-white shadow-sm"
           >
             새로고침
           </button>
@@ -102,7 +102,7 @@ export default function ChildDailyCarePage() {
             </section>
 
             <div className="mt-6 grid gap-5 lg:grid-cols-2">
-              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
                 <h2 className="text-2xl font-black">확인된 신호</h2>
                 <div className="mt-4 space-y-3">
                   {(summary?.signalReasons || []).map((reason) => (
@@ -113,7 +113,7 @@ export default function ChildDailyCarePage() {
                 </div>
               </section>
 
-              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+              <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
                 <h2 className="text-2xl font-black">다음 행동</h2>
                 <div className="mt-4 space-y-3">
                   {(summary?.familyNextActions || []).map((item, index) => (
@@ -124,13 +124,13 @@ export default function ChildDailyCarePage() {
                 </div>
 
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <Link href="tel:119" className="rounded-2xl bg-[#FFE7E7] px-4 py-4 text-center font-black text-[#8A2525]">
+                  <Link href="tel:119" className="rounded-2xl bg-[#FFE7E7] px-4 py-4 text-center font-black text-[#8A3030]">
                     긴급하면 119
                   </Link>
                   <Link href="/care-request" className="rounded-2xl bg-[#20C5A8] px-4 py-4 text-center font-black text-white">
                     운영실 확인 요청
                   </Link>
-                  <Link href="/child/matching" className="rounded-2xl bg-[#EFFFF9] px-4 py-4 text-center font-black text-[#116D5F]">
+                  <Link href="/child/matching" className="rounded-2xl bg-[#EFFFFA] px-4 py-4 text-center font-black text-[#2AA897]">
                     케어파트너 연결
                   </Link>
                   <Link href="/child/reports" className="rounded-2xl bg-[#F7FBFF] px-4 py-4 text-center font-black text-[#234B68]">
@@ -140,7 +140,7 @@ export default function ChildDailyCarePage() {
               </section>
             </div>
 
-            <section className="mt-6 rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+            <section className="mt-6 rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <h2 className="text-2xl font-black">최근 안부 기록</h2>
@@ -148,14 +148,14 @@ export default function ChildDailyCarePage() {
                     마지막 응답: {summary?.latestResponseAt ? new Date(summary.latestResponseAt).toLocaleString('ko-KR') : '응답 없음'}
                   </p>
                 </div>
-                <Link href="/parent/today" className="rounded-2xl bg-[#F1FBF8] px-4 py-3 text-sm font-black text-[#11977F]">
+                <Link href="/parent/today" className="rounded-2xl bg-[#F1FBF8] px-4 py-3 text-sm font-black text-[#2AA897]">
                   부모님 화면 보기
                 </Link>
               </div>
 
               <div className="mt-5 grid gap-3 md:grid-cols-2">
                 {(data.items || []).slice(0, 20).map((item) => (
-                  <div key={item.id || `${item.check_type}-${item.care_label}-${item.occurred_at}`} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E2F1ED]">
+                  <div key={item.id || `${item.check_type}-${item.care_label}-${item.occurred_at}`} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E2F1ED]">
                     <div className="flex flex-wrap items-center gap-2">
                       <Badge text={labelDailyCareType(item.check_type)} />
                       <Badge text={labelDailyCareStatus(item.status)} />
@@ -170,17 +170,17 @@ export default function ChildDailyCarePage() {
               </div>
             </section>
 
-            <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               {summary?.aiDisclaimer}
             </p>
           </>
         )}
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link href="/anbuon" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 font-black text-[#116D5F]">
+          <Link href="/anbuon" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 font-black text-[#2AA897]">
             안부온 소개
           </Link>
-          <Link href="/" className="rounded-2xl bg-white px-5 py-4 font-black ring-1 ring-[#D8EEE8]">
+          <Link href="/" className="rounded-2xl bg-white px-5 py-4 font-black ring-1 ring-[#D6EDE7]">
             홈으로
           </Link>
         </div>

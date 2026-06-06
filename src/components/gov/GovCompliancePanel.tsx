@@ -36,8 +36,8 @@ const accessibilityChecks = [
 
 function statusClass(done: boolean) {
   return done
-    ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-    : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+    ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+    : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 export function GovCompliancePanel() {
@@ -145,10 +145,10 @@ export function GovCompliancePanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             공공 제출 컴플라이언스
           </div>
 
@@ -163,13 +163,13 @@ export function GovCompliancePanel() {
           </p>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -189,26 +189,26 @@ export function GovCompliancePanel() {
           />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">점검자 정보</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">점검자</span>
+              <span className="text-sm font-black text-[#637B76]">점검자</span>
               <input
                 value={checkedByName}
                 onChange={(event) => setCheckedByName(event.target.value)}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
             </label>
 
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">추가 메모</span>
+              <span className="text-sm font-black text-[#637B76]">추가 메모</span>
               <input
                 value={notes}
                 onChange={(event) => setNotes(event.target.value)}
                 placeholder="예: 제출 전 최종 검토 완료"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
             </label>
           </div>
@@ -234,17 +234,17 @@ export function GovCompliancePanel() {
           />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">최근 기록</h2>
 
           <div className="mt-5 space-y-3">
             {records.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 저장된 컴플라이언스 기록이 없습니다.
               </div>
             ) : (
               records.slice(0, 10).map((record) => (
-                <article key={record.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={record.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="text-lg font-black">{record.title || '기록'}</div>
                   <p className="mt-1 text-sm font-bold leading-6 text-[#637B76]">
                     {record.checked_by_name || '운영실'} · {record.created_at || '-'}
@@ -258,21 +258,21 @@ export function GovCompliancePanel() {
         <div className="grid gap-3 sm:grid-cols-3">
           <Link
             href="/gov/readiness"
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
           >
             준비상태 다시 확인
           </Link>
 
           <Link
             href="/gov/submission/print"
-            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             제출 PDF 인쇄본
           </Link>
 
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -308,12 +308,12 @@ function CheckPanel({
   loading: boolean
 }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">{title}</h2>
 
       <div className="mt-5 space-y-2">
         {checks.map((check) => (
-          <div key={check} className="rounded-2xl bg-[#F8FCFB] p-3 text-sm font-bold leading-6 text-[#637B76] ring-1 ring-[#D8EEE8]">
+          <div key={check} className="rounded-2xl bg-[#FAFFFD] p-3 text-sm font-bold leading-6 text-[#637B76] ring-1 ring-[#D6EDE7]">
             {check}
           </div>
         ))}
@@ -322,7 +322,7 @@ function CheckPanel({
       <button
         onClick={onClick}
         disabled={loading || done}
-        className="mt-5 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+        className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
       >
         {done ? '완료 기록 저장됨' : buttonLabel}
       </button>

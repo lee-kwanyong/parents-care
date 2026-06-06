@@ -58,9 +58,9 @@ export function CarePartnerApplicationForm() {
   }
 
   return (
-    <section className="mx-auto max-w-5xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-5xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 케어파트너
         </div>
 
@@ -76,7 +76,7 @@ export function CarePartnerApplicationForm() {
         </p>
       </div>
 
-      <form onSubmit={submit} className="mt-5 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+      <form onSubmit={submit} className="mt-5 rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">파트너 신청서</h2>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -89,7 +89,7 @@ export function CarePartnerApplicationForm() {
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {capabilityFields.map((field) => (
-            <label key={field.key} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <label key={field.key} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               <input name={field.key} type="checkbox" className="mr-2" />
               {field.label}
             </label>
@@ -97,29 +97,29 @@ export function CarePartnerApplicationForm() {
         </div>
 
         <label className="mt-5 grid gap-2">
-          <span className="text-sm font-black text-[#55736E]">자기소개 / 활동 가능 업무</span>
+          <span className="text-sm font-black text-[#637B76]">자기소개 / 활동 가능 업무</span>
           <textarea
             name="memo"
-            className="min-h-32 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="min-h-32 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             placeholder="예: 병원동행, 약국동행, 식사 확인, 보호자 리포트 작성 가능"
           />
         </label>
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {message}
           </div>
         ) : null}
 
         <button
           disabled={saving}
-          className="mt-5 rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+          className="mt-5 rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
         >
           {saving ? '접수 중...' : '케어파트너 신청하기'}
         </button>
       </form>
 
-      <div className="mt-5 rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+      <div className="mt-5 rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">활동 범위 안내</h2>
         <p className="mt-3 text-sm font-bold leading-7 text-[#CDEEE6]">
           안부웍스 케어파트너는 의료행위, 진단, 처방, 투약 결정을 하지 않습니다.
@@ -143,11 +143,11 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         required={required}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
         placeholder={placeholder}
       />
     </label>

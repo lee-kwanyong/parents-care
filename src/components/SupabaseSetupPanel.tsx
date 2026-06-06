@@ -124,9 +124,9 @@ export function SupabaseSetupPanel() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 DB 설정
         </div>
 
@@ -145,7 +145,7 @@ export function SupabaseSetupPanel() {
           <button
             type="button"
             onClick={copySql}
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
           >
             SQL 복사하기
           </button>
@@ -159,14 +159,14 @@ export function SupabaseSetupPanel() {
         </div>
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {message}
           </div>
         ) : null}
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">현재 연결 상태</h2>
 
           <div className="mt-5 grid gap-3">
@@ -183,8 +183,8 @@ export function SupabaseSetupPanel() {
                 className={
                   'rounded-2xl p-3 text-sm font-black ring-1 ' +
                   (item.ok
-                    ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                    : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+                    ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                    : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
                 }
               >
                 <div className="flex items-center justify-between gap-3">
@@ -199,17 +199,17 @@ export function SupabaseSetupPanel() {
           </div>
 
           {health?.ok ? (
-            <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
               Supabase 서버 저장 준비가 완료되었습니다.
             </div>
           ) : (
-            <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               아직 DB 설정이 완료되지 않았습니다. SQL 실행과 Vercel 환경변수를 확인하세요.
             </div>
           )}
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white shadow-sm sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white shadow-sm sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">실행할 SQL</h2>
           <p className="mt-2 text-sm font-bold leading-7 text-[#CDEEE6]">
             Supabase Dashboard → SQL Editor → New query에 붙여넣고 Run을 누르세요.
@@ -221,16 +221,16 @@ export function SupabaseSetupPanel() {
         </section>
       </div>
 
-      <section className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8] sm:p-6">
-        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#173B36]">Vercel 환경변수</h2>
+      <section className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7] sm:p-6">
+        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#17443F]">Vercel 환경변수</h2>
         <p className="mt-3">Vercel Project Settings → Environment Variables에 아래 2개를 넣어야 합니다.</p>
         <div className="mt-4 grid gap-3 md:grid-cols-2">
-          <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-            <div className="font-black text-[#173B36]">NEXT_PUBLIC_SUPABASE_URL</div>
+          <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+            <div className="font-black text-[#17443F]">NEXT_PUBLIC_SUPABASE_URL</div>
             <p className="mt-1 text-xs">Supabase Project URL</p>
           </div>
-          <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-            <div className="font-black text-[#173B36]">SUPABASE_SERVICE_ROLE_KEY</div>
+          <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+            <div className="font-black text-[#17443F]">SUPABASE_SERVICE_ROLE_KEY</div>
             <p className="mt-1 text-xs">Supabase service_role key. 절대 브라우저에 노출하면 안 됩니다.</p>
           </div>
         </div>
@@ -245,8 +245,8 @@ function StatusRow({ label, ok }: { label: string; ok: boolean }) {
       className={
         'flex items-center justify-between rounded-2xl p-4 text-sm font-black ring-1 ' +
         (ok
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
       }
     >
       <span>{label}</span>

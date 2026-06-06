@@ -38,9 +38,9 @@ function qualityLabel(status: string) {
 }
 
 function badgeClass(kind: string) {
-  if (kind === 'approved' || kind === 'pass') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (kind === 'needs_revision' || kind === 'warning') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  if (kind === 'rejected' || kind === 'hidden' || kind === 'block') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+  if (kind === 'approved' || kind === 'pass') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (kind === 'needs_revision' || kind === 'warning') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  if (kind === 'rejected' || kind === 'hidden' || kind === 'block') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
   return 'bg-[#F7FBFF] text-[#234B68] ring-[#DCEDE7]'
 }
 
@@ -113,10 +113,10 @@ export function AnbuCareReportReviewPage() {
   }, [reports])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 · 리포트 품질 검수
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -126,7 +126,7 @@ export function AnbuCareReportReviewPage() {
             케어파트너 리포트는 운영실이 먼저 확인하고, 승인된 리포트만 보호자 화면에 공개됩니다.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60">
+            <button onClick={load} disabled={loading} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60">
               {loading ? '처리 중...' : '새로고침'}
             </button>
           </div>
@@ -139,25 +139,25 @@ export function AnbuCareReportReviewPage() {
           <Summary label="품질주의" value={summary.risk} />
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">검수 메모</h2>
           <div className="mt-4 grid gap-3 md:grid-cols-[14rem_1fr]">
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">검수자</span>
-              <input value={reviewerName} onChange={(event) => setReviewerName(event.target.value)} className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
+              <span className="text-sm font-black text-[#637B76]">검수자</span>
+              <input value={reviewerName} onChange={(event) => setReviewerName(event.target.value)} className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
             </label>
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">메모</span>
-              <input value={reviewMemo} onChange={(event) => setReviewMemo(event.target.value)} placeholder="예: 개인정보 없음, 의료판단 표현 없음, 보호자 공개 가능" className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
+              <span className="text-sm font-black text-[#637B76]">메모</span>
+              <input value={reviewMemo} onChange={(event) => setReviewMemo(event.target.value)} placeholder="예: 개인정보 없음, 의료판단 표현 없음, 보호자 공개 가능" className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]" />
             </label>
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">리포트 목록</h2>
           <div className="mt-5 grid gap-3">
             {reports.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">검수할 리포트가 없습니다.</p>
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">검수할 리포트가 없습니다.</p>
             ) : (
               reports.map((report) => {
                 const status = text(report.report_status) || 'submitted'
@@ -167,7 +167,7 @@ export function AnbuCareReportReviewPage() {
                 const score = typeof report.quality_score === 'number' ? report.quality_score : null
 
                 return (
-                  <article key={text(report.id)} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <article key={text(report.id)} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="flex flex-wrap gap-2">
                       <Badge text={statusLabel(status)} className={badgeClass(status)} />
                       <Badge text={qualityLabel(qualityStatus)} className={badgeClass(qualityStatus)} />
@@ -195,11 +195,11 @@ export function AnbuCareReportReviewPage() {
                     <ReportSection title="검수 메모" value={text(report.review_memo)} />
 
                     {flags.length > 0 ? (
-                      <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
-                        <div className="text-sm font-black text-[#795313]">자동 감지된 주의사항</div>
+                      <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 ring-1 ring-[#F3DEB5]">
+                        <div className="text-sm font-black text-[#795C22]">자동 감지된 주의사항</div>
                         <div className="mt-3 space-y-2">
                           {flags.map((flag: any, index: number) => (
-                            <div key={index} className="rounded-xl bg-white p-3 text-sm font-bold leading-6 text-[#795313]">
+                            <div key={index} className="rounded-xl bg-white p-3 text-sm font-bold leading-6 text-[#795C22]">
                               <div className="font-black">{flag.label} · {flag.severity}</div>
                               {flag.matchedText ? <div>감지: {flag.matchedText}</div> : null}
                               <div>{flag.suggestion}</div>
@@ -210,8 +210,8 @@ export function AnbuCareReportReviewPage() {
                     ) : null}
 
                     {checklist.length > 0 ? (
-                      <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-                        <div className="text-sm font-black text-[#11977F]">운영실 체크리스트</div>
+                      <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+                        <div className="text-sm font-black text-[#2AA897]">운영실 체크리스트</div>
                         <div className="mt-3 space-y-2">
                           {checklist.map((item: any) => (
                             <div key={item.key} className="text-sm font-bold leading-6 text-[#4E6D69]">
@@ -223,19 +223,19 @@ export function AnbuCareReportReviewPage() {
                     ) : null}
 
                     <div className="mt-5 flex flex-wrap gap-2">
-                      <button onClick={() => qualityCheck(text(report.id))} disabled={loading} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60">
+                      <button onClick={() => qualityCheck(text(report.id))} disabled={loading} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-60">
                         품질 재점검
                       </button>
                       <button onClick={() => review(text(report.id), 'approved')} disabled={loading} className="rounded-xl bg-[#20C5A8] px-4 py-2 text-xs font-black text-white disabled:opacity-60">
                         승인/공개
                       </button>
-                      <button onClick={() => review(text(report.id), 'needs_revision')} disabled={loading} className="rounded-xl bg-[#FFF8E8] px-4 py-2 text-xs font-black text-[#795313] ring-1 ring-[#F4D8A5] disabled:opacity-60">
+                      <button onClick={() => review(text(report.id), 'needs_revision')} disabled={loading} className="rounded-xl bg-[#FFF9EE] px-4 py-2 text-xs font-black text-[#795C22] ring-1 ring-[#F3DEB5] disabled:opacity-60">
                         수정요청
                       </button>
-                      <button onClick={() => review(text(report.id), 'hidden')} disabled={loading} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60">
+                      <button onClick={() => review(text(report.id), 'hidden')} disabled={loading} className="rounded-xl bg-white px-4 py-2 text-xs font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-60">
                         숨김
                       </button>
-                      <button onClick={() => review(text(report.id), 'rejected')} disabled={loading} className="rounded-xl bg-[#FFF1F1] px-4 py-2 text-xs font-black text-[#8A2525] ring-1 ring-[#F3BBBB] disabled:opacity-60">
+                      <button onClick={() => review(text(report.id), 'rejected')} disabled={loading} className="rounded-xl bg-[#FFF4F4] px-4 py-2 text-xs font-black text-[#8A3030] ring-1 ring-[#F3C8C8] disabled:opacity-60">
                         반려
                       </button>
                     </div>
@@ -246,7 +246,7 @@ export function AnbuCareReportReviewPage() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">검수 기준</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#E7FFF7]">
             <li>1. 진단, 처방, 복약 변경 지시처럼 보이는 표현이 없는지 확인합니다.</li>
@@ -264,9 +264,9 @@ export function AnbuCareReportReviewPage() {
 
 function Summary({ label, value }: { label: string; value: number }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{value}</div>
+      <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{value}</div>
     </section>
   )
 }
@@ -278,8 +278,8 @@ function Badge({ text, className = '' }: { text: string; className?: string }) {
 function ReportSection({ title, value }: { title: string; value: string }) {
   if (!value) return null
   return (
-    <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-      <div className="text-xs font-black text-[#11977F]">{title}</div>
+    <div className="mt-4 rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+      <div className="text-xs font-black text-[#2AA897]">{title}</div>
       <p className="mt-2 whitespace-pre-line text-sm font-bold leading-7 text-[#4E6D69]">{value}</p>
     </div>
   )
@@ -287,9 +287,9 @@ function ReportSection({ title, value }: { title: string; value: string }) {
 
 function RawBox({ result }: { result: unknown }) {
   return (
-    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">최근 처리 결과</h2>
-      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+      <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
         {JSON.stringify(result, null, 2)}
       </pre>
     </section>

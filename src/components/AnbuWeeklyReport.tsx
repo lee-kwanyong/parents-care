@@ -28,9 +28,9 @@ type WeeklyReport = {
 }
 
 function stateClass(state?: string) {
-  if (state === '확인 필요') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (state === '주의') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
+  if (state === '확인 필요') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (state === '주의') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
 }
 
 export function AnbuWeeklyReport() {
@@ -67,10 +67,10 @@ export function AnbuWeeklyReport() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             안부온 · 주간 리포트
           </div>
 
@@ -86,21 +86,21 @@ export function AnbuWeeklyReport() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               {loading ? '불러오는 중...' : '리포트 새로고침'}
             </button>
 
             <Link
               href="/child/dashboard"
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               보호자 대시보드
             </Link>
 
             <button
               onClick={() => setShowRaw((value) => !value)}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               {showRaw ? '원본 숨기기' : '원본 보기'}
             </button>
@@ -108,13 +108,13 @@ export function AnbuWeeklyReport() {
         </section>
 
         {error ? (
-          <section className="rounded-[2rem] bg-[#FFF1F1] p-5 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]">
+          <section className="rounded-[2rem] bg-[#FFF4F4] p-5 text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8]">
             {error}
           </section>
         ) : null}
 
         {!report ? (
-          <section className="rounded-[2rem] bg-white p-8 text-center text-lg font-black shadow-sm ring-1 ring-[#D8EEE8]">
+          <section className="rounded-[2rem] bg-white p-8 text-center text-lg font-black shadow-sm ring-1 ring-[#D6EDE7]">
             {loading ? '리포트를 불러오는 중입니다.' : '리포트 데이터가 없습니다.'}
           </section>
         ) : (
@@ -139,26 +139,26 @@ export function AnbuWeeklyReport() {
 
             <div className="grid gap-4 md:grid-cols-3">
               {report.stats.map((stat) => (
-                <section key={stat.label} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+                <section key={stat.label} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
                   <div className="text-sm font-black text-[#7A9692]">{stat.label}</div>
-                  <div className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#11977F]">{stat.value}</div>
+                  <div className="mt-2 text-3xl font-black tracking-[-0.05em] text-[#2AA897]">{stat.value}</div>
                   <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{stat.help}</p>
                 </section>
               ))}
             </div>
 
-            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+            <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
               <h2 className="text-2xl font-black tracking-[-0.05em]">요일별 안부 흐름</h2>
 
               <div className="mt-5 grid gap-3 md:grid-cols-7">
                 {report.dayRows.map((day) => (
-                  <div key={day.date} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                  <div key={day.date} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="text-xs font-black text-[#7A9692]">{day.date.slice(5)}</div>
                     <div className="mt-3 space-y-2 text-sm font-bold text-[#4E6D69]">
                       <p>식사 {day.meal}</p>
                       <p>약 {day.medication}</p>
                       <p>상태 {day.condition}</p>
-                      <p className={day.risk > 0 ? 'font-black text-[#8A2525]' : ''}>주의 {day.risk}</p>
+                      <p className={day.risk > 0 ? 'font-black text-[#8A3030]' : ''}>주의 {day.risk}</p>
                     </div>
                   </div>
                 ))}
@@ -166,18 +166,18 @@ export function AnbuWeeklyReport() {
             </section>
 
             <div className="grid gap-5 lg:grid-cols-2">
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">이번 주 확인된 신호</h2>
                 <div className="mt-5 space-y-3">
                   {report.signals.map((signal) => (
-                    <div key={signal} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 ring-1 ring-[#D8EEE8]">
+                    <div key={signal} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 ring-1 ring-[#D6EDE7]">
                       {signal}
                     </div>
                   ))}
                 </div>
               </section>
 
-              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+              <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
                 <h2 className="text-2xl font-black tracking-[-0.05em]">다음 행동 추천</h2>
                 <div className="mt-5 space-y-3">
                   {report.nextActions.map((action, index) => (
@@ -192,9 +192,9 @@ export function AnbuWeeklyReport() {
         )}
 
         {showRaw ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">원본 데이터</h2>
-            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(raw, null, 2)}
             </pre>
           </section>

@@ -40,14 +40,14 @@ function statusLabel(status?: string) {
 }
 
 function statusClass(status?: string) {
-  if (status === 'completed') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'cleaned') return 'bg-[#F8FCFB] text-[#637B76] ring-[#D8EEE8]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (status === 'completed') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'cleaned') return 'bg-[#FAFFFD] text-[#637B76] ring-[#D6EDE7]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -131,10 +131,10 @@ export function GovDemoRunnerPanel({
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             실증 시연 모드
           </div>
 
@@ -146,7 +146,7 @@ export function GovDemoRunnerPanel({
             {subtitle}
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             시연 모드는 실제 문자 발송이 아니라 문자 대기열을 생성합니다. 발송하려면 알림 발송센터에서 직접 실행하세요.
           </div>
 
@@ -156,20 +156,20 @@ export function GovDemoRunnerPanel({
               onChange={(event) => setDemoPhone(phoneOnly(event.target.value))}
               inputMode="tel"
               placeholder="시연용 수신번호 예: 01012345678"
-              className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             />
 
             <input
               value={serviceArea}
               onChange={(event) => setServiceArea(event.target.value)}
               placeholder="권역 예: 데모동"
-              className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             />
 
             <select
               value={scenarioKey}
               onChange={(event) => setScenarioKey(event.target.value)}
-              className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             >
               <option value="urgent_full">전체 흐름 시연</option>
               <option value="urgent_only">긴급 도움 요청만</option>
@@ -178,7 +178,7 @@ export function GovDemoRunnerPanel({
             <button
               onClick={() => post('runScenario', { demoPhone, serviceArea, scenarioKey })}
               disabled={loading || !demoPhone}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               시연 데이터 생성
             </button>
@@ -188,7 +188,7 @@ export function GovDemoRunnerPanel({
             <button
               onClick={() => post('fastForward', { runId: latestRun?.id })}
               disabled={loading || !latestRun}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               시연 완료 처리
             </button>
@@ -196,7 +196,7 @@ export function GovDemoRunnerPanel({
             <button
               onClick={() => post('cleanupDemo')}
               disabled={loading || metrics.demoRuns === 0}
-              className="rounded-2xl bg-[#FFF1F1] px-5 py-4 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB] disabled:opacity-50"
+              className="rounded-2xl bg-[#FFF4F4] px-5 py-4 text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8] disabled:opacity-50"
             >
               시연 데이터 정리
             </button>
@@ -204,20 +204,20 @@ export function GovDemoRunnerPanel({
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               새로고침
             </button>
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">처리 결과 보기</summary>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -235,7 +235,7 @@ export function GovDemoRunnerPanel({
           <MetricCard title="문자 대기" value={`${metrics.queuedDemoOutbox}건`} desc="발송센터 확인" danger={metrics.queuedDemoOutbox > 0} />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">시연 순서</h2>
 
           <div className="mt-5 overflow-x-auto">
@@ -256,12 +256,12 @@ export function GovDemoRunnerPanel({
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">최근 시연 기록</h2>
 
             <div className="mt-5 space-y-3">
               {runs.length === 0 ? (
-                <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+                <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                   아직 시연 기록이 없습니다.
                 </div>
               ) : (
@@ -288,28 +288,28 @@ export function GovDemoRunnerPanel({
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">시연 후 확인 화면</h2>
 
             <div className="mt-5 grid gap-3">
-              <Link href="/ops/incidents" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+              <Link href="/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
                 사건 타임라인 확인
               </Link>
-              <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 알림 발송센터 확인
               </Link>
-              <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 도움망 요청함 확인
               </Link>
-              <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 운영보고서 확인
               </Link>
-              <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 제출 패키지 확인
               </Link>
             </div>
 
-            <div className="mt-5 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               발표 순서 추천:
               <br />
               1. 시연 데이터 생성
@@ -326,19 +326,19 @@ export function GovDemoRunnerPanel({
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/ops/incidents" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             사건 타임라인
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
-          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             운영보고서
           </Link>
-          <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             제출 패키지
           </Link>
-          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             새로고침
           </button>
         </div>
@@ -349,8 +349,8 @@ export function GovDemoRunnerPanel({
 
 function FlowStep({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <div className="flex min-w-[14rem] items-center gap-3 rounded-full bg-[#193B38] px-4 py-3 text-white">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-[#193B38]">
+    <div className="flex min-w-[14rem] items-center gap-3 rounded-full bg-[#247A71] px-4 py-3 text-white">
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-[#17443F]">
         {number}
       </div>
       <div>
@@ -362,7 +362,7 @@ function FlowStep({ number, title, desc }: { number: string; title: string; desc
 }
 
 function FlowArrow() {
-  return <div className="text-2xl font-black text-[#193B38]/30">→</div>
+  return <div className="text-2xl font-black text-[#17443F]/30">→</div>
 }
 
 export default GovDemoRunnerPanel

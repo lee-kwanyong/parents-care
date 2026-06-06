@@ -50,7 +50,7 @@ export function PlanGate({
 
   if (loading) {
     return (
-      <div className="rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D8EEE8]">
+      <div className="rounded-[2rem] bg-white p-6 text-center font-black shadow-sm ring-1 ring-[#D6EDE7]">
         플랜 확인 중...
       </div>
     )
@@ -99,12 +99,12 @@ function LockedCard({
   subCta?: string
 }) {
   return (
-    <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-      <div className="inline-flex rounded-full bg-[#FFF8E8] px-4 py-2 text-sm font-black text-[#795313]">
+    <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+      <div className="inline-flex rounded-full bg-[#FFF9EE] px-4 py-2 text-sm font-black text-[#795C22]">
         플랜 업그레이드 필요
       </div>
 
-      <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36] sm:text-5xl">
+      <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] text-[#17443F] sm:text-5xl">
         {title}
       </h1>
 
@@ -113,11 +113,11 @@ function LockedCard({
       </p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Link href={href} className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+        <Link href={href} className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
           {cta}
         </Link>
         {subLink && subCta ? (
-          <Link href={subLink} className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <Link href={subLink} className="rounded-2xl bg-[#F2FAF8] px-5 py-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
             {subCta}
           </Link>
         ) : null}

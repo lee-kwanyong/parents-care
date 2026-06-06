@@ -78,7 +78,7 @@ export default function KakaoChecklistPage() {
                 <h2 className="text-xl font-black text-[#24423F]">{item.title}</h2>
               </div>
 
-              <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC]">
+              <div className="mt-4 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC]">
                 <div className="text-xs font-black text-[#718A87]">확인 위치</div>
                 <p className="mt-1 text-sm font-bold leading-6 text-[#24423F]">{item.where}</p>
               </div>

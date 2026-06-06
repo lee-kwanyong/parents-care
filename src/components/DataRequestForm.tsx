@@ -55,16 +55,16 @@ export function DataRequestForm({ defaultType = 'delete_account' }: { defaultTyp
   }
 
   return (
-    <form onSubmit={submit} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+    <form onSubmit={submit} className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
       <h2 className="text-2xl font-black tracking-[-0.05em]">요청 접수</h2>
 
       <div className="mt-5 grid gap-4 md:grid-cols-2">
         <label className="grid gap-2 md:col-span-2">
-          <span className="text-sm font-black text-[#55736E]">요청 유형</span>
+          <span className="text-sm font-black text-[#637B76]">요청 유형</span>
           <select
             name="requestType"
             defaultValue={defaultType}
-            className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           >
             {requestTypes.map((item) => (
               <option key={item.value} value={item.value}>{item.label}</option>
@@ -79,29 +79,29 @@ export function DataRequestForm({ defaultType = 'delete_account' }: { defaultTyp
       </div>
 
       <label className="mt-5 grid gap-2">
-        <span className="text-sm font-black text-[#55736E]">요청 내용</span>
+        <span className="text-sm font-black text-[#637B76]">요청 내용</span>
         <textarea
           name="details"
           required
-          className="min-h-32 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+          className="min-h-32 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           placeholder="삭제, 열람, 수정, 동의 철회 등 요청 내용을 적어주세요."
         />
       </label>
 
-      <label className="mt-5 block rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+      <label className="mt-5 block rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
         <input name="consent" type="checkbox" required className="mr-2" />
         요청 처리를 위해 입력한 연락처와 요청 내용을 안부웍스 운영실이 확인하는 데 동의합니다.
       </label>
 
       {message ? (
-        <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
           {message}
         </div>
       ) : null}
 
       <button
         disabled={saving}
-        className="mt-5 rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+        className="mt-5 rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
       >
         {saving ? '접수 중...' : '요청 접수하기'}
       </button>
@@ -122,11 +122,11 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         required={required}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
         placeholder={placeholder}
       />
     </label>

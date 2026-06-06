@@ -5,25 +5,25 @@ const signalCards = [
     label: '도움이 필요해요',
     level: '긴급',
     desc: '가족에게 즉시 알리고, 필요하면 가까운 돌봄파트너·수행기관 확인으로 연결합니다.',
-    color: 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+    color: 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
   },
   {
     label: '밥을 못 먹었어요',
     level: '식사',
     desc: '가족이 먼저 확인하고, 필요하면 지역상점·도시락·반찬가게 식사 연결을 검토합니다.',
-    color: 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+    color: 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
   },
   {
     label: '약을 못 먹었어요',
     level: '복약',
     desc: '복약 여부를 다시 확인하고, 반복되면 보호자·돌봄파트너·약국 상담으로 연결합니다.',
-    color: 'bg-[#EEF6FF] text-[#1B4E7A] ring-[#CFE5FA]'
+    color: 'bg-[#F3F8FF] text-[#255B83] ring-[#D8EAFB]'
   },
   {
     label: '몸이 아파요',
     level: '건강',
     desc: '가족 또는 돌봄파트너가 상태를 확인하고, 응급 가능성이 있으면 119 또는 의료기관 연락을 안내합니다.',
-    color: 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
+    color: 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
   }
 ]
 
@@ -63,9 +63,9 @@ const roles = [
 
 export function ResponseAboutPanel() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white shadow-[0_18px_52px_rgba(20,82,70,0.16)] sm:rounded-[2.5rem] sm:p-8">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white shadow-[0_18px_52px_rgba(20,82,70,0.16)] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-black text-[#A7F2E3] ring-1 ring-white/20">
             안부웍스 지역 안심망
           </div>
@@ -85,7 +85,7 @@ export function ResponseAboutPanel() {
           </div>
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            <Link href="/parent/login" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36]">
+            <Link href="/parent/login" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F]">
               부모님 코드 입력
             </Link>
             <Link href="/login" className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">
@@ -97,8 +97,8 @@ export function ResponseAboutPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             헷갈리지 않는 3단계
           </div>
 
@@ -108,8 +108,8 @@ export function ResponseAboutPanel() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {steps.map((step, index) => (
-              <article key={step.title} className="rounded-2xl bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#193B38] text-sm font-black text-white">
+              <article key={step.title} className="rounded-2xl bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#247A71] text-sm font-black text-white">
                   {index + 1}
                 </div>
                 <h3 className="mt-4 text-xl font-black tracking-[-0.05em]">{step.title}</h3>
@@ -131,7 +131,7 @@ export function ResponseAboutPanel() {
           ))}
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">역할별로 보는 화면이 다릅니다.</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
             일반 사용자는 소개를 보고, 보호자는 내 부모님 요청만 보고, 운영실과 지자체는 인증 후 전체 요청을 관제합니다.
@@ -139,7 +139,7 @@ export function ResponseAboutPanel() {
 
           <div className="mt-5 grid gap-3 md:grid-cols-4">
             {roles.map((role) => (
-              <article key={role.title} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+              <article key={role.title} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <h3 className="text-xl font-black tracking-[-0.05em]">{role.title}</h3>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{role.desc}</p>
               </article>

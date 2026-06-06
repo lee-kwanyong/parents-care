@@ -54,15 +54,15 @@ function phoneOnly(value: string) {
 }
 
 function riskClass(risk?: string) {
-  if (risk === 'high') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
+  if (risk === 'high') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
 }
 
 function statusClass(status?: string) {
-  if (status === 'completed') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'accepted' || status === 'in_progress') return 'bg-[#EEF6FF] text-[#1B4E7A] ring-[#CFE5FA]'
-  if (status === 'declined') return 'bg-[#F8FCFB] text-[#637B76] ring-[#D8EEE8]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+  if (status === 'completed') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'accepted' || status === 'in_progress') return 'bg-[#F3F8FF] text-[#255B83] ring-[#D8EAFB]'
+  if (status === 'declined') return 'bg-[#FAFFFD] text-[#637B76] ring-[#D6EDE7]'
+  return 'bg-white text-[#17443F] ring-[#D6EDE7]'
 }
 
 function statusLabel(status?: string) {
@@ -76,7 +76,7 @@ function statusLabel(status?: string) {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -258,10 +258,10 @@ export function ProviderRequestsPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             지역 도움망 요청함
           </div>
 
@@ -281,12 +281,12 @@ export function ProviderRequestsPanel() {
             <GuideCard number="3" title="처리 완료" desc="전화·방문·식사 연결 등 가능한 조치 후 결과를 남깁니다." />
           </div>
 
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             응급상황을 앱이 직접 판단하지 않습니다. 현장에서 응급 가능성이 보이면 119 또는 의료기관에 즉시 연락해야 합니다.
           </div>
 
           {tokenMode ? (
-            <div className="mt-6 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-6 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               보안 요청 링크로 접속했습니다. 연락처 입력 없이 이 요청을 확인할 수 있습니다.
             </div>
           ) : (
@@ -296,13 +296,13 @@ export function ProviderRequestsPanel() {
                 onChange={(event) => setPhone(phoneOnly(event.target.value))}
                 inputMode="tel"
                 placeholder="등록된 연락처 입력"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <button
                 onClick={() => loadByPhone(phone)}
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 {loading ? '조회 중' : '요청 조회'}
               </button>
@@ -310,13 +310,13 @@ export function ProviderRequestsPanel() {
           )}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
               <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -330,7 +330,7 @@ export function ProviderRequestsPanel() {
           <MetricCard title="완료" value={`${metrics.completed}개`} desc="처리 완료된 요청" />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">지금 받은 요청</h2>
           <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
             수락하면 필요한 연락처와 주소 힌트가 표시됩니다. 수행이 어렵다면 거절을 눌러 운영실이 다른 도움망을 찾을 수 있게 해주세요.
@@ -338,7 +338,7 @@ export function ProviderRequestsPanel() {
 
           <div className="mt-5 space-y-3">
             {activeItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#EFFFF9] p-5 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <div className="rounded-2xl bg-[#EFFFFA] p-5 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 현재 처리할 요청이 없습니다.
               </div>
             ) : (
@@ -397,7 +397,7 @@ export function ProviderRequestsPanel() {
                       {item.request.parent_phone && !item.request.private_locked ? (
                         <a
                           href={`tel:${item.request.parent_phone}`}
-                          className="rounded-xl bg-[#193B38] px-4 py-3 text-center text-sm font-black text-white"
+                          className="rounded-xl bg-[#247A71] px-4 py-3 text-center text-sm font-black text-white"
                         >
                           부모님께 전화
                         </a>
@@ -416,7 +416,7 @@ export function ProviderRequestsPanel() {
                         <button
                           onClick={() => update(item, 'accept')}
                           disabled={loading}
-                          className="rounded-xl bg-[#193B38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                          className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                         >
                           요청 수락
                         </button>
@@ -436,7 +436,7 @@ export function ProviderRequestsPanel() {
                         <button
                           onClick={() => update(item, 'complete')}
                           disabled={loading}
-                          className="rounded-xl bg-[#123F38] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
+                          className="rounded-xl bg-[#247A71] px-4 py-3 text-sm font-black text-white disabled:opacity-50"
                         >
                           처리 완료
                         </button>
@@ -459,17 +459,17 @@ export function ProviderRequestsPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">완료 또는 거절한 요청</h2>
 
           <div className="mt-5 space-y-3">
             {doneItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 완료된 요청이 없습니다.
               </div>
             ) : (
               doneItems.slice(0, 10).map((item) => (
-                <article key={item.match.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <article key={item.match.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(item.match.match_status)}>
                       {statusLabel(item.match.match_status)}
@@ -486,15 +486,15 @@ export function ProviderRequestsPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-3">
-          <Link href="/response/about" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/response/about" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             지역 안심망 소개
           </Link>
-          <Link href="/response" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/response" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             보호자 후속조치
           </Link>
           <button
             onClick={() => (tokenMode ? loadByToken(token) : loadByPhone(phone))}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -506,8 +506,8 @@ export function ProviderRequestsPanel() {
 
 function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+    <article className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#247A71] text-xs font-black text-white">
         {number}
       </div>
       <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>

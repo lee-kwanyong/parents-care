@@ -54,10 +54,10 @@ function PageShell({
   children: ReactNode
 }) {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             {eyebrow}
           </div>
           <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -76,7 +76,7 @@ function PageShell({
 
 function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
   return (
-    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6 ' + className}>
+    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6 ' + className}>
       {children}
     </section>
   )
@@ -97,13 +97,13 @@ function Field({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -120,12 +120,12 @@ function TextArea({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <textarea
         name={name}
         rows={4}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold leading-6 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )
@@ -145,7 +145,7 @@ export function CustomerLandingPage() {
           ['3', '사람 돌봄 연결', '필요한 순간 운영실과 케어파트너가 개입합니다.']
         ].map(([num, title, desc]) => (
           <Card key={title}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
               {num}
             </div>
             <h2 className="mt-5 text-2xl font-black tracking-[-0.05em]">{title}</h2>
@@ -154,13 +154,13 @@ export function CustomerLandingPage() {
         ))}
       </div>
 
-      <Card className="bg-[#123F38] text-white">
+      <Card className="bg-[#247A71] text-white">
         <p className="text-sm font-black text-[#9DF4DD]">핵심 흐름</p>
         <p className="mt-3 text-2xl font-black leading-snug tracking-[-0.04em]">
           부모님 연결 → 안부 루틴 → 위험신호 분류 → 보호자 알림 → 운영실 확인 → 케어파트너 연결 → 주간 리포트
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/onboarding" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#123F38]">
+          <Link href="/onboarding" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F]">
             보호자 시작하기
           </Link>
           <Link href="/partners" className="rounded-2xl bg-white/10 px-5 py-4 text-sm font-black text-white ring-1 ring-white/25">
@@ -204,12 +204,12 @@ export function GuardianOnboardingPage() {
               className={
                 'rounded-[2rem] p-5 text-left shadow-sm ring-1 transition ' +
                 (checked
-                  ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                  : 'bg-white text-[#17443F] ring-[#D6EDE7]')
               }
             >
               <div className="flex items-start gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-sm font-black ring-1 ring-[#D8EEE8]">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white text-sm font-black ring-1 ring-[#D6EDE7]">
                   {checked ? '✓' : index + 1}
                 </div>
                 <div>
@@ -223,13 +223,13 @@ export function GuardianOnboardingPage() {
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">
-        <Link href="/family-link" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+        <Link href="/family-link" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
           부모님 연결
         </Link>
-        <Link href="/care-schedule" className="rounded-2xl bg-[#EFFFF9] px-5 py-4 text-center text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <Link href="/care-schedule" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 text-center text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           일정 등록
         </Link>
-        <Link href="/settings/permissions" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+        <Link href="/settings/permissions" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
           앱 권한 설정
         </Link>
       </div>
@@ -266,10 +266,10 @@ export function CareSchedulePage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">일정 추가</h2>
           <form onSubmit={submit} className="mt-5 grid gap-3">
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">일정 종류</span>
+              <span className="text-sm font-black text-[#637B76]">일정 종류</span>
               <select
                 name="schedule_type"
-                className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 {careScheduleTypes.map((type) => (
                   <option key={type}>{type}</option>
@@ -280,7 +280,7 @@ export function CareSchedulePage() {
             <Field label="날짜" name="date" type="date" required />
             <Field label="시간" name="time" type="time" />
             <TextArea label="메모" name="memo" placeholder="약 이름, 병원명, 준비물 등" />
-            <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">
+            <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">
               일정 저장
             </button>
           </form>
@@ -290,13 +290,13 @@ export function CareSchedulePage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">등록된 일정</h2>
           <div className="mt-5 space-y-3">
             {items.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 등록된 일정이 없습니다.
               </p>
             ) : (
               items.map((item) => (
-                <div key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{item.schedule_type}</div>
+                <div key={item.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{item.schedule_type}</div>
                   <div className="mt-1 text-lg font-black">{item.title}</div>
                   <div className="mt-2 text-sm font-bold text-[#637B76]">
                     {item.date} {item.time}
@@ -341,7 +341,7 @@ export function ChildDashboardPage() {
       title="오늘 부모님 상태를 한 화면에서 확인합니다."
       desc="식사, 약, 몸 상태, 응답 여부, 병원 일정, 다음 행동을 보호자가 한눈에 볼 수 있게 정리합니다."
     >
-      <Card className={summary.signalState === '확인 필요' ? 'bg-[#FFF1F1]' : summary.signalState === '주의' ? 'bg-[#FFF8E8]' : 'bg-[#EFFFF9]'}>
+      <Card className={summary.signalState === '확인 필요' ? 'bg-[#FFF4F4]' : summary.signalState === '주의' ? 'bg-[#FFF9EE]' : 'bg-[#EFFFFA]'}>
         <div className="grid gap-5 lg:grid-cols-[1fr_0.7fr]">
           <div>
             <p className="text-sm font-black opacity-70">오늘 부모님 상태</p>
@@ -361,7 +361,7 @@ export function ChildDashboardPage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">확인된 이유</h2>
           <div className="mt-4 space-y-3">
             {summary.signalReasons.map((reason) => (
-              <div key={reason} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 ring-1 ring-[#D8EEE8]">
+              <div key={reason} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 ring-1 ring-[#D6EDE7]">
                 {reason}
               </div>
             ))}
@@ -372,14 +372,14 @@ export function ChildDashboardPage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">다음 행동</h2>
           <div className="mt-4 space-y-3">
             {summary.familyNextActions.map((action, index) => (
-              <div key={action} className="rounded-2xl bg-[#F7FBFF] p-4 text-sm font-black leading-7 ring-1 ring-[#D8EEE8]">
+              <div key={action} className="rounded-2xl bg-[#F7FBFF] p-4 text-sm font-black leading-7 ring-1 ring-[#D6EDE7]">
                 {index + 1}. {action}
               </div>
             ))}
           </div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-2">
-            <Link href="tel:01012345678" className="rounded-2xl bg-[#193B38] px-4 py-4 text-center text-sm font-black text-white">
+            <Link href="tel:01012345678" className="rounded-2xl bg-[#247A71] px-4 py-4 text-center text-sm font-black text-white">
               부모님께 전화
             </Link>
             <Link href="/care-request" className="rounded-2xl bg-[#20C5A8] px-4 py-4 text-center text-sm font-black text-white">
@@ -397,15 +397,15 @@ export function ChildDashboardPage() {
               {loading ? '불러오는 중...' : `${items.length}개 기록`}
             </p>
           </div>
-          <button onClick={load} className="rounded-2xl bg-[#F8FCFB] px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             새로고침
           </button>
         </div>
 
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {items.slice(0, 8).map((item) => (
-            <div key={item.id || `${item.check_type}-${item.occurred_at}`} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-              <div className="text-xs font-black text-[#11977F]">{item.check_type} · {item.status}</div>
+            <div key={item.id || `${item.check_type}-${item.occurred_at}`} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+              <div className="text-xs font-black text-[#2AA897]">{item.check_type} · {item.status}</div>
               <div className="mt-1 text-lg font-black">{item.care_label}</div>
               {item.memo ? <p className="mt-2 text-sm font-bold text-[#637B76]">{item.memo}</p> : null}
             </div>
@@ -432,13 +432,13 @@ export function PartnerCollaborationPage() {
         ))}
       </div>
 
-      <Card className="bg-[#123F38] text-white">
+      <Card className="bg-[#247A71] text-white">
         <p className="text-sm font-black text-[#9DF4DD]">협업 방식</p>
         <p className="mt-3 text-2xl font-black leading-snug tracking-[-0.04em]">
           설명회 → 희망자 사전등록 → 운영실 검증 → 지역 기반 배정 → 보호자 리포트
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Link href="/care-partner/apply" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#123F38]">
+          <Link href="/care-partner/apply" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F]">
             케어파트너 신청
           </Link>
           <Link href="/contact" className="rounded-2xl bg-white/10 px-5 py-4 text-sm font-black text-white ring-1 ring-white/25">
@@ -460,7 +460,7 @@ export function CarePartnerGuidePage() {
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {partnerTrainingModules.map((module, index) => (
           <Card key={module.title}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
               {index + 1}
             </div>
             <h2 className="mt-5 text-xl font-black tracking-[-0.05em]">{module.title}</h2>
@@ -469,9 +469,9 @@ export function CarePartnerGuidePage() {
         ))}
       </div>
 
-      <Card className="bg-[#FFF8E8]">
-        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#795313]">중요 고지</h2>
-        <p className="mt-3 text-sm font-bold leading-7 text-[#795313]">
+      <Card className="bg-[#FFF9EE]">
+        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#795C22]">중요 고지</h2>
+        <p className="mt-3 text-sm font-bold leading-7 text-[#795C22]">
           케어파트너는 진료 판단, 처방 변경, 복약 결정 등 의료행위를 하지 않습니다.
           응급 가능성이 있으면 보호자와 119 또는 의료기관 안내가 우선입니다.
         </p>
@@ -501,7 +501,7 @@ export function CarePartnerApplyPage() {
       desc="활동 지역, 가능 업무, 자격 여부, 가능 시간을 등록하면 운영실이 검토 후 연락합니다."
     >
       {saved ? (
-        <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           신청이 접수되었습니다. 운영실에서 검토 후 연락드립니다.
         </div>
       ) : null}
@@ -521,11 +521,11 @@ export function CarePartnerApplyPage() {
           <div className="md:col-span-2">
             <TextArea label="자기소개 / 활동 경험" name="intro" placeholder="요양보호, 병원동행, 돌봄 경험을 적어주세요." />
           </div>
-          <label className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8] md:col-span-2">
+          <label className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7] md:col-span-2">
             <input type="checkbox" name="privacy_agreed" value="yes" required className="mr-2" />
             개인정보 수집 및 케어파트너 검증 목적의 이용에 동의합니다.
           </label>
-          <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white md:col-span-2">
+          <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white md:col-span-2">
             케어파트너 신청하기
           </button>
         </form>
@@ -544,7 +544,7 @@ export function SafetyProtocolPage() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {safetyProtocolSteps.map((step, index) => (
           <Card key={step.title}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
               {index + 1}
             </div>
             <h2 className="mt-5 text-lg font-black tracking-[-0.05em]">{step.title}</h2>
@@ -585,14 +585,14 @@ export function OpsCrmPage() {
           <form onSubmit={submit} className="mt-5 grid gap-3">
             <Field label="부모님/보호자명" name="customer_name" required />
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">상태</span>
-              <select name="status" className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold">
+              <span className="text-sm font-black text-[#637B76]">상태</span>
+              <select name="status" className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold">
                 {opsCaseStatuses.map((status) => <option key={status}>{status}</option>)}
               </select>
             </label>
             <Field label="담당자" name="owner" />
             <TextArea label="메모" name="memo" />
-            <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">저장</button>
+            <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">저장</button>
           </form>
         </Card>
 
@@ -600,13 +600,13 @@ export function OpsCrmPage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">운영 케이스</h2>
           <div className="mt-5 space-y-3">
             {items.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 등록된 케이스가 없습니다.
               </p>
             ) : (
               items.map((item) => (
-                <div key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{item.status}</div>
+                <div key={item.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{item.status}</div>
                   <div className="mt-1 text-lg font-black">{item.customer_name}</div>
                   <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{item.memo}</p>
                 </div>
@@ -665,13 +665,13 @@ export function OutreachCrmPage() {
             <Field label="전화번호" name="phone" />
             <Field label="지역" name="region" />
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">상태</span>
-              <select name="status" className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold">
+              <span className="text-sm font-black text-[#637B76]">상태</span>
+              <select name="status" className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold">
                 {outreachStatuses.map((status) => <option key={status}>{status}</option>)}
               </select>
             </label>
             <TextArea label="메모 / 다음 액션" name="memo" />
-            <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">저장</button>
+            <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">저장</button>
           </form>
         </Card>
 
@@ -679,15 +679,15 @@ export function OutreachCrmPage() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">협업기관 현황</h2>
           <div className="mt-5 space-y-3">
             {items.length === 0 ? (
-              <p className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <p className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 등록된 기관이 없습니다.
               </p>
             ) : (
               items.map((item) => (
-                <div key={item.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <div key={item.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F]">{item.status}</span>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#637B76] ring-1 ring-[#D8EEE8]">{item.org_type}</span>
+                    <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897]">{item.status}</span>
+                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#637B76] ring-1 ring-[#D6EDE7]">{item.org_type}</span>
                   </div>
                   <div className="mt-3 text-lg font-black">{item.org_name}</div>
                   <p className="mt-1 text-sm font-bold text-[#637B76]">{item.email} · {item.region}</p>
@@ -713,7 +713,7 @@ export function MetricsDashboardPage() {
         {metrics.map((metric) => (
           <Card key={metric.label}>
             <div className="text-sm font-black text-[#7A9692]">{metric.label}</div>
-            <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{metric.value}</div>
+            <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{metric.value}</div>
             <p className="mt-2 text-sm font-bold text-[#637B76]">{metric.desc}</p>
           </Card>
         ))}
@@ -734,7 +734,7 @@ export function LegalPage({ type }: { type: 'privacy' | 'terms' | 'location' | '
       <Card>
         <div className="space-y-4">
           {doc.body.map((paragraph, index) => (
-            <p key={paragraph} className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#4E6D69] ring-1 ring-[#D8EEE8]">
+            <p key={paragraph} className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#4E6D69] ring-1 ring-[#D6EDE7]">
               {index + 1}. {paragraph}
             </p>
           ))}
@@ -762,7 +762,7 @@ export function DataDeletionPage() {
       desc="Play Store와 개인정보 보호 기준에 맞춰 이용자가 데이터 삭제 요청을 할 수 있는 창구를 제공합니다."
     >
       {saved ? (
-        <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           삭제 요청이 접수되었습니다.
         </div>
       ) : null}
@@ -773,8 +773,8 @@ export function DataDeletionPage() {
           <Field label="이메일" name="email" type="email" required />
           <Field label="연락처" name="phone" />
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">요청 유형</span>
-            <select name="request_type" className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold">
+            <span className="text-sm font-black text-[#637B76]">요청 유형</span>
+            <select name="request_type" className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold">
               <option>계정 삭제</option>
               <option>부모님 연결 해제</option>
               <option>안부 기록 삭제</option>
@@ -784,7 +784,7 @@ export function DataDeletionPage() {
             </select>
           </label>
           <TextArea label="요청 내용" name="memo" />
-          <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">삭제 요청 접수</button>
+          <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">삭제 요청 접수</button>
         </form>
       </Card>
     </PageShell>
@@ -809,7 +809,7 @@ export function ContactPage() {
       desc="서비스 이용, 협업 제안, 케어파트너 신청, 개인정보 요청을 한 곳에서 접수합니다."
     >
       {saved ? (
-        <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           문의가 접수되었습니다.
         </div>
       ) : null}
@@ -820,8 +820,8 @@ export function ContactPage() {
           <Field label="이메일" name="email" type="email" required />
           <Field label="연락처" name="phone" />
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">문의 유형</span>
-            <select name="contact_type" className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold">
+            <span className="text-sm font-black text-[#637B76]">문의 유형</span>
+            <select name="contact_type" className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold">
               <option>보호자 이용 문의</option>
               <option>케어파트너 신청 문의</option>
               <option>협업기관 제휴 문의</option>
@@ -830,7 +830,7 @@ export function ContactPage() {
             </select>
           </label>
           <TextArea label="문의 내용" name="memo" />
-          <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">문의 보내기</button>
+          <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">문의 보내기</button>
         </form>
       </Card>
     </PageShell>
@@ -870,8 +870,8 @@ export function PlayStoreReadyPage() {
               className={
                 'rounded-2xl p-4 text-left text-sm font-black ring-1 transition ' +
                 (checked
-                  ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                  : 'bg-white text-[#173B36] ring-[#D8EEE8]')
+                  ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                  : 'bg-white text-[#17443F] ring-[#D6EDE7]')
               }
             >
               {checked ? '✓ ' : ''}

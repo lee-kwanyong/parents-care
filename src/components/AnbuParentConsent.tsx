@@ -15,8 +15,8 @@ function normalizeFamilyCode(value: string) {
 
 function actionStyle(actionType: string) {
   if (actionType === 'help_needed') return 'bg-[#8A2525] text-white'
-  if (actionType === 'call_guardian') return 'bg-[#193B38] text-white'
-  return 'bg-white text-[#173B36] ring-1 ring-[#D8EEE8]'
+  if (actionType === 'call_guardian') return 'bg-[#247A71] text-white'
+  return 'bg-white text-[#17443F] ring-1 ring-[#D6EDE7]'
 }
 
 export function AnbuParentConsent() {
@@ -182,10 +182,10 @@ export function AnbuParentConsent() {
   )
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             부모님 안심동의 카드
           </div>
 
@@ -203,21 +203,21 @@ export function AnbuParentConsent() {
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/parent/login"
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               6자리 접속
             </Link>
 
             <Link
               href="/parent/today"
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               안부 버튼
             </Link>
 
             <button
               onClick={() => setShowRaw((value) => !value)}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               {showRaw ? '원본 숨기기' : '원본 보기'}
             </button>
@@ -229,8 +229,8 @@ export function AnbuParentConsent() {
             className={
               'rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' +
               (message.type === 'ok'
-                ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+                ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
             }
           >
             {message.text}
@@ -238,35 +238,35 @@ export function AnbuParentConsent() {
         ) : null}
 
         <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">연결 정보</h2>
 
             <div className="mt-5 space-y-4">
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">6자리 가족 연결코드</span>
+                <span className="text-sm font-black text-[#637B76]">6자리 가족 연결코드</span>
                 <input
                   value={familyCode}
                   onChange={(event) => setFamilyCode(normalizeFamilyCode(event.target.value))}
                   inputMode="numeric"
                   maxLength={6}
                   placeholder="예: 123456"
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-center text-3xl font-black tracking-[0.16em] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-center text-3xl font-black tracking-[0.16em] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 />
               </label>
 
               <label className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">부모님 표시 이름</span>
+                <span className="text-sm font-black text-[#637B76]">부모님 표시 이름</span>
                 <input
                   value={parentName}
                   onChange={(event) => setParentName(event.target.value)}
                   placeholder="예: 어머니"
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                 />
               </label>
 
-              <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <div className="text-sm font-black text-[#7A9692]">현재 공유 허용 항목</div>
-                <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">
+                <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">
                   {sharedCount}개
                 </div>
                 <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">
@@ -277,14 +277,14 @@ export function AnbuParentConsent() {
               <button
                 onClick={save}
                 disabled={loading}
-                className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+                className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
                 {loading ? '저장 중...' : '안심동의 저장'}
               </button>
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">자녀에게 공유할 정보</h2>
 
             <div className="mt-5 grid gap-3">
@@ -300,8 +300,8 @@ export function AnbuParentConsent() {
                     className={
                       'rounded-2xl p-4 text-left ring-1 transition ' +
                       (checked
-                        ? 'bg-[#EFFFF9] ring-[#CDEFE5]'
-                        : 'bg-[#F8FCFB] ring-[#D8EEE8]')
+                        ? 'bg-[#EFFFFA] ring-[#CDEFE7]'
+                        : 'bg-[#FAFFFD] ring-[#D6EDE7]')
                     }
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -309,11 +309,11 @@ export function AnbuParentConsent() {
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="text-lg font-black tracking-[-0.04em]">{item.title}</h3>
                           {item.recommended ? (
-                            <span className="rounded-full bg-white px-2 py-1 text-[11px] font-black text-[#11977F] ring-1 ring-[#BEEFE3]">
+                            <span className="rounded-full bg-white px-2 py-1 text-[11px] font-black text-[#2AA897] ring-1 ring-[#BEEFE3]">
                               권장
                             </span>
                           ) : (
-                            <span className="rounded-full bg-white px-2 py-1 text-[11px] font-black text-[#7A9692] ring-1 ring-[#D8EEE8]">
+                            <span className="rounded-full bg-white px-2 py-1 text-[11px] font-black text-[#7A9692] ring-1 ring-[#D6EDE7]">
                               선택
                             </span>
                           )}
@@ -342,7 +342,7 @@ export function AnbuParentConsent() {
           </section>
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">오늘 부모님 선택</h2>
           <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
             부모님이 직접 누르는 버튼입니다. 도움 요청이나 전화 요청은 안심루프의 확인 필요 신호로 연결됩니다.
@@ -369,9 +369,9 @@ export function AnbuParentConsent() {
         </section>
 
         {showRaw ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">원본 데이터</h2>
-            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(raw, null, 2)}
             </pre>
           </section>

@@ -55,13 +55,13 @@ export default function OpsDailyCarePage() {
 
   const stateTone =
     data?.summary?.signalState === '확인 필요'
-      ? 'bg-[#FFF1F1] text-[#842525]'
+      ? 'bg-[#FFF4F4] text-[#842525]'
       : data?.summary?.signalState === '주의'
-        ? 'bg-[#FFF8E8] text-[#735212]'
-        : 'bg-[#EFFFF9] text-[#116D5F]'
+        ? 'bg-[#FFF9EE] text-[#735212]'
+        : 'bg-[#EFFFFA] text-[#2AA897]'
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_58%,#F7FBFF_100%)] px-4 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_58%,#F7FBFF_100%)] px-4 py-8 text-[#17443F]">
       <section className="mx-auto max-w-7xl">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -74,7 +74,7 @@ export default function OpsDailyCarePage() {
             </p>
           </div>
 
-          <button onClick={load} className="rounded-2xl bg-[#123F38] px-5 py-4 font-black text-white">
+          <button onClick={load} className="rounded-2xl bg-[#247A71] px-5 py-4 font-black text-white">
             새로고침
           </button>
         </div>
@@ -115,10 +115,10 @@ export default function OpsDailyCarePage() {
                   className={
                     'rounded-[1.75rem] p-5 shadow-sm ring-1 ' +
                     (item.status === 'needs_help'
-                      ? 'bg-[#FFF1F1] ring-[#F2B8B8]'
+                      ? 'bg-[#FFF4F4] ring-[#F2B8B8]'
                       : item.status === 'not_done'
-                        ? 'bg-[#FFF8E8] ring-[#F0D299]'
-                        : 'bg-white ring-[#D8EEE8]')
+                        ? 'bg-[#FFF9EE] ring-[#F0D299]'
+                        : 'bg-white ring-[#D6EDE7]')
                   }
                 >
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
@@ -139,7 +139,7 @@ export default function OpsDailyCarePage() {
               ))}
             </section>
 
-            <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="mt-5 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               {data.summary?.aiDisclaimer}
             </p>
           </>
@@ -151,7 +151,7 @@ export default function OpsDailyCarePage() {
 
 function Stat({ label, value }: { label: string; value: number }) {
   return (
-    <div className="rounded-[1.75rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
+    <div className="rounded-[1.75rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
       <div className="text-sm font-black text-[#7A9692]">{label}</div>
       <div className="mt-2 text-3xl font-black">{value}</div>
     </div>

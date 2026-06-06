@@ -13,7 +13,7 @@ export default async function CheckoutPage({ searchParams }: { searchParams: Sea
   const params = await searchParams
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)]">
       <PaymentCheckoutClient initialPlanId={params.plan || 'basic'} />
     </main>
   )

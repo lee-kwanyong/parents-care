@@ -119,9 +119,9 @@ export function FamilyMemberJoinPanel() {
   }, [])
 
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
-      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
+      <section className="mx-auto max-w-xl rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           가족 초대코드 입력
         </div>
 
@@ -136,13 +136,13 @@ export function FamilyMemberJoinPanel() {
         </p>
 
         {message ? (
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             {message}
           </div>
         ) : null}
 
         {debug ? (
-          <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+          <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
             <summary className="cursor-pointer text-sm font-black">상세 오류 보기</summary>
             <pre className="mt-3 max-h-60 overflow-auto whitespace-pre-wrap">{debug}</pre>
           </details>
@@ -150,32 +150,32 @@ export function FamilyMemberJoinPanel() {
 
         <form onSubmit={submit} className="mt-6 space-y-4">
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">6자리 가족 초대코드</span>
+            <span className="text-sm font-black text-[#637B76]">6자리 가족 초대코드</span>
             <input
               value={inviteCode}
               onChange={(event) => setInviteCode(code6(event.target.value))}
               inputMode="numeric"
               maxLength={6}
               placeholder="123456"
-              className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
+              className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D6EDE7] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
             />
           </label>
 
           <label className="grid gap-2">
-            <span className="text-sm font-black text-[#55736E]">내 휴대폰 번호 뒤 4자리</span>
+            <span className="text-sm font-black text-[#637B76]">내 휴대폰 번호 뒤 4자리</span>
             <input
               value={phoneLast4}
               onChange={(event) => setPhoneLast4(last4(event.target.value))}
               inputMode="numeric"
               maxLength={4}
               placeholder="예: 1234"
-              className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-center text-2xl font-black tracking-[0.12em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+              className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-center text-2xl font-black tracking-[0.12em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC]"
             />
           </label>
 
           <button
             disabled={loading}
-            className="w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
+            className="w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:bg-[#9FB8B3]"
           >
             {loading ? '확인 중...' : '부모님 리포트 보기'}
           </button>
@@ -184,7 +184,7 @@ export function FamilyMemberJoinPanel() {
         <div className="mt-5 grid gap-3">
           <Link
             href="/login"
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             로그인 화면으로
           </Link>

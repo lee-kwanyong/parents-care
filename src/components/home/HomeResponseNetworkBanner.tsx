@@ -1,7 +1,7 @@
 export function HomeResponseNetworkBanner() {
   return (
     <section className="mx-auto mt-5 max-w-6xl px-4">
-      <div className="rounded-[2rem] bg-[#123F38] p-5 text-white shadow-[0_18px_52px_rgba(20,82,70,0.16)] sm:rounded-[2.5rem] sm:p-8">
+      <div className="rounded-[2rem] bg-[#247A71] p-5 text-white shadow-[0_18px_52px_rgba(20,82,70,0.16)] sm:rounded-[2.5rem] sm:p-8">
         <div className="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-black text-[#A7F2E3] ring-1 ring-white/20">
           안부웍스 지역 안심망
         </div>
@@ -17,7 +17,7 @@ export function HomeResponseNetworkBanner() {
         </p>
 
         <div className="mt-6 grid gap-3 sm:grid-cols-4">
-          <a href="/parent/login" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36]">
+          <a href="/parent/login" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F]">
             부모님 코드 입력
           </a>
           <a href="/response/about" className="rounded-2xl bg-[#20BFA7] px-5 py-4 text-center text-sm font-black text-white">

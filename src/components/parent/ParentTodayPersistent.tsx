@@ -36,9 +36,9 @@ function code6(value: string) {
 
 function buttonClass(tone: CheckinButton['tone']) {
   if (tone === 'danger') return 'bg-[#8A2525] text-white'
-  if (tone === 'warn') return 'bg-[#FFF8E8] text-[#795313] ring-1 ring-[#F4D8A5]'
-  if (tone === 'good') return 'bg-[#EFFFF9] text-[#116D5F] ring-1 ring-[#CDEFE5]'
-  return 'bg-white text-[#173B36] ring-1 ring-[#D8EEE8]'
+  if (tone === 'warn') return 'bg-[#FFF9EE] text-[#795C22] ring-1 ring-[#F3DEB5]'
+  if (tone === 'good') return 'bg-[#EFFFFA] text-[#2AA897] ring-1 ring-[#CDEFE7]'
+  return 'bg-white text-[#17443F] ring-1 ring-[#D6EDE7]'
 }
 
 function fallbackSession(familyCode: string): ParentSession {
@@ -170,10 +170,10 @@ export function ParentTodayPersistent() {
   }, [])
 
   return (
-    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-[100svh] bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-4xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             부모님 전용 안부 화면
           </div>
 
@@ -188,12 +188,12 @@ export function ParentTodayPersistent() {
           </p>
 
           {session ? (
-            <div className="mt-5 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+            <div className="mt-5 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
               연결됨: {session.parentName || '부모님'} · 보호자 {session.guardianName || '보호자'} 
             </div>
           ) : (
-            <form onSubmit={connectInline} className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 ring-1 ring-[#F4D8A5]">
-              <div className="text-sm font-black text-[#795313]">6자리 코드를 입력해주세요.</div>
+            <form onSubmit={connectInline} className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 ring-1 ring-[#F3DEB5]">
+              <div className="text-sm font-black text-[#795C22]">6자리 코드를 입력해주세요.</div>
               <div className="mt-3 grid min-w-0 gap-3 sm:grid-cols-[minmax(0,1fr)_9rem]">
                 <input
                   value={familyCode}
@@ -201,11 +201,11 @@ export function ParentTodayPersistent() {
                   inputMode="numeric"
                   maxLength={6}
                   placeholder="123456"
-                  className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D8EEE8] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#173B36] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
+                  className="w-full min-w-0 max-w-full box-border rounded-2xl border border-[#D6EDE7] bg-white px-3 py-4 text-center text-3xl font-black tracking-[0.10em] text-[#17443F] outline-none focus:ring-4 focus:ring-[#D6F6EC] sm:px-4 sm:text-4xl sm:tracking-[0.16em]"
                 />
                 <button
                   disabled={loading}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
                 >
                   연결
                 </button>
@@ -214,13 +214,13 @@ export function ParentTodayPersistent() {
           )}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-black leading-7 text-[#4E6D69] ring-1 ring-[#D8EEE8]">
+            <div className="mt-4 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#4E6D69] ring-1 ring-[#D6EDE7]">
               {message}
             </div>
           ) : null}
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">불편한 곳이 있으면 선택해주세요</h2>
           <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
             “몸이 불편해요” 또는 “도움이 필요해요”를 누를 때 보호자 리포트에 같이 반영됩니다.
@@ -235,8 +235,8 @@ export function ParentTodayPersistent() {
                 className={
                   'rounded-full px-4 py-2 text-sm font-black ring-1 ' +
                   (selectedSymptoms.includes(symptom)
-                    ? 'bg-[#193B38] text-white ring-[#193B38]'
-                    : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')
+                    ? 'bg-[#247A71] text-white ring-[#247A71]'
+                    : 'bg-[#FAFFFD] text-[#17443F] ring-[#D6EDE7]')
                 }
               >
                 {symptom}
@@ -248,7 +248,7 @@ export function ParentTodayPersistent() {
             value={conditionMemo}
             onChange={(event) => setConditionMemo(event.target.value)}
             placeholder="예: 허리가 아파요, 어지러워요, 다리에 힘이 없어요"
-            className="mt-4 min-h-24 w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+            className="mt-4 min-h-24 w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
           />
         </section>
 
@@ -267,7 +267,7 @@ export function ParentTodayPersistent() {
         </section>
 
         {lastAction ? (
-          <section className="rounded-[2rem] bg-[#123F38] p-5 text-white">
+          <section className="rounded-[2rem] bg-[#247A71] p-5 text-white">
             <div className="text-sm font-black text-[#A7F2E3]">방금 보낸 안부</div>
             <div className="mt-2 text-3xl font-black tracking-[-0.06em]">{lastAction}</div>
             <p className="mt-3 text-sm font-bold leading-7 text-[#E7FFF7]">
@@ -277,10 +277,10 @@ export function ParentTodayPersistent() {
         ) : null}
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <Link href="/parent/consent" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/parent/consent" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             안심동의 설정
           </Link>
-          <button onClick={restore} disabled={loading} className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-60">
+          <button onClick={restore} disabled={loading} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-60">
             연결 새로고침
           </button>
         </div>

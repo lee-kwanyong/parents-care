@@ -39,8 +39,8 @@ function phoneOnly(value: string) {
 
 function MetricPill({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8]">
-      <div className="text-4xl font-black tracking-[-0.08em] text-[#11977F]">{value}</div>
+    <div className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7]">
+      <div className="text-4xl font-black tracking-[-0.08em] text-[#2AA897]">{value}</div>
       <div className="mt-2 text-sm font-black leading-6 text-[#637B76]">{label}</div>
     </div>
   )
@@ -49,10 +49,10 @@ function MetricPill({ value, label }: { value: string; label: string }) {
 function SectionTitle({ eyebrow, title, desc }: { eyebrow: string; title: string; desc: string }) {
   return (
     <div>
-      <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+      <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
         {eyebrow}
       </div>
-      <h2 className="mt-4 text-3xl font-black leading-tight tracking-[-0.07em] text-[#173B36] sm:text-5xl">
+      <h2 className="mt-4 text-3xl font-black leading-tight tracking-[-0.07em] text-[#17443F] sm:text-5xl">
         {title}
       </h2>
       <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
@@ -64,11 +64,11 @@ function SectionTitle({ eyebrow, title, desc }: { eyebrow: string; title: string
 
 function FeatureLine({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <article className="rounded-[2rem] bg-[#F8FCFB] p-5 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+    <article className="rounded-[2rem] bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#247A71] text-xs font-black text-white">
         {number}
       </div>
-      <h3 className="mt-4 text-xl font-black tracking-[-0.05em] text-[#173B36]">{title}</h3>
+      <h3 className="mt-4 text-xl font-black tracking-[-0.05em] text-[#17443F]">{title}</h3>
       <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">{desc}</p>
     </article>
   )
@@ -119,11 +119,11 @@ export function GovProposalLanding({
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] text-[#17443F]">
       <section className="mx-auto max-w-7xl px-4 py-5 sm:px-5 sm:py-8">
-        <header className="flex items-center justify-between gap-4 rounded-[2rem] bg-white px-5 py-4 shadow-sm ring-1 ring-[#D8EEE8]">
+        <header className="flex items-center justify-between gap-4 rounded-[2rem] bg-white px-5 py-4 shadow-sm ring-1 ring-[#D6EDE7]">
           <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#E8FAF5] text-lg">♡</div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#EFFFFA] text-lg">♡</div>
             <div>
               <div className="text-sm font-black">안부웍스</div>
               <div className="text-xs font-bold text-[#637B76]">AnbuWorks · B2G Smart Care</div>
@@ -131,11 +131,11 @@ export function GovProposalLanding({
           </Link>
 
           <div className="flex flex-wrap gap-2">
-            <Link href="#contact" className="rounded-full bg-[#193B38] px-4 py-2 text-sm font-black text-white">
+            <Link href="#contact" className="rounded-full bg-[#247A71] px-4 py-2 text-sm font-black text-white">
               시연 문의
             </Link>
             {!printMode ? (
-              <button onClick={() => window.print()} className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <button onClick={() => window.print()} className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 PDF 저장
               </button>
             ) : null}
@@ -143,8 +143,8 @@ export function GovProposalLanding({
         </header>
 
         <section className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-10">
-            <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+          <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-10">
+            <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
               B2G / 지자체 실증 제안
             </div>
 
@@ -165,16 +165,16 @@ export function GovProposalLanding({
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="#contact" className="rounded-2xl bg-[#193B38] px-6 py-4 text-sm font-black text-white">
+              <Link href="#contact" className="rounded-2xl bg-[#247A71] px-6 py-4 text-sm font-black text-white">
                 시연·실증 문의하기
               </Link>
-              <Link href="/gov/proposal/print" className="rounded-2xl bg-white px-6 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+              <Link href="/gov/proposal/print" className="rounded-2xl bg-white px-6 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 제안서 인쇄 화면
               </Link>
             </div>
           </section>
 
-          <section className="rounded-[2.5rem] bg-[#193B38] p-6 text-white shadow-[0_18px_52px_rgba(20,82,70,0.12)] sm:p-8">
+          <section className="rounded-[2.5rem] bg-[#247A71] p-6 text-white shadow-[0_18px_52px_rgba(49,151,136,0.10)] sm:p-8">
             <div className="text-sm font-black text-white/70">핵심 제안</div>
             <h2 className="mt-4 text-3xl font-black leading-tight tracking-[-0.06em]">
               공무원·생활지원사의 수작업 확인을 줄이고, 위험 가구를 먼저 보이게 합니다.
@@ -196,7 +196,7 @@ export function GovProposalLanding({
           </section>
         </section>
 
-        <section className="mt-5 rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+        <section className="mt-5 rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
           <SectionTitle
             eyebrow="왜 필요한가"
             title="현장 돌봄은 인력 부족과 행정 과부하를 동시에 겪고 있습니다."
@@ -211,7 +211,7 @@ export function GovProposalLanding({
         </section>
 
         <section className="mt-5 grid gap-5 lg:grid-cols-2">
-          <section className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+          <section className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
             <SectionTitle
               eyebrow="실증 모델"
               title="500가구 표준 실증을 기준으로 설계했습니다."
@@ -224,7 +224,7 @@ export function GovProposalLanding({
             </div>
           </section>
 
-          <section className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+          <section className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
             <SectionTitle
               eyebrow="운영 패키지"
               title="기능이 아니라 운영 결과를 제출합니다."
@@ -240,7 +240,7 @@ export function GovProposalLanding({
                 '주간·월간 운영보고서',
                 '지자체 제출 패키지'
               ].map((item) => (
-                <div key={item} className="rounded-2xl bg-[#F8FCFB] px-4 py-3 text-sm font-black ring-1 ring-[#D8EEE8]">
+                <div key={item} className="rounded-2xl bg-[#FAFFFD] px-4 py-3 text-sm font-black ring-1 ring-[#D6EDE7]">
                   {item}
                 </div>
               ))}
@@ -248,7 +248,7 @@ export function GovProposalLanding({
           </section>
         </section>
 
-        <section className="mt-5 rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+        <section className="mt-5 rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
           <SectionTitle
             eyebrow="시연 흐름"
             title="버튼 하나로 지자체 담당자에게 전체 흐름을 보여줄 수 있습니다."
@@ -266,10 +266,10 @@ export function GovProposalLanding({
                 ['6', '보고서·제출']
               ].map(([num, label], index) => (
                 <div key={num} className="flex items-center gap-3">
-                  <div className="rounded-full bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+                  <div className="rounded-full bg-[#247A71] px-5 py-4 text-sm font-black text-white">
                     {num}. {label}
                   </div>
-                  {index < 5 ? <div className="text-2xl font-black text-[#193B38]/30">→</div> : null}
+                  {index < 5 ? <div className="text-2xl font-black text-[#17443F]/30">→</div> : null}
                 </div>
               ))}
             </div>
@@ -277,7 +277,7 @@ export function GovProposalLanding({
         </section>
 
         <section id="contact" className="mt-5 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <section className="rounded-[2.5rem] bg-[#193B38] p-6 text-white shadow-sm sm:p-8">
+          <section className="rounded-[2.5rem] bg-[#247A71] p-6 text-white shadow-sm sm:p-8">
             <div className="text-sm font-black text-white/70">문의 접수</div>
             <h2 className="mt-4 text-4xl font-black leading-tight tracking-[-0.07em]">
               실증·시연·제안 미팅을 요청하세요.
@@ -294,7 +294,7 @@ export function GovProposalLanding({
             </div>
           </section>
 
-          <form onSubmit={submit} className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8] sm:p-8">
+          <form onSubmit={submit} className="rounded-[2.5rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
             <input
               value={form.website}
               onChange={(event) => setForm({ ...form, website: event.target.value })}
@@ -315,11 +315,11 @@ export function GovProposalLanding({
             </div>
 
             <label className="mt-3 grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">관심 분야</span>
+              <span className="text-sm font-black text-[#637B76]">관심 분야</span>
               <select
                 value={form.interestArea}
                 onChange={(event) => setForm({ ...form, interestArea: event.target.value })}
-                className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none"
+                className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none"
               >
                 <option value="pilot">지자체 실증</option>
                 <option value="demo">서비스 시연</option>
@@ -330,16 +330,16 @@ export function GovProposalLanding({
             </label>
 
             <label className="mt-3 grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">문의 내용</span>
+              <span className="text-sm font-black text-[#637B76]">문의 내용</span>
               <textarea
                 value={form.message}
                 onChange={(event) => setForm({ ...form, message: event.target.value })}
-                className="min-h-28 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none"
+                className="min-h-28 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none"
                 placeholder="시연 희망 일정, 대상 규모, 지역 현황 등을 적어주세요."
               />
             </label>
 
-            <label className="mt-4 flex items-start gap-3 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <label className="mt-4 flex items-start gap-3 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               <input
                 type="checkbox"
                 checked={form.privacyAgreed}
@@ -354,19 +354,19 @@ export function GovProposalLanding({
             <button
               type="submit"
               disabled={loading}
-              className="mt-4 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="mt-4 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               {loading ? '접수 중...' : '시연·제안 문의 접수'}
             </button>
 
             {message ? (
-              <div className="mt-4 rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <div className="mt-4 rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 {message}
               </div>
             ) : null}
 
             {debug ? (
-              <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+              <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
                 <summary className="cursor-pointer text-sm font-black">상세 보기</summary>
                 <pre className="mt-3 max-h-64 overflow-auto whitespace-pre-wrap">{debug}</pre>
               </details>
@@ -374,7 +374,7 @@ export function GovProposalLanding({
           </form>
         </section>
 
-        <footer className="mt-5 rounded-[2rem] bg-white p-5 text-center text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+        <footer className="mt-5 rounded-[2rem] bg-white p-5 text-center text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
           안부웍스 · AnbuWorks · parents-care.net · contact@parents-care.net
         </footer>
       </section>
@@ -385,11 +385,11 @@ export function GovProposalLanding({
 function Input({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

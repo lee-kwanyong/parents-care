@@ -847,3 +847,219 @@ header[data-global-header="true"] button {
   }
 }
 /* /small-global-header-menu-fix */
+
+/* ANBU_UNIFIED_THEME_START */
+:root {
+  --anbu-bg: #F7FFFC;
+  --anbu-bg-soft: #F1FBF8;
+  --anbu-surface: #FFFFFF;
+  --anbu-surface-soft: #FAFFFD;
+  --anbu-surface-mint: #EFFFFA;
+
+  --anbu-text: #17443F;
+  --anbu-text-soft: #416B65;
+  --anbu-muted: #637B76;
+
+  --anbu-primary: #2EC4B6;
+  --anbu-primary-hover: #26B3A6;
+  --anbu-primary-deep: #247A71;
+  --anbu-primary-dark: #17443F;
+
+  --anbu-border: #D6EDE7;
+  --anbu-border-strong: #BFE5DD;
+  --anbu-ring: #D6EDE7;
+
+  --anbu-warning-bg: #FFF9EE;
+  --anbu-warning-text: #795C22;
+  --anbu-warning-border: #F3DEB5;
+
+  --anbu-danger-bg: #FFF4F4;
+  --anbu-danger-text: #8A3030;
+  --anbu-danger-border: #F3C8C8;
+
+  --anbu-blue-bg: #F3F8FF;
+  --anbu-blue-text: #255B83;
+  --anbu-blue-border: #D8EAFB;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at 18% 4%, rgba(46, 196, 182, 0.10), transparent 28rem),
+    linear-gradient(180deg, var(--anbu-bg) 0%, #FFFFFF 54%, #F6FBFF 100%) !important;
+  color: var(--anbu-text);
+}
+
+::selection {
+  background: rgba(46, 196, 182, 0.22);
+  color: var(--anbu-text);
+}
+
+:where(main.min-h-screen) {
+  background:
+    radial-gradient(circle at 18% 4%, rgba(46, 196, 182, 0.10), transparent 28rem),
+    linear-gradient(180deg, var(--anbu-bg) 0%, #FFFFFF 54%, #F6FBFF 100%) !important;
+  color: var(--anbu-text);
+}
+
+:where(a, button, input, textarea, select) {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+/* legacy dark green backgrounds -> softer premium mint */
+:where(
+  .bg-\[\#247A71\],
+  .bg-\[\#247A71\],
+  .bg-\[\#164641\],
+  .bg-\[\#247A71\]
+) {
+  background-color: var(--anbu-primary-deep) !important;
+}
+
+/* primary bright mint */
+:where(
+  .bg-\[\#2EC4B6\],
+  .bg-\[\#26B3A6\]
+) {
+  background-color: var(--anbu-primary) !important;
+}
+
+/* page and card soft backgrounds */
+:where(
+  .bg-\[\#F6FFFC\],
+  .bg-\[\#F7FFFC\],
+  .bg-\[\#F8FCFB\],
+  .bg-\[\#FAFFFD\]
+) {
+  background-color: var(--anbu-surface-soft) !important;
+}
+
+:where(
+  .bg-\[\#E8FAF5\],
+  .bg-\[\#EFFFF9\],
+  .bg-\[\#EFFFFA\]
+) {
+  background-color: var(--anbu-surface-mint) !important;
+}
+
+/* text colors */
+:where(
+  .text-\[\#173B36\],
+  .text-\[\#247A71\],
+  .text-\[\#247A71\],
+  .text-\[\#164641\],
+  .text-\[\#17443F\]
+) {
+  color: var(--anbu-text) !important;
+}
+
+:where(
+  .text-\[\#637B76\],
+  .text-\[\#416B65\],
+  .text-\[\#55736E\]
+) {
+  color: var(--anbu-muted) !important;
+}
+
+:where(
+  .text-\[\#11977F\],
+  .text-\[\#27A291\],
+  .text-\[\#2AA897\],
+  .text-\[\#116D5F\]
+) {
+  color: var(--anbu-primary-deep) !important;
+}
+
+/* border and ring */
+:where(
+  .border-\[\#D8EEE8\],
+  .border-\[\#D6EDE7\],
+  .border-\[\#CDEFE5\],
+  .border-\[\#CDEFE7\],
+  .border-\[\#BEE8DF\],
+  .border-\[\#B8DDD6\]
+) {
+  border-color: var(--anbu-border) !important;
+}
+
+:where(
+  .ring-\[\#D8EEE8\],
+  .ring-\[\#D6EDE7\],
+  .ring-\[\#CDEFE5\],
+  .ring-\[\#CDEFE7\],
+  .ring-\[\#BEE8DF\],
+  .ring-\[\#B8DDD6\]
+) {
+  --tw-ring-color: var(--anbu-ring) !important;
+}
+
+/* warning */
+:where(.bg-\[\#FFF8E8\], .bg-\[\#FFF9EE\]) {
+  background-color: var(--anbu-warning-bg) !important;
+}
+
+:where(.text-\[\#795313\], .text-\[\#795C22\]) {
+  color: var(--anbu-warning-text) !important;
+}
+
+:where(.ring-\[\#F4D8A5\], .ring-\[\#F3DEB5\], .border-\[\#F4D8A5\], .border-\[\#F3DEB5\]) {
+  --tw-ring-color: var(--anbu-warning-border) !important;
+  border-color: var(--anbu-warning-border) !important;
+}
+
+/* danger */
+:where(.bg-\[\#FFF1F1\], .bg-\[\#FFF4F4\]) {
+  background-color: var(--anbu-danger-bg) !important;
+}
+
+:where(.text-\[\#8A2525\], .text-\[\#8A3030\]) {
+  color: var(--anbu-danger-text) !important;
+}
+
+:where(.ring-\[\#F3BBBB\], .ring-\[\#F3C8C8\], .border-\[\#F3BBBB\], .border-\[\#F3C8C8\]) {
+  --tw-ring-color: var(--anbu-danger-border) !important;
+  border-color: var(--anbu-danger-border) !important;
+}
+
+/* blue info */
+:where(.bg-\[\#EEF6FF\], .bg-\[\#F3F8FF\]) {
+  background-color: var(--anbu-blue-bg) !important;
+}
+
+:where(.text-\[\#1B4E7A\], .text-\[\#255B83\]) {
+  color: var(--anbu-blue-text) !important;
+}
+
+:where(.ring-\[\#CFE5FA\], .ring-\[\#D8EAFB\], .border-\[\#CFE5FA\], .border-\[\#D8EAFB\]) {
+  --tw-ring-color: var(--anbu-blue-border) !important;
+  border-color: var(--anbu-blue-border) !important;
+}
+
+/* make common white cards feel consistent */
+:where(.rounded-\[2rem\], .rounded-\[2\.5rem\], .rounded-\[2\.7rem\]) {
+  border-color: var(--anbu-border);
+}
+
+:where(.shadow-\[0_18px_52px_rgba\(20\,82\,70\,0\.08\)\]) {
+  box-shadow: 0 18px 52px rgba(49, 151, 136, 0.08) !important;
+}
+
+:where(.shadow-\[0_18px_54px_rgba\(49\,151\,136\,0\.12\)\]) {
+  box-shadow: 0 18px 54px rgba(49, 151, 136, 0.10) !important;
+}
+
+/* buttons */
+:where(button, a) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(.bg-\[\#247A71\], .bg-\[\#2EC4B6\]) {
+  box-shadow: 0 12px 28px rgba(46, 196, 182, 0.16);
+}
+
+/* ANBU_UNIFIED_THEME_END */

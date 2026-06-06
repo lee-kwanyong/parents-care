@@ -18,10 +18,10 @@ const badExamples = [
 
 export default function CarePartnerReportGuidePage() {
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-5xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             케어파트너 · 리포트 가이드
           </div>
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
@@ -32,29 +32,29 @@ export default function CarePartnerReportGuidePage() {
           </p>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">좋은 예시</h2>
           <div className="mt-4 space-y-3">
             {goodExamples.map((item) => (
-              <p key={item} className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-bold leading-7 text-[#116D5F] ring-1 ring-[#CDEFE5]">
+              <p key={item} className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-bold leading-7 text-[#2AA897] ring-1 ring-[#CDEFE7]">
                 {item}
               </p>
             ))}
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">쓰면 안 되는 예시</h2>
           <div className="mt-4 space-y-3">
             {badExamples.map((item) => (
-              <p key={item} className="rounded-2xl bg-[#FFF1F1] p-4 text-sm font-bold leading-7 text-[#8A2525] ring-1 ring-[#F3BBBB]">
+              <p key={item} className="rounded-2xl bg-[#FFF4F4] p-4 text-sm font-bold leading-7 text-[#8A3030] ring-1 ring-[#F3C8C8]">
                 {item}
               </p>
             ))}
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-[#123F38] p-5 text-white sm:p-6">
+        <section className="rounded-[2rem] bg-[#247A71] p-5 text-white sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">작성 기준</h2>
           <ol className="mt-4 space-y-3 text-sm font-bold leading-7 text-[#E7FFF7]">
             <li>1. 진단, 처방, 치료 판단을 쓰지 않습니다.</li>

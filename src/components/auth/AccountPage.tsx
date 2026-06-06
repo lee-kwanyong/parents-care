@@ -128,10 +128,10 @@ export function AccountPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-4xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             회원정보
           </div>
 
@@ -144,7 +144,7 @@ export function AccountPage() {
           </p>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D8EEE8]">
+        <section className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-[#D6EDE7]">
           {loading ? (
             <p className="text-sm font-bold text-[#637B76]">회원정보를 불러오는 중입니다.</p>
           ) : profile?.loggedIn || profile?.role === 'guardian' ? (
@@ -156,7 +156,7 @@ export function AccountPage() {
               <InfoRow label="로그인 방식" value={profile.authProvider || 'unknown'} />
 
               {message ? (
-                <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+                <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                   {message}
                 </div>
               ) : null}
@@ -164,14 +164,14 @@ export function AccountPage() {
               <div className="grid gap-3 pt-4 sm:grid-cols-3">
                 <Link
                   href="/family-link"
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
                 >
                   부모님 연결코드
                 </Link>
 
                 <Link
                   href="/child/dashboard"
-                  className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+                  className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
                 >
                   보호자 대시보드
                 </Link>
@@ -179,7 +179,7 @@ export function AccountPage() {
                 <button
                   type="button"
                   onClick={logout}
-                  className="rounded-2xl bg-[#FFF1F1] px-5 py-4 text-center text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]"
+                  className="rounded-2xl bg-[#FFF4F4] px-5 py-4 text-center text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8]"
                 >
                   로그아웃
                 </button>
@@ -193,7 +193,7 @@ export function AccountPage() {
 
               <Link
                 href="/signup/guardian"
-                className="inline-flex rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+                className="inline-flex rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
               >
                 보호자 로그인/회원가입
               </Link>
@@ -207,9 +207,9 @@ export function AccountPage() {
 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+    <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
       <div className="text-xs font-black text-[#7A9692]">{label}</div>
-      <div className="mt-2 break-words text-lg font-black text-[#173B36]">{value}</div>
+      <div className="mt-2 break-words text-lg font-black text-[#17443F]">{value}</div>
     </div>
   )
 }

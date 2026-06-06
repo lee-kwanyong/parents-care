@@ -15,10 +15,10 @@ export default async function PaymentFailPage({ searchParams }: { searchParams: 
   const params = await searchParams
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#FFF8F8_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#FFF8F8_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-3xl">
-        <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#F3BBBB] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#FFF1F1] px-4 py-2 text-sm font-black text-[#8A2525]">
+        <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#F3C8C8] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#FFF4F4] px-4 py-2 text-sm font-black text-[#8A3030]">
             결제 실패
           </div>
 
@@ -30,7 +30,7 @@ export default async function PaymentFailPage({ searchParams }: { searchParams: 
             {params.message || '결제 진행 중 오류가 발생했거나 사용자가 결제를 취소했습니다.'}
           </p>
 
-          <div className="mt-5 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-bold leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+          <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-bold leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
             오류 코드: {params.code || '-'} · 주문번호: {params.orderId || '-'}
           </div>
 

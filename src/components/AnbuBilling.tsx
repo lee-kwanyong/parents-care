@@ -136,10 +136,10 @@ export function AnbuBillingPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-6xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             안부웍스 결제
           </div>
 
@@ -152,7 +152,7 @@ export function AnbuBillingPage() {
           </p>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">결제 정보</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -166,10 +166,10 @@ export function AnbuBillingPage() {
           {plans.map((plan) => (
             <section
               key={plan.planId}
-              className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6"
+              className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6"
             >
               <h2 className="text-2xl font-black tracking-[-0.05em]">{plan.name}</h2>
-              <div className="mt-3 text-4xl font-black tracking-[-0.06em] text-[#11977F]">
+              <div className="mt-3 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">
                 {plan.price.toLocaleString('ko-KR')}원
               </div>
               <p className="mt-3 min-h-[4rem] text-sm font-bold leading-7 text-[#637B76]">
@@ -178,7 +178,7 @@ export function AnbuBillingPage() {
               <button
                 onClick={() => prepare(plan)}
                 disabled={Boolean(loadingPlan)}
-                className="mt-5 w-full rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white disabled:opacity-60"
+                className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white disabled:opacity-60"
               >
                 {loadingPlan === plan.planId ? '준비 중...' : '결제 준비'}
               </button>
@@ -186,29 +186,29 @@ export function AnbuBillingPage() {
           ))}
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">운영 테스트</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">
             Toss 키가 없는 동안은 운영실에서 가족코드로 구독을 수동 활성화해 주간 리포트 접근을 테스트하세요.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/ops/subscriptions" className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white">
+            <Link href="/ops/subscriptions" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
               운영실 구독 관리
             </Link>
-            <Link href="/subscription" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <Link href="/subscription" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               구독 관리
             </Link>
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">처리 결과</h2>
           {result ? (
-            <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[24rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(result, null, 2)}
             </pre>
           ) : (
-            <p className="mt-4 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="mt-4 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               아직 결제 준비를 시작하지 않았습니다.
             </p>
           )}
@@ -231,12 +231,12 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

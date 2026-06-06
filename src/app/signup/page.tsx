@@ -44,7 +44,7 @@ export default function SignupPage() {
             <p className="mt-3 text-sm font-bold leading-6 text-[#607D79]">
               부모님 안심케어 현장 업무를 수행할 케어파트너로 지원합니다.
             </p>
-            <div className="mt-5 rounded-2xl bg-[#193B38] px-5 py-4 text-center font-black text-white">
+            <div className="mt-5 rounded-2xl bg-[#247A71] px-5 py-4 text-center font-black text-white">
               케어파트너 지원
             </div>
           </Link>

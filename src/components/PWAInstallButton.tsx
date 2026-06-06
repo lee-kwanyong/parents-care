@@ -73,7 +73,7 @@ export function PWAInstallButton({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="mt-4 w-full rounded-2xl bg-[#193B38] px-4 py-3 text-sm font-black text-white"
+              className="mt-4 w-full rounded-2xl bg-[#247A71] px-4 py-3 text-sm font-black text-white"
             >
               확인
             </button>

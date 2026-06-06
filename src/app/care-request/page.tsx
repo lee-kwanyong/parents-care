@@ -352,7 +352,7 @@ export default function CareRequestPage() {
           />
           <button
             type="submit"
-            className="rounded-3xl bg-[#193B38] px-6 py-4 text-base font-black text-white transition hover:bg-[#24423F]"
+            className="rounded-3xl bg-[#247A71] px-6 py-4 text-base font-black text-white transition hover:bg-[#24423F]"
           >
             챗봇에게 보내기
           </button>

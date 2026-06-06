@@ -148,9 +148,9 @@ export function NotificationSetupPanel() {
   }, [])
 
   return (
-    <section className="mx-auto max-w-6xl px-5 py-8 text-[#173B36]">
-      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-        <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="mx-auto max-w-6xl px-5 py-8 text-[#17443F]">
+      <div className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+        <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
           안부웍스 알림 설정
         </div>
 
@@ -169,7 +169,7 @@ export function NotificationSetupPanel() {
           <button
             type="button"
             onClick={copySql}
-            className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+            className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
           >
             알림 SQL 복사
           </button>
@@ -184,7 +184,7 @@ export function NotificationSetupPanel() {
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">현재 알림 상태</h2>
 
           <div className="mt-5 grid gap-3">
@@ -205,8 +205,8 @@ export function NotificationSetupPanel() {
                 className={
                   'rounded-2xl p-3 text-sm font-black ring-1 ' +
                   (item.ok
-                    ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                    : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+                    ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                    : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
                 }
               >
                 <div className="flex items-center justify-between gap-3">
@@ -221,7 +221,7 @@ export function NotificationSetupPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">테스트 발송</h2>
           <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
             실제 SMS는 ANBU_SMS_ENABLED=true와 알리고 환경변수가 있어야 발송됩니다.
@@ -232,12 +232,12 @@ export function NotificationSetupPanel() {
             <Input label="관리자 코드" value={adminCode} onChange={setAdminCode} placeholder="ANBU_ADMIN_CODE" />
             <Input label="받는 전화번호" value={phone} onChange={setPhone} placeholder="01012345678" />
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#55736E]">테스트 메시지</span>
+              <span className="text-sm font-black text-[#637B76]">테스트 메시지</span>
               <textarea
                 value={message}
                 onChange={(event) => setMessage(event.target.value)}
                 placeholder="[안부웍스] 알림 테스트입니다."
-                className="min-h-28 rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="min-h-28 rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
             </label>
           </div>
@@ -246,7 +246,7 @@ export function NotificationSetupPanel() {
             <button
               type="button"
               onClick={() => sendTest('sms')}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
             >
               SMS 테스트
             </button>
@@ -254,21 +254,21 @@ export function NotificationSetupPanel() {
             <button
               type="button"
               onClick={() => sendTest('alimtalk')}
-              className="rounded-2xl bg-[#F9E9B7] px-5 py-4 text-sm font-black text-[#795313]"
+              className="rounded-2xl bg-[#F9E9B7] px-5 py-4 text-sm font-black text-[#795C22]"
             >
               알림톡 큐 테스트
             </button>
           </div>
 
           {result ? (
-            <pre className="mt-5 max-h-80 overflow-auto rounded-2xl bg-[#F8FCFB] p-4 text-xs leading-6 text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <pre className="mt-5 max-h-80 overflow-auto rounded-2xl bg-[#FAFFFD] p-4 text-xs leading-6 text-[#17443F] ring-1 ring-[#D6EDE7]">
               {result}
             </pre>
           ) : null}
         </section>
       </div>
 
-      <section className="mt-5 rounded-[2rem] bg-[#123F38] p-5 text-white shadow-sm sm:p-6">
+      <section className="mt-5 rounded-[2rem] bg-[#247A71] p-5 text-white shadow-sm sm:p-6">
         <h2 className="text-2xl font-black tracking-[-0.05em]">Vercel 환경변수</h2>
         <p className="mt-3 text-sm font-bold leading-7 text-[#CDEEE6]">
           Vercel Project Settings → Environment Variables에 아래 값을 넣은 뒤 다시 배포해야 실제 발송됩니다.
@@ -291,8 +291,8 @@ export function NotificationSetupPanel() {
         </div>
       </section>
 
-      <section className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8] sm:p-6">
-        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#173B36]">카카오 알림톡 진행 순서</h2>
+      <section className="mt-5 rounded-[2rem] bg-white p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7] sm:p-6">
+        <h2 className="text-2xl font-black tracking-[-0.05em] text-[#17443F]">카카오 알림톡 진행 순서</h2>
         <ol className="mt-4 list-decimal space-y-2 pl-5">
           <li>카카오 비즈니스 채널 준비</li>
           <li>공식 딜러사 또는 메시지 제공사 선택</li>
@@ -311,8 +311,8 @@ function StatusRow({ label, ok }: { label: string; ok: boolean }) {
       className={
         'flex items-center justify-between rounded-2xl p-4 text-sm font-black ring-1 ' +
         (ok
-          ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-          : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+          ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+          : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
       }
     >
       <span>{label}</span>
@@ -334,12 +334,12 @@ function Input({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

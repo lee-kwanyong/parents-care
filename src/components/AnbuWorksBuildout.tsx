@@ -42,7 +42,7 @@ function Card({
   className?: string
 }) {
   return (
-    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6 ' + className}>
+    <section className={'rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6 ' + className}>
       {children}
     </section>
   )
@@ -58,11 +58,11 @@ function PageHero({
   desc: string
 }) {
   return (
-    <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-      <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+    <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+      <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
         {eyebrow}
       </div>
-      <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] text-[#173B36] sm:text-5xl">
+      <h1 className="mt-5 max-w-4xl text-4xl font-black leading-tight tracking-[-0.07em] text-[#17443F] sm:text-5xl">
         {title}
       </h1>
       <p className="mt-4 max-w-3xl text-base font-bold leading-7 text-[#637B76] sm:text-lg sm:leading-8">
@@ -130,7 +130,7 @@ export function FamilyLinkMvp() {
       />
 
       {message ? (
-        <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           {message}
         </div>
       ) : null}
@@ -144,7 +144,7 @@ export function FamilyLinkMvp() {
             <Field label="부모님 이름" value={parentName} onChange={setParentName} placeholder="예: 어머니" />
             <Field label="부모님 연락처" value={parentPhone} onChange={setParentPhone} placeholder="선택 입력" />
 
-            <button className="mt-2 rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">
+            <button className="mt-2 rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">
               부모님 연결코드 만들기
             </button>
           </form>
@@ -154,7 +154,7 @@ export function FamilyLinkMvp() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">현재 연결 코드</h2>
           {link ? (
             <>
-              <div className="mt-5 rounded-[2rem] bg-[#123F38] p-6 text-white">
+              <div className="mt-5 rounded-[2rem] bg-[#247A71] p-6 text-white">
                 <p className="text-sm font-black text-[#9DF4DD]">부모님께 전달할 코드</p>
                 <div className="mt-2 text-6xl font-black tracking-[0.1em]">{link.familyCode}</div>
                 <p className="mt-3 text-sm font-bold leading-6 text-[#CDEEE6]">
@@ -166,13 +166,13 @@ export function FamilyLinkMvp() {
                 <Link href="/parent/login" className="rounded-2xl bg-[#20C5A8] px-4 py-4 text-center font-black text-white">
                   부모님 로그인 화면
                 </Link>
-                <Link href="/parent/today" className="rounded-2xl bg-white px-4 py-4 text-center font-black text-[#193B38] ring-1 ring-[#D8EEE8]">
+                <Link href="/parent/today" className="rounded-2xl bg-white px-4 py-4 text-center font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   안부 버튼 화면
                 </Link>
               </div>
             </>
           ) : (
-            <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <p className="mt-4 rounded-2xl bg-white p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               아직 생성된 연결 코드가 없습니다.
             </p>
           )}
@@ -187,10 +187,10 @@ export function FamilyLinkMvp() {
           '안부 버튼이 해당 보호자에게 연결'
         ].map((item, index) => (
           <Card key={item}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
               {index + 1}
             </div>
-            <p className="mt-4 text-lg font-black leading-7 text-[#173B36]">{item}</p>
+            <p className="mt-4 text-lg font-black leading-7 text-[#17443F]">{item}</p>
           </Card>
         ))}
       </div>
@@ -247,7 +247,7 @@ export function ParentCodeLogin() {
           <Field label="부모님 이름" value={parentName} onChange={setParentName} placeholder="예: 어머니" />
           <Field label="연결코드" value={code} onChange={setCode} placeholder="예: 462015" inputMode="numeric" />
 
-          <label className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D8EEE8]">
+          <label className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#5F7772] ring-1 ring-[#D6EDE7]">
             <input
               type="checkbox"
               checked={agreed}
@@ -258,12 +258,12 @@ export function ParentCodeLogin() {
           </label>
 
           {message ? (
-            <div className="rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
-          <button className="rounded-2xl bg-[#193B38] px-5 py-4 text-lg font-black text-white">
+          <button className="rounded-2xl bg-[#247A71] px-5 py-4 text-lg font-black text-white">
             연결하고 안부 체크 시작
           </button>
         </form>
@@ -301,7 +301,7 @@ export function AnbuRoutineMvp() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">오늘 안부 루틴</h2>
           <div className="mt-5 space-y-3">
             {routines.map((routine, index) => (
-              <div key={routine.id} className="grid gap-3 rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8] md:grid-cols-[8rem_1fr]">
+              <div key={routine.id} className="grid gap-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7] md:grid-cols-[8rem_1fr]">
                 <input
                   type="time"
                   value={routine.time}
@@ -310,18 +310,18 @@ export function AnbuRoutineMvp() {
                     next[index] = { ...routine, time: event.target.value }
                     setRoutines(next)
                   }}
-                  className="rounded-xl border border-[#D8EEE8] bg-white px-3 py-2 text-sm font-black"
+                  className="rounded-xl border border-[#D6EDE7] bg-white px-3 py-2 text-sm font-black"
                 />
                 <div>
-                  <div className="text-base font-black text-[#173B36]">{routine.label}</div>
+                  <div className="text-base font-black text-[#17443F]">{routine.label}</div>
                   <div className="mt-1 text-sm font-bold text-[#637B76]">{routine.message}</div>
-                  <div className="mt-2 text-xs font-black text-[#11977F]">{routine.channel}</div>
+                  <div className="mt-2 text-xs font-black text-[#2AA897]">{routine.channel}</div>
                 </div>
               </div>
             ))}
           </div>
 
-          <button onClick={save} className="mt-5 rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">
+          <button onClick={save} className="mt-5 rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">
             루틴 저장
           </button>
         </Card>
@@ -330,9 +330,9 @@ export function AnbuRoutineMvp() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">응답 없음 알림 단계</h2>
           <div className="mt-5 space-y-3">
             {notificationEscalationRules.map((rule, index) => (
-              <div key={rule.title} className="rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-                <div className="text-sm font-black text-[#11977F]">{index + 1}단계</div>
-                <div className="mt-1 text-lg font-black text-[#173B36]">{rule.title}</div>
+              <div key={rule.title} className="rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+                <div className="text-sm font-black text-[#2AA897]">{index + 1}단계</div>
+                <div className="mt-1 text-lg font-black text-[#17443F]">{rule.title}</div>
                 <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{rule.desc}</p>
               </div>
             ))}
@@ -348,8 +348,8 @@ export function AnbuRoutineMvp() {
             ['SMS', '응답 없음, 도움 요청, 확인 필요 신호'],
             ['카카오 알림톡', '주간 리포트, 병원 일정, 케어파트너 배정']
           ].map(([title, desc]) => (
-            <div key={title} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-              <div className="text-lg font-black text-[#173B36]">{title}</div>
+            <div key={title} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+              <div className="text-lg font-black text-[#17443F]">{title}</div>
               <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{desc}</p>
             </div>
           ))}
@@ -371,26 +371,26 @@ export function WeeklyReportMvp() {
       <Card>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-black text-[#11977F]">{weeklyReportSample.period}</p>
-            <h2 className="mt-1 text-3xl font-black tracking-[-0.06em] text-[#173B36]">
+            <p className="text-sm font-black text-[#2AA897]">{weeklyReportSample.period}</p>
+            <h2 className="mt-1 text-3xl font-black tracking-[-0.06em] text-[#17443F]">
               {weeklyReportSample.title}
             </h2>
           </div>
-          <span className="rounded-full bg-[#EFFFF9] px-4 py-2 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+          <span className="rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
             자동 생성
           </span>
         </div>
 
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           {weeklyReportSample.stats.map((item) => (
-            <div key={item.label} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+            <div key={item.label} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
               <div className="text-sm font-black text-[#7A9692]">{item.label}</div>
-              <div className="mt-2 text-xl font-black text-[#173B36]">{item.value}</div>
+              <div className="mt-2 text-xl font-black text-[#17443F]">{item.value}</div>
             </div>
           ))}
         </div>
 
-        <div className="mt-5 rounded-[1.75rem] bg-[#123F38] p-5 text-white">
+        <div className="mt-5 rounded-[1.75rem] bg-[#247A71] p-5 text-white">
           <p className="text-sm font-black text-[#9DF4DD]">AI 요약</p>
           <p className="mt-3 text-lg font-black leading-8">{weeklyReportSample.aiSummary}</p>
         </div>
@@ -427,7 +427,7 @@ export function OpsControlMvp() {
         ].map(([label, value]) => (
           <Card key={label}>
             <div className="text-sm font-black text-[#7A9692]">{label}</div>
-            <div className="mt-2 text-4xl font-black text-[#173B36]">{value}</div>
+            <div className="mt-2 text-4xl font-black text-[#17443F]">{value}</div>
           </Card>
         ))}
       </div>
@@ -441,10 +441,10 @@ export function OpsControlMvp() {
               <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                 <div>
                   <div className="flex flex-wrap gap-2">
-                    <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+                    <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
                       {item.state}
                     </span>
-                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#5F7772] ring-1 ring-[#D8EEE8]">
+                    <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#5F7772] ring-1 ring-[#D6EDE7]">
                       {item.name}
                     </span>
                   </div>
@@ -454,7 +454,7 @@ export function OpsControlMvp() {
 
                 <button
                   onClick={() => setHandled((prev) => prev.includes(item.name) ? prev : [...prev, item.name])}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white"
                 >
                   처리 완료
                 </button>
@@ -488,7 +488,7 @@ export function CarePartnerApplyMvp() {
       />
 
       {saved ? (
-        <div className="rounded-2xl bg-[#EFFFF9] p-4 text-sm font-black text-[#116D5F] ring-1 ring-[#CDEFE5]">
+        <div className="rounded-2xl bg-[#EFFFFA] p-4 text-sm font-black text-[#2AA897] ring-1 ring-[#CDEFE7]">
           케어파트너 신청이 임시 저장되었습니다. 운영실 승인 플로우로 연결하면 됩니다.
         </div>
       ) : null}
@@ -499,16 +499,16 @@ export function CarePartnerApplyMvp() {
           <form onSubmit={submit} className="mt-5 grid gap-3">
             {partnerApplyFields.map((field) => (
               <label key={field} className="grid gap-2">
-                <span className="text-sm font-black text-[#55736E]">{field}</span>
+                <span className="text-sm font-black text-[#637B76]">{field}</span>
                 <input
                   name={field}
-                  className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                  className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
                   placeholder={field + ' 입력'}
                 />
               </label>
             ))}
 
-            <button className="mt-2 rounded-2xl bg-[#193B38] px-5 py-4 text-base font-black text-white">
+            <button className="mt-2 rounded-2xl bg-[#247A71] px-5 py-4 text-base font-black text-white">
               케어파트너 신청하기
             </button>
           </form>
@@ -518,9 +518,9 @@ export function CarePartnerApplyMvp() {
           <h2 className="text-2xl font-black tracking-[-0.05em]">운영실 검증 기준</h2>
           <div className="mt-5 space-y-3">
             {partnerVettingSteps.map((step, index) => (
-              <div key={step} className="rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
-                <div className="text-sm font-black text-[#11977F]">{index + 1}단계</div>
-                <div className="mt-1 text-lg font-black text-[#173B36]">{step}</div>
+              <div key={step} className="rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
+                <div className="text-sm font-black text-[#2AA897]">{index + 1}단계</div>
+                <div className="mt-1 text-lg font-black text-[#17443F]">{step}</div>
               </div>
             ))}
           </div>
@@ -568,8 +568,8 @@ export function PrivacyConsentMvp() {
               className={
                 'rounded-2xl p-4 text-left text-sm font-black leading-7 ring-1 transition ' +
                 (checked.includes(item)
-                  ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-                  : 'bg-[#F8FCFB] text-[#5F7772] ring-[#D8EEE8]')
+                  ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+                  : 'bg-[#FAFFFD] text-[#5F7772] ring-[#D6EDE7]')
               }
             >
               {checked.includes(item) ? '✓ ' : ''}
@@ -578,7 +578,7 @@ export function PrivacyConsentMvp() {
           ))}
         </div>
 
-        <div className="mt-5 rounded-[1.75rem] bg-[#123F38] p-5 text-white">
+        <div className="mt-5 rounded-[1.75rem] bg-[#247A71] p-5 text-white">
           <p className="text-sm font-black text-[#9DF4DD]">필수 안내</p>
           <p className="mt-2 text-sm font-bold leading-7 text-[#CDEEE6]">
             안부온은 의료 진단, 처방, 응급 판단을 제공하지 않습니다. 응급상황은 119 또는 의료기관에 연락해야 합니다.
@@ -603,12 +603,12 @@ export function PricingMvp() {
         {pricingPlans.map((plan) => (
           <Card key={plan.name} className={plan.name === '안부온 베이직' ? 'bg-[#F8FFFC] ring-[#BEEFE3]' : ''}>
             <h2 className="text-2xl font-black tracking-[-0.05em]">{plan.name}</h2>
-            <div className="mt-3 text-3xl font-black text-[#11977F]">{plan.price}</div>
+            <div className="mt-3 text-3xl font-black text-[#2AA897]">{plan.price}</div>
             <p className="mt-3 text-sm font-bold leading-7 text-[#637B76]">{plan.desc}</p>
 
             <div className="mt-5 space-y-2">
               {plan.features.map((feature) => (
-                <div key={feature} className="rounded-2xl bg-white p-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+                <div key={feature} className="rounded-2xl bg-white p-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   ✓ {feature}
                 </div>
               ))}
@@ -632,15 +632,15 @@ export function PlatformRoadmapMvp() {
       <div className="grid gap-4 md:grid-cols-3">
         {platformRoadmap.map((step, index) => (
           <Card key={step}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E8FAF5] text-sm font-black text-[#11977F]">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#EFFFFA] text-sm font-black text-[#2AA897]">
               {index + 1}
             </div>
-            <h2 className="mt-4 text-2xl font-black tracking-[-0.05em] text-[#173B36]">{step}</h2>
+            <h2 className="mt-4 text-2xl font-black tracking-[-0.05em] text-[#17443F]">{step}</h2>
           </Card>
         ))}
       </div>
 
-      <Card className="bg-[#123F38] text-white">
+      <Card className="bg-[#247A71] text-white">
         <p className="text-sm font-black text-[#9DF4DD]">투자자 설명 문장</p>
         <p className="mt-3 text-2xl font-black leading-snug tracking-[-0.04em]">
           안부웍스는 AI가 매일 부모님 안부를 확인하고, 이상 신호가 생기면 보호자와 운영실을 거쳐 검증된 케어파트너까지 연결하는 부모님 안심관리 플랫폼입니다.
@@ -656,9 +656,9 @@ export function RiskScoreGuideMvp() {
       <h2 className="text-2xl font-black tracking-[-0.05em]">위험신호 점수 기준</h2>
       <div className="mt-5 grid gap-3 md:grid-cols-2">
         {anbuRiskRules.map((rule) => (
-          <div key={rule.signal} className="flex items-center justify-between rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-            <span className="text-sm font-black text-[#173B36]">{rule.signal}</span>
-            <span className="rounded-full bg-[#EFFFF9] px-3 py-1 text-xs font-black text-[#116D5F]">
+          <div key={rule.signal} className="flex items-center justify-between rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+            <span className="text-sm font-black text-[#17443F]">{rule.signal}</span>
+            <span className="rounded-full bg-[#EFFFFA] px-3 py-1 text-xs font-black text-[#2AA897]">
               +{rule.score}
             </span>
           </div>
@@ -671,9 +671,9 @@ export function RiskScoreGuideMvp() {
           ['30~59점', '주의'],
           ['60점 이상', '확인 필요']
         ].map(([score, state]) => (
-          <div key={score} className="rounded-2xl bg-white p-4 ring-1 ring-[#D8EEE8]">
+          <div key={score} className="rounded-2xl bg-white p-4 ring-1 ring-[#D6EDE7]">
             <div className="text-sm font-black text-[#7A9692]">{score}</div>
-            <div className="mt-1 text-xl font-black text-[#173B36]">{state}</div>
+            <div className="mt-1 text-xl font-black text-[#17443F]">{state}</div>
           </div>
         ))}
       </div>
@@ -696,13 +696,13 @@ function Field({
 }) {
   return (
     <label className="grid gap-2">
-      <span className="text-sm font-black text-[#55736E]">{label}</span>
+      <span className="text-sm font-black text-[#637B76]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         inputMode={inputMode}
-        className="rounded-2xl border border-[#D8EEE8] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+        className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-3 text-sm font-bold outline-none focus:ring-4 focus:ring-[#D6F6EC]"
       />
     </label>
   )

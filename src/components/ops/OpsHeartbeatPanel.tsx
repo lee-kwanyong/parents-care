@@ -44,10 +44,10 @@ type HeartbeatLog = {
 }
 
 function statusClass(status?: string) {
-  if (status === 'success') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'partial_failed') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  if (status === 'failed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+  if (status === 'success') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'partial_failed') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  if (status === 'failed') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  return 'bg-white text-[#17443F] ring-[#D6EDE7]'
 }
 
 function statusLabel(status?: string) {
@@ -60,7 +60,7 @@ function statusLabel(status?: string) {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -142,10 +142,10 @@ export function OpsHeartbeatPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 자동운영 Heartbeat
           </div>
 
@@ -170,7 +170,7 @@ export function OpsHeartbeatPanel() {
             <button
               onClick={() => runHeartbeat(false)}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
             >
               자동운영 실행
             </button>
@@ -178,12 +178,12 @@ export function OpsHeartbeatPanel() {
             <button
               onClick={() => runHeartbeat(true)}
               disabled={loading}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               실행 + 문자 발송
             </button>
 
-            <label className="flex items-center gap-2 rounded-2xl bg-[#F8FCFB] px-4 py-3 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+            <label className="flex items-center gap-2 rounded-2xl bg-[#FAFFFD] px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               <input
                 type="checkbox"
                 checked={autoSend}
@@ -195,13 +195,13 @@ export function OpsHeartbeatPanel() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+              className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
             >
               새로고침
             </button>
           </div>
 
-          <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (autoSendEnabled ? 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]' : 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]')}>
+          <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (autoSendEnabled ? 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]' : 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]')}>
             Cron 문자 자동발송 설정: {autoSendEnabled ? '켜짐' : '꺼짐'}
             <br />
             실증 전에는 OPS_HEARTBEAT_AUTO_SEND=false를 유지하고, 운영자가 화면에서 확인 후 발송하는 방식이 안전합니다.
@@ -214,13 +214,13 @@ export function OpsHeartbeatPanel() {
           ) : null}
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">실행 결과 보기</summary>
               <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -235,12 +235,12 @@ export function OpsHeartbeatPanel() {
           <MetricCard title="실패" value={`${metrics.failed}개`} desc="재시도 필요" danger={metrics.failed > 0} />
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">최근 Heartbeat 실행 기록</h2>
 
           <div className="mt-5 space-y-3">
             {recentRuns.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 자동운영 실행 기록이 없습니다.
               </div>
             ) : (
@@ -286,18 +286,18 @@ export function OpsHeartbeatPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">자동운영 로그</h2>
 
           <div className="mt-5 space-y-3">
             {logs.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 자동운영 로그가 없습니다.
               </div>
             ) : (
               logs.slice(0, 20).map((log) => (
-                <article key={log.id} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-                  <div className="text-xs font-black text-[#11977F]">{log.action_type || 'ops_heartbeat'}</div>
+                <article key={log.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <div className="text-xs font-black text-[#2AA897]">{log.action_type || 'ops_heartbeat'}</div>
                   <div className="mt-2 text-sm font-black leading-7">{log.message || '-'}</div>
                   <div className="mt-1 text-xs font-bold text-[#637B76]">{log.created_at || ''}</div>
                 </article>
@@ -307,18 +307,18 @@ export function OpsHeartbeatPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/ops/autopilot" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/ops/autopilot" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             오토파일럿
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
-          <Link href="/response?scope=ops" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/response?scope=ops" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             후속조치 관제
           </Link>
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>
@@ -330,8 +330,8 @@ export function OpsHeartbeatPanel() {
 
 function GuideCard({ number, title, desc }: { number: string; title: string; desc: string }) {
   return (
-    <article className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
-      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#193B38] text-xs font-black text-white">
+    <article className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#247A71] text-xs font-black text-white">
         {number}
       </div>
       <h3 className="mt-3 text-base font-black tracking-[-0.04em]">{title}</h3>

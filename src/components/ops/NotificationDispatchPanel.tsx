@@ -51,10 +51,10 @@ function phoneOnly(value: string) {
 }
 
 function statusClass(status?: string) {
-  if (status === 'sent') return 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]'
-  if (status === 'failed') return 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]'
-  if (status === 'outbox-only') return 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]'
-  return 'bg-white text-[#173B36] ring-[#D8EEE8]'
+  if (status === 'sent') return 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]'
+  if (status === 'failed') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
+  if (status === 'outbox-only') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
+  return 'bg-white text-[#17443F] ring-[#D6EDE7]'
 }
 
 function statusLabel(status?: string) {
@@ -67,7 +67,7 @@ function statusLabel(status?: string) {
 
 function MetricCard({ title, value, desc, danger }: { title: string; value: string; desc: string; danger?: boolean }) {
   return (
-    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF1F1] text-[#8A2525] ring-[#F3BBBB]' : 'bg-white text-[#173B36] ring-[#D8EEE8]')}>
+    <article className={'rounded-[2rem] p-5 shadow-sm ring-1 ' + (danger ? 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]' : 'bg-white text-[#17443F] ring-[#D6EDE7]')}>
       <div className="text-sm font-black opacity-70">{title}</div>
       <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{value}</div>
       <p className="mt-2 text-sm font-bold leading-6 opacity-75">{desc}</p>
@@ -178,10 +178,10 @@ export function NotificationDispatchPanel() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-4 py-5 text-[#173B36] sm:px-5 sm:py-8">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-5 text-[#17443F] sm:px-5 sm:py-8">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:rounded-[2.5rem] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2rem] bg-white p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             알림 발송센터
           </div>
 
@@ -195,7 +195,7 @@ export function NotificationDispatchPanel() {
             상황별 문자 초안을 선택하고, 필요한 부분만 수정한 뒤 대기열에 넣거나 바로 발송할 수 있습니다.
           </p>
 
-          <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (ready ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')}>
+          <div className={'mt-5 rounded-2xl p-4 text-sm font-black leading-7 ring-1 ' + (ready ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]' : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')}>
             {ready ? (
               <>SOLAPI 환경변수가 준비되었습니다. 발신번호: {config.senderMasked}</>
             ) : (
@@ -204,13 +204,13 @@ export function NotificationDispatchPanel() {
           </div>
 
           {message ? (
-            <div className="mt-4 rounded-2xl bg-[#FFF8E8] p-4 text-sm font-black leading-7 text-[#795313] ring-1 ring-[#F4D8A5]">
+            <div className="mt-4 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
               {message}
             </div>
           ) : null}
 
           {debug ? (
-            <details className="mt-4 rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
+            <details className="mt-4 rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]" open>
               <summary className="cursor-pointer text-sm font-black">처리 결과 보기</summary>
               <pre className="mt-3 max-h-72 overflow-auto whitespace-pre-wrap">{debug}</pre>
             </details>
@@ -226,14 +226,14 @@ export function NotificationDispatchPanel() {
         </section>
 
         <section className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">발송 실행</h2>
 
             <div className="mt-5 grid gap-3">
               <button
                 onClick={() => post('dispatchQueued', { limit: 30 })}
                 disabled={loading}
-                className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
               >
                 발송 대기 30건 보내기
               </button>
@@ -241,7 +241,7 @@ export function NotificationDispatchPanel() {
               <button
                 onClick={() => post('retryFailed', { limit: 20 })}
                 disabled={loading}
-                className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+                className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
               >
                 실패 20건 재시도
               </button>
@@ -249,25 +249,25 @@ export function NotificationDispatchPanel() {
               <button
                 onClick={load}
                 disabled={loading}
-                className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+                className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
               >
                 새로고침
               </button>
             </div>
 
-            <div className="mt-6 rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+            <div className="mt-6 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
               대량 발송 전에는 반드시 내 번호로 초안 1건을 테스트해주세요.
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">문자 초안 선택</h2>
 
             <div className="mt-5 grid gap-3">
               <select
                 value={selectedTemplateCode}
                 onChange={(event) => applyTemplate(event.target.value)}
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               >
                 {templates.map((template) => (
                   <option key={template.code} value={template.code}>
@@ -276,7 +276,7 @@ export function NotificationDispatchPanel() {
                 ))}
               </select>
 
-              <div className="rounded-2xl bg-[#F8FCFB] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
                 선택된 초안: {selectedTemplate?.category || '-'} · {selectedTemplate?.code || '-'}
               </div>
 
@@ -285,28 +285,28 @@ export function NotificationDispatchPanel() {
                 onChange={(event) => setTestPhone(phoneOnly(event.target.value))}
                 inputMode="tel"
                 placeholder="수신번호 예: 01012345678"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <input
                 value={testName}
                 onChange={(event) => setTestName(event.target.value)}
                 placeholder="수신자 이름"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <input
                 value={testTitle}
                 onChange={(event) => setTestTitle(event.target.value)}
                 placeholder="문자 제목"
-                className="w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <textarea
                 value={testBody}
                 onChange={(event) => setTestBody(event.target.value)}
                 placeholder="문자 내용"
-                className="min-h-40 w-full rounded-2xl border border-[#D8EEE8] bg-white px-4 py-4 text-sm font-black leading-7 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
+                className="min-h-40 w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black leading-7 outline-none focus:ring-4 focus:ring-[#D6F6EC]"
               />
 
               <div className="grid gap-3 md:grid-cols-2">
@@ -319,7 +319,7 @@ export function NotificationDispatchPanel() {
                     templateCode: selectedTemplateCode
                   })}
                   disabled={loading || !testPhone}
-                  className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
+                  className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-50"
                 >
                   선택한 초안 대기열에 넣기
                 </button>
@@ -333,7 +333,7 @@ export function NotificationDispatchPanel() {
                     templateCode: selectedTemplateCode
                   })}
                   disabled={loading || !testPhone}
-                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8] disabled:opacity-50"
+                  className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7] disabled:opacity-50"
                 >
                   선택한 초안 바로 발송
                 </button>
@@ -342,7 +342,7 @@ export function NotificationDispatchPanel() {
           </section>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">초안 빠른 선택</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
@@ -350,7 +350,7 @@ export function NotificationDispatchPanel() {
               <button
                 key={template.code}
                 onClick={() => applyTemplate(template.code)}
-                className={'rounded-2xl p-4 text-left ring-1 ' + (selectedTemplateCode === template.code ? 'bg-[#193B38] text-white ring-[#193B38]' : 'bg-[#F8FCFB] text-[#173B36] ring-[#D8EEE8]')}
+                className={'rounded-2xl p-4 text-left ring-1 ' + (selectedTemplateCode === template.code ? 'bg-[#247A71] text-white ring-[#247A71]' : 'bg-[#FAFFFD] text-[#17443F] ring-[#D6EDE7]')}
               >
                 <div className="text-xs font-black opacity-75">{template.category}</div>
                 <div className="mt-2 text-lg font-black tracking-[-0.05em]">{template.title}</div>
@@ -362,12 +362,12 @@ export function NotificationDispatchPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-3xl font-black tracking-[-0.06em]">최근 알림 기록</h2>
 
           <div className="mt-5 space-y-3">
             {recentItems.length === 0 ? (
-              <div className="rounded-2xl bg-[#F8FCFB] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D8EEE8]">
+              <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
                 아직 알림 기록이 없습니다.
               </div>
             ) : (
@@ -408,18 +408,18 @@ export function NotificationDispatchPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/response?scope=ops" className="rounded-2xl bg-[#193B38] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/response?scope=ops" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             후속조치 관제
           </Link>
-          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             지역 도움망 요청함
           </Link>
-          <Link href="/ops" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+          <Link href="/ops" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             운영실
           </Link>
           <button
             onClick={load}
-            className="rounded-2xl bg-[#F8FCFB] px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+            className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
             새로고침
           </button>

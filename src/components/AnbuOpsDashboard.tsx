@@ -58,14 +58,14 @@ function timeLabel(value?: string) {
 
 function cardTone(key: string, value: number) {
   if (['risk', 'reports', 'outbox', 'payments'].includes(key) && value > 0) {
-    return 'bg-[#FFF8E8] ring-[#F4D8A5]'
+    return 'bg-[#FFF9EE] ring-[#F3DEB5]'
   }
 
   if (key === 'careRequests' && value > 0) {
     return 'bg-[#F7FBFF] ring-[#DCEDE7]'
   }
 
-  return 'bg-white ring-[#D8EEE8]'
+  return 'bg-white ring-[#D6EDE7]'
 }
 
 export function AnbuOpsDashboard() {
@@ -108,10 +108,10 @@ export function AnbuOpsDashboard() {
   }, [data])
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#F6FFFC_0%,#FFFFFF_55%,#F7FBFF_100%)] px-5 py-8 text-[#173B36]">
+    <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-5 py-8 text-[#17443F]">
       <section className="mx-auto max-w-7xl space-y-5">
-        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(20,82,70,0.08)] ring-1 ring-[#D8EEE8] sm:p-8">
-          <div className="inline-flex rounded-full bg-[#E8FAF5] px-4 py-2 text-sm font-black text-[#11977F]">
+        <section className="rounded-[2.5rem] bg-white p-6 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:p-8">
+          <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
             운영실 통합 대시보드
           </div>
 
@@ -127,21 +127,21 @@ export function AnbuOpsDashboard() {
             <button
               onClick={load}
               disabled={loading}
-              className="rounded-2xl bg-[#193B38] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white disabled:opacity-60"
             >
               {loading ? '불러오는 중...' : '새로고침'}
             </button>
 
             <button
               onClick={() => setShowRaw((value) => !value)}
-              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#173B36] ring-1 ring-[#D8EEE8]"
+              className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               {showRaw ? '원본 숨기기' : '원본 보기'}
             </button>
 
             <Link
               href="/ops/outbox"
-              className="rounded-2xl bg-[#FFF8E8] px-5 py-4 text-sm font-black text-[#795313] ring-1 ring-[#F4D8A5]"
+              className="rounded-2xl bg-[#FFF9EE] px-5 py-4 text-sm font-black text-[#795C22] ring-1 ring-[#F3DEB5]"
             >
               알림 발송함
             </Link>
@@ -153,7 +153,7 @@ export function AnbuOpsDashboard() {
         </section>
 
         {error ? (
-          <section className="rounded-[2rem] bg-[#FFF1F1] p-5 text-sm font-black text-[#8A2525] ring-1 ring-[#F3BBBB]">
+          <section className="rounded-[2rem] bg-[#FFF4F4] p-5 text-sm font-black text-[#8A3030] ring-1 ring-[#F3C8C8]">
             {error}
           </section>
         ) : null}
@@ -166,14 +166,14 @@ export function AnbuOpsDashboard() {
               className={'rounded-[2rem] p-5 shadow-sm ring-1 transition hover:-translate-y-0.5 ' + cardTone(card.key, card.value)}
             >
               <div className="text-sm font-black text-[#7A9692]">{card.label}</div>
-              <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#11977F]">{card.value}</div>
+              <div className="mt-2 text-4xl font-black tracking-[-0.06em] text-[#2AA897]">{card.value}</div>
               <p className="mt-2 text-sm font-bold leading-6 text-[#637B76]">{card.help}</p>
             </Link>
           ))}
         </div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_0.8fr]">
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">운영 큐</h2>
             <p className="mt-2 text-sm font-bold text-[#637B76]">
               지금 바로 확인해야 할 항목입니다.
@@ -181,23 +181,23 @@ export function AnbuOpsDashboard() {
 
             <div className="mt-5 space-y-4">
               {(data?.queues || []).map((queue) => (
-                <div key={queue.key} className="rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#D8EEE8]">
+                <div key={queue.key} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                   <div className="flex items-center justify-between gap-3">
                     <h3 className="text-lg font-black tracking-[-0.04em]">{queue.title}</h3>
-                    <Link href={queue.href} className="rounded-xl bg-white px-3 py-2 text-xs font-black text-[#173B36] ring-1 ring-[#D8EEE8]">
+                    <Link href={queue.href} className="rounded-xl bg-white px-3 py-2 text-xs font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                       보기
                     </Link>
                   </div>
 
                   <div className="mt-3 space-y-2">
                     {queue.items.length === 0 ? (
-                      <p className="rounded-xl bg-white p-3 text-sm font-bold text-[#7A9692] ring-1 ring-[#D8EEE8]">
+                      <p className="rounded-xl bg-white p-3 text-sm font-bold text-[#7A9692] ring-1 ring-[#D6EDE7]">
                         {queue.empty}
                       </p>
                     ) : (
                       queue.items.map((item, index) => (
-                        <div key={`${queue.key}-${index}`} className="rounded-xl bg-white p-3 ring-1 ring-[#D8EEE8]">
-                          <div className="text-sm font-black text-[#173B36]">{item.title}</div>
+                        <div key={`${queue.key}-${index}`} className="rounded-xl bg-white p-3 ring-1 ring-[#D6EDE7]">
+                          <div className="text-sm font-black text-[#17443F]">{item.title}</div>
                           <p className="mt-1 text-xs font-bold leading-5 text-[#637B76]">{item.desc}</p>
                           <p className="mt-1 text-[11px] font-bold text-[#98AAA7]">{timeLabel(item.time)}</p>
                         </div>
@@ -209,7 +209,7 @@ export function AnbuOpsDashboard() {
             </div>
           </section>
 
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">바로가기</h2>
             <p className="mt-2 text-sm font-bold text-[#637B76]">
               자주 쓰는 운영 화면입니다.
@@ -220,7 +220,7 @@ export function AnbuOpsDashboard() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="rounded-2xl bg-[#F8FCFB] p-4 transition hover:bg-[#EFFFF9] ring-1 ring-[#D8EEE8]"
+                  className="rounded-2xl bg-[#FAFFFD] p-4 transition hover:bg-[#EFFFFA] ring-1 ring-[#D6EDE7]"
                 >
                   <div className="text-base font-black tracking-[-0.04em]">{item.label}</div>
                   <p className="mt-1 text-sm font-bold leading-6 text-[#637B76]">{item.desc}</p>
@@ -230,7 +230,7 @@ export function AnbuOpsDashboard() {
           </section>
         </div>
 
-        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+        <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
           <h2 className="text-2xl font-black tracking-[-0.05em]">데이터 연결 상태</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -239,7 +239,7 @@ export function AnbuOpsDashboard() {
                 key={item.label}
                 className={
                   'rounded-2xl p-4 ring-1 ' +
-                  (item.ok ? 'bg-[#EFFFF9] text-[#116D5F] ring-[#CDEFE5]' : 'bg-[#FFF8E8] text-[#795313] ring-[#F4D8A5]')
+                  (item.ok ? 'bg-[#EFFFFA] text-[#2AA897] ring-[#CDEFE7]' : 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]')
                 }
               >
                 <div className="text-sm font-black">{item.label}</div>
@@ -255,9 +255,9 @@ export function AnbuOpsDashboard() {
         </section>
 
         {showRaw ? (
-          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D8EEE8] sm:p-6">
+          <section className="rounded-[2rem] bg-white p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-2xl font-black tracking-[-0.05em]">원본 데이터</h2>
-            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#123F38] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
+            <pre className="mt-4 max-h-[30rem] overflow-auto rounded-2xl bg-[#247A71] p-4 text-xs font-bold leading-6 text-[#E7FFF7]">
               {JSON.stringify(data, null, 2)}
             </pre>
           </section>

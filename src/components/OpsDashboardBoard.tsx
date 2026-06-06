@@ -240,7 +240,7 @@ export function OpsDashboardBoard() {
                   <Link
                     key={`${event.type}-${event.title}-${index}`}
                     href={event.href}
-                    className="block rounded-2xl bg-[#F8FCFB] p-4 ring-1 ring-[#E3EFEC] transition hover:bg-white"
+                    className="block rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#E3EFEC] transition hover:bg-white"
                   >
                     <div className="flex flex-wrap gap-2">
                       <Badge text={event.type} />
@@ -313,7 +313,7 @@ function SummaryCard({
   return (
     <Link
       href={href}
-      className="block rounded-[1.8rem] bg-white p-5 ring-1 ring-[#E3EFEC] shadow-[0_14px_40px_rgba(93,139,131,0.08)] transition hover:-translate-y-0.5 hover:bg-[#F8FCFB]"
+      className="block rounded-[1.8rem] bg-white p-5 ring-1 ring-[#E3EFEC] shadow-[0_14px_40px_rgba(93,139,131,0.08)] transition hover:-translate-y-0.5 hover:bg-[#FAFFFD]"
     >
       <div className="text-sm font-black text-[#718A87]">{title}</div>
       <div className="mt-2 text-3xl font-black tracking-[-0.04em] text-[#24423F]">{main}</div>
