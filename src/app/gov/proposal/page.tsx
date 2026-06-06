@@ -1,10 +1,10 @@
-import { GovProposalPackagePanel } from '@/components/gov/GovProposalPackagePanel'
+import { GovProposalLanding } from '@/components/gov/GovProposalLanding'
 
 export const metadata = {
-  title: '지자체 R&D 제안 패키지 | 안부웍스',
-  description: 'IoT 스마트 실버 케어와 안부지문 기반 지역사회 통합돌봄 R&D 제안 구조를 확인합니다.'
+  title: '지자체 스마트 돌봄 제안 | 안부웍스',
+  description: 'B2G 지자체 실증, 운영실 관제, 사건 타임라인, 운영보고서, 제출 패키지를 제안합니다.'
 }
 
 export default function GovProposalPage() {
-  return <GovProposalPackagePanel />
+  return <GovProposalLanding />
 }

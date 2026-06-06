@@ -99,6 +99,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/proposal",
+    "title": "외부 제안 랜딩",
+    "description": "지자체·기관 담당자가 로그인 없이 볼 수 있는 공개 제안 페이지입니다.",
+    "category": "공통",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "제안",
+    "priority": 5,
+    "opsOnly": false
+  },
+  {
     "href": "/portal/parent",
     "title": "부모님 페이지",
     "description": "부모님이 안부 신호를 입력하는 화면 모음입니다.",
@@ -489,6 +502,19 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "시연",
     "priority": 62,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/proposal-leads",
+    "title": "제안 문의 관리",
+    "description": "외부 제안 페이지에서 접수된 지자체·기관 문의를 운영실에서 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "문의",
+    "priority": 63,
     "opsOnly": true
   },
   {
