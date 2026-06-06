@@ -1,16 +1,16 @@
-import { AdminMenuHub } from '@/components/admin/AdminMenuHub'
+import { RolePortalMenu } from '@/components/portal/RolePortalMenu'
 
 export const metadata = {
   title: '부모님 페이지 | 안부웍스',
-  description: '부모님이 안부를 입력하고 자녀에게 신호를 보내는 화면 모음입니다.'
+  description: '부모님이 안부 신호를 입력하고 접속하는 데 필요한 메뉴만 모았습니다.'
 }
 
 export default function ParentPortalPage() {
   return (
-    <AdminMenuHub
+    <RolePortalMenu
       role="parent"
       title="부모님 페이지"
-      subtitle="부모님이 식사, 복약, 몸 상태, 도움 요청을 남기는 화면으로 이동합니다."
+      subtitle="부모님이 안부 신호를 입력하고 접속하는 데 필요한 화면만 모았습니다."
     />
   )
 }

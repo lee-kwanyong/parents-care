@@ -3137,16 +3137,112 @@ export const developerMenuLinks: MenuLink[] = [
 
 export const allMenuLinks: MenuLink[] = [...menuLinks, ...developerMenuLinks]
 
+
+/* ROLE_PORTAL_POLICY_START */
+const rolePortalSafeCommonHrefs = new Set<string>([
+  '/',
+  '/login',
+  '/family-link',
+  '/response/about',
+  '/privacy',
+  '/terms',
+  '/support',
+  '/proposal'
+])
+
+function rolePortalCleanHref(href: string): string {
+  const base = href.split('?', 1)[0] || '/'
+  if (base !== '/' && base.endsWith('/')) return base.slice(0, -1)
+  return base
+}
+
+function rolePortalRestrictedForRole(link: MenuLink, role: PortalRole): boolean {
+  const rawHref = link.href || ''
+  const href = rolePortalCleanHref(rawHref)
+
+  if (role === 'ops') return false
+
+  if (link.opsOnly) return true
+  if (rawHref.includes('scope=ops')) return true
+
+  if (href === '/admin-menu') return true
+  if (href.startsWith('/ops')) return true
+  if (href.startsWith('/gov')) return true
+
+  const roleLockedPrefixes: Array<[string, PortalRole]> = [
+    ['/portal/parent', 'parent'],
+    ['/portal/child', 'child'],
+    ['/portal/care-worker', 'careWorker'],
+    ['/portal/ops', 'ops']
+  ]
+
+  for (const [prefix, ownerRole] of roleLockedPrefixes) {
+    if (href.startsWith(prefix) && role !== ownerRole) return true
+  }
+
+  if (role === 'parent') {
+    if (href.startsWith('/child')) return true
+    if (href.startsWith('/provider')) return true
+    if (href.startsWith('/care-worker')) return true
+    if (href.startsWith('/care-partner')) return true
+  }
+
+  if (role === 'child') {
+    if (href.startsWith('/parent')) return true
+    if (href.startsWith('/provider')) return true
+    if (href.startsWith('/care-worker')) return true
+    if (href.startsWith('/care-partner')) return true
+  }
+
+  if (role === 'careWorker') {
+    if (href.startsWith('/parent')) return true
+    if (href.startsWith('/child')) return true
+    if (href.startsWith('/family')) return true
+    if (href.startsWith('/guardian')) return true
+  }
+
+  return false
+}
+
+function rolePortalIsSafeCommon(link: MenuLink): boolean {
+  const href = rolePortalCleanHref(link.href)
+  if (link.opsOnly) return false
+  if (link.href.includes('scope=ops')) return false
+  if (href === '/menu') return false
+  if (href === '/admin-menu') return false
+  return rolePortalSafeCommonHrefs.has(href)
+}
+
+function rolePortalSortLinks(links: MenuLink[]): MenuLink[] {
+  const seen = new Set<string>()
+
+  return links
+    .filter((link) => {
+      const key = link.href
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+    .sort((a, b) => {
+      if (a.priority !== b.priority) return a.priority - b.priority
+      if (a.category !== b.category) return a.category.localeCompare(b.category)
+      return a.title.localeCompare(b.title)
+    })
+}
+/* ROLE_PORTAL_POLICY_END */
+
+
 export function linksForRole(role: PortalRole, includeDebug = false): MenuLink[] {
   const source = includeDebug ? allMenuLinks : menuLinks
 
-  const filtered = role === 'all'
-    ? source
-    : source.filter((link) => link.roles.includes(role) || link.roles.includes('all'))
+  if (role === 'all') return rolePortalSortLinks(source)
+  if (role === 'ops') return rolePortalSortLinks(source)
 
-  return [...filtered].sort((a, b) => {
-    if (a.priority !== b.priority) return a.priority - b.priority
-    if (a.category !== b.category) return a.category.localeCompare(b.category)
-    return a.title.localeCompare(b.title)
-  })
+  return rolePortalSortLinks(
+    source.filter((link) => {
+      if (rolePortalRestrictedForRole(link, role)) return false
+      if (link.roles.includes(role)) return true
+      return rolePortalIsSafeCommon(link)
+    })
+  )
 }
