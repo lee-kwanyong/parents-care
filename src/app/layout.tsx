@@ -11,6 +11,7 @@ import { GuardianLoginRequiredGuard } from '@/components/auth/GuardianLoginRequi
 import { ParentOnlyGuard } from '@/components/auth/ParentOnlyGuard'
 import { ParentConnectedRedirect } from '@/components/auth/ParentConnectedRedirect'
 import { HeaderButtonOrderFix } from '@/components/HeaderButtonOrderFix'
+import { PwaRegister } from '@/components/pwa/PwaRegister'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
+        <PwaRegister />
         <HeaderButtonOrderFix />
         <ParentConnectedRedirect />
         <AnbuAuthPersistence />

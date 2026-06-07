@@ -57,6 +57,22 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/mobile",
+    "title": "안부웍스 앱",
+    "description": "부모님, 보호자, 요양보호사·돌봄파트너가 사용하는 설치형 모바일 앱 홈입니다.",
+    "category": "공통",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "앱",
+    "priority": 2,
+    "opsOnly": false
+  },
+  {
     "href": "/menu",
     "title": "통합 메뉴",
     "description": "역할별 핵심 화면으로 이동합니다.",
@@ -177,6 +193,20 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/mobile/parent",
+    "title": "부모님 신호 보내기 앱",
+    "description": "부모님이 식사, 복약, 몸 상태, 도움 요청 신호를 큰 버튼으로 보냅니다.",
+    "category": "부모님 필수",
+    "roles": [
+      "all",
+      "parent",
+      "ops"
+    ],
+    "badge": "앱",
+    "priority": 21,
+    "opsOnly": false
+  },
+  {
     "href": "/parent/today",
     "title": "오늘 안부 체크",
     "description": "오늘 식사, 복약, 몸 상태를 확인합니다.",
@@ -212,6 +242,20 @@ export const menuLinks: MenuLink[] = [
       "child"
     ],
     "badge": "리포트",
+    "priority": 31,
+    "opsOnly": false
+  },
+  {
+    "href": "/mobile/guardian",
+    "title": "자녀·보호자 앱",
+    "description": "보호자가 부모님 상태와 후속조치 화면으로 이동합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "앱",
     "priority": 31,
     "opsOnly": false
   },
@@ -728,6 +772,20 @@ export const menuLinks: MenuLink[] = [
       "ops"
     ],
     "badge": "약관",
+    "priority": 81,
+    "opsOnly": false
+  },
+  {
+    "href": "/mobile/provider",
+    "title": "요양보호사·돌봄파트너 앱",
+    "description": "요양보호사·돌봄파트너가 긴급 요청함으로 이동합니다.",
+    "category": "요양보호사·케어파트너 필수",
+    "roles": [
+      "all",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "앱",
     "priority": 81,
     "opsOnly": false
   },
