@@ -375,6 +375,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/state-machine",
+    "title": "긴급 사건 상태 머신",
+    "description": "긴급 사건의 중복 수락, 만료 링크, 오래된 미수락 사건, 완료 후 재배치를 점검합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "상태",
+    "priority": 53,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/network",
     "title": "도움망 네트워크",
     "description": "돌봄파트너, 요양보호사, 지역상점, 약국, 수행기관을 등록·관리합니다.",
