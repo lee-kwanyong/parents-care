@@ -427,6 +427,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/one-page-proposal",
+    "title": "1페이지 실증 제안서",
+    "description": "지자체 담당자에게 보낼 한 장짜리 실증 협업 제안서를 편집하고 저장합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "제안서",
+    "priority": 55,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/notification-cleanup",
     "title": "알림 기록 정리센터",
     "description": "테스트 문자, 실패 기록, 오래된 대기 알림, 발송 완료 기록을 운영 화면에서 분리합니다.",
@@ -744,6 +757,19 @@ export const menuLinks: MenuLink[] = [
     "badge": "긴급요청",
     "priority": 82,
     "opsOnly": false
+  },
+  {
+    "href": "/gov/one-page-proposal",
+    "title": "지자체 1페이지 실증 제안서",
+    "description": "안부웍스 고령자 AIP 돌봄 관제 실증 협업 1페이지 제안서입니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "제안서",
+    "priority": 82,
+    "opsOnly": true
   },
   {
     "href": "/parent/consent",

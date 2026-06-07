@@ -1090,3 +1090,33 @@ body {
   }
 }
 /* ROLE_MENU_BADGE_NOWRAP_END */
+
+/* ONE_PAGE_PROPOSAL_PRINT_START */
+@media print {
+  .anbu-print-hide {
+    display: none !important;
+  }
+
+  .anbu-one-page-print {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    max-width: 210mm !important;
+    margin: 0 auto !important;
+    padding: 12mm !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    ring: none !important;
+    page-break-inside: avoid;
+  }
+
+  body {
+    background: #ffffff !important;
+  }
+
+  @page {
+    size: A4;
+    margin: 8mm;
+  }
+}
+/* ONE_PAGE_PROPOSAL_PRINT_END */
