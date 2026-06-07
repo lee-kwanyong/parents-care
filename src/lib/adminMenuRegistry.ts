@@ -341,6 +341,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/preflight-test",
+    "title": "실증 전 전체 기능 테스트",
+    "description": "모바일 앱, 운영실 API, DB, 요양보호사 즉시 배치, 토큰 수락, 상태 머신을 자동 점검합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "TEST",
+    "priority": 49,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/control-center",
     "title": "운영실 자동운영 상태판",
     "description": "Heartbeat, 오토파일럿, 긴급 사건, 문자, 요양보호사 가용 상태를 한 화면에서 확인합니다.",
