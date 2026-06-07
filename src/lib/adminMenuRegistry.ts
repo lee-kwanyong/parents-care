@@ -323,6 +323,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/security-center",
+    "title": "RLS·권한 점검센터",
+    "description": "사건, 문자, 개인정보, 요양보호사 배치 데이터의 공개 접근 여부를 점검합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "보안",
+    "priority": 51,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/autopilot",
     "title": "운영실 오토파일럿",
     "description": "부모님 신호별 플레이북으로 다음 조치를 추천하고 실행합니다.",
