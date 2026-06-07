@@ -323,6 +323,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/urgent-dispatch",
+    "title": "요양보호사 즉시 배치센터",
+    "description": "갑자기 도움이 필요한 어르신에게 가까운 요양보호사·돌봄파트너를 즉시 배치합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "즉시배치",
+    "priority": 52,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/heartbeat",
     "title": "운영실 자동운영 Heartbeat",
     "description": "오토파일럿, 에스컬레이션, 문자 대기열을 주기적으로 점검합니다.",
@@ -651,6 +664,20 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "약관",
     "priority": 81,
+    "opsOnly": false
+  },
+  {
+    "href": "/provider/urgent-requests",
+    "title": "요양보호사 긴급 요청함",
+    "description": "요양보호사·돌봄파트너가 긴급 확인 요청을 수락하고 완료 처리합니다.",
+    "category": "요양보호사·케어파트너 필수",
+    "roles": [
+      "all",
+      "careWorker",
+      "ops"
+    ],
+    "badge": "긴급요청",
+    "priority": 82,
     "opsOnly": false
   },
   {
