@@ -772,6 +772,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/gov/outreach-crm",
+    "title": "지자체 실증 협업 관리",
+    "description": "지자체 실증 협업 제안 대상과 접촉 상태를 관리합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "CRM",
+    "priority": 83,
+    "opsOnly": true
+  },
+  {
     "href": "/parent/consent",
     "title": "Consent",
     "description": "부모님 안부 입력과 접속에 필요한 추가 화면입니다.",

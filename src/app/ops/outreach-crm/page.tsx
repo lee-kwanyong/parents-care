@@ -1,10 +1,10 @@
-import { OutreachCrmPage } from '@/components/AnbuFullBuildout'
+import { OutreachCrmPanel } from '@/components/ops/OutreachCrmPanel'
 
 export const metadata = {
-  title: '협업기관 CRM | 안부웍스',
-  description: '협업기관 메일 발송과 회신 상태를 관리합니다.'
+  title: '지자체 실증 제안 CRM | 안부웍스 운영실',
+  description: '고령친화도시 후보 지자체에 대한 전화 확인, 이메일 발송, 회신, 미팅 상태를 관리합니다.'
 }
 
-export default function OutreachCrmRoute() {
-  return <OutreachCrmPage />
+export default function OpsOutreachCrmPage() {
+  return <OutreachCrmPanel />
 }
