@@ -297,6 +297,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/control-center",
+    "title": "운영실 자동운영 상태판",
+    "description": "Heartbeat, 오토파일럿, 긴급 사건, 문자, 요양보호사 가용 상태를 한 화면에서 확인합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "상태판",
+    "priority": 50,
+    "opsOnly": true
+  },
+  {
     "href": "/ops",
     "title": "운영실 홈",
     "description": "운영실에서 필요한 모든 관리 화면으로 이동합니다.",
