@@ -1063,3 +1063,27 @@ body {
 }
 
 /* ANBU_UNIFIED_THEME_END */
+
+/* OPS_HORIZONTAL_MENU_START */
+.anbu-horizontal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(36, 122, 113, 0.35) transparent;
+}
+
+.anbu-horizontal-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.anbu-horizontal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.anbu-horizontal-scroll::-webkit-scrollbar-thumb {
+  background: rgba(36, 122, 113, 0.28);
+  border-radius: 999px;
+}
+
+.anbu-horizontal-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(36, 122, 113, 0.42);
+}
+/* OPS_HORIZONTAL_MENU_END */
