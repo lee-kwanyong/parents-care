@@ -401,6 +401,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/pilot-qa",
+    "title": "실증 QA·시연 스크립트",
+    "description": "지자체 실증 전 필수 점검과 15분 시연 순서를 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "QA",
+    "priority": 54,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/notification-dispatch",
     "title": "알림 발송센터",
     "description": "문자 초안을 선택해 SMS를 대기열에 넣거나 바로 발송합니다.",
@@ -704,6 +717,19 @@ export const menuLinks: MenuLink[] = [
     "badge": "약관",
     "priority": 81,
     "opsOnly": false
+  },
+  {
+    "href": "/gov/pilot-qa",
+    "title": "지자체 실증 QA·시연 스크립트",
+    "description": "지자체 담당자에게 보여줄 실증 점검표와 발표 흐름을 관리합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "QA",
+    "priority": 81,
+    "opsOnly": true
   },
   {
     "href": "/provider/urgent-requests",
