@@ -328,6 +328,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/private-pilot",
+    "title": "자체 예비 실증 관리센터",
+    "description": "지자체 실증 전 5~10가구 규모로 먼저 작게 돌려 실제 작동 증거를 만듭니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "실증",
+    "priority": 48,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/households",
     "title": "실증 대상자 관리",
     "description": "관리 대상자, 가족코드, 보호자, 권역, 위험군, 동의 상태를 관리합니다.",
@@ -771,6 +784,19 @@ export const menuLinks: MenuLink[] = [
     "badge": "개인정보",
     "priority": 80,
     "opsOnly": false
+  },
+  {
+    "href": "/gov/private-pilot",
+    "title": "자체 예비 실증 현황",
+    "description": "안부웍스 자체 예비 실증의 참여 가구, 안부 신호, 긴급 요청, 미니 리포트를 확인합니다.",
+    "category": "정부·지자체 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "실증",
+    "priority": 80,
+    "opsOnly": true
   },
   {
     "href": "/terms",

@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { MobileParentSignalPanel } from '@/components/mobile/MobileParentSignalPanel'
 
 export const metadata = {
@@ -6,5 +7,9 @@ export const metadata = {
 }
 
 export default function MobileParentPage() {
-  return <MobileParentSignalPanel />
+  return (
+    <Suspense fallback={<main className="min-h-screen p-8">부모님 앱을 불러오는 중입니다.</main>}>
+      <MobileParentSignalPanel />
+    </Suspense>
+  )
 }
