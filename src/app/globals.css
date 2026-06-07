@@ -1063,3 +1063,30 @@ body {
 }
 
 /* ANBU_UNIFIED_THEME_END */
+
+/* ROLE_MENU_BADGE_NOWRAP_START */
+.anbu-role-portal .anbu-role-menu-badge,
+.anbu-role-portal .rounded-full {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  writing-mode: horizontal-tb !important;
+  min-width: max-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.15;
+}
+
+.anbu-role-portal .anbu-role-menu-title {
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  line-height: 1.35;
+}
+
+@media (min-width: 640px) {
+  .anbu-role-portal .anbu-role-menu-row {
+    grid-template-columns: minmax(15rem, 18rem) minmax(0, 1fr) auto !important;
+  }
+}
+/* ROLE_MENU_BADGE_NOWRAP_END */
