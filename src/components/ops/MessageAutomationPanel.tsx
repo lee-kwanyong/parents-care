@@ -4,23 +4,23 @@ import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 
 type Template = {
-  id: string
-  template_code: string
-  title: string
+  id?: string
+  template_code?: string
+  title?: string
   audience?: string
   situation?: string
   severity?: string
-  body: string
+  body?: string
   enabled?: boolean
 }
 
 type Rule = {
-  id: string
-  rule_key: string
-  title: string
-  trigger_type: string
+  id?: string
+  rule_key?: string
+  title?: string
+  trigger_type?: string
   signal_type?: string
-  template_code: string
+  template_code?: string
   audience?: string
   auto_queue?: boolean
   auto_dispatch?: boolean
@@ -31,7 +31,7 @@ type Rule = {
 }
 
 type Run = {
-  id: string
+  id?: string
   run_type?: string
   status?: string
   summary?: string
@@ -138,6 +138,8 @@ export function MessageAutomationPanel() {
   }
 
   async function toggleRule(rule: Rule, field: 'enabled' | 'auto_dispatch') {
+    if (!rule.rule_key) return
+
     await post('updateRule', {
       ruleKey: rule.rule_key,
       patch: {
@@ -179,7 +181,7 @@ export function MessageAutomationPanel() {
           </div>
 
           <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
-            실제 자동발송은 MESSAGE_AUTOMATION_AUTO_DISPATCH=true일 때 실행됩니다. 첫날은 대기열 생성 후 운영실에서 확인 발송을 권장합니다.
+            첫 실증일에는 자동으로 대기열만 생성하고, 실제 발송은 알림 발송센터에서 확인 후 보내는 방식을 권장합니다.
           </div>
 
           <div className="mt-6 grid gap-3 md:grid-cols-[1fr_auto_auto_auto]">
@@ -279,7 +281,7 @@ export function MessageAutomationPanel() {
                 </div>
               ) : (
                 rules.map((rule) => (
-                  <article key={rule.rule_key} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
+                  <article key={rule.rule_key || rule.id} className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                     <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                       <div>
                         <div className="flex flex-wrap gap-2">
@@ -290,30 +292,24 @@ export function MessageAutomationPanel() {
                             {rule.auto_dispatch ? '실제발송 허용' : '대기열만'}
                           </span>
                           <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
-                            {rule.trigger_type}
+                            {rule.trigger_type || '-'}
                           </span>
                         </div>
 
-                        <h3 className="mt-3 text-xl font-black tracking-[-0.05em]">{rule.title}</h3>
+                        <h3 className="mt-3 text-xl font-black tracking-[-0.05em]">{rule.title || '자동화 규칙'}</h3>
                         <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-                          signal: {rule.signal_type || '-'} · template: {rule.template_code} · audience: {rule.audience || '-'}
+                          signal: {rule.signal_type || '-'} · template: {rule.template_code || '-'} · audience: {rule.audience || '-'}
                           <br />
                           {rule.notes || ''}
                         </p>
                       </div>
 
                       <div className="grid gap-2 lg:min-w-44">
-                        <button
-                          onClick={() => toggleRule(rule, 'enabled')}
-                          className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
-                        >
+                        <button onClick={() => toggleRule(rule, 'enabled')} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                           {rule.enabled ? '규칙 끄기' : '규칙 켜기'}
                         </button>
 
-                        <button
-                          onClick={() => toggleRule(rule, 'auto_dispatch')}
-                          className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
-                        >
+                        <button onClick={() => toggleRule(rule, 'auto_dispatch')} className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                           {rule.auto_dispatch ? '발송 OFF' : '발송 ON'}
                         </button>
                       </div>
@@ -327,37 +323,46 @@ export function MessageAutomationPanel() {
 
         {activeTab === 'templates' ? (
           <section className="space-y-5">
-            {Object.entries(groupedTemplates).map(([group, items]) => (
-              <section key={group} className="overflow-hidden rounded-[2rem] bg-white/95 shadow-sm ring-1 ring-[#D6EDE7]">
-                <div className="border-b border-[#D6EDE7] px-5 py-4">
-                  <h2 className="text-2xl font-black tracking-[-0.05em]">{group}</h2>
-                  <p className="mt-1 text-sm font-bold text-[#637B76]">{items.length}개 문구</p>
-                </div>
-
-                <div className="divide-y divide-[#D6EDE7]">
-                  {items.map((template) => (
-                    <article key={template.template_code} className="p-5">
-                      <div className="flex flex-wrap gap-2">
-                        <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(template.enabled ? 'enabled' : 'disabled')}>
-                          {template.enabled ? '사용' : '중지'}
-                        </span>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
-                          {template.situation}
-                        </span>
-                        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
-                          {template.severity}
-                        </span>
-                      </div>
-
-                      <h3 className="mt-3 text-xl font-black tracking-[-0.05em]">{template.title}</h3>
-                      <pre className="mt-3 whitespace-pre-wrap rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
-                        {template.body}
-                      </pre>
-                    </article>
-                  ))}
+            {templates.length === 0 ? (
+              <section className="rounded-[2rem] bg-white/95 p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
+                <h2 className="text-3xl font-black tracking-[-0.06em]">문자 문구</h2>
+                <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
+                  문구가 없습니다. 템플릿·규칙 초기화를 눌러주세요.
                 </div>
               </section>
-            ))}
+            ) : (
+              Object.entries(groupedTemplates).map(([group, items]) => (
+                <section key={group} className="overflow-hidden rounded-[2rem] bg-white/95 shadow-sm ring-1 ring-[#D6EDE7]">
+                  <div className="border-b border-[#D6EDE7] px-5 py-4">
+                    <h2 className="text-2xl font-black tracking-[-0.05em]">{group}</h2>
+                    <p className="mt-1 text-sm font-bold text-[#637B76]">{items.length}개 문구</p>
+                  </div>
+
+                  <div className="divide-y divide-[#D6EDE7]">
+                    {items.map((template) => (
+                      <article key={template.template_code || template.id} className="p-5">
+                        <div className="flex flex-wrap gap-2">
+                          <span className={'rounded-full px-3 py-1 text-xs font-black ring-1 ' + statusClass(template.enabled ? 'enabled' : 'disabled')}>
+                            {template.enabled ? '사용' : '중지'}
+                          </span>
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
+                            {template.situation || '-'}
+                          </span>
+                          <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
+                            {template.severity || '-'}
+                          </span>
+                        </div>
+
+                        <h3 className="mt-3 text-xl font-black tracking-[-0.05em]">{template.title || '문자 문구'}</h3>
+                        <pre className="mt-3 whitespace-pre-wrap rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
+                          {template.body || ''}
+                        </pre>
+                      </article>
+                    ))}
+                  </div>
+                </section>
+              ))
+            )}
           </section>
         ) : null}
 
