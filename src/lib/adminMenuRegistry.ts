@@ -328,6 +328,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/message-automation",
+    "title": "상황별 문자 자동화센터",
+    "description": "부모님 신호, 긴급 요청, 수락, 완료, 문자 실패 상황에 따라 자동 문자 문구를 선택하고 발송합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "문자",
+    "priority": 47,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/private-pilot",
     "title": "자체 예비 실증 관리센터",
     "description": "지자체 실증 전 5~10가구 규모로 먼저 작게 돌려 실제 작동 증거를 만듭니다.",
