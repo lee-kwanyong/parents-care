@@ -1,16 +1,12 @@
-import { RolePortalMenu } from '@/components/portal/RolePortalMenu'
+import { OpsAdminHomePanel } from '@/components/ops/OpsAdminHomePanel'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '운영실 페이지 | 안부웍스',
-  description: '운영실 자동운영, 관제, 알림, 보고서, 제출 패키지 메뉴를 모았습니다.'
+  title: '운영실 한눈 홈 | 안부웍스',
+  description: '실증 시작, 문자 자동화, 알림 발송, 긴급 요청, 리포트 저장까지 운영 순서대로 안내합니다.'
 }
 
 export default function OpsPortalPage() {
-  return (
-    <RolePortalMenu
-      role="ops"
-      title="운영실 페이지"
-      subtitle="운영실 자동운영, 사건 관제, 알림, 도움망, 보고서, 지자체 제출 메뉴를 모았습니다."
-    />
-  )
+  return <OpsAdminHomePanel />
 }

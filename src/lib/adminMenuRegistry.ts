@@ -57,6 +57,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/portal/ops",
+    "title": "운영실 한눈 홈",
+    "description": "실증 시작, 문자 자동화, 알림 발송, 긴급 요청, 리포트 저장까지 운영 순서대로 안내합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "홈",
+    "priority": 1,
+    "opsOnly": true
+  },
+  {
     "href": "/mobile",
     "title": "안부웍스 앱",
     "description": "부모님, 보호자, 요양보호사·돌봄파트너가 사용하는 설치형 모바일 앱 홈입니다.",
@@ -165,19 +178,6 @@ export const menuLinks: MenuLink[] = [
     "badge": "도움망",
     "priority": 12,
     "opsOnly": false
-  },
-  {
-    "href": "/portal/ops",
-    "title": "운영실 페이지",
-    "description": "운영실 자동운영과 관제 화면 모음입니다.",
-    "category": "역할별 시작",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "운영실",
-    "priority": 13,
-    "opsOnly": true
   },
   {
     "href": "/parent",
