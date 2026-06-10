@@ -281,6 +281,20 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/guardian/proxy-checkin",
+    "title": "보호자 대리 안부 기록",
+    "description": "부모님이 앱을 누르지 못했을 때 보호자가 전화 확인 후 대신 기록합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "대리입력",
+    "priority": 24,
+    "opsOnly": false
+  },
+  {
     "href": "/family-link",
     "title": "부모님 연결코드",
     "description": "보호자가 부모님과 연결할 6자리 코드를 만듭니다.",
@@ -374,6 +388,19 @@ export const menuLinks: MenuLink[] = [
     "badge": "요청함",
     "priority": 40,
     "opsOnly": false
+  },
+  {
+    "href": "/ops/proxy-checkin",
+    "title": "운영실 대리 안부 기록",
+    "description": "운영실이 전화 확인 후 부모님 안부 상태를 대신 기록합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "대리입력",
+    "priority": 46,
+    "opsOnly": true
   },
   {
     "href": "/ops/message-automation",

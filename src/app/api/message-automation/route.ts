@@ -595,6 +595,18 @@ function todayKey() {
   return new Date().toISOString().slice(0, 10)
 }
 
+
+function shouldSkipGuardianAutoMessage(row: Row) {
+  const payload = row.payload && typeof row.payload === 'object' ? row.payload as Row : {}
+  const source = text(row.source)
+
+  if ((source.includes('proxy') || payload.proxyCheckin === true) && payload.notifyGuardian !== true) {
+    return true
+  }
+
+  return false
+}
+
 function isOpenUrgent(row: Row) {
   const status = text(row.status)
   return (
@@ -899,6 +911,7 @@ async function runSituations(request: NextRequest, body: Row) {
 
       for (const item of data.requests) {
         if (text(item.signal_type) !== signalType) continue
+        if (shouldSkipGuardianAutoMessage(item)) continue
 
         const context = baseContext(request, item)
         const sourceKey = `ma-${ruleKey}-${text(item.id)}`
