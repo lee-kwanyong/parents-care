@@ -352,6 +352,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/pilot-report",
+    "title": "실증 리포트 자동 생성센터",
+    "description": "가입자, 실증 가구, 안부 신호, 문자, 리포트 조회, 유저스푼 결과를 외부 미팅용 리포트로 정리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 24,
+    "opsOnly": true
+  },
+  {
     "href": "/guardian/proxy-checkin",
     "title": "보호자 대리 안부 기록",
     "description": "부모님이 앱을 누르지 못했을 때 보호자가 전화 확인 후 대신 기록합니다.",
