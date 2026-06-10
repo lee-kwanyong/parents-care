@@ -141,16 +141,17 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/portal/parent",
-    "title": "부모님 페이지",
-    "description": "부모님이 안부 신호를 입력하는 화면 모음입니다.",
-    "category": "역할별 시작",
+    "href": "/mobile/parent",
+    "title": "부모님 5버튼 안부 앱",
+    "description": "괜찮아요, 밥, 약, 몸 상태, 도움 요청을 큰 버튼으로 보냅니다.",
+    "category": "부모님 필수",
     "roles": [
       "all",
-      "parent"
+      "parent",
+      "ops"
     ],
-    "badge": "부모님",
-    "priority": 10,
+    "badge": "5버튼",
+    "priority": 11,
     "opsOnly": false
   },
   {
@@ -164,6 +165,20 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "자녀",
     "priority": 11,
+    "opsOnly": false
+  },
+  {
+    "href": "/portal/parent",
+    "title": "부모님 페이지",
+    "description": "부모님이 오늘 안부 신호를 보내는 단순 화면입니다.",
+    "category": "부모님 필수",
+    "roles": [
+      "all",
+      "parent",
+      "ops"
+    ],
+    "badge": "안부",
+    "priority": 12,
     "opsOnly": false
   },
   {
@@ -190,20 +205,6 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "안부",
     "priority": 20,
-    "opsOnly": false
-  },
-  {
-    "href": "/mobile/parent",
-    "title": "부모님 신호 보내기 앱",
-    "description": "부모님이 식사, 복약, 몸 상태, 도움 요청 신호를 큰 버튼으로 보냅니다.",
-    "category": "부모님 필수",
-    "roles": [
-      "all",
-      "parent",
-      "ops"
-    ],
-    "badge": "앱",
-    "priority": 21,
     "opsOnly": false
   },
   {
