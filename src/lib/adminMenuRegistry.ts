@@ -437,6 +437,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/sms-budget-guard",
+    "title": "문자 비용·자동발송 보호센터",
+    "description": "하루 문자 한도, 가구별 문자 한도, 테스트 번호 모드, 예상 비용, 위험 대기열을 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "비용",
+    "priority": 27,
+    "opsOnly": true
+  },
+  {
     "href": "/family-link",
     "title": "부모님 연결코드",
     "description": "보호자가 부모님과 연결할 6자리 코드를 만듭니다.",
