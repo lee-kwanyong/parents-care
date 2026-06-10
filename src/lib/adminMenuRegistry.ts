@@ -253,6 +253,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/users",
+    "title": "가입자·실증 참여자 관리센터",
+    "description": "회원가입, 역할, 부모님 연결, 안부 신호, 문자 발송 전환을 한 화면에서 확인합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "유저",
+    "priority": 21,
+    "opsOnly": true
+  },
+  {
     "href": "/guardian/today",
     "title": "오늘 부모님 리포트",
     "description": "가족코드와 휴대폰 뒤 4자리로 오늘 부모님 안부 신호, 문자 기록, 다음 할 일을 확인합니다.",

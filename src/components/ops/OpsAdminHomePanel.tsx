@@ -25,6 +25,7 @@ const quickLinks = [
     links: [
       ['/ops/preflight-test', '전체 기능 테스트', '실증 전 PASS 확인'],
       ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
+      ['/ops/users', '가입자·실증 참여자', '가입→연결→안부→문자 전환'],
       ['/mobile', '모바일 앱', '부모님·보호자·파트너 앱'],
       ['/mobile/parent', '부모님 신호 앱', '괜찮아요/도움 요청']
     ]
