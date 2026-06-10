@@ -390,6 +390,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/notification-safety",
+    "title": "문자 안전정리센터",
+    "description": "테스트 문자, 과거 실패 문자, 실증 문자를 분리하고 재시도 위험을 정리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "안전",
+    "priority": 45,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/proxy-checkin",
     "title": "운영실 대리 안부 기록",
     "description": "운영실이 전화 확인 후 부모님 안부 상태를 대신 기록합니다.",

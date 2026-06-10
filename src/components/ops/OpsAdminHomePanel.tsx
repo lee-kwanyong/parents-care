@@ -34,6 +34,7 @@ const quickLinks = [
     links: [
       ['/ops/message-automation', '상황별 문자 자동화', '문구·규칙·자동 대기열'],
       ['/ops/notification-dispatch', '알림 발송센터', '대기/성공/실패 문자'],
+      ['/ops/notification-safety', '문자 안전정리', '테스트/실패 문자 재시도 방지'],
       ['/ops/control-center', '운영실 상태판', '전체 사건·문자·긴급 현황']
     ]
   },
