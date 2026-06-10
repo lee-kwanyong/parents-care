@@ -1,10 +1,12 @@
-import { HomeLanding } from '@/components/HomeLanding'
+import { PublicServiceIntroPanel } from '@/components/public/PublicServiceIntroPanel'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '부모님 안심케어 | 안부웍스',
-  description: '부모님은 6자리 코드로 안부를 보내고, 자녀는 부모님 케어를 확인합니다.'
+  title: '안부웍스 | 부모님 안부·생활확인 안심관리',
+  description: '부모님의 몸 상태와 도움 요청을 보호자 알림, 방문확인, 병원동행, 생활확인 리포트로 연결합니다.'
 }
 
 export default function HomePage() {
-  return <HomeLanding />
+  return <PublicServiceIntroPanel />
 }

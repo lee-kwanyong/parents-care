@@ -42,14 +42,14 @@ export const roleMeta: Record<PortalRole, { title: string; shortTitle: string; d
 export const menuLinks: MenuLink[] = [
   {
     "href": "/",
-    "title": "홈",
-    "description": "안부웍스 첫 화면입니다.",
-    "category": "공통",
+    "title": "안부웍스 홈",
+    "description": "부모님의 몸 상태와 도움 요청을 보호자 알림, 방문확인, 병원동행, 안심 리포트로 연결합니다.",
+    "category": "공통 필수",
     "roles": [
       "all",
       "parent",
       "child",
-      "careWorker",
+      "provider",
       "ops"
     ],
     "badge": "홈",
@@ -202,6 +202,22 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "이동",
     "priority": 5,
+    "opsOnly": false
+  },
+  {
+    "href": "/response/about",
+    "title": "안부웍스 서비스 소개",
+    "description": "비의료 생활확인 기반 부모님 안심관리 서비스 소개 페이지입니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "소개",
+    "priority": 6,
     "opsOnly": false
   },
   {
@@ -429,21 +445,6 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "가족",
     "priority": 33,
-    "opsOnly": false
-  },
-  {
-    "href": "/response/about",
-    "title": "지역 안심망 소개",
-    "description": "가족, 돌봄파트너, 지역상점, 약국, 수행기관 연결 구조를 설명합니다.",
-    "category": "자녀·보호자 필수",
-    "roles": [
-      "all",
-      "child",
-      "careWorker",
-      "ops"
-    ],
-    "badge": "소개",
-    "priority": 34,
     "opsOnly": false
   },
   {
