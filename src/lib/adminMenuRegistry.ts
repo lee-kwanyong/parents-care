@@ -102,6 +102,22 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/onboarding",
+    "title": "가입 후 시작하기",
+    "description": "보호자, 부모님, 생활확인 파트너, 운영실 역할별로 다음 3단계를 안내합니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "시작",
+    "priority": 2,
+    "opsOnly": false
+  },
+  {
     "href": "/admin-menu",
     "title": "전체 통합 메뉴",
     "description": "운영에 필요한 핵심 화면과 개발자 경로를 관리합니다.",
@@ -113,6 +129,22 @@ export const menuLinks: MenuLink[] = [
     "badge": "전체",
     "priority": 3,
     "opsOnly": true
+  },
+  {
+    "href": "/portal",
+    "title": "역할별 시작 화면",
+    "description": "역할을 선택하면 지금 눌러야 할 버튼만 순서대로 보여줍니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "시작",
+    "priority": 3,
+    "opsOnly": false
   },
   {
     "href": "/login",
