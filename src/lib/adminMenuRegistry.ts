@@ -325,6 +325,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/no-response",
+    "title": "미응답 자동 처리센터",
+    "description": "오늘 안부 신호가 없는 가구를 찾아 보호자 확인 문자와 대리입력을 유도합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "미응답",
+    "priority": 23,
+    "opsOnly": true
+  },
+  {
     "href": "/child/dashboard",
     "title": "보호자 대시보드",
     "description": "오늘 부모님 상태와 보호자 문자 기록을 한 화면에서 확인합니다.",
