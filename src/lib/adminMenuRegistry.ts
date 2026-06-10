@@ -160,6 +160,22 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/auth/role",
+    "title": "회원가입 역할 선택",
+    "description": "로그인한 사용자의 보호자, 부모님, 생활확인 파트너, 운영실 역할을 저장합니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "역할",
+    "priority": 4,
+    "opsOnly": false
+  },
+  {
     "href": "/proposal",
     "title": "외부 제안 랜딩",
     "description": "지자체·기관 담당자가 로그인 없이 볼 수 있는 공개 제안 페이지입니다.",
@@ -169,6 +185,22 @@ export const menuLinks: MenuLink[] = [
       "ops"
     ],
     "badge": "제안",
+    "priority": 5,
+    "opsOnly": false
+  },
+  {
+    "href": "/auth/redirect",
+    "title": "로그인 후 자동 이동",
+    "description": "저장된 역할에 따라 보호자 리포트, 부모님 앱, 파트너 요청함, 운영실로 이동합니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "이동",
     "priority": 5,
     "opsOnly": false
   },
