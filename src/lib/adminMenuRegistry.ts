@@ -298,6 +298,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/report-tracking",
+    "title": "보호자 리포트 조회 추적센터",
+    "description": "리포트 화면 진입, 가족코드 조회 성공/실패, 부모님 앱 링크 복사 이벤트를 추적합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 22,
+    "opsOnly": true
+  },
+  {
     "href": "/guardian/today",
     "title": "오늘 부모님 리포트",
     "description": "가족코드와 휴대폰 뒤 4자리로 오늘 부모님 안부 신호, 문자 기록, 다음 할 일을 확인합니다.",

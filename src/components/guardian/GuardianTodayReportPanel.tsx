@@ -82,12 +82,51 @@ export function GuardianTodayReportPanel() {
   const [debug, setDebug] = useState('')
   const [loading, setLoading] = useState(false)
 
+
+  async function trackReportEvent(eventType: string, payload: Record<string, unknown> = {}) {
+    try {
+      const payloadFamilyCode =
+        typeof payload.familyCode === 'string'
+          ? payload.familyCode
+          : familyCode
+
+      await fetch('/api/report-tracking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventType,
+          familyCode: String(payloadFamilyCode || '').trim(),
+          source: 'guardian-today',
+          path: typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/guardian/today',
+          status: typeof payload.status === 'string' ? payload.status : '',
+          parentName: typeof payload.parentName === 'string' ? payload.parentName : report?.parentName || '',
+          guardianName: typeof payload.guardianName === 'string' ? payload.guardianName : report?.guardianName || '',
+          message: typeof payload.message === 'string' ? payload.message : '',
+          last4Provided: Boolean(last4),
+          payload
+        })
+      })
+    } catch {
+      // 리포트 추적 실패가 사용자 흐름을 막으면 안 됩니다.
+    }
+  }
+
+
   const metrics = report?.metrics || {}
 
   const statusTone = useMemo(() => {
     if (!report) return 'empty'
     return report.status.level
   }, [report])
+
+  useEffect(() => {
+    trackReportEvent('view_report_page', {
+      familyCode: params.get('familyCode') || '',
+      hasQueryFamilyCode: Boolean(params.get('familyCode')),
+      hasQueryLast4: Boolean(params.get('last4'))
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     const qFamilyCode = params.get('familyCode') || ''
@@ -113,6 +152,13 @@ export function GuardianTodayReportPanel() {
     const cleanLast4 = nextLast4.replace(/[^\d]/g, '').slice(-4)
 
     if (!cleanFamilyCode || cleanLast4.length !== 4) {
+      await trackReportEvent('report_lookup_validation_failed', {
+        familyCode: cleanFamilyCode,
+        status: 'validation_failed',
+        message: '가족코드 또는 휴대폰 뒤 4자리 부족',
+        hasFamilyCode: Boolean(cleanFamilyCode),
+        last4Length: cleanLast4.length
+      })
       setMessage('가족코드와 휴대폰 뒤 4자리를 입력해주세요.')
       return
     }
@@ -135,11 +181,27 @@ export function GuardianTodayReportPanel() {
       const data = await response.json().catch(() => ({}))
 
       if (!response.ok || !data.ok) {
+        await trackReportEvent('report_lookup_failed', {
+          familyCode: cleanFamilyCode,
+          status: 'failed',
+          message: data.message || '리포트 조회 실패',
+          httpStatus: response.status,
+          matchedCount: data.matchedCount || 0
+        })
         setReport(null)
         setMessage(data.message || '리포트를 찾지 못했습니다.')
         setDebug(JSON.stringify(data, null, 2))
         return
       }
+
+      await trackReportEvent('report_lookup_success', {
+        familyCode: cleanFamilyCode,
+        status: 'success',
+        parentName: data.report?.parentName || '',
+        guardianName: data.report?.guardianName || '',
+        statusLevel: data.report?.status?.level || '',
+        metrics: data.report?.metrics || {}
+      })
 
       setReport(data.report)
       setMessage(data.report ? '오늘 리포트를 불러왔습니다.' : data.message || '')
@@ -155,6 +217,13 @@ export function GuardianTodayReportPanel() {
 
     try {
       await navigator.clipboard.writeText(report.parentAppUrl)
+      await trackReportEvent('parent_app_link_copied', {
+        familyCode: report.familyCode,
+        status: 'copied',
+        parentName: report.parentName,
+        guardianName: report.guardianName,
+        parentAppUrl: report.parentAppUrl
+      })
       setMessage('부모님 앱 링크를 복사했습니다.')
     } catch {
       setMessage('복사에 실패했습니다. 링크를 직접 열어주세요.')
