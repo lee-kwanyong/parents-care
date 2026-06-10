@@ -26,6 +26,7 @@ const quickLinks = [
       ['/ops/preflight-test', '전체 기능 테스트', '실증 전 PASS 확인'],
       ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
       ['/ops/pilot-report', '실증 리포트', '외부 미팅용 결과 요약'],
+      ['/ops/proposal-reality-check', '제안 표현 점검', '현재/실증/비전 분리'],
       ['/ops/users', '가입자·실증 참여자', '가입→연결→안부→문자 전환'],
       ['/ops/report-tracking', '리포트 조회 추적', '보호자 리포트 성공/실패'],
       ['/ops/no-response', '미응답 자동 처리', '오늘 안부 신호 없는 가구'],

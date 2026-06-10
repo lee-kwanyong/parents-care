@@ -395,6 +395,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/proposal-reality-check",
+    "title": "제안서 표현 현실화 센터",
+    "description": "현재 기능, 예비실증, 기관실증, 장기 B2G/IoT 비전을 구분해 외부 제안 표현 리스크를 낮춥니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "표현",
+    "priority": 25,
+    "opsOnly": true
+  },
+  {
     "href": "/family-link",
     "title": "부모님 연결코드",
     "description": "보호자가 부모님과 연결할 6자리 코드를 만듭니다.",
