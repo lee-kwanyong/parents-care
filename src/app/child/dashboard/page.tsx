@@ -1,10 +1,17 @@
-import { ChildCareReportPanel } from '@/components/child/ChildCareReportPanel'
+import { Suspense } from 'react'
+import { GuardianTodayReportPanel } from '@/components/guardian/GuardianTodayReportPanel'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '부모님 케어 | 부모님 안심케어',
-  description: '자녀가 부모님의 식사, 복약, 몸 상태를 안부지문 리포트로 확인합니다.'
+  title: '보호자 대시보드 | 안부웍스',
+  description: '부모님 안부 신호와 보호자 알림 기록을 확인합니다.'
 }
 
 export default function ChildDashboardPage() {
-  return <ChildCareReportPanel />
+  return (
+    <Suspense fallback={<main className="min-h-screen p-8">보호자 대시보드를 불러오는 중입니다.</main>}>
+      <GuardianTodayReportPanel />
+    </Suspense>
+  )
 }

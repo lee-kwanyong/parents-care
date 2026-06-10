@@ -220,6 +220,34 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/guardian/today",
+    "title": "오늘 부모님 리포트",
+    "description": "가족코드와 휴대폰 뒤 4자리로 오늘 부모님 안부 신호, 문자 기록, 다음 할 일을 확인합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 22,
+    "opsOnly": false
+  },
+  {
+    "href": "/child/dashboard",
+    "title": "보호자 대시보드",
+    "description": "오늘 부모님 상태와 보호자 문자 기록을 한 화면에서 확인합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 23,
+    "opsOnly": false
+  },
+  {
     "href": "/family-link",
     "title": "부모님 연결코드",
     "description": "보호자가 부모님과 연결할 6자리 코드를 만듭니다.",
@@ -230,19 +258,6 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "연결",
     "priority": 30,
-    "opsOnly": false
-  },
-  {
-    "href": "/child/dashboard",
-    "title": "자녀 리포트",
-    "description": "부모님 안부 기록과 리포트를 확인합니다.",
-    "category": "자녀·보호자 필수",
-    "roles": [
-      "all",
-      "child"
-    ],
-    "badge": "리포트",
-    "priority": 31,
     "opsOnly": false
   },
   {

@@ -1,16 +1,17 @@
-import { RolePortalMenu } from '@/components/portal/RolePortalMenu'
+import { Suspense } from 'react'
+import { GuardianTodayReportPanel } from '@/components/guardian/GuardianTodayReportPanel'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '자녀·보호자 페이지 | 안부웍스',
-  description: '부모님 리포트, 가족 실행, 후속조치 확인에 필요한 메뉴만 모았습니다.'
+  title: '자녀·보호자 오늘 리포트 | 안부웍스',
+  description: '부모님 안부 신호, 문자 알림, 다음 할 일을 한 화면에서 확인합니다.'
 }
 
-export default function ChildPortalPage() {
+export default function PortalChildPage() {
   return (
-    <RolePortalMenu
-      role="child"
-      title="자녀·보호자 페이지"
-      subtitle="부모님 리포트, 가족 실행 보드, 후속조치 확인에 필요한 화면만 모았습니다."
-    />
+    <Suspense fallback={<main className="min-h-screen p-8">보호자 리포트를 불러오는 중입니다.</main>}>
+      <GuardianTodayReportPanel />
+    </Suspense>
   )
 }
