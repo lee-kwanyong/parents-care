@@ -221,6 +221,22 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/consent",
+    "title": "실증 참여 동의서",
+    "description": "안부웍스 자체 예비실증 참여 전 개인정보 수집, 비의료 고지, 응급상황 안내를 확인합니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "동의",
+    "priority": 7,
+    "opsOnly": false
+  },
+  {
     "href": "/mobile/parent",
     "title": "부모님 5버튼 안부 앱",
     "description": "괜찮아요, 밥, 약, 몸 상태, 도움 요청을 큰 버튼으로 보냅니다.",
@@ -405,6 +421,19 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "표현",
     "priority": 25,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/consent-risk-center",
+    "title": "개인정보·동의·책임범위 센터",
+    "description": "실증 참여 동의, 비의료 고지, 개인정보 수집 범위, 생활확인 파트너 책임범위를 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "동의",
+    "priority": 26,
     "opsOnly": true
   },
   {
