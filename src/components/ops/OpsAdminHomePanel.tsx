@@ -24,6 +24,7 @@ const quickLinks = [
     group: '실증 시작',
     links: [
       ['/ops/preflight-test', '전체 기능 테스트', '실증 전 PASS 확인'],
+      ['/ops/today-runbook', '오늘 실증 운영', '오늘 할 일·점검·증거 저장'],
       ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
       ['/ops/pilot-report', '실증 리포트', '외부 미팅용 결과 요약'],
       ['/ops/proposal-reality-check', '제안 표현 점검', '현재/실증/비전 분리'],

@@ -237,6 +237,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/today-runbook",
+    "title": "오늘 실증 운영센터",
+    "description": "가입, 동의, 실증 가구, 안부 신호, 보호자 리포트, 미응답, 문자 비용, 실증 리포트를 매일 같은 순서로 점검합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "오늘",
+    "priority": 8,
+    "opsOnly": true
+  },
+  {
     "href": "/mobile/parent",
     "title": "부모님 5버튼 안부 앱",
     "description": "괜찮아요, 밥, 약, 몸 상태, 도움 요청을 큰 버튼으로 보냅니다.",
