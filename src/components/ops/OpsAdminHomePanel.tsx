@@ -105,6 +105,7 @@ const operationFlow = [
 const secondaryLinks = [
   ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
   ['/ops/invite-center', '초대 링크 관리', '보호자·부모님·파트너 링크 복사'],
+  ['/ops/training-center', '교육·가이드', '보호자·부모님·파트너 1분 사용법'],
   ['/ops/report-tracking', '리포트 조회 추적', '보호자 리포트 성공/실패'],
   ['/ops/no-response', '미응답 자동 처리', '오늘 안부 신호 없는 가구'],
   ['/ops/proxy-checkin', '운영실 대리입력', '전화 확인 후 대신 기록'],

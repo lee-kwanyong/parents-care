@@ -237,6 +237,22 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/guide",
+    "title": "안부웍스 사용 가이드",
+    "description": "보호자, 부모님, 생활확인 파트너가 안부웍스를 어떻게 쓰는지 안내합니다.",
+    "category": "공통 필수",
+    "roles": [
+      "all",
+      "parent",
+      "child",
+      "provider",
+      "ops"
+    ],
+    "badge": "가이드",
+    "priority": 8,
+    "opsOnly": false
+  },
+  {
     "href": "/ops/today-runbook",
     "title": "오늘 실증 운영센터",
     "description": "가입, 동의, 실증 가구, 안부 신호, 보호자 리포트, 미응답, 문자 비용, 실증 리포트를 매일 같은 순서로 점검합니다.",
@@ -367,6 +383,61 @@ export const menuLinks: MenuLink[] = [
     "badge": "초대",
     "priority": 13,
     "opsOnly": true
+  },
+  {
+    "href": "/ops/training-center",
+    "title": "실증 참여자 교육/가이드 센터",
+    "description": "보호자, 부모님, 생활확인 파트너, 기관, 운영실 사용법과 안내문을 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "교육",
+    "priority": 14,
+    "opsOnly": true
+  },
+  {
+    "href": "/guide/guardian",
+    "title": "보호자 사용 가이드",
+    "description": "보호자가 동의서, 부모님 앱 링크 전달, 오늘 리포트, 대리입력을 사용하는 방법입니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "가이드",
+    "priority": 15,
+    "opsOnly": false
+  },
+  {
+    "href": "/guide/parent",
+    "title": "부모님 사용 가이드",
+    "description": "부모님이 큰 버튼 하나로 오늘 안부를 보내는 방법입니다.",
+    "category": "부모님 필수",
+    "roles": [
+      "all",
+      "parent",
+      "ops"
+    ],
+    "badge": "가이드",
+    "priority": 16,
+    "opsOnly": false
+  },
+  {
+    "href": "/guide/provider",
+    "title": "생활확인 파트너 가이드",
+    "description": "생활확인 파트너가 요청함, 수락, 결과 기록, 책임범위를 확인하는 방법입니다.",
+    "category": "도움망 필수",
+    "roles": [
+      "all",
+      "provider",
+      "ops"
+    ],
+    "badge": "가이드",
+    "priority": 17,
+    "opsOnly": false
   },
   {
     "href": "/parent",
