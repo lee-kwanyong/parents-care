@@ -356,6 +356,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/invite-center",
+    "title": "실증 참여자 초대 링크 관리센터",
+    "description": "보호자, 부모님, 생활확인 파트너, 방문요양센터에 보낼 동의서·앱·리포트·대리입력 링크와 문구를 생성합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "초대",
+    "priority": 13,
+    "opsOnly": true
+  },
+  {
     "href": "/parent",
     "title": "부모님 안부 입력",
     "description": "식사, 복약, 몸 상태, 도움 요청 신호를 남깁니다.",
