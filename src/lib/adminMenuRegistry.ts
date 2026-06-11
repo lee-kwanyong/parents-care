@@ -57,19 +57,6 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/portal/ops",
-    "title": "운영실 한눈 홈",
-    "description": "실증 시작, 문자 자동화, 알림 발송, 긴급 요청, 리포트 저장까지 운영 순서대로 안내합니다.",
-    "category": "운영실 필수",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "홈",
-    "priority": 1,
-    "opsOnly": true
-  },
-  {
     "href": "/mobile",
     "title": "안부웍스 앱",
     "description": "부모님, 보호자, 요양보호사·돌봄파트너가 사용하는 설치형 모바일 앱 홈입니다.",
@@ -237,6 +224,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/portal/ops",
+    "title": "운영실 한눈 홈",
+    "description": "오늘 실증 운영 순서, 주의 항목, 가입자, 동의, 안부, 문자, 리포트를 한 화면에서 확인합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "홈",
+    "priority": 7,
+    "opsOnly": true
+  },
+  {
     "href": "/ops/today-runbook",
     "title": "오늘 실증 운영센터",
     "description": "가입, 동의, 실증 가구, 안부 신호, 보호자 리포트, 미응답, 문자 비용, 실증 리포트를 매일 같은 순서로 점검합니다.",
@@ -247,6 +247,32 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "오늘",
     "priority": 8,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/users",
+    "title": "가입자·실증 참여자 관리센터",
+    "description": "회원가입, 역할, 부모님 연결, 안부 신호, 문자 발송 전환을 한 화면에서 확인합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "유저",
+    "priority": 9,
+    "opsOnly": true
+  },
+  {
+    "href": "/ops/sms-budget-guard",
+    "title": "문자 비용·자동발송 보호센터",
+    "description": "하루 문자 한도, 가구별 문자 한도, 테스트 번호 모드, 예상 비용, 위험 대기열을 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "비용",
+    "priority": 10,
     "opsOnly": true
   },
   {
@@ -277,6 +303,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/pilot-report",
+    "title": "실증 리포트 자동 생성센터",
+    "description": "가입자, 실증 가구, 안부 신호, 문자, 리포트 조회, 유저스푼 결과를 외부 미팅용 리포트로 정리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 11,
+    "opsOnly": true
+  },
+  {
     "href": "/portal/parent",
     "title": "부모님 페이지",
     "description": "부모님이 오늘 안부 신호를 보내는 단순 화면입니다.",
@@ -304,6 +343,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/consent-risk-center",
+    "title": "개인정보·동의·책임범위 센터",
+    "description": "실증 참여 동의, 비의료 고지, 개인정보 수집 범위, 생활확인 파트너 책임범위를 관리합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "동의",
+    "priority": 12,
+    "opsOnly": true
+  },
+  {
     "href": "/parent",
     "title": "부모님 안부 입력",
     "description": "식사, 복약, 몸 상태, 도움 요청 신호를 남깁니다.",
@@ -328,19 +380,6 @@ export const menuLinks: MenuLink[] = [
     "badge": "체크",
     "priority": 21,
     "opsOnly": false
-  },
-  {
-    "href": "/ops/users",
-    "title": "가입자·실증 참여자 관리센터",
-    "description": "회원가입, 역할, 부모님 연결, 안부 신호, 문자 발송 전환을 한 화면에서 확인합니다.",
-    "category": "운영실 필수",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "유저",
-    "priority": 21,
-    "opsOnly": true
   },
   {
     "href": "/ops/report-tracking",
@@ -397,19 +436,6 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
-    "href": "/ops/pilot-report",
-    "title": "실증 리포트 자동 생성센터",
-    "description": "가입자, 실증 가구, 안부 신호, 문자, 리포트 조회, 유저스푼 결과를 외부 미팅용 리포트로 정리합니다.",
-    "category": "운영실 필수",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "리포트",
-    "priority": 24,
-    "opsOnly": true
-  },
-  {
     "href": "/guardian/proxy-checkin",
     "title": "보호자 대리 안부 기록",
     "description": "부모님이 앱을 누르지 못했을 때 보호자가 전화 확인 후 대신 기록합니다.",
@@ -434,32 +460,6 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "표현",
     "priority": 25,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/consent-risk-center",
-    "title": "개인정보·동의·책임범위 센터",
-    "description": "실증 참여 동의, 비의료 고지, 개인정보 수집 범위, 생활확인 파트너 책임범위를 관리합니다.",
-    "category": "운영실 필수",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "동의",
-    "priority": 26,
-    "opsOnly": true
-  },
-  {
-    "href": "/ops/sms-budget-guard",
-    "title": "문자 비용·자동발송 보호센터",
-    "description": "하루 문자 한도, 가구별 문자 한도, 테스트 번호 모드, 예상 비용, 위험 대기열을 관리합니다.",
-    "category": "운영실 필수",
-    "roles": [
-      "all",
-      "ops"
-    ],
-    "badge": "비용",
-    "priority": 27,
     "opsOnly": true
   },
   {

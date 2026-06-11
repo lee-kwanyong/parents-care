@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: '운영실 한눈 홈 | 안부웍스',
-  description: '실증 시작, 문자 자동화, 알림 발송, 긴급 요청, 리포트 저장까지 운영 순서대로 안내합니다.'
+  description: '오늘 실증 운영 순서, 주의 항목, 가입자, 동의, 안부, 문자, 리포트를 한 화면에서 확인합니다.'
 }
 
 export default function OpsPortalPage() {
