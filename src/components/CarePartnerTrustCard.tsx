@@ -133,7 +133,7 @@ export function CarePartnerTrustCard({
             </Link>
           ) : null}
           <Link
-            href="/ops/matching"
+            href="/admin/ops/matching"
             className="rounded-2xl bg-[#EAFBF6] px-4 py-3 text-center text-sm font-black text-[#2F756B] ring-1 ring-[#CBEAE4]"
           >
             매칭관리로 이동

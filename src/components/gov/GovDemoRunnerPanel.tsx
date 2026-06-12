@@ -292,10 +292,10 @@ export function GovDemoRunnerPanel({
             <h2 className="text-2xl font-black tracking-[-0.05em]">시연 후 확인 화면</h2>
 
             <div className="mt-5 grid gap-3">
-              <Link href="/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+              <Link href="/admin/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
                 사건 타임라인 확인
               </Link>
-              <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+              <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 알림 발송센터 확인
               </Link>
               <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
@@ -326,10 +326,10 @@ export function GovDemoRunnerPanel({
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/admin/ops/incidents" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             사건 타임라인
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

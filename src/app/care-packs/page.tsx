@@ -36,7 +36,7 @@ export default function CarePacksPage() {
           <Link href="/care-request" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             부모님 안심케어 신청하기
           </Link>
-          <Link href="/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 플랜 만들기
           </Link>
           <Link href="/" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">

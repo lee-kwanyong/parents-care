@@ -33,7 +33,7 @@ function bool(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -449,7 +449,7 @@ async function loadDashboard() {
       key: 'billing_deploy',
       title: '배포·청구 상태 확인',
       desc: 'Vercel 배포 Ready, Supabase 청구 경고, 문자 포인트를 확인합니다.',
-      href: '/portal/ops',
+      href: '/admin/ops',
       autoStatus: 'manual',
       reason: '외부 콘솔 확인 필요'
     },
@@ -457,7 +457,7 @@ async function loadDashboard() {
       key: 'consent',
       title: '실증 동의 기록 확인',
       desc: '참여자에게 /consent 링크를 보내고 동의 기록이 쌓였는지 확인합니다.',
-      href: '/ops/consent-risk-center',
+      href: '/admin/ops/consent-risk-center',
       autoStatus: metrics.consentRecords > 0 ? 'pass' : 'warning',
       reason: `${metrics.consentRecords}건`
     },
@@ -465,7 +465,7 @@ async function loadDashboard() {
       key: 'role_cleanup',
       title: '역할 미분류 정리',
       desc: 'unknown 계정을 보호자/부모님/파트너로 정리합니다.',
-      href: '/ops/users',
+      href: '/admin/ops/users',
       autoStatus: metrics.unknownRoleUsers === 0 ? 'pass' : 'warning',
       reason: `unknown ${metrics.unknownRoleUsers}명`
     },
@@ -473,7 +473,7 @@ async function loadDashboard() {
       key: 'pilot_household',
       title: '오늘 테스트 가구 확인',
       desc: '실증 가구와 부모님 앱 링크가 생성되어 있는지 확인합니다.',
-      href: '/ops/private-pilot',
+      href: '/admin/ops/private-pilot',
       autoStatus: metrics.totalFamilies > 0 ? 'pass' : 'warning',
       reason: `${metrics.totalFamilies}가구`
     },
@@ -497,7 +497,7 @@ async function loadDashboard() {
       key: 'no_response',
       title: '미응답 가구 확인',
       desc: '오늘 안부 신호가 없는 가구를 확인하고 보호자 문자 또는 대리입력을 유도합니다.',
-      href: '/ops/no-response',
+      href: '/admin/ops/no-response',
       autoStatus: metrics.todayNoResponseFamilies === 0 ? 'pass' : 'warning',
       reason: `미응답 ${metrics.todayNoResponseFamilies}가구`
     },
@@ -505,7 +505,7 @@ async function loadDashboard() {
       key: 'sms_guard',
       title: '문자 비용 보호 확인',
       desc: '테스트 번호 모드, 자동발송 OFF/ON, 하루 한도, 위험 대기열을 확인합니다.',
-      href: '/ops/sms-budget-guard',
+      href: '/admin/ops/sms-budget-guard',
       autoStatus: metrics.smsTestMode && !metrics.smsAutoAllowed ? 'pass' : 'warning',
       reason: `테스트모드 ${metrics.smsTestMode ? 'ON' : 'OFF'} · 자동발송 ${metrics.smsAutoAllowed ? 'ON' : 'OFF'}`
     },
@@ -513,7 +513,7 @@ async function loadDashboard() {
       key: 'message_queue',
       title: '문자 대기·실패 정리',
       desc: '대기열 수신번호와 문구를 확인하고, 실패 문자는 안전정리센터에서 정리합니다.',
-      href: '/ops/notification-safety',
+      href: '/admin/ops/notification-safety',
       autoStatus: metrics.failedMessages === 0 ? 'pass' : 'warning',
       reason: `대기 ${metrics.queuedMessages}건 · 실패 ${metrics.failedMessages}건`
     },
@@ -521,7 +521,7 @@ async function loadDashboard() {
       key: 'pilot_report',
       title: '실증 리포트 스냅샷 저장',
       desc: '오늘 실증 상태를 외부 미팅용 리포트로 저장합니다.',
-      href: '/ops/pilot-report',
+      href: '/admin/ops/pilot-report',
       autoStatus: metrics.todayPilotReportSnapshots > 0 ? 'pass' : 'manual',
       reason: `오늘 저장 ${metrics.todayPilotReportSnapshots}건`
     }

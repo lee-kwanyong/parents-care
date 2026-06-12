@@ -109,7 +109,7 @@ export function OpsDemoScenarioBoard() {
               >
                 새로고침
               </button>
-              <Link href="/ops/flow-qa" className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
+              <Link href="/admin/ops/flow-qa" className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
                 통합 점검
               </Link>
             </div>
@@ -217,16 +217,16 @@ export function OpsDemoScenarioBoard() {
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 {[
                   ['/care-request', '1. 보호자 접수'],
-                  ['/ops/intake-inbox', '2. 접수함'],
-                  ['/ops/care-cases', '3. 케어 케이스'],
-                  ['/ops/manager-vetting', '4. 매니저 검증'],
-                  ['/ops/manager-offers', '5. 매니저 알림·수락'],
+                  ['/admin/ops/intake-inbox', '2. 접수함'],
+                  ['/admin/ops/care-cases', '3. 케어 케이스'],
+                  ['/admin/ops/manager-vetting', '4. 매니저 검증'],
+                  ['/admin/ops/manager-offers', '5. 매니저 알림·수락'],
                   ['/manager/today', '6. 현장 체크'],
                   ['/child/reports', '7. 보호자 리포트'],
-                  ['/ops/notifications', '8. 알림 큐'],
-                  ['/ops/cron-health', '9. 자동 발송'],
+                  ['/admin/ops/notifications', '8. 알림 큐'],
+                  ['/admin/ops/cron-health', '9. 자동 발송'],
                   ['/manager/earnings', '10. 정산 예정'],
-                  ['/ops/flow-qa', '11. 통합 점검'],
+                  ['/admin/ops/flow-qa', '11. 통합 점검'],
                   ['/buyer-demo', '12. 바이어 데모']
                 ].map(([href, label]) => (
                   <Link

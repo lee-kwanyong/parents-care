@@ -54,7 +54,7 @@ const roles: Array<{
     emoji: '🖥️',
     title: '실증 운영을 관리합니다',
     desc: '운영실 한눈 홈에서 실증, 자동문자, 문자 안전정리, 가입자 전환을 봅니다.',
-    next: '/portal/ops',
+    next: '/admin/ops',
     cta: '운영실로 시작'
   }
 ]
@@ -98,7 +98,7 @@ function destinationForRole(role: string) {
   if (role === 'guardian') return '/guardian/today'
   if (role === 'parent') return '/mobile/parent'
   if (role === 'provider') return '/provider/urgent-requests'
-  if (role === 'ops') return '/portal/ops'
+  if (role === 'ops') return '/admin/ops'
   return '/auth/role'
 }
 
@@ -312,7 +312,7 @@ export function AuthRoleOnboardingPanel() {
             <Link href="/login" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               로그인으로 이동
             </Link>
-            <Link href="/ops/users" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/users" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 가입자센터
             </Link>
           </div>

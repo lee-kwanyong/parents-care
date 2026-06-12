@@ -275,7 +275,7 @@ export function OpsIntakeBoard() {
               >
                 데모 접수 만들기
               </button>
-              <CareButton href="/ops/matching" tone="dark">
+              <CareButton href="/admin/ops/matching" tone="dark">
                 매칭관리로 이동
               </CareButton>
             </div>
@@ -479,7 +479,7 @@ export function OpsIntakeBoard() {
                   </div>
 
                   <Link
-                    href="/ops/matching"
+                    href="/admin/ops/matching"
                     className="block rounded-3xl bg-white px-6 py-5 text-center text-lg font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
                   >
                     매칭관리에서 자세히 보기

@@ -211,8 +211,8 @@ function buildNextActions(checks: FlowCheck[]) {
   if (checks.some((check) => check.label === '케어 케이스' && check.status !== 'pass')) {
     actions.push({
       title: '접수함에서 케어 케이스로 변환하세요',
-      description: '/ops/intake-inbox에서 “케어 요청으로 정리”를 눌러 케이스를 생성합니다.',
-      href: '/ops/intake-inbox',
+      description: '/admin/ops/intake-inbox에서 “케어 요청으로 정리”를 눌러 케이스를 생성합니다.',
+      href: '/admin/ops/intake-inbox',
       priority: 'high'
     })
   }
@@ -221,7 +221,7 @@ function buildNextActions(checks: FlowCheck[]) {
     actions.push({
       title: '검증 완료 매니저를 1명 이상 만드세요',
       description: '/manager/apply와 /ops/manager-vetting에서 최초 검증을 완료합니다.',
-      href: '/ops/manager-vetting',
+      href: '/admin/ops/manager-vetting',
       priority: 'high'
     })
   }
@@ -238,8 +238,8 @@ function buildNextActions(checks: FlowCheck[]) {
   if (checks.some((check) => check.label === '알림 큐' && check.status !== 'pass')) {
     actions.push({
       title: '테스트 알림을 생성하고 자동 발송을 확인하세요',
-      description: '/ops/notifications에서 테스트 알림을 만들고 /ops/cron-health에서 실행합니다.',
-      href: '/ops/notifications',
+      description: '/admin/ops/notifications에서 테스트 알림을 만들고 /ops/cron-health에서 실행합니다.',
+      href: '/admin/ops/notifications',
       priority: 'normal'
     })
   }
@@ -280,28 +280,28 @@ export async function GET() {
       group: '핵심 테이블',
       label: '보호자 접수 테이블',
       table: 'care_assisted_intake_requests',
-      href: '/ops/intake-inbox',
+      href: '/admin/ops/intake-inbox',
       critical: true
     }),
     tableCheck({
       group: '핵심 테이블',
       label: '케어 케이스 테이블',
       table: 'care_cases',
-      href: '/ops/care-cases',
+      href: '/admin/ops/care-cases',
       critical: true
     }),
     tableCheck({
       group: '핵심 테이블',
       label: '매칭 요청 테이블',
       table: 'care_manager_matching_requests',
-      href: '/ops/manager-offers',
+      href: '/admin/ops/manager-offers',
       critical: true
     }),
     tableCheck({
       group: '핵심 테이블',
       label: '매니저 프로필 테이블',
       table: 'care_manager_profiles',
-      href: '/ops/manager-vetting',
+      href: '/admin/ops/manager-vetting',
       critical: true
     }),
     tableCheck({
@@ -322,14 +322,14 @@ export async function GET() {
       group: '알림/정산',
       label: '알림 큐 테이블',
       table: 'notification_outbox',
-      href: '/ops/notifications',
+      href: '/admin/ops/notifications',
       critical: true
     }),
     tableCheck({
       group: '알림/정산',
       label: '자동 발송 기록 테이블',
       table: 'notification_cron_runs',
-      href: '/ops/cron-health',
+      href: '/admin/ops/cron-health',
       critical: false
     }),
     tableCheck({
@@ -361,7 +361,7 @@ export async function GET() {
       emptyStatus: 'warn',
       descriptionWhenHasData: '케어 케이스가 생성되어 있습니다.',
       descriptionWhenEmpty: '아직 케어 케이스가 없습니다.',
-      href: '/ops/care-cases',
+      href: '/admin/ops/care-cases',
       critical: false
     }),
     dataCheck({
@@ -371,7 +371,7 @@ export async function GET() {
       emptyStatus: 'warn',
       descriptionWhenHasData: '검증 완료 매니저가 있습니다.',
       descriptionWhenEmpty: '검증 완료 매니저가 아직 없습니다.',
-      href: '/ops/manager-vetting',
+      href: '/admin/ops/manager-vetting',
       critical: false
     }),
     dataCheck({
@@ -381,7 +381,7 @@ export async function GET() {
       emptyStatus: 'warn',
       descriptionWhenHasData: '매니저 일감 제안 기록이 있습니다.',
       descriptionWhenEmpty: '매니저 일감 제안 기록이 없습니다.',
-      href: '/ops/manager-offers',
+      href: '/admin/ops/manager-offers',
       critical: false
     }),
     dataCheck({
@@ -411,7 +411,7 @@ export async function GET() {
       emptyStatus: 'warn',
       descriptionWhenHasData: '알림 큐 데이터가 있습니다.',
       descriptionWhenEmpty: '알림 큐 데이터가 없습니다.',
-      href: '/ops/notifications',
+      href: '/admin/ops/notifications',
       critical: false
     }),
     dataCheck({
@@ -421,7 +421,7 @@ export async function GET() {
       emptyStatus: 'warn',
       descriptionWhenHasData: '자동 발송 실행 기록이 있습니다.',
       descriptionWhenEmpty: '자동 발송 실행 기록이 아직 없습니다.',
-      href: '/ops/cron-health',
+      href: '/admin/ops/cron-health',
       critical: false
     }),
     dataCheck({

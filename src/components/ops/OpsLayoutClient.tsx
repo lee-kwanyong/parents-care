@@ -7,7 +7,7 @@ import { OpsPasswordGate } from '@/components/ops/OpsPasswordGate'
 export function OpsLayoutClient({ children }: { children: ReactNode }) {
   const pathname = usePathname()
 
-  if (pathname === '/ops/login') {
+  if (pathname === '/admin/ops/login') {
     return <>{children}</>
   }
 

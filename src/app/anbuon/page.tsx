@@ -52,7 +52,7 @@ export default function AnbuonPage() {
             <Link href="/child/daily-care" className="rounded-2xl bg-[#20C5A8] px-5 py-4 font-black text-white">
               보호자 알림 화면
             </Link>
-            <Link href="/ops/daily-care" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 font-black text-[#2AA897]">
+            <Link href="/admin/ops/daily-care" className="rounded-2xl bg-[#EFFFFA] px-5 py-4 font-black text-[#2AA897]">
               운영실 관제
             </Link>
           </div>

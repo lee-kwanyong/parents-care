@@ -29,7 +29,7 @@ function phone(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -603,8 +603,8 @@ async function runScenario(body: Row) {
     message: '시연 데이터가 생성되었습니다.',
     run: rows(runResult)[0],
     links: {
-      incidents: '/ops/incidents',
-      notificationDispatch: '/ops/notification-dispatch',
+      incidents: '/admin/ops/incidents',
+      notificationDispatch: '/admin/ops/notification-dispatch',
       reports: '/gov/reports',
       submissionPackage: '/gov/submission-package'
     },

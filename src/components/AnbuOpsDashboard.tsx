@@ -140,7 +140,7 @@ export function AnbuOpsDashboard() {
             </button>
 
             <Link
-              href="/ops/outbox"
+              href="/admin/ops/outbox"
               className="rounded-2xl bg-[#FFF9EE] px-5 py-4 text-sm font-black text-[#795C22] ring-1 ring-[#F3DEB5]"
             >
               알림 발송함

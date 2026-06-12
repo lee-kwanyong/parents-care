@@ -17,7 +17,7 @@ export default function CareComfortPage() {
         </p>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/ops/contact-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/contact-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 연락센터
           </Link>
           <Link href="/child/summaries" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">

@@ -174,11 +174,11 @@ export function UrgentCaregiverDispatchPanel() {
               요양보호사 요청함
             </Link>
 
-            <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               사건 타임라인
             </Link>
 
-            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>

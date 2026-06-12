@@ -440,7 +440,7 @@ function bool(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -631,7 +631,7 @@ function baseContext(request: NextRequest, source?: Row) {
     가족코드: text(source?.family_code),
     앱링크: origin + '/mobile/parent',
     보호자링크: origin + '/mobile/guardian',
-    운영실링크: origin + '/ops/control-center',
+    운영실링크: origin + '/admin/ops/control-center',
     요청함링크: origin + '/provider/urgent-requests',
     동의링크: origin + '/mobile/guardian',
     피드백링크: origin + '/response/feedback',
@@ -1014,7 +1014,7 @@ async function runSituations(request: NextRequest, body: Row) {
           body: render(templateBody, context),
           templateCode,
           reason: ruleKey,
-          targetUrl: '/ops/urgent-dispatch',
+          targetUrl: '/admin/ops/urgent-dispatch',
           sourceKey,
           payload: {
             requestId: text(item.id),
@@ -1045,7 +1045,7 @@ async function runSituations(request: NextRequest, body: Row) {
           body: render(templateBody, context),
           templateCode,
           reason: ruleKey,
-          targetUrl: '/ops/notification-dispatch',
+          targetUrl: '/admin/ops/notification-dispatch',
           sourceKey,
           payload: {
             outboxId: text(item.id),

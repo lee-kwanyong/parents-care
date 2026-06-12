@@ -89,7 +89,7 @@ export const demoScenarioSteps: DemoStep[] = [
     order: 3,
     title: '운영실 접수 확인',
     description: '운영실이 간편 접수 내용을 확인하고 케어 요청으로 정리합니다.',
-    path: '/ops/intake-inbox',
+    path: '/admin/ops/intake-inbox',
     role: 'ops',
     checkPoint: '운영자가 접수 내용을 보고 다음 행동을 이해하는지 확인'
   },
@@ -113,7 +113,7 @@ export const demoScenarioSteps: DemoStep[] = [
     order: 6,
     title: '매니저 본인확인·신분확인',
     description: '운영실이 휴대폰 본인확인, 신분 확인, 차량정책, 면접 확인을 등록합니다.',
-    path: '/ops/manager-verification',
+    path: '/admin/ops/manager-verification',
     role: 'ops',
     checkPoint: '검증 전 승인/배정이 막히는 구조인지 확인'
   },
@@ -121,7 +121,7 @@ export const demoScenarioSteps: DemoStep[] = [
     order: 7,
     title: '매니저 승인·신뢰카드',
     description: '검증된 매니저를 승인하고 보호자에게 보여줄 신뢰카드를 생성합니다.',
-    path: '/ops/managers',
+    path: '/admin/ops/managers',
     role: 'ops',
     checkPoint: '본인확인 완료 매니저만 신뢰카드가 생성되는지 확인'
   },
@@ -129,7 +129,7 @@ export const demoScenarioSteps: DemoStep[] = [
     order: 8,
     title: '검증 매니저 매칭',
     description: '검증된 매니저 후보를 생성하고 선택한 뒤 현장 배정을 만듭니다.',
-    path: '/ops/manager-matching',
+    path: '/admin/ops/manager-matching',
     role: 'ops',
     checkPoint: '본인확인 완료 매니저만 후보로 나오는지 확인'
   },

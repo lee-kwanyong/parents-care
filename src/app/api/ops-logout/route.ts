@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
   })
 
   const base = process.env.NEXT_PUBLIC_APP_URL || 'https://parents-care.net'
-  const response = NextResponse.redirect(new URL('/ops/login', base))
+  const response = NextResponse.redirect(new URL('/admin/ops/login', base))
   response.cookies.delete('anbu_ops_session')
   return response
 }

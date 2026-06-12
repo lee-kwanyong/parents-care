@@ -17,7 +17,7 @@ export default function OpsCasesPage() {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/ops/worry-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+            <Link href="/admin/ops/worry-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               걱정센터
             </Link>
             <Link href="/ops" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">

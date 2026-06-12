@@ -19,7 +19,7 @@ export default function CareNotificationsPage() {
           <Link href="/child/notifications" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             자녀 알림함
           </Link>
-          <Link href="/ops/notifications" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/notifications" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 알림 큐
           </Link>
         </div>

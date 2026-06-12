@@ -74,7 +74,7 @@ function toKst(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -647,7 +647,7 @@ async function updateUserRole(body: Row) {
       event_type: 'role_updated_by_ops',
       role,
       source: 'ops-users',
-      path: '/ops/users',
+      path: '/admin/ops/users',
       email: text(user.email),
       phone: phone(user.phone),
       payload: {

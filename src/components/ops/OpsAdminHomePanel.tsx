@@ -22,7 +22,7 @@ type RunbookData = {
 
 const primaryCards = [
   {
-    href: '/ops/today-runbook',
+    href: '/admin/ops/today-runbook',
     badge: '오늘',
     title: '오늘 실증 운영센터',
     desc: '가입, 동의, 실증 가구, 안부 신호, 리포트, 미응답, 문자 비용을 순서대로 점검합니다.',
@@ -30,7 +30,7 @@ const primaryCards = [
     tone: 'safe'
   },
   {
-    href: '/ops/users',
+    href: '/admin/ops/users',
     badge: '가입자',
     title: '가입자·실증 참여자',
     desc: '가입자, 역할 미분류, 가족 연결, 안부 신호, 문자 전환을 한 화면에서 봅니다.',
@@ -38,7 +38,7 @@ const primaryCards = [
     tone: 'normal'
   },
   {
-    href: '/ops/sms-budget-guard',
+    href: '/admin/ops/sms-budget-guard',
     badge: '문자',
     title: '문자 비용 보호',
     desc: '하루 한도, 가구별 한도, 테스트 번호 모드, 위험 대기열을 확인합니다.',
@@ -46,7 +46,7 @@ const primaryCards = [
     tone: 'warning'
   },
   {
-    href: '/ops/pilot-report',
+    href: '/admin/ops/pilot-report',
     badge: '리포트',
     title: '실증 리포트',
     desc: '가입자, 가구, 안부, 문자, 리포트 조회, 유저스푼 결과를 외부 미팅용으로 정리합니다.',
@@ -54,7 +54,7 @@ const primaryCards = [
     tone: 'safe'
   },
   {
-    href: '/ops/consent-risk-center',
+    href: '/admin/ops/consent-risk-center',
     badge: '동의',
     title: '동의·책임범위',
     desc: '비의료 고지, 119 대체 아님 고지, 개인정보 수집, 생활확인 파트너 책임범위를 확인합니다.',
@@ -67,8 +67,8 @@ const operationFlow = [
   {
     step: '1',
     title: '오늘 상태 확인',
-    desc: '/ops/today-runbook에서 주의 항목만 먼저 처리합니다.',
-    href: '/ops/today-runbook'
+    desc: '/admin/ops/today-runbook에서 주의 항목만 먼저 처리합니다.',
+    href: '/admin/ops/today-runbook'
   },
   {
     step: '2',
@@ -86,36 +86,36 @@ const operationFlow = [
     step: '4',
     title: '미응답 처리',
     desc: '오늘 안부가 없는 가구는 보호자 문자 또는 대리입력으로 처리합니다.',
-    href: '/ops/no-response'
+    href: '/admin/ops/no-response'
   },
   {
     step: '5',
     title: '문자 위험 확인',
     desc: '자동발송 전 문자 비용·위험 대기열을 확인합니다.',
-    href: '/ops/sms-budget-guard'
+    href: '/admin/ops/sms-budget-guard'
   },
   {
     step: '6',
     title: '증거 저장',
     desc: '실증 리포트와 오늘 운영 요약을 저장합니다.',
-    href: '/ops/pilot-report'
+    href: '/admin/ops/pilot-report'
   }
 ]
 
 const secondaryLinks = [
-  ['/ops/ring-csv-import', '스마트링 CSV 업로드', 'CSV로 안부리듬 리포트 일괄 생성'],
-  ['/ops/ring-report-lab', '스마트링 리포트 실험실', '수동 입력으로 안부리듬 리포트 생성'],
-  ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
-  ['/ops/invite-center', '초대 링크 관리', '보호자·부모님·파트너 링크 복사'],
-  ['/ops/training-center', '교육·가이드', '보호자·부모님·파트너 1분 사용법'],
-  ['/ops/report-tracking', '리포트 조회 추적', '보호자 리포트 성공/실패'],
-  ['/ops/no-response', '미응답 자동 처리', '오늘 안부 신호 없는 가구'],
-  ['/ops/proxy-checkin', '운영실 대리입력', '전화 확인 후 대신 기록'],
+  ['/admin/ops/ring-csv-import', '스마트링 CSV 업로드', 'CSV로 안부리듬 리포트 일괄 생성'],
+  ['/admin/ops/ring-report-lab', '스마트링 리포트 실험실', '수동 입력으로 안부리듬 리포트 생성'],
+  ['/admin/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
+  ['/admin/ops/invite-center', '초대 링크 관리', '보호자·부모님·파트너 링크 복사'],
+  ['/admin/ops/training-center', '교육·가이드', '보호자·부모님·파트너 1분 사용법'],
+  ['/admin/ops/report-tracking', '리포트 조회 추적', '보호자 리포트 성공/실패'],
+  ['/admin/ops/no-response', '미응답 자동 처리', '오늘 안부 신호 없는 가구'],
+  ['/admin/ops/proxy-checkin', '운영실 대리입력', '전화 확인 후 대신 기록'],
   ['/guardian/proxy-checkin', '보호자 대리입력', '보호자가 전화 후 대신 기록'],
-  ['/ops/message-automation', '상황별 자동문자', '조건별 문자 대기열 생성'],
-  ['/ops/notification-dispatch', '알림 발송센터', '대기/성공/실패 문자'],
-  ['/ops/notification-safety', '문자 안전정리', '테스트/실패 문자 재시도 방지'],
-  ['/ops/proposal-reality-check', '제안 표현 점검', '현재/실증/비전 분리'],
+  ['/admin/ops/message-automation', '상황별 자동문자', '조건별 문자 대기열 생성'],
+  ['/admin/ops/notification-dispatch', '알림 발송센터', '대기/성공/실패 문자'],
+  ['/admin/ops/notification-safety', '문자 안전정리', '테스트/실패 문자 재시도 방지'],
+  ['/admin/ops/proposal-reality-check', '제안 표현 점검', '현재/실증/비전 분리'],
   ['/consent', '실증 참여 동의서', '참여자 동의 기록'],
   ['/auth/role', '회원가입 역할 선택', 'unknown 역할 방지'],
   ['/onboarding', '가입 후 시작하기', '역할별 3단계 안내']
@@ -256,15 +256,15 @@ export function OpsAdminHomePanel() {
               {loading ? '확인 중' : '상태 새로고침'}
             </button>
 
-            <Link href="/ops/today-runbook" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/today-runbook" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               오늘 실증 운영센터
             </Link>
 
-            <Link href="/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 리포트
             </Link>
 
-            <Link href="/ops/sms-budget-guard" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/sms-budget-guard" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               문자 비용 보호
             </Link>
           </div>
@@ -297,7 +297,7 @@ export function OpsAdminHomePanel() {
                 </p>
               </div>
 
-              <Link href="/ops/today-runbook" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+              <Link href="/admin/ops/today-runbook" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
                 오늘 할 일 시작
               </Link>
             </div>

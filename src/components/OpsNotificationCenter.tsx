@@ -88,7 +88,7 @@ ${origin()}/ops/intake`
     subtitle: title,
     phone,
     body,
-    href: '/ops/intake',
+    href: '/admin/ops/intake',
     status: intake.status || 'received'
   }
 }
@@ -306,7 +306,7 @@ ${origin()}/ops/matching`
     title: '운영실 후속 조치 알림',
     subtitle: `${typeText} · ${decision.manager_name || '케어파트너'}`,
     body,
-    href: '/ops/matching',
+    href: '/admin/ops/matching',
     status: decision.decision_status || 'received'
   }
 }
@@ -439,7 +439,7 @@ export function OpsNotificationCenter() {
               운영실 홈
             </Link>
             <Link
-              href="/ops/matching"
+              href="/admin/ops/matching"
               className="rounded-3xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
               매칭관리

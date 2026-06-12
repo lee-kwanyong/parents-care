@@ -198,13 +198,13 @@ export function ConsentRiskCenterPanel() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/ops/proposal-reality-check" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/proposal-reality-check" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               제안 표현 점검
             </Link>
-            <Link href="/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 리포트
             </Link>
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 홈
             </Link>
           </div>

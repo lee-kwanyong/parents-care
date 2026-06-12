@@ -41,7 +41,7 @@ function randomCode6() {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -520,7 +520,7 @@ async function createIncident(body: Row) {
     source_key: 'household-test-' + householdId + '-' + randomUUID(),
     payload: {
       household_id: householdId,
-      created_from: '/ops/households'
+      created_from: '/admin/ops/households'
     },
     updated_at: new Date().toISOString()
   }

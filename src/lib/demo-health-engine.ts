@@ -43,7 +43,7 @@ export const demoHealthTargets: Array<{
     table: 'care_assisted_intake_requests',
     group: 'intake',
     minCount: 1,
-    path: '/ops/intake-inbox',
+    path: '/admin/ops/intake-inbox',
     required: true
   },
   {
@@ -52,7 +52,7 @@ export const demoHealthTargets: Array<{
     table: 'care_storage_files',
     group: 'intake',
     minCount: 1,
-    path: '/ops/files',
+    path: '/admin/ops/files',
     required: false
   },
   {
@@ -70,7 +70,7 @@ export const demoHealthTargets: Array<{
     table: 'care_manager_applications',
     group: 'manager',
     minCount: 1,
-    path: '/ops/managers',
+    path: '/admin/ops/managers',
     required: true
   },
   {
@@ -79,7 +79,7 @@ export const demoHealthTargets: Array<{
     table: 'care_manager_identity_verifications',
     group: 'manager',
     minCount: 4,
-    path: '/ops/manager-verification',
+    path: '/admin/ops/manager-verification',
     required: true
   },
   {
@@ -88,7 +88,7 @@ export const demoHealthTargets: Array<{
     table: 'care_manager_profiles',
     group: 'manager',
     minCount: 1,
-    path: '/ops/managers',
+    path: '/admin/ops/managers',
     required: true
   },
   {
@@ -97,7 +97,7 @@ export const demoHealthTargets: Array<{
     table: 'care_manager_matching_requests',
     group: 'matching',
     minCount: 1,
-    path: '/ops/manager-matching',
+    path: '/admin/ops/manager-matching',
     required: true
   },
   {
@@ -106,7 +106,7 @@ export const demoHealthTargets: Array<{
     table: 'care_manager_matching_candidates',
     group: 'matching',
     minCount: 1,
-    path: '/ops/manager-matching',
+    path: '/admin/ops/manager-matching',
     required: true
   },
   {
@@ -115,7 +115,7 @@ export const demoHealthTargets: Array<{
     table: 'manager_field_assignments',
     group: 'field',
     minCount: 1,
-    path: '/ops/manager-field',
+    path: '/admin/ops/manager-field',
     required: true
   },
   {
@@ -151,7 +151,7 @@ export const demoHealthTargets: Array<{
     table: 'notification_outbox',
     group: 'report',
     minCount: 1,
-    path: '/ops/notifications',
+    path: '/admin/ops/notifications',
     required: false
   }
 ]

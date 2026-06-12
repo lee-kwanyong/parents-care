@@ -9,7 +9,7 @@ export function OpsPasswordGate({ children }: { children: ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false)
 
   useEffect(() => {
-    if (pathname === '/ops/login') {
+    if (pathname === '/admin/ops/login') {
       setChecking(false)
       setAuthenticated(true)
       return
@@ -35,11 +35,11 @@ export function OpsPasswordGate({ children }: { children: ReactNode }) {
         }
 
         const next = window.location.pathname + window.location.search
-        window.location.replace('/ops/login?next=' + encodeURIComponent(next))
+        window.location.replace('/admin/ops/login?next=' + encodeURIComponent(next))
       } catch {
         if (!alive) return
         const next = window.location.pathname + window.location.search
-        window.location.replace('/ops/login?next=' + encodeURIComponent(next))
+        window.location.replace('/admin/ops/login?next=' + encodeURIComponent(next))
       }
     }
 
@@ -52,10 +52,10 @@ export function OpsPasswordGate({ children }: { children: ReactNode }) {
 
   async function logout() {
     await fetch('/api/ops-auth', { method: 'DELETE' }).catch(() => null)
-    window.location.replace('/ops/login?next=/ops')
+    window.location.replace('/admin/ops/login?next=/ops')
   }
 
-  if (pathname === '/ops/login') {
+  if (pathname === '/admin/ops/login') {
     return <>{children}</>
   }
 

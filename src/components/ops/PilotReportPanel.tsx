@@ -199,16 +199,16 @@ export function PilotReportPanel() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/ops/users" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/users" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               가입자센터
             </Link>
-            <Link href="/ops/report-tracking" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/report-tracking" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               리포트 조회 추적
             </Link>
-            <Link href="/ops/no-response" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/no-response" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               미응답 처리
             </Link>
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 홈
             </Link>
           </div>

@@ -39,7 +39,7 @@ const qaItems: QaItem[] = [
     title: 'SUPABASE_SERVICE_ROLE_KEY 설정',
     description: 'RLS 하드닝 이후 운영실 API가 DB에 접근하려면 service role key가 반드시 필요합니다.',
     critical: true,
-    route: '/ops/security-center',
+    route: '/admin/ops/security-center',
     autoCheck: 'SUPABASE_SERVICE_ROLE_KEY'
   },
   {
@@ -48,7 +48,7 @@ const qaItems: QaItem[] = [
     title: '운영실 인증 비밀번호 설정',
     description: '운영실·지자체·개인정보 화면은 운영실 인증 후 접근되어야 합니다.',
     critical: true,
-    route: '/ops/login',
+    route: '/admin/ops/login',
     autoCheck: 'ANBU_OPS_PASSWORD'
   },
   {
@@ -57,7 +57,7 @@ const qaItems: QaItem[] = [
     title: '자동운영 Secret 설정',
     description: 'CRON_SECRET, OPS_AUTOPILOT_SECRET, RESPONSE_ESCALATION_SECRET 누락 여부를 확인합니다.',
     critical: true,
-    route: '/ops/control-center',
+    route: '/admin/ops/control-center',
     autoCheck: 'CRON_SECRET_BUNDLE'
   },
   {
@@ -66,7 +66,7 @@ const qaItems: QaItem[] = [
     title: 'SOLAPI 문자 발송 설정',
     description: 'SOLAPI_API_KEY, SOLAPI_API_SECRET, SOLAPI_SENDER와 IP 허용 상태를 확인합니다.',
     critical: true,
-    route: '/ops/notification-dispatch',
+    route: '/admin/ops/notification-dispatch',
     autoCheck: 'SOLAPI_BUNDLE'
   },
   {
@@ -75,7 +75,7 @@ const qaItems: QaItem[] = [
     title: '운영실 테스트 문자 발송',
     description: '테스트 문자 1건을 내 번호로 보내고 성공/실패 기록을 확인합니다.',
     critical: true,
-    route: '/ops/notification-dispatch'
+    route: '/admin/ops/notification-dispatch'
   },
   {
     itemKey: 'rls-security',
@@ -83,7 +83,7 @@ const qaItems: QaItem[] = [
     title: 'RLS·권한 점검 완료',
     description: '공개 anon key로 사건·문자·개인정보 테이블이 직접 조회되지 않는지 확인합니다.',
     critical: true,
-    route: '/ops/security-center'
+    route: '/admin/ops/security-center'
   },
   {
     itemKey: 'privacy-consent',
@@ -91,7 +91,7 @@ const qaItems: QaItem[] = [
     title: '개인정보 동의·열람 감사 확인',
     description: '동의 상태와 열람 감사 로그가 운영실·지자체 보고서에 남는지 확인합니다.',
     critical: true,
-    route: '/ops/privacy-audit'
+    route: '/admin/ops/privacy-audit'
   },
   {
     itemKey: 'control-center',
@@ -99,7 +99,7 @@ const qaItems: QaItem[] = [
     title: '운영실 자동운영 상태판 확인',
     description: 'Heartbeat, 오토파일럿, 긴급 사건, 문자 대기, 가용 요양보호사 수가 한 화면에 표시되는지 확인합니다.',
     critical: true,
-    route: '/ops/control-center'
+    route: '/admin/ops/control-center'
   },
   {
     itemKey: 'urgent-dispatch',
@@ -107,7 +107,7 @@ const qaItems: QaItem[] = [
     title: '요양보호사 즉시 배치 흐름 점검',
     description: '긴급 요청 생성 → 가용 요양보호사 배치 → 문자 대기열 생성까지 확인합니다.',
     critical: true,
-    route: '/ops/urgent-dispatch'
+    route: '/admin/ops/urgent-dispatch'
   },
   {
     itemKey: 'urgent-token',
@@ -123,7 +123,7 @@ const qaItems: QaItem[] = [
     title: '긴급 사건 상태 머신 점검',
     description: '중복 수락, 만료 링크, 오래된 미수락 사건, 완료 상태 동기화가 정리되는지 확인합니다.',
     critical: true,
-    route: '/ops/state-machine'
+    route: '/admin/ops/state-machine'
   },
   {
     itemKey: 'demo-runner',
@@ -163,7 +163,7 @@ const qaItems: QaItem[] = [
     title: '15분 발표 리허설 완료',
     description: '운영실 담당자가 실제 발표 순서대로 한 번 이상 전체 시연을 수행합니다.',
     critical: true,
-    route: '/ops/pilot-qa'
+    route: '/admin/ops/pilot-qa'
   }
 ]
 
@@ -193,14 +193,14 @@ const demoScript = [
     step: 4,
     time: '4:00–5:30',
     title: '운영실 상태판',
-    screen: '/ops/control-center',
+    screen: '/admin/ops/control-center',
     talk: '운영자는 자동운영 정상 여부, 긴급 사건, 문자 대기, 가용 요양보호사, 개인정보 동의 상태를 한 화면에서 확인합니다.'
   },
   {
     step: 5,
     time: '5:30–7:30',
     title: '긴급 도움 요청 시연',
-    screen: '/ops/urgent-dispatch',
+    screen: '/admin/ops/urgent-dispatch',
     talk: '갑자기 도움이 필요한 경우 운영실이 같은 권역의 가용 요양보호사·돌봄파트너를 즉시 배치합니다. 안부웍스는 119를 대체하지 않고 응급 전 단계의 생활 확인과 연결을 담당합니다.'
   },
   {
@@ -214,14 +214,14 @@ const demoScript = [
     step: 7,
     time: '9:00–10:30',
     title: '상태 머신과 보안',
-    screen: '/ops/state-machine',
+    screen: '/admin/ops/state-machine',
     talk: '중복 수락, 만료 링크, 완료 후 재배치 같은 운영 사고를 상태 머신이 감지하고 정리합니다. RLS 점검센터에서 공개 접근도 확인합니다.'
   },
   {
     step: 8,
     time: '10:30–12:00',
     title: '문자 발송과 사건 타임라인',
-    screen: '/ops/notification-dispatch',
+    screen: '/admin/ops/notification-dispatch',
     talk: '보호자와 도움망에게 보낼 문자는 대기열로 관리하고, 신호·문자·수락·통화·완료 기록은 사건 타임라인에 남습니다.'
   },
   {
@@ -249,7 +249,7 @@ function text(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {

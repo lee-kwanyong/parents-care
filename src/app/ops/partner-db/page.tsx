@@ -24,7 +24,7 @@ export default function Page() {
 
           <div className="mt-6 grid gap-3 sm:grid-cols-2">
             <Link
-              href="/ops/pilot"
+              href="/admin/ops/pilot"
               className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white"
             >
               실증 운영실

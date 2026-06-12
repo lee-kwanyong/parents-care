@@ -212,7 +212,7 @@ export function PublicServiceIntroPanel() {
           </h2>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/ops/pilot-report" className="rounded-2xl bg-white px-6 py-4 text-center text-sm font-black text-[#17443F]">
+            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-6 py-4 text-center text-sm font-black text-[#17443F]">
               실증 리포트 보기
             </Link>
 

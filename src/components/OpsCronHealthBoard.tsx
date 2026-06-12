@@ -131,7 +131,7 @@ export function OpsCronHealthBoard() {
             <section className="mt-8 rounded-[2rem] bg-[linear-gradient(135deg,#EAFBF6_0%,#F4FAFF_100%)] p-6 shadow-[0_16px_44px_rgba(93,139,131,0.12)]">
               <h2 className="text-3xl font-black tracking-[-0.04em]">바로가기</h2>
               <div className="mt-5 grid gap-3 md:grid-cols-3">
-                <Link href="/ops/notifications" className="rounded-2xl bg-white p-5 text-center font-black ring-1 ring-[#E3EFEC]">알림 큐</Link>
+                <Link href="/admin/ops/notifications" className="rounded-2xl bg-white p-5 text-center font-black ring-1 ring-[#E3EFEC]">알림 큐</Link>
                 <Link href="/ops" className="rounded-2xl bg-white p-5 text-center font-black ring-1 ring-[#E3EFEC]">운영실 홈</Link>
                 <Link href="/deploy-readiness" className="rounded-2xl bg-white p-5 text-center font-black ring-1 ring-[#E3EFEC]">배포 점검</Link>
               </div>

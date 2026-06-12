@@ -19,10 +19,10 @@ export default function OpsManagerMatchingPage() {
         description="휴대폰 본인확인, 신분확인, 차량정책, 면접 확인이 끝난 매니저만 후보로 추천하고 현장 배정으로 연결합니다."
         actions={
           <>
-            <CareButton href="/ops/manager-verification" tone="primary">
+            <CareButton href="/admin/ops/manager-verification" tone="primary">
               신뢰 검증 보드
             </CareButton>
-            <CareButton href="/ops/manager-field" tone="dark">
+            <CareButton href="/admin/ops/manager-field" tone="dark">
               현장 배정 보드
             </CareButton>
           </>

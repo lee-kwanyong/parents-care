@@ -128,7 +128,7 @@ export function OpsNotificationsBoard() {
               <button onClick={() => postAction({ action: 'send_next_batch', limit: 10 })} className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
                 대기 10건 발송
               </button>
-              <Link href="/ops/cron-health" className="rounded-2xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]">
+              <Link href="/admin/ops/cron-health" className="rounded-2xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]">
                 자동 발송 점검
               </Link>
             </div>

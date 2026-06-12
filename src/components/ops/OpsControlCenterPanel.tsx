@@ -314,19 +314,19 @@ export function OpsControlCenterPanel() {
               <h2 className="text-3xl font-black tracking-[-0.06em]">바로가기</h2>
 
               <div className="mt-5 grid gap-3">
-                <Link href="/ops/urgent-dispatch" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+                <Link href="/admin/ops/urgent-dispatch" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
                   요양보호사 즉시 배치센터
                 </Link>
-                <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   사건 타임라인
                 </Link>
-                <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   오토파일럿
                 </Link>
-                <Link href="/ops/heartbeat" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/heartbeat" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   Heartbeat
                 </Link>
-                <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   알림 발송센터
                 </Link>
                 <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

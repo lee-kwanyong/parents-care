@@ -286,7 +286,7 @@ export function ResponseNetworkPanel() {
               운영실 모드
             </button>
 
-            <Link href="/ops/notification-dispatch" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/notification-dispatch" className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>
@@ -535,7 +535,7 @@ export function ResponseNetworkPanel() {
           <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             지역 도움망 요청함
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <button

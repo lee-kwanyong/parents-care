@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export function AnbuOpsLogin() {
   const searchParams = useSearchParams()
-  const next = searchParams.get('next') || '/ops/dashboard'
+  const next = searchParams.get('next') || '/admin/ops/dashboard'
 
   const [accessCode, setAccessCode] = useState('')
   const [message, setMessage] = useState('')

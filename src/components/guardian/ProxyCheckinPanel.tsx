@@ -414,7 +414,7 @@ export function ProxyCheckinPanel({ mode = 'guardian' }: { mode?: Mode }) {
                 </Link>
               )}
 
-              <Link href="/ops/control-center" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+              <Link href="/admin/ops/control-center" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                 운영실 상태판
               </Link>
             </div>

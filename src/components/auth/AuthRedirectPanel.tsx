@@ -53,7 +53,7 @@ function destinationForRole(role: string) {
   if (role === 'guardian') return '/guardian/today'
   if (role === 'parent') return '/mobile/parent'
   if (role === 'provider') return '/provider/urgent-requests'
-  if (role === 'ops') return '/portal/ops'
+  if (role === 'ops') return '/admin/ops'
   return '/auth/role?source=auth-redirect'
 }
 

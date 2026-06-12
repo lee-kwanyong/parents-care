@@ -144,9 +144,9 @@ export function OpsDashboardBoard() {
             >
               새로고침
             </button>
-            <CareButton href="/ops/intake">운영접수 보기</CareButton>
-            <CareButton href="/ops/matching" tone="dark">매칭관리 보기</CareButton>
-            <CareButton href="/ops/managers" tone="dark">매니저관리 보기</CareButton>
+            <CareButton href="/admin/ops/intake">운영접수 보기</CareButton>
+            <CareButton href="/admin/ops/matching" tone="dark">매칭관리 보기</CareButton>
+            <CareButton href="/admin/ops/managers" tone="dark">매니저관리 보기</CareButton>
             <CareButton href="/admin/health" tone="dark">시스템 점검센터 보기</CareButton>
           </div>
         </CareCard>
@@ -168,19 +168,19 @@ export function OpsDashboardBoard() {
             title="신규 접수"
             main={summary.intakes?.received || 0}
             desc={`확인 중 ${summary.intakes?.reviewing || 0}건 · 우선 확인 ${summary.intakes?.highPriority || 0}건`}
-            href="/ops/intake"
+            href="/admin/ops/intake"
           />
           <SummaryCard
             title="매칭 대기"
             main={summary.matching?.requested || 0}
             desc={`후보 생성 ${summary.matching?.candidates || 0}건 · 배정 ${summary.matching?.assigned || 0}건`}
-            href="/ops/matching"
+            href="/admin/ops/matching"
           />
           <SummaryCard
             title="제안 발송"
             main={summary.offers?.sent || 0}
             desc={`수락 ${summary.offers?.accepted || 0}건 · 거절 ${summary.offers?.declined || 0}건`}
-            href="/ops/matching"
+            href="/admin/ops/matching"
           />
           <SummaryCard
             title="오늘 배정"
@@ -192,7 +192,7 @@ export function OpsDashboardBoard() {
             title="매니저 승인"
             main={summary.managers?.inReview || 0}
             desc={`활성 매니저 ${summary.managers?.active || 0}명 · 매칭 가능 ${summary.managers?.matchingEligible || 0}명`}
-            href="/ops/managers"
+            href="/admin/ops/managers"
           />
           <SummaryCard
             title="보호자 리포트"
@@ -210,7 +210,7 @@ export function OpsDashboardBoard() {
             title="전체 진행"
             main={summary.intakes?.total || 0}
             desc={`접수 전체 ${summary.intakes?.total || 0}건 · 매칭 전체 ${summary.matching?.total || 0}건`}
-            href="/ops/intake"
+            href="/admin/ops/intake"
           />
         </section>
 
@@ -264,17 +264,17 @@ export function OpsDashboardBoard() {
               <ChecklistItem
                 title="신규 접수 확인"
                 desc="보호자 신청이 /ops/intake에 들어오는지 확인"
-                href="/ops/intake"
+                href="/admin/ops/intake"
               />
               <ChecklistItem
                 title="매니저 승인"
                 desc="등록한 매니저를 /ops/managers에서 검증 완료 처리"
-                href="/ops/managers"
+                href="/admin/ops/managers"
               />
               <ChecklistItem
                 title="후보 제안 생성"
                 desc="접수 건을 매칭 요청으로 전환하고 후보 생성"
-                href="/ops/matching"
+                href="/admin/ops/matching"
               />
               <ChecklistItem
                 title="매니저 수락"

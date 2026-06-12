@@ -186,7 +186,7 @@ export function InviteCenterPanel() {
           targetUrl: args.targetUrl || '',
           copiedText: args.copiedText,
           createdBy,
-          path: typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/ops/invite-center'
+          path: typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/admin/ops/invite-center'
         })
       })
     } catch {
@@ -278,16 +278,16 @@ export function InviteCenterPanel() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-3">
-            <Link href="/ops/private-pilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/private-pilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 가구 관리
             </Link>
             <Link href="/consent" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               동의서
             </Link>
-            <Link href="/ops/today-runbook" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/today-runbook" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               오늘 운영센터
             </Link>
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 홈
             </Link>
           </div>

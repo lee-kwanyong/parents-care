@@ -195,7 +195,7 @@ export function ProposalRealityCheckPanel() {
               점검 저장
             </button>
 
-            <Link href="/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 리포트
             </Link>
           </div>
@@ -209,7 +209,7 @@ export function ProposalRealityCheckPanel() {
               지자체 제안서
             </Link>
 
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 홈
             </Link>
           </div>

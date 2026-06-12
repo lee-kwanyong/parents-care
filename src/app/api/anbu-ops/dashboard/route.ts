@@ -143,35 +143,35 @@ export async function GET() {
       label: '대기 케어 요청',
       value: pendingCareRequests.length,
       help: '보호자 케어 요청',
-      href: '/ops/care-requests'
+      href: '/admin/ops/care-requests'
     },
     {
       key: 'partners',
       label: '검토할 파트너',
       value: pendingPartners.length,
       help: `승인 파트너 ${approvedPartners.length}명`,
-      href: '/ops/partners'
+      href: '/admin/ops/partners'
     },
     {
       key: 'reports',
       label: '검수할 리포트',
       value: reviewReports.length,
       help: `품질주의 ${qualityRiskReports.length}건`,
-      href: '/ops/care-reports-review'
+      href: '/admin/ops/care-reports-review'
     },
     {
       key: 'outbox',
       label: '알림 발송함 대기',
       value: queuedNotifications.length,
       help: `발송완료 ${sentNotifications.length}건`,
-      href: '/ops/outbox'
+      href: '/admin/ops/outbox'
     },
     {
       key: 'subscriptions',
       label: '활성 구독/체험',
       value: activeSubscriptions.length,
       help: '주간 리포트 접근 가능',
-      href: '/ops/subscriptions'
+      href: '/admin/ops/subscriptions'
     },
     {
       key: 'payments',
@@ -197,7 +197,7 @@ export async function GET() {
     {
       key: 'careRequests',
       title: '최근 케어 요청',
-      href: '/ops/care-requests',
+      href: '/admin/ops/care-requests',
       empty: '최근 케어 요청이 없습니다.',
       items: lastRows(careRequests, 5).map((row) => ({
         title: `${text(row.parent_name) || '부모님'} · ${text(row.request_type) || '요청'}`,
@@ -208,7 +208,7 @@ export async function GET() {
     {
       key: 'partners',
       title: '최근 케어파트너 신청',
-      href: '/ops/partners',
+      href: '/admin/ops/partners',
       empty: '최근 파트너 신청이 없습니다.',
       items: lastRows(partners, 5).map((row) => ({
         title: `${text(row.applicant_name) || '신청자'} · ${text(row.region) || '-'}`,
@@ -219,7 +219,7 @@ export async function GET() {
     {
       key: 'reports',
       title: '리포트 검수 대기',
-      href: '/ops/care-reports-review',
+      href: '/admin/ops/care-reports-review',
       empty: '검수 대기 리포트가 없습니다.',
       items: lastRows(reviewReports, 5).map((row) => ({
         title: `${text(row.report_status) || 'submitted'} · 품질 ${text(row.quality_status) || 'unchecked'}`,
@@ -230,7 +230,7 @@ export async function GET() {
     {
       key: 'outbox',
       title: '알림 발송함',
-      href: '/ops/outbox',
+      href: '/admin/ops/outbox',
       empty: '대기 중인 알림이 없습니다.',
       items: lastRows(queuedNotifications, 5).map((row) => ({
         title: `${text(row.channel).toUpperCase() || '알림'} · ${text(row.title) || '제목 없음'}`,
@@ -250,7 +250,7 @@ export async function GET() {
     { label: '케어 리포트', href: '/child/care-reports', desc: '보호자 공개 리포트' },
     { label: '리포트 가이드', href: '/care-partner/report-guide', desc: '작성 기준' },
     { label: '구독 관리', href: '/subscription', desc: '체험·리포트 접근' },
-    { label: '알림톡 템플릿', href: '/ops/kakao-templates', desc: '카카오 심사 문구' }
+    { label: '알림톡 템플릿', href: '/admin/ops/kakao-templates', desc: '카카오 심사 문구' }
   ]
 
   const diagnostics = [

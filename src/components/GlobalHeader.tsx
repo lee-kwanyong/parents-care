@@ -26,7 +26,7 @@ const guestMenu: MenuGroup[] = [
     items: [
       { label: '홈', href: '/', desc: '처음 화면으로 이동' },
       { label: '로그인/회원가입', href: '/login', desc: '보호자 로그인 및 역할 선택' },
-      { label: '운영실 페이지', href: '/portal/ops', desc: '운영실 자동운영·관제 화면 모음' },
+      { label: '운영실 페이지', href: '/admin/ops', desc: '운영실 자동운영·관제 화면 모음' },
       { label: '요양보호사 페이지', href: '/portal/care-worker', desc: '도움망 요청 수락·처리 화면 모음' },
       { label: '자녀 페이지', href: '/portal/child', desc: '보호자 리포트·후속조치 화면 모음' },
       { label: '부모님 페이지', href: '/portal/parent', desc: '부모님 안부 입력 화면 모음' },
@@ -62,10 +62,10 @@ const guestMenu: MenuGroup[] = [
     items: [
       { label: '지자체 실증 운영실', href: '/gov/dashboard', desc: '통합돌봄 안부 모니터링 대시보드' },
       { label: '지역 후속조치 관제', href: '/response?scope=ops', desc: '운영실 인증 후 전체 요청 관제' },
-      { label: '운영실 오토파일럿', href: '/ops/autopilot', desc: '신호 발생 시 다음 행동 자동 추천·실행' },
-      { label: '도움망 네트워크', href: '/ops/network', desc: '돌봄파트너·상점·약국·수행기관 등록 관리' },
-      { label: '운영실 자동운영 Heartbeat', href: '/ops/heartbeat', desc: '오토파일럿·에스컬레이션·문자 대기열 주기 점검' },
-      { label: '자동 에스컬레이션', href: '/ops/response-escalation', desc: '미수락·미완료 요청 자동 재알림' },
+      { label: '운영실 오토파일럿', href: '/admin/ops/autopilot', desc: '신호 발생 시 다음 행동 자동 추천·실행' },
+      { label: '도움망 네트워크', href: '/admin/ops/network', desc: '돌봄파트너·상점·약국·수행기관 등록 관리' },
+      { label: '운영실 자동운영 Heartbeat', href: '/admin/ops/heartbeat', desc: '오토파일럿·에스컬레이션·문자 대기열 주기 점검' },
+      { label: '자동 에스컬레이션', href: '/admin/ops/response-escalation', desc: '미수락·미완료 요청 자동 재알림' },
       { label: '대상자 관리', href: '/gov/recipients', desc: '실증 대상자와 담당자를 관리' },
       { label: '사례관리', href: '/gov/cases', desc: '전화 확인·방문 필요·완료 기록' },
       { label: '성과보고', href: '/gov/reports', desc: '월간 성과지표와 보고서 초안' },
@@ -83,15 +83,15 @@ const guestMenu: MenuGroup[] = [
     title: '운영',
     items: [
       { label: '운영실 Admin', href: '/ops', desc: '운영실 시작 화면' },
-      { label: '알림 발송센터', href: '/ops/notification-dispatch', desc: '후속조치 요청 SMS 발송·실패 재시도' },
-      { label: '실증 운영실', href: '/ops/pilot', desc: '실증·응답률·확인율 관리' },
-      { label: 'Risk-to-Action', href: '/ops/risk-action', desc: '위험 신호 행동가이드' },
-      { label: '결과 라벨링', href: '/ops/outcomes', desc: '실제 결과 기록' },
-      { label: '파트너 승인', href: '/ops/partners', desc: '케어파트너 검증' },
-      { label: '배정 관리', href: '/ops/matching', desc: '부모님·보호자 매칭 관리' },
-      { label: '배정 현황', href: '/ops/assignments', desc: '현재 배정 상태 확인' },
-      { label: '파트너 DB', href: '/ops/partner-db', desc: '파트너 정보 관리' },
-      { label: '알림 설정', href: '/ops/notifications', desc: 'SMS·앱 알림 설정' }
+      { label: '알림 발송센터', href: '/admin/ops/notification-dispatch', desc: '후속조치 요청 SMS 발송·실패 재시도' },
+      { label: '실증 운영실', href: '/admin/ops/pilot', desc: '실증·응답률·확인율 관리' },
+      { label: 'Risk-to-Action', href: '/admin/ops/risk-action', desc: '위험 신호 행동가이드' },
+      { label: '결과 라벨링', href: '/admin/ops/outcomes', desc: '실제 결과 기록' },
+      { label: '파트너 승인', href: '/admin/ops/partners', desc: '케어파트너 검증' },
+      { label: '배정 관리', href: '/admin/ops/matching', desc: '부모님·보호자 매칭 관리' },
+      { label: '배정 현황', href: '/admin/ops/assignments', desc: '현재 배정 상태 확인' },
+      { label: '파트너 DB', href: '/admin/ops/partner-db', desc: '파트너 정보 관리' },
+      { label: '알림 설정', href: '/admin/ops/notifications', desc: 'SMS·앱 알림 설정' }
     ]
   }
 ]

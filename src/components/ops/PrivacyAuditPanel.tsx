@@ -239,7 +239,7 @@ export function PrivacyAuditPanel({
       purpose,
       legalBasis,
       fieldsAccessed: fields,
-      routePath: '/ops/privacy-audit'
+      routePath: '/admin/ops/privacy-audit'
     })
   }
 
@@ -343,7 +343,7 @@ export function PrivacyAuditPanel({
               테스트 열람 로그 생성
             </button>
 
-            <Link href="/ops/households" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/households" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               대상자 관리
             </Link>
 
@@ -662,16 +662,16 @@ export function PrivacyAuditPanel({
         </section>
 
         <div className="grid gap-3 sm:grid-cols-5">
-          <Link href="/ops/households" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/admin/ops/households" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             대상자 관리
           </Link>
-          <Link href="/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/incidents" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             사건 타임라인
           </Link>
           <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             운영보고서
           </Link>
-          <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             오토파일럿
           </Link>
           <button onClick={load} className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

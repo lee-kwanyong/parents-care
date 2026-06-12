@@ -165,10 +165,10 @@ export function OpsCommandCenterBoard() {
         <button onClick={saveSnapshot} className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
           관제 스냅샷 저장
         </button>
-        <Link href="/ops/cases" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
+        <Link href="/admin/ops/cases" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
           통합 케이스
         </Link>
-        <Link href="/ops/worry-center" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
+        <Link href="/admin/ops/worry-center" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
           걱정센터
         </Link>
       </div>

@@ -234,14 +234,14 @@ export function OpsFlowQaBoard() {
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 {[
                   ['/care-request', '1. 보호자 접수'],
-                  ['/ops/intake-inbox', '2. 접수함 변환'],
-                  ['/ops/care-cases', '3. 케어 케이스'],
-                  ['/ops/manager-vetting', '4. 매니저 검증'],
-                  ['/ops/manager-offers', '5. 매니저 알림'],
+                  ['/admin/ops/intake-inbox', '2. 접수함 변환'],
+                  ['/admin/ops/care-cases', '3. 케어 케이스'],
+                  ['/admin/ops/manager-vetting', '4. 매니저 검증'],
+                  ['/admin/ops/manager-offers', '5. 매니저 알림'],
                   ['/manager/today', '6. 현장 체크'],
                   ['/child/reports', '7. 보호자 리포트'],
-                  ['/ops/notifications', '8. 알림 큐'],
-                  ['/ops/cron-health', '9. 자동 발송']
+                  ['/admin/ops/notifications', '8. 알림 큐'],
+                  ['/admin/ops/cron-health', '9. 자동 발송']
                 ].map(([href, label]) => (
                   <Link
                     key={href}

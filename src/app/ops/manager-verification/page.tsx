@@ -19,7 +19,7 @@ export default function OpsManagerVerificationPage() {
         description="휴대폰 본인확인, 신분 확인, 차량 정책, 면접 확인이 끝나야 매칭할 수 있습니다. 매칭 후 평가는 신뢰카드 점수에 자동 반영됩니다."
         actions={
           <>
-            <CareButton href="/ops/managers" tone="primary">
+            <CareButton href="/admin/ops/managers" tone="primary">
               지원서 심사
             </CareButton>
             <CareButton href="/manager/apply" tone="dark">

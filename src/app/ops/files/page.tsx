@@ -17,7 +17,7 @@ export default function OpsFilesPage() {
           </div>
 
           <div className="flex gap-3">
-            <Link href="/ops/intake-inbox" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+            <Link href="/admin/ops/intake-inbox" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               사진·카톡 접수함
             </Link>
             <Link href="/ops" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">

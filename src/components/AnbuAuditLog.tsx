@@ -85,7 +85,7 @@ export function AnbuAuditLogPage() {
 
   async function logout() {
     await fetch('/api/ops-logout', { method: 'POST' })
-    window.location.href = '/ops/login'
+    window.location.href = '/admin/ops/login'
   }
 
   useEffect(() => {
@@ -143,7 +143,7 @@ export function AnbuAuditLogPage() {
             </button>
 
             <Link
-              href="/ops/dashboard"
+              href="/admin/ops/dashboard"
               className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
               운영실 홈

@@ -50,7 +50,7 @@ export default async function CareRequestThanksPage({
               가족용 케어플랜 보기
             </Link>
           ) : null}
-          <Link href="/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 text-center font-black text-[#2E504D]">
+          <Link href="/admin/ops/plan-builder" className="rounded-2xl bg-[#5F7C92] px-5 py-4 text-center font-black text-[#2E504D]">
             운영실에서 플랜 만들기
           </Link>
           <Link href="/care-request" className="rounded-2xl bg-slate-100 px-5 py-4 text-center font-black">

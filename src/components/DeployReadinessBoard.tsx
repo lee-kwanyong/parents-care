@@ -147,7 +147,7 @@ export function DeployReadinessBoard() {
         <CareButton href="/mobile-check" tone="soft">
           모바일 점검
         </CareButton>
-        <CareButton href="/ops/qa" tone="soft">
+        <CareButton href="/admin/ops/qa" tone="soft">
           QA 보드
         </CareButton>
       </div>

@@ -307,10 +307,10 @@ export function OpsHeartbeatPanel() {
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/ops/autopilot" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/admin/ops/autopilot" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             오토파일럿
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <Link href="/response?scope=ops" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

@@ -125,7 +125,7 @@ export function OpsTodayDashboard() {
               >
                 새로고침
               </button>
-              <Link href="/ops/intake-inbox" className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
+              <Link href="/admin/ops/intake-inbox" className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white">
                 접수함
               </Link>
             </div>
@@ -145,18 +145,18 @@ export function OpsTodayDashboard() {
         ) : (
           <>
             <section className="mt-6 grid gap-3 md:grid-cols-4 xl:grid-cols-6">
-              <Stat label="새 접수" value={summary.openIntakes} href="/ops/intake-inbox" />
-              <Stat label="긴급 접수" value={summary.urgentIntakes} href="/ops/intake-inbox" tone="red" />
-              <Stat label="케어 케이스" value={summary.openCases} href="/ops/care-cases" />
-              <Stat label="검증 대기" value={summary.pendingVetting} href="/ops/manager-vetting" tone="amber" />
-              <Stat label="검증 매니저" value={summary.verifiedManagers} href="/ops/manager-vetting" />
-              <Stat label="수락 대기" value={summary.acceptedOffers} href="/ops/manager-offers" tone="amber" />
-              <Stat label="제안 발송" value={summary.sentOffers} href="/ops/manager-offers" />
+              <Stat label="새 접수" value={summary.openIntakes} href="/admin/ops/intake-inbox" />
+              <Stat label="긴급 접수" value={summary.urgentIntakes} href="/admin/ops/intake-inbox" tone="red" />
+              <Stat label="케어 케이스" value={summary.openCases} href="/admin/ops/care-cases" />
+              <Stat label="검증 대기" value={summary.pendingVetting} href="/admin/ops/manager-vetting" tone="amber" />
+              <Stat label="검증 매니저" value={summary.verifiedManagers} href="/admin/ops/manager-vetting" />
+              <Stat label="수락 대기" value={summary.acceptedOffers} href="/admin/ops/manager-offers" tone="amber" />
+              <Stat label="제안 발송" value={summary.sentOffers} href="/admin/ops/manager-offers" />
               <Stat label="현장 진행" value={summary.activeAssignments} href="/manager/today" />
               <Stat label="완료 배정" value={summary.completedAssignments} href="/manager/earnings" />
               <Stat label="정산 예정" value={formatWon(summary.expectedEarningsAmount)} href="/manager/earnings" />
-              <Stat label="알림 대기" value={summary.queuedNotifications} href="/ops/notifications" />
-              <Stat label="전체 상태" value={data?.attentionState || '안정'} href="/ops/care-cases" />
+              <Stat label="알림 대기" value={summary.queuedNotifications} href="/admin/ops/notifications" />
+              <Stat label="전체 상태" value={data?.attentionState || '안정'} href="/admin/ops/care-cases" />
             </section>
 
             <section className="mt-8 rounded-[2rem] border border-[#E3EFEC] bg-white p-6 shadow-[0_14px_40px_rgba(93,139,131,0.09)]">
@@ -168,7 +168,7 @@ export function OpsTodayDashboard() {
                   </p>
                 </div>
                 <Link
-                  href="/ops/care-cases"
+                  href="/admin/ops/care-cases"
                   className="rounded-2xl bg-[#DCEFF7] px-5 py-4 text-center font-black text-[#365E78] ring-1 ring-[#C2DDEA]"
                 >
                   케어 케이스 보기
@@ -196,7 +196,7 @@ export function OpsTodayDashboard() {
             <section className="mt-8 grid gap-5 lg:grid-cols-2">
               <RecentPanel
                 title="최근 접수"
-                href="/ops/intake-inbox"
+                href="/admin/ops/intake-inbox"
                 items={data?.recent?.intakes || []}
                 render={(item) => (
                   <>
@@ -211,7 +211,7 @@ export function OpsTodayDashboard() {
 
               <RecentPanel
                 title="최근 케어 케이스"
-                href="/ops/care-cases"
+                href="/admin/ops/care-cases"
                 items={data?.recent?.cases || []}
                 render={(item) => (
                   <>
@@ -226,7 +226,7 @@ export function OpsTodayDashboard() {
 
               <RecentPanel
                 title="매니저 검증 대기"
-                href="/ops/manager-vetting"
+                href="/admin/ops/manager-vetting"
                 items={data?.recent?.applications || []}
                 render={(item) => (
                   <>
@@ -241,7 +241,7 @@ export function OpsTodayDashboard() {
 
               <RecentPanel
                 title="매니저 제안/수락"
-                href="/ops/manager-offers"
+                href="/admin/ops/manager-offers"
                 items={data?.recent?.offers || []}
                 render={(item) => (
                   <>
@@ -305,15 +305,15 @@ export function OpsTodayDashboard() {
               <h2 className="text-3xl font-black tracking-[-0.04em]">주요 화면 바로가기</h2>
               <div className="mt-5 grid gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {[
-                  ['/ops/intake-inbox', '부모님 안심케어 접수함'],
-                  ['/ops/care-cases', '케어 케이스'],
-                  ['/ops/manager-vetting', '매니저 최초 검증'],
-                  ['/ops/manager-offers', '매니저 알림·수락'],
+                  ['/admin/ops/intake-inbox', '부모님 안심케어 접수함'],
+                  ['/admin/ops/care-cases', '케어 케이스'],
+                  ['/admin/ops/manager-vetting', '매니저 최초 검증'],
+                  ['/admin/ops/manager-offers', '매니저 알림·수락'],
                   ['/manager/today', '현장 체크'],
                   ['/manager/earnings', '정산 예정'],
                   ['/buyer-demo', '바이어 데모'],
-                  ['/ops/demo-scenario', '원클릭 시나리오'],
-                  ['/ops/flow-qa', '통합 흐름 점검'],
+                  ['/admin/ops/demo-scenario', '원클릭 시나리오'],
+                  ['/admin/ops/flow-qa', '통합 흐름 점검'],
                   ['/deploy-readiness', '배포 점검']
                 ].map(([href, label]) => (
                   <Link

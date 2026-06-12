@@ -225,7 +225,7 @@ export function RingCsvImportPanel() {
               새로고침
             </button>
 
-            <Link href="/ops/ring-report-lab" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
+            <Link href="/admin/ops/ring-report-lab" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
               수동 리포트
             </Link>
           </div>
@@ -234,10 +234,10 @@ export function RingCsvImportPanel() {
             <Link href="/guardian/ring-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               보호자 리포트
             </Link>
-            <Link href="/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 리포트
             </Link>
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               운영실 홈
             </Link>
           </div>

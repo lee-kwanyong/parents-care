@@ -125,7 +125,7 @@ export function TrainingCenterPanel() {
           guideKey,
           copiedText,
           source: 'ops-training-center',
-          path: typeof window !== 'undefined' ? window.location.pathname : '/ops/training-center',
+          path: typeof window !== 'undefined' ? window.location.pathname : '/admin/ops/training-center',
           createdBy
         })
       })
@@ -193,7 +193,7 @@ export function TrainingCenterPanel() {
               새로고침
             </button>
 
-            <Link href="/ops/invite-center" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/invite-center" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               초대 링크 센터
             </Link>
           </div>
@@ -203,7 +203,7 @@ export function TrainingCenterPanel() {
             <Link href="/guide/guardian" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">보호자</Link>
             <Link href="/guide/parent" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">부모님</Link>
             <Link href="/guide/provider" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">파트너</Link>
-            <Link href="/portal/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">운영실 홈</Link>
+            <Link href="/admin/ops" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">운영실 홈</Link>
           </div>
 
           {message ? (

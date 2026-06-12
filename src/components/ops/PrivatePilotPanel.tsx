@@ -288,7 +288,7 @@ export function PrivatePilotPanel({
               모바일 앱
             </Link>
 
-            <Link href="/ops/preflight-test" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/preflight-test" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               전체 테스트
             </Link>
           </div>
@@ -587,13 +587,13 @@ export function PrivatePilotPanel({
               </div>
 
               <div className="mt-5 flex flex-wrap gap-3">
-                <Link href="/ops/urgent-dispatch" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
+                <Link href="/admin/ops/urgent-dispatch" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
                   즉시 배치센터
                 </Link>
-                <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   문자 대기열
                 </Link>
-                <Link href="/ops/state-machine" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+                <Link href="/admin/ops/state-machine" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   상태 머신
                 </Link>
               </div>

@@ -243,7 +243,7 @@ async function generateRowsFromSignals() {
           payload: {
             source_type: 'manager_field',
             source_id: item.id,
-            url: '/ops/manager-field'
+            url: '/admin/ops/manager-field'
           },
           dedupeKey: `manager-issue:${item.id}`
         })

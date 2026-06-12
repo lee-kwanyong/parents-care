@@ -192,7 +192,7 @@ export function AnbuBillingPage() {
             Toss 키가 없는 동안은 운영실에서 가족코드로 구독을 수동 활성화해 주간 리포트 접근을 테스트하세요.
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <Link href="/ops/subscriptions" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
+            <Link href="/admin/ops/subscriptions" className="rounded-2xl bg-[#247A71] px-5 py-4 text-sm font-black text-white">
               운영실 구독 관리
             </Link>
             <Link href="/subscription" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

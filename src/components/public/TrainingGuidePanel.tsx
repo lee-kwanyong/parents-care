@@ -163,14 +163,14 @@ const guides: Record<Audience, Guide> = {
     title: '운영실은 오늘 실증 운영센터에서 시작합니다.',
     subtitle: '주의 항목만 처리하고, 마지막에 실증 리포트를 저장합니다.',
     intro: '운영실은 여러 메뉴를 돌아다니는 것이 아니라 오늘 실증 운영센터에서 순서대로 처리하면 됩니다.',
-    primaryHref: '/ops/today-runbook',
+    primaryHref: '/admin/ops/today-runbook',
     primaryCta: '오늘 운영센터 열기',
     steps: [
-      { title: '오늘 실증 운영센터 열기', desc: '주의 항목만 먼저 봅니다.', href: '/ops/today-runbook', cta: '오늘 운영센터' },
+      { title: '오늘 실증 운영센터 열기', desc: '주의 항목만 먼저 봅니다.', href: '/admin/ops/today-runbook', cta: '오늘 운영센터' },
       { title: '동의·가입·가구 확인', desc: '동의 기록, 역할 미분류, 실증 가구 수를 확인합니다.' },
       { title: '부모님 앱 1건 테스트', desc: '괜찮아요 1건을 만들어 리포트 반영 여부를 봅니다.' },
-      { title: '문자 비용 보호 확인', desc: '테스트 번호 모드, 자동발송 OFF/ON, 위험 대기열을 확인합니다.', href: '/ops/sms-budget-guard', cta: '문자 보호' },
-      { title: '실증 리포트 저장', desc: '오늘의 숫자와 개선 우선순위를 스냅샷으로 저장합니다.', href: '/ops/pilot-report', cta: '실증 리포트' }
+      { title: '문자 비용 보호 확인', desc: '테스트 번호 모드, 자동발송 OFF/ON, 위험 대기열을 확인합니다.', href: '/admin/ops/sms-budget-guard', cta: '문자 보호' },
+      { title: '실증 리포트 저장', desc: '오늘의 숫자와 개선 우선순위를 스냅샷으로 저장합니다.', href: '/admin/ops/pilot-report', cta: '실증 리포트' }
     ],
     cautions: [
       '실증 첫날에는 자동발송을 바로 켜지 마세요.',
@@ -276,7 +276,7 @@ export function TrainingGuidePanel({ audience = 'all' }: { audience?: Audience }
             <Link href="/guide/parent" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">부모님</Link>
             <Link href="/guide/provider" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">파트너</Link>
             <Link href="/guide/center" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">기관</Link>
-            <Link href="/guide/ops" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">운영실</Link>
+            
           </div>
 
           {message ? (

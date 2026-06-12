@@ -20,7 +20,7 @@ export default function OpsFamiliesPage() {
             <Link href="/ops" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
               운영실 홈
             </Link>
-            <Link href="/ops/command-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+            <Link href="/admin/ops/command-center" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
               통합 관제
             </Link>
           </div>

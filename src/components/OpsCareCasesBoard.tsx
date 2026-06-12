@@ -109,13 +109,13 @@ export function OpsCareCasesBoard() {
               새로고침
             </button>
             <Link
-              href="/ops/intake-inbox"
+              href="/admin/ops/intake-inbox"
               className="rounded-2xl bg-[#19B99A] px-5 py-4 font-black text-white"
             >
               접수함으로
             </Link>
             <Link
-              href="/ops/manager-offers"
+              href="/admin/ops/manager-offers"
               className="rounded-2xl bg-white px-5 py-4 font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
             >
               매니저 알림
@@ -197,7 +197,7 @@ export function OpsCareCasesBoard() {
                     <div className="grid min-w-[210px] gap-2">
                       {matching ? (
                         <Link
-                          href="/ops/manager-offers"
+                          href="/admin/ops/manager-offers"
                           className="rounded-2xl bg-[#19B99A] px-5 py-4 text-center font-black text-white"
                         >
                           매니저 알림 보내기
@@ -205,7 +205,7 @@ export function OpsCareCasesBoard() {
                       ) : null}
 
                       <Link
-                        href="/ops/intake-inbox"
+                        href="/admin/ops/intake-inbox"
                         className="rounded-2xl bg-white px-5 py-4 text-center font-black text-[#426C68] ring-1 ring-[#CFE7E2]"
                       >
                         접수함 확인

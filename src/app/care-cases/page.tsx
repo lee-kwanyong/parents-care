@@ -20,7 +20,7 @@ export default function CareCasesPage() {
           <Link href="/child/cases" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             자녀 케이스 보기
           </Link>
-          <Link href="/ops/cases" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/cases" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 케이스 보드
           </Link>
         </div>

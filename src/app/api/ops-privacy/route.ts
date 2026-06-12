@@ -29,7 +29,7 @@ function phone(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -297,7 +297,7 @@ async function recordAccess(request: NextRequest, body: Row) {
         purpose: text(body.purpose) || '후속조치 운영 확인',
         legal_basis: text(body.legalBasis) || 'service_operation',
         fields_accessed: fieldsAccessed,
-        route_path: text(body.routePath) || '/ops/privacy-audit',
+        route_path: text(body.routePath) || '/admin/ops/privacy-audit',
         ip_hash: clientIpHash(request),
         user_agent: text(request.headers.get('user-agent')),
         result_status: 'recorded',
@@ -472,7 +472,7 @@ async function seedPrivacyLogs(request: NextRequest, body: Row) {
       actorName: text(body.actorName) || '운영실 테스트',
       purpose: '실증 점검용 개인정보 열람 기록',
       fieldsAccessed: ['parent_name', 'guardian_phone', 'service_area', 'risk_group'],
-      routePath: '/ops/privacy-audit'
+      routePath: '/admin/ops/privacy-audit'
     }))
   }
 

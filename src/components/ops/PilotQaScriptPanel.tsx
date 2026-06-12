@@ -421,9 +421,9 @@ export function PilotQaScriptPanel({
 
                 <div className="mt-5 grid gap-3">
                   <Link href="/proposal" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">외부 제안 페이지</Link>
-                  <Link href="/ops/control-center" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">운영실 상태판</Link>
-                  <Link href="/ops/urgent-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">즉시 배치센터</Link>
-                  <Link href="/ops/security-center" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">권한 점검센터</Link>
+                  <Link href="/admin/ops/control-center" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">운영실 상태판</Link>
+                  <Link href="/admin/ops/urgent-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">즉시 배치센터</Link>
+                  <Link href="/admin/ops/security-center" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">권한 점검센터</Link>
                   <Link href="/gov/submission-package" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">제출 패키지</Link>
                 </div>
               </section>

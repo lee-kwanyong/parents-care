@@ -39,7 +39,7 @@ export default function CareCostsPage() {
             <CareButton href="/child/costs" tone="primary">
               자녀 비용 확인
             </CareButton>
-            <CareButton href="/ops/costs" tone="dark">
+            <CareButton href="/admin/ops/costs" tone="dark">
               운영실 비용 보드
             </CareButton>
           </>

@@ -201,7 +201,7 @@ export async function GET() {
     nextActions.push({
       title: '우선 확인 접수가 있습니다',
       description: '공공지원 요청 또는 긴급도가 높은 접수를 먼저 확인하세요.',
-      href: '/ops/intake-inbox',
+      href: '/admin/ops/intake-inbox',
       priority: 'urgent'
     })
   }
@@ -210,7 +210,7 @@ export async function GET() {
     nextActions.push({
       title: '새 접수를 케어 케이스로 정리하세요',
       description: `${openIntakes.length}건의 접수가 아직 처리 대기 중입니다.`,
-      href: '/ops/intake-inbox',
+      href: '/admin/ops/intake-inbox',
       priority: 'high'
     })
   }
@@ -219,7 +219,7 @@ export async function GET() {
     nextActions.push({
       title: '케어 케이스의 다음 할 일을 확인하세요',
       description: `${openCases.length}건의 케어 케이스가 운영 중입니다.`,
-      href: '/ops/care-cases',
+      href: '/admin/ops/care-cases',
       priority: 'normal'
     })
   }
@@ -228,7 +228,7 @@ export async function GET() {
     nextActions.push({
       title: '매니저 검증을 완료하세요',
       description: `${pendingVetting.length}명의 매니저 지원자가 검증 또는 승인 대기 중입니다.`,
-      href: '/ops/manager-vetting',
+      href: '/admin/ops/manager-vetting',
       priority: 'high'
     })
   }
@@ -237,7 +237,7 @@ export async function GET() {
     nextActions.push({
       title: '수락한 매니저를 배정 확정하세요',
       description: `${acceptedOffers.length}건의 매니저 수락이 있습니다.`,
-      href: '/ops/manager-offers',
+      href: '/admin/ops/manager-offers',
       priority: 'high'
     })
   }
@@ -246,7 +246,7 @@ export async function GET() {
     nextActions.push({
       title: '매니저 응답 대기 건을 확인하세요',
       description: `${sentOffers.length}건의 제안이 매니저 응답을 기다립니다.`,
-      href: '/ops/manager-offers',
+      href: '/admin/ops/manager-offers',
       priority: 'normal'
     })
   }
@@ -264,7 +264,7 @@ export async function GET() {
     nextActions.push({
       title: '오늘 운영 상태가 안정적입니다',
       description: '새 접수, 검증 대기, 매칭 대기 건이 없습니다.',
-      href: '/ops/care-cases',
+      href: '/admin/ops/care-cases',
       priority: 'normal'
     })
   }

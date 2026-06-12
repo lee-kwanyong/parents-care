@@ -21,7 +21,7 @@ export default function DemoStartPage() {
             <CareButton href="/deploy-readiness" tone="dark">
               배포 점검
             </CareButton>
-            <CareButton href="/ops/qa" tone="soft">
+            <CareButton href="/admin/ops/qa" tone="soft">
               QA 보드
             </CareButton>
           </>

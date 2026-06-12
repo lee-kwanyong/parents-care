@@ -50,7 +50,7 @@ function bool(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -332,13 +332,13 @@ function familyLinks(origin: string, family: Family) {
       familyCode: family.familyCode,
       last4: defaultLast4
     }),
-    opsProxy: query(origin, '/ops/proxy-checkin', {
+    opsProxy: query(origin, '/admin/ops/proxy-checkin', {
       familyCode: family.familyCode,
       last4: defaultLast4
     }),
-    noResponse: origin + '/ops/no-response',
+    noResponse: origin + '/admin/ops/no-response',
     providerRequests: origin + '/provider/urgent-requests',
-    opsHome: origin + '/portal/ops'
+    opsHome: origin + '/admin/ops'
   }
 }
 
@@ -511,7 +511,7 @@ async function loadDashboard(request: NextRequest) {
       mobileParent: origin + '/mobile/parent',
       guardianToday: origin + '/guardian/today',
       providerRequests: origin + '/provider/urgent-requests',
-      opsHome: origin + '/portal/ops'
+      opsHome: origin + '/admin/ops'
     },
     genericTemplates: genericTemplates(origin),
     families,

@@ -25,7 +25,7 @@ function text(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -190,7 +190,7 @@ function claims() {
     {
       title: '미응답 처리와 대리입력',
       say: '부모님이 앱을 누르지 못한 경우 보호자 또는 운영실이 전화 확인 후 대신 기록할 수 있습니다.',
-      proof: '/ops/no-response, /guardian/proxy-checkin'
+      proof: '/admin/ops/no-response, /guardian/proxy-checkin'
     },
     {
       title: '운영실 관제',

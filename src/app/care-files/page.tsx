@@ -22,7 +22,7 @@ export default function CareFilesPage() {
           <Link href="/child/files" className="rounded-2xl bg-slate-100 px-5 py-4 font-black">
             자녀 파일함
           </Link>
-          <Link href="/ops/files" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/files" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 파일함
           </Link>
         </div>

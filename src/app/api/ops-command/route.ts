@@ -109,7 +109,7 @@ async function collectOpsSignals() {
         statusLabel: row.reassurance_state || row.status || '확인 필요',
         reassuranceState: row.reassurance_state,
         priority: row.priority,
-        url: '/ops/cases',
+        url: '/admin/ops/cases',
         description: row.summary_text
       })
     )
@@ -128,7 +128,7 @@ async function collectOpsSignals() {
         sourceType: 'care_intake',
         title: row.raw_text || row.recommended_pack_code || '부모님 안심케어 접수',
         statusLabel: row.ops_status || 'new',
-        url: '/ops/worry-center'
+        url: '/admin/ops/worry-center'
       })
     )
   }
@@ -147,7 +147,7 @@ async function collectOpsSignals() {
         title: row.summary_title || '사진·카톡 간편 접수',
         statusLabel: row.status || 'received',
         priority: row.priority,
-        url: '/ops/intake-inbox',
+        url: '/admin/ops/intake-inbox',
         description: row.raw_text
       })
     )
@@ -167,7 +167,7 @@ async function collectOpsSignals() {
         title: `${row.care_label || '오늘 확인'} · ${row.elder_name || '부모님'}`,
         statusLabel: row.status || 'unknown',
         priority: row.status === 'needs_help' ? 'urgent' : row.status === 'not_done' ? 'high' : 'normal',
-        url: '/ops/daily-care',
+        url: '/admin/ops/daily-care',
         description: row.memo
       })
     )
@@ -187,7 +187,7 @@ async function collectOpsSignals() {
         title: row.title || '가족 할 일',
         statusLabel: row.status || 'pending',
         priority: row.priority,
-        url: '/ops/tasks',
+        url: '/admin/ops/tasks',
         description: row.assigned_to_name ? `담당: ${row.assigned_to_name}` : null
       })
     )
@@ -207,7 +207,7 @@ async function collectOpsSignals() {
         title: row.title || '추가비용 승인',
         statusLabel: row.status || 'pending_guardian',
         priority: row.priority,
-        url: '/ops/costs',
+        url: '/admin/ops/costs',
         description: row.guardian_message
       })
     )
@@ -227,7 +227,7 @@ async function collectOpsSignals() {
         title: row.title || '매니저 현장 배정',
         statusLabel: row.status || 'assigned',
         priority: row.status === 'issue' ? 'urgent' : 'normal',
-        url: '/ops/manager-field',
+        url: '/admin/ops/manager-field',
         description: row.manager_name ? `매니저: ${row.manager_name}` : null
       })
     )
@@ -247,7 +247,7 @@ async function collectOpsSignals() {
         title: `${row.document_label || '서류'} · ${row.elder_name || '부모님'}`,
         statusLabel: row.status || 'requested',
         priority: row.priority,
-        url: '/ops/documents',
+        url: '/admin/ops/documents',
         description: row.hospital_name
       })
     )
@@ -275,7 +275,7 @@ async function collectOpsSignals() {
         title: `${row.event_date || '식사'} ${row.meal_time || ''}`,
         statusLabel: status,
         priority,
-        url: '/ops/meals',
+        url: '/admin/ops/meals',
         description: row.memo
       })
     )
@@ -295,7 +295,7 @@ async function collectOpsSignals() {
         title: row.title || `${row.day_index}일차 퇴원 후 확인`,
         statusLabel: row.status || 'planned',
         priority: row.status === 'needs_attention' || row.status === 'overdue' ? 'high' : 'normal',
-        url: '/ops/discharge',
+        url: '/admin/ops/discharge',
         description: row.family_note
       })
     )
@@ -315,7 +315,7 @@ async function collectOpsSignals() {
         title: row.title || '정기진료',
         statusLabel: row.next_due_date ? `next:${row.next_due_date}` : row.status || 'active',
         priority: 'normal',
-        url: '/ops/routines'
+        url: '/admin/ops/routines'
       })
     )
   }
@@ -334,7 +334,7 @@ async function collectOpsSignals() {
         title: row.title || '다음 예약 후보',
         statusLabel: row.status || 'draft',
         priority: row.priority,
-        url: '/ops/routines'
+        url: '/admin/ops/routines'
       })
     )
   }
@@ -353,7 +353,7 @@ async function collectOpsSignals() {
         title: `${row.elder_name || '부모님'} 사회공헌 지원`,
         statusLabel: row.status || 'requested',
         priority: row.priority,
-        url: '/ops/social-care',
+        url: '/admin/ops/social-care',
         description: row.memo
       })
     )
@@ -373,7 +373,7 @@ async function collectOpsSignals() {
         title: row.title || '연락 작업',
         statusLabel: row.status || 'queued',
         priority: row.priority,
-        url: '/ops/contact-center'
+        url: '/admin/ops/contact-center'
       })
     )
   }
@@ -392,7 +392,7 @@ async function collectOpsSignals() {
         title: row.summary_title || '30초 요약',
         statusLabel: row.reassurance_state || row.status || 'ready',
         reassuranceState: row.reassurance_state,
-        url: '/ops/contact-center',
+        url: '/admin/ops/contact-center',
         description: row.summary_text
       })
     )

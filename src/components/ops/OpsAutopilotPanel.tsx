@@ -254,7 +254,7 @@ export function OpsAutopilotPanel() {
               새로고침
             </button>
 
-            <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               알림 발송센터
             </Link>
           </div>
@@ -348,7 +348,7 @@ export function OpsAutopilotPanel() {
           <Link href="/response?scope=ops" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             후속조치 관제
           </Link>
-          <Link href="/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/notification-dispatch" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             알림 발송센터
           </Link>
           <Link href="/provider/requests" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

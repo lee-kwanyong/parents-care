@@ -109,7 +109,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.raw_text || row.recommended_pack_code || '부모님 안심케어 접수',
         status: row.ops_status || 'new',
-        url: '/ops/worry-center'
+        url: '/admin/ops/worry-center'
       })
     )
   }
@@ -128,7 +128,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.summary_title || '사진·카톡 간편 접수',
         status: row.status,
-        url: '/ops/intake-inbox'
+        url: '/admin/ops/intake-inbox'
       })
     )
   }
@@ -147,7 +147,7 @@ async function collectLatestCareLinks() {
         row,
         label: `${row.elder_name || '부모님'} 케어패스포트`,
         status: row.care_summary?.reassuranceState || 'profile_ready',
-        url: '/ops/care-passport'
+        url: '/admin/ops/care-passport'
       })
     )
   }
@@ -204,7 +204,7 @@ async function collectLatestCareLinks() {
         row,
         label: `${row.document_label || '서류'} · ${row.elder_name || '부모님'}`,
         status: row.status,
-        url: '/ops/documents'
+        url: '/admin/ops/documents'
       })
     )
   }
@@ -223,7 +223,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.title || '정기진료',
         status: row.status,
-        url: '/ops/routines'
+        url: '/admin/ops/routines'
       })
     )
   }
@@ -242,7 +242,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.title || '다음 예약 후보',
         status: row.status,
-        url: '/ops/routines'
+        url: '/admin/ops/routines'
       })
     )
   }
@@ -261,7 +261,7 @@ async function collectLatestCareLinks() {
         row,
         label: `${row.elder_name || '부모님'} 퇴원 후 7일 안심팩`,
         status: row.status,
-        url: '/ops/discharge'
+        url: '/admin/ops/discharge'
       })
     )
   }
@@ -280,7 +280,7 @@ async function collectLatestCareLinks() {
         row,
         label: `${row.elder_name || '부모님'} 안심밥상`,
         status: row.status,
-        url: '/ops/meals'
+        url: '/admin/ops/meals'
       })
     )
   }
@@ -299,7 +299,7 @@ async function collectLatestCareLinks() {
         row,
         label: `${row.elder_name || '부모님'} 사회공헌 지원`,
         status: row.status,
-        url: '/ops/social-care'
+        url: '/admin/ops/social-care'
       })
     )
   }
@@ -318,7 +318,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.title || '연락 작업',
         status: row.status,
-        url: '/ops/contact-center'
+        url: '/admin/ops/contact-center'
       })
     )
   }
@@ -356,7 +356,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.title || '매니저 현장 배정',
         status: row.status,
-        url: '/ops/manager-field'
+        url: '/admin/ops/manager-field'
       })
     )
   }
@@ -375,7 +375,7 @@ async function collectLatestCareLinks() {
         row,
         label: row.title || '추가비용 승인',
         status: row.status,
-        url: '/ops/costs'
+        url: '/admin/ops/costs'
       })
     )
   }

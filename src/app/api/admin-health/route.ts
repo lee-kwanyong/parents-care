@@ -57,9 +57,9 @@ const routeChecks = [
   { path: '/signup/manager', label: '케어파트너 지원' },
   { path: '/manager', label: '케어파트너 화면' },
   { path: '/ops', label: '운영실' },
-  { path: '/ops/intake', label: '운영실 접수함' },
-  { path: '/ops/matching', label: '운영실 매칭관리' },
-  { path: '/ops/notifications', label: '운영실 알림센터' },
+  { path: '/admin/ops/intake', label: '운영실 접수함' },
+  { path: '/admin/ops/matching', label: '운영실 매칭관리' },
+  { path: '/admin/ops/notifications', label: '운영실 알림센터' },
   { path: '/care-scope', label: '케어 범위' },
   { path: '/trust', label: '신뢰 기준' }
 ]

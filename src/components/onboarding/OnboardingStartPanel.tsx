@@ -134,27 +134,27 @@ const roles: Record<RoleKey, RoleConfig> = {
     title: '실증 운영을 관리하고 싶어요',
     desc: '운영실 한눈 홈에서 실증, 자동문자, 발송센터, 긴급 요청을 순서대로 처리합니다.',
     emoji: '🖥️',
-    firstHref: '/portal/ops',
+    firstHref: '/admin/ops',
     firstCta: '운영실 한눈 홈',
     steps: [
       {
         title: '운영실 한눈 홈',
         desc: '지금 무엇을 만져야 하는지 순서대로 확인합니다.',
-        href: '/portal/ops',
+        href: '/admin/ops',
         cta: '운영실 홈',
         tone: 'safe'
       },
       {
         title: '자체 예비 실증',
         desc: '실증 가구, 부모님 앱 링크, 미니 리포트를 관리합니다.',
-        href: '/ops/private-pilot',
+        href: '/admin/ops/private-pilot',
         cta: '실증 관리',
         tone: 'normal'
       },
       {
         title: '자동문자와 발송센터',
         desc: '상황별 문자 대기열과 실제 발송 상태를 확인합니다.',
-        href: '/ops/message-automation',
+        href: '/admin/ops/message-automation',
         cta: '자동문자 확인',
         tone: 'warning'
       }

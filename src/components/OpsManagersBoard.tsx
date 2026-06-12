@@ -299,7 +299,7 @@ export function OpsManagersBoard() {
               <CareButton href="/manager/register">
                 매니저 등록 페이지
               </CareButton>
-              <CareButton href="/ops/matching" tone="dark">
+              <CareButton href="/admin/ops/matching" tone="dark">
                 매칭관리로 이동
               </CareButton>
               <button

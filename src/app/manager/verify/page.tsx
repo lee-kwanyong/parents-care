@@ -38,7 +38,7 @@ export default function ManagerVerifyPage() {
             <CareButton href="/manager/apply" tone="primary">
               지원서 작성
             </CareButton>
-            <CareButton href="/ops/manager-verification" tone="dark">
+            <CareButton href="/admin/ops/manager-verification" tone="dark">
               운영실 검증 보드
             </CareButton>
           </>

@@ -31,9 +31,9 @@ const checkGroups = [
     tone: 'amber',
     items: [
       ['긴급/확인 필요/진행 중/완료가 먼저 보이는가', '/ops'],
-      ['검증 매니저만 매칭되는가', '/ops/manager-matching'],
-      ['QA 시나리오를 실행할 수 있는가', '/ops/qa'],
-      ['알림 큐를 만들 수 있는가', '/ops/notifications']
+      ['검증 매니저만 매칭되는가', '/admin/ops/manager-matching'],
+      ['QA 시나리오를 실행할 수 있는가', '/admin/ops/qa'],
+      ['알림 큐를 만들 수 있는가', '/admin/ops/notifications']
     ]
   }
 ]
@@ -56,7 +56,7 @@ export default function MobileCheckPage() {
             <CareButton href="/install" tone="primary">
               설치 안내
             </CareButton>
-            <CareButton href="/ops/qa" tone="dark">
+            <CareButton href="/admin/ops/qa" tone="dark">
               QA 보드
             </CareButton>
           </>

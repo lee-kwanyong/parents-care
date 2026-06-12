@@ -18,7 +18,7 @@ export default function DeployReadinessPage() {
         description="Service Role Key는 서버에서만 쓰고, 공개 환경변수와 서버 시크릿을 분리합니다. Supabase 연결, Storage bucket, PWA, QA 상태까지 배포 전 확인합니다."
         actions={
           <>
-            <CareButton href="/ops/qa" tone="dark">
+            <CareButton href="/admin/ops/qa" tone="dark">
               QA 보드
             </CareButton>
             <CareButton href="/mobile-check" tone="soft">

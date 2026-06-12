@@ -19,7 +19,7 @@ export default function FamilyCodePage() {
           <Link href="/child/family" className="rounded-2xl bg-[#8CCFC3] px-5 py-4 font-black text-[#2E504D]">
             자녀 가족 관리
           </Link>
-          <Link href="/ops/families" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
+          <Link href="/admin/ops/families" className="rounded-2xl bg-[#5F7C92] px-5 py-4 font-black text-[#2E504D]">
             운영실 가족 보드
           </Link>
         </div>

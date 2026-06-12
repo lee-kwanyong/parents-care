@@ -312,7 +312,7 @@ export function OutreachCrmPanel({
               CRM 스냅샷 저장
             </button>
 
-            <Link href="/ops/one-page-proposal" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/one-page-proposal" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               1페이지 제안서
             </Link>
 

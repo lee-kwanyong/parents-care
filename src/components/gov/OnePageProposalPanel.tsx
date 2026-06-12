@@ -235,7 +235,7 @@ export function OnePageProposalPanel({
               메일 본문 복사
             </button>
 
-            <Link href="/ops/pilot-qa" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/pilot-qa" className="rounded-2xl bg-[#FAFFFD] px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               실증 QA
             </Link>
           </div>

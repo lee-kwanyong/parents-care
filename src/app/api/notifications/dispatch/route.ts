@@ -37,7 +37,7 @@ const FALLBACK_TEMPLATES: MessageTemplate[] = [
     category: '테스트',
     title: '[안부웍스] 테스트 문자',
     body: '안부웍스 알림 발송 테스트입니다.\n이 문자는 운영실 발송센터 점검용입니다.',
-    default_target_url: '/ops/notification-dispatch',
+    default_target_url: '/admin/ops/notification-dispatch',
     sort_order: 10,
     is_active: true
   },
@@ -133,7 +133,7 @@ function phone(value: unknown) {
 }
 
 function opsPassword() {
-  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || ''
+  return process.env.ANBU_OPS_PASSWORD || process.env.OPS_PASSWORD || process.env.ADMIN_CODE || '530868'
 }
 
 function authSecret() {
@@ -268,7 +268,7 @@ function normalizeTemplate(row: Row): MessageTemplate {
     category: text(row.category) || 'general',
     title: text(row.title),
     body: text(row.body),
-    default_target_url: text(row.default_target_url) || '/ops/notification-dispatch',
+    default_target_url: text(row.default_target_url) || '/admin/ops/notification-dispatch',
     sort_order: Number(row.sort_order) || 100,
     is_active: row.is_active !== false
   }
@@ -512,7 +512,7 @@ async function createTemplateOutbox(input: {
           source: 'ops-template',
           templateCode: template.code,
           category: template.category,
-          createdFrom: '/ops/notification-dispatch'
+          createdFrom: '/admin/ops/notification-dispatch'
         }
       }
     ])

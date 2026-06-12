@@ -261,7 +261,7 @@ export function OpsHouseholdsPanel({
               CSV 다운로드
             </button>
 
-            <Link href="/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+            <Link href="/admin/ops/autopilot" className="rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               오토파일럿
             </Link>
 
@@ -469,10 +469,10 @@ export function OpsHouseholdsPanel({
         </section>
 
         <div className="grid gap-3 sm:grid-cols-4">
-          <Link href="/ops/autopilot" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
+          <Link href="/admin/ops/autopilot" className="rounded-2xl bg-[#247A71] px-5 py-4 text-center text-sm font-black text-white">
             오토파일럿
           </Link>
-          <Link href="/ops/heartbeat" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
+          <Link href="/admin/ops/heartbeat" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
             Heartbeat
           </Link>
           <Link href="/gov/reports" className="rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">

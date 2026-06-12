@@ -28,7 +28,7 @@ const cards = [
     emoji: '🧭',
     title: '운영실 Admin',
     desc: '접수, 매칭, 리포트 검수를 관리하는 관리자 화면입니다.',
-    href: '/ops/login'
+    href: '/admin/ops/login'
   }
 ]
 

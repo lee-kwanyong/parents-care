@@ -139,7 +139,7 @@ export async function GET() {
         title: item.summary_title || `${item.elder_name || '부모님'} 안심케어 접수`,
         status: item.status,
         date: dateValue(item),
-        href: '/ops/intake'
+        href: '/admin/ops/intake'
       })
     ),
     ...matchingRequests.slice(0, 8).map((item) =>
@@ -148,7 +148,7 @@ export async function GET() {
         title: item.request_title || '매칭 요청',
         status: item.matching_status,
         date: dateValue(item),
-        href: '/ops/matching'
+        href: '/admin/ops/matching'
       })
     ),
     ...offers.slice(0, 8).map((item) =>
@@ -157,7 +157,7 @@ export async function GET() {
         title: `${item.manager_name || '매니저'} · ${item.request_snapshot?.request_title || '안심케어 제안'}`,
         status: item.offer_status,
         date: dateValue(item),
-        href: '/ops/matching'
+        href: '/admin/ops/matching'
       })
     ),
     ...assignments.slice(0, 8).map((item) =>
@@ -184,7 +184,7 @@ export async function GET() {
         title: item.applicant_name || '매니저 지원자',
         status: item.vetting_status || item.application_status,
         date: dateValue(item),
-        href: '/ops/managers'
+        href: '/admin/ops/managers'
       })
     )
   ]

@@ -71,7 +71,7 @@ export function MobileAppHomePanel() {
         <nav className="grid grid-cols-3 gap-2 rounded-[2rem] bg-white/95 p-2 shadow-sm ring-1 ring-[#D6EDE7]">
           <Link href="/proposal" className="rounded-2xl px-3 py-3 text-center text-xs font-black text-[#247A71]">소개</Link>
           <Link href="/response/about" className="rounded-2xl px-3 py-3 text-center text-xs font-black text-[#247A71]">안심망</Link>
-          <Link href="/ops/login" className="rounded-2xl px-3 py-3 text-center text-xs font-black text-[#247A71]">운영실</Link>
+          <Link href="/admin/ops/login" className="rounded-2xl px-3 py-3 text-center text-xs font-black text-[#247A71]">운영실</Link>
         </nav>
       </section>
     </main>
