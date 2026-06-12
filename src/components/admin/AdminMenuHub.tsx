@@ -36,7 +36,7 @@ function rolePath(role: PortalRole) {
   if (role === 'parent') return '/portal/parent'
   if (role === 'child') return '/portal/child'
   if (role === 'careWorker') return '/portal/care-worker'
-  return '/portal/ops'
+  return '/admin/ops'
 }
 
 function badgeClass(role: PortalRole) {
@@ -111,11 +111,11 @@ export function AdminMenuHub({
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">
-            {title || roleMeta[role].title}
+            {title || (roleMeta[role]?.title || roleMeta[role]?.label || role)}
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            {subtitle || roleMeta[role].description}
+            {subtitle || (roleMeta[role]?.description || '')}
           </p>
 
           <div className="mt-5 rounded-2xl bg-[#FAFFFD] p-4 text-sm font-black leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
@@ -134,7 +134,7 @@ export function AdminMenuHub({
                     (role === item ? badgeClass(item) : 'bg-white text-[#17443F] ring-[#D6EDE7]')
                   }
                 >
-                  {roleMeta[item].shortTitle}
+                  {(roleMeta[item]?.shortTitle || roleMeta[item]?.label || item)}
                 </Link>
               ))}
             </div>
@@ -201,7 +201,7 @@ export function AdminMenuHub({
           </div>
 
           <div className="mt-6 grid gap-2 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7] sm:grid-cols-4">
-            <InfoLine label="현재 역할" value={roleMeta[role].shortTitle} />
+            <InfoLine label="현재 역할" value={(roleMeta[role]?.shortTitle || roleMeta[role]?.label || role)} />
             <InfoLine label="기본 메뉴" value={`${baseMenuCount}개`} />
             <InfoLine label="현재 표시" value={`${visibleLinks.length}개`} />
             <InfoLine label="개발자 경로" value={debugMode ? '표시 중' : '숨김'} />
@@ -244,7 +244,7 @@ export function AdminMenuHub({
 
                     {opened ? (
                       <div className="border-t border-[#D6EDE7] bg-[#FBFFFD]">
-                        {links.map((link) => (
+                        {links.map((link: MenuLink) => (
                           <MenuLine key={link.href + link.title} link={link} />
                         ))}
                       </div>
@@ -274,7 +274,7 @@ export function AdminMenuHub({
                 </div>
 
                 <div className="divide-y divide-[#D8EEE8] bg-white">
-                  {visibleLinks.map((link) => (
+                  {visibleLinks.map((link: MenuLink) => (
                     <MenuTableRow key={link.href + link.title} link={link} />
                   ))}
                 </div>
