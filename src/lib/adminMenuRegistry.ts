@@ -439,6 +439,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": false
   },
   {
+    "href": "/ops/ring-csv-import",
+    "title": "스마트링 CSV 업로드 센터",
+    "description": "스마트링 CSV 또는 Export 데이터를 업로드해 안부리듬 리포트를 일괄 생성합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "CSV",
+    "priority": 16,
+    "opsOnly": true
+  },
+  {
     "href": "/guide/provider",
     "title": "생활확인 파트너 가이드",
     "description": "생활확인 파트너가 요청함, 수락, 결과 기록, 책임범위를 확인하는 방법입니다.",

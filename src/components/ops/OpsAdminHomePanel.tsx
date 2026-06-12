@@ -103,6 +103,7 @@ const operationFlow = [
 ]
 
 const secondaryLinks = [
+  ['/ops/ring-csv-import', '스마트링 CSV 업로드', 'CSV로 안부리듬 리포트 일괄 생성'],
   ['/ops/ring-report-lab', '스마트링 리포트 실험실', '수동 입력으로 안부리듬 리포트 생성'],
   ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
   ['/ops/invite-center', '초대 링크 관리', '보호자·부모님·파트너 링크 복사'],
