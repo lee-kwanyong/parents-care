@@ -103,6 +103,7 @@ const operationFlow = [
 ]
 
 const secondaryLinks = [
+  ['/ops/ring-report-lab', '스마트링 리포트 실험실', '수동 입력으로 안부리듬 리포트 생성'],
   ['/ops/private-pilot', '자체 예비 실증', '가구·링크·미니 리포트'],
   ['/ops/invite-center', '초대 링크 관리', '보호자·부모님·파트너 링크 복사'],
   ['/ops/training-center', '교육·가이드', '보호자·부모님·파트너 1분 사용법'],

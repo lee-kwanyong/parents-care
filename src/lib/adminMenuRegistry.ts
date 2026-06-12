@@ -398,6 +398,19 @@ export const menuLinks: MenuLink[] = [
     "opsOnly": true
   },
   {
+    "href": "/ops/ring-report-lab",
+    "title": "스마트링 안부리듬 리포트 실험실",
+    "description": "수면, 활동, 심박, HRV, SpO2, 체온, 착용, 배터리 데이터를 보호자 안부리듬 리포트로 변환합니다.",
+    "category": "운영실 필수",
+    "roles": [
+      "all",
+      "ops"
+    ],
+    "badge": "링리포트",
+    "priority": 15,
+    "opsOnly": true
+  },
+  {
     "href": "/guide/guardian",
     "title": "보호자 사용 가이드",
     "description": "보호자가 동의서, 부모님 앱 링크 전달, 오늘 리포트, 대리입력을 사용하는 방법입니다.",
@@ -437,6 +450,20 @@ export const menuLinks: MenuLink[] = [
     ],
     "badge": "가이드",
     "priority": 17,
+    "opsOnly": false
+  },
+  {
+    "href": "/guardian/ring-report",
+    "title": "스마트링 안부리듬 리포트",
+    "description": "보호자가 부모님의 스마트링 안부리듬 리포트를 확인합니다.",
+    "category": "자녀·보호자 필수",
+    "roles": [
+      "all",
+      "child",
+      "ops"
+    ],
+    "badge": "리포트",
+    "priority": 18,
     "opsOnly": false
   },
   {
