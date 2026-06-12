@@ -95,7 +95,7 @@ export function AdminAccessPanel() {
           </p>
 
           <div className="mt-6 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
-            현재 운영실 관리자 코드는 <span className="font-extrabold">530868</span> 입니다.
+            운영실은 관리자 전용 화면입니다. 관리자 코드를 입력해주세요.
           </div>
 
           <input
