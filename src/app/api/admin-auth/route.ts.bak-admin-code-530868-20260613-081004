@@ -1,11 +1,10 @@
-import { createHash } from 'crypto'
+import { createHash, timingSafeEqual } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const ADMIN_CODE = '530868'
-const ADMIN_SESSION_VALUE = 'anbu-admin-ok-v1'
 
 const OPS_COOKIE_NAMES = [
   'anbu_ops_token',
@@ -27,16 +26,17 @@ function authSecret() {
 }
 
 function canonicalOpsCode() {
+  /*
+    사용자는 530868만 입력합니다.
+    단, 기존 운영실 API가 ANBU_OPS_PASSWORD/OPS_PASSWORD 기반 토큰을 검사할 수 있으므로
+    쿠키는 서버 환경변수 기준 토큰으로 발급합니다.
+  */
   return (
     text(process.env.ANBU_OPS_PASSWORD) ||
     text(process.env.OPS_PASSWORD) ||
     text(process.env.ADMIN_CODE) ||
     ADMIN_CODE
   )
-}
-
-function tokenFor(code: string) {
-  return createHash('sha256').update(code + ':' + authSecret()).digest('hex')
 }
 
 function acceptedCodes() {
@@ -47,15 +47,55 @@ function acceptedCodes() {
       text(process.env.ANBU_OPS_PASSWORD),
       text(process.env.OPS_PASSWORD)
     ].filter(Boolean))
-  ).map(cleanCode)
+  )
+}
+
+function tokenFor(code: string) {
+  return createHash('sha256').update(code + ':' + authSecret()).digest('hex')
+}
+
+function safeEqual(a: string, b: string) {
+  const left = Buffer.from(a)
+  const right = Buffer.from(b)
+
+  if (left.length !== right.length) return false
+
+  return timingSafeEqual(left, right)
+}
+
+function matches(a: string, b: string) {
+  try {
+    return safeEqual(a, b)
+  } catch {
+    return a === b
+  }
+}
+
+function isAcceptedCode(code: string) {
+  const clean = cleanCode(code)
+
+  return acceptedCodes().some((allowed) => matches(clean, cleanCode(allowed)))
+}
+
+function hasValidCookie(request: NextRequest) {
+  const validTokens = new Set([
+    tokenFor(ADMIN_CODE),
+    tokenFor(canonicalOpsCode()),
+    ...acceptedCodes().map(tokenFor)
+  ])
+
+  const cookieValues = [
+    ...OPS_COOKIE_NAMES.map((name) => request.cookies.get(name)?.value || ''),
+    request.cookies.get('anbu_admin_code_ok')?.value || ''
+  ].filter(Boolean)
+
+  return cookieValues.some((cookie) => validTokens.has(cookie))
 }
 
 export async function GET(request: NextRequest) {
-  const adminCookie = request.cookies.get('anbu_admin_code_ok')?.value || ''
-
   return NextResponse.json({
     ok: true,
-    authed: adminCookie === ADMIN_SESSION_VALUE,
+    authed: hasValidCookie(request),
     adminCodeReady: true
   })
 }
@@ -64,7 +104,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
   const code = cleanCode(body.code)
 
-  if (!acceptedCodes().includes(code)) {
+  if (!isAcceptedCode(code)) {
     return NextResponse.json(
       {
         ok: false,
@@ -81,6 +121,7 @@ export async function POST(request: NextRequest) {
   })
 
   const opsToken = tokenFor(canonicalOpsCode())
+  const adminToken = tokenFor(ADMIN_CODE)
 
   for (const name of OPS_COOKIE_NAMES) {
     response.cookies.set(name, opsToken, {
@@ -92,7 +133,7 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  response.cookies.set('anbu_admin_code_ok', ADMIN_SESSION_VALUE, {
+  response.cookies.set('anbu_admin_code_ok', adminToken, {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',

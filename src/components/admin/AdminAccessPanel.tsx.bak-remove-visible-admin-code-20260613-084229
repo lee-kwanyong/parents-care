@@ -1,12 +1,35 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export function AdminAccessPanel() {
   const [code, setCode] = useState('')
   const [message, setMessage] = useState('')
+  const [checking, setChecking] = useState(true)
   const [loading, setLoading] = useState(false)
+
+  async function checkSession() {
+    setChecking(true)
+
+    try {
+      const response = await fetch('/api/admin-auth', {
+        cache: 'no-store',
+        credentials: 'include'
+      })
+
+      const data = await response.json().catch(() => ({}))
+
+      if (response.ok && data.authed) {
+        window.location.href = '/admin/ops'
+        return
+      }
+    } catch {
+      // 세션 확인 실패 시 로그인 화면 유지
+    } finally {
+      setChecking(false)
+    }
+  }
 
   async function login() {
     setLoading(true)
@@ -36,7 +59,7 @@ export function AdminAccessPanel() {
     }
   }
 
-  async function resetSession() {
+  async function resetAndLogin() {
     try {
       await fetch('/api/admin-auth', {
         method: 'DELETE',
@@ -47,9 +70,13 @@ export function AdminAccessPanel() {
       // 무시
     }
 
+    setMessage('기존 운영실 쿠키를 초기화했습니다. 530868을 다시 입력해주세요.')
     setCode('')
-    setMessage('기존 로그인 세션을 초기화했습니다. 관리자 코드를 다시 입력해주세요.')
   }
+
+  useEffect(() => {
+    checkSession()
+  }, [])
 
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#F7FFFC_0%,#FFFFFF_56%,#F6FBFF_100%)] px-4 py-8 text-[#17443F]">
@@ -68,7 +95,7 @@ export function AdminAccessPanel() {
           </p>
 
           <div className="mt-6 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">
-            관리자 전용 화면입니다. 운영실 관리자 코드를 입력해주세요.
+            현재 운영실 관리자 코드는 <span className="font-extrabold">530868</span> 입니다.
           </div>
 
           <input
@@ -90,17 +117,17 @@ export function AdminAccessPanel() {
 
           <button
             onClick={login}
-            disabled={loading}
+            disabled={loading || checking}
             className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-5 text-lg font-black text-white disabled:opacity-50"
           >
-            {loading ? '확인 중...' : '운영실 들어가기'}
+            {loading || checking ? '확인 중...' : '운영실 들어가기'}
           </button>
 
           <button
-            onClick={resetSession}
+            onClick={resetAndLogin}
             className="mt-4 w-full rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
           >
-            기존 로그인 세션 초기화
+            기존 쿠키 초기화
           </button>
 
           <Link

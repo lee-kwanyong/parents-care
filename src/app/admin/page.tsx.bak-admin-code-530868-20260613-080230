@@ -1,0 +1,7 @@
+import { AdminAccessPanel } from '@/components/admin/AdminAccessPanel'
+
+export const dynamic = 'force-dynamic'
+
+export default function AdminPage() {
+  return <AdminAccessPanel />
+}

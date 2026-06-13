@@ -5,9 +5,8 @@ export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 const ADMIN_CODE = '530868'
-const ADMIN_SESSION_VALUE = 'anbu-admin-ok-v1'
 
-const OPS_COOKIE_NAMES = [
+const COOKIE_NAMES = [
   'anbu_ops_token',
   'ops_session_token',
   'OPS_SESSION_TOKEN',
@@ -16,10 +15,6 @@ const OPS_COOKIE_NAMES = [
 
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
-}
-
-function cleanCode(value: unknown) {
-  return text(value).replace(/[^\d]/g, '')
 }
 
 function authSecret() {
@@ -39,32 +34,31 @@ function tokenFor(code: string) {
   return createHash('sha256').update(code + ':' + authSecret()).digest('hex')
 }
 
-function acceptedCodes() {
-  return Array.from(
-    new Set([
-      ADMIN_CODE,
-      text(process.env.ADMIN_CODE),
-      text(process.env.ANBU_OPS_PASSWORD),
-      text(process.env.OPS_PASSWORD)
-    ].filter(Boolean))
-  ).map(cleanCode)
-}
-
 export async function GET(request: NextRequest) {
-  const adminCookie = request.cookies.get('anbu_admin_code_ok')?.value || ''
+  const validTokens = new Set([
+    tokenFor(ADMIN_CODE),
+    tokenFor(canonicalOpsCode()),
+    ADMIN_CODE
+  ])
+
+  const cookieValues = [
+    ...COOKIE_NAMES.map((name) => request.cookies.get(name)?.value || ''),
+    request.cookies.get('anbu_admin_code_ok')?.value || ''
+  ].filter(Boolean)
+
+  const authed = cookieValues.some((value) => validTokens.has(value))
 
   return NextResponse.json({
     ok: true,
-    authed: adminCookie === ADMIN_SESSION_VALUE,
-    adminCodeReady: true
+    authed
   })
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
-  const code = cleanCode(body.code)
+  const code = text(body.code)
 
-  if (!acceptedCodes().includes(code)) {
+  if (code !== ADMIN_CODE) {
     return NextResponse.json(
       {
         ok: false,
@@ -82,7 +76,7 @@ export async function POST(request: NextRequest) {
 
   const opsToken = tokenFor(canonicalOpsCode())
 
-  for (const name of OPS_COOKIE_NAMES) {
+  for (const name of COOKIE_NAMES) {
     response.cookies.set(name, opsToken, {
       httpOnly: true,
       sameSite: 'lax',
@@ -92,7 +86,7 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  response.cookies.set('anbu_admin_code_ok', ADMIN_SESSION_VALUE, {
+  response.cookies.set('anbu_admin_code_ok', tokenFor(ADMIN_CODE), {
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
@@ -109,7 +103,7 @@ export async function DELETE() {
     message: '운영실 로그아웃 완료'
   })
 
-  for (const name of [...OPS_COOKIE_NAMES, 'anbu_admin_code_ok']) {
+  for (const name of [...COOKIE_NAMES, 'anbu_admin_code_ok']) {
     response.cookies.set(name, '', {
       httpOnly: true,
       sameSite: 'lax',
