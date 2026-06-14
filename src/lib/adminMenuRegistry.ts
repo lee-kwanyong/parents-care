@@ -182,6 +182,16 @@ export const adminMenuLinks: MenuLink[] = [
     opsOnly: true
   },
   {
+    href: '/admin/ops/ring-pilot-dashboard',
+    title: '스마트링 실증 대시보드',
+    description: '모델, 샘플, 가구 배정, 착용률, 데이터 품질, 배터리, 리포트 상태를 관리합니다.',
+    category: '스마트링·R&D',
+    roles: ['ops', 'admin'],
+    badge: '실증',
+    priority: 9,
+    opsOnly: true
+  },
+  {
     href: '/admin/ops/ring-report-lab',
     title: '스마트링 리포트 실험실',
     description: '스마트링 기반 리포트를 생성합니다.',
