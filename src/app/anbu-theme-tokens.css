@@ -1,0 +1,95 @@
+/*
+  AnbuWorks Design Tokens
+
+  목적:
+  - 색상을 직접 박지 않고 토큰으로 통일합니다.
+  - 고객 화면과 Admin 화면 모두 같은 브랜드 톤을 사용합니다.
+  - 진한 녹청색은 핵심 텍스트에만 제한적으로 쓰고, 면 색상은 연한 민트톤으로 사용합니다.
+*/
+
+:root {
+  /* Brand */
+  --anbu-primary: #2AA897;
+  --anbu-primary-strong: #1F9B8C;
+  --anbu-primary-ink: #137468;
+  --anbu-primary-deep: #17443F;
+
+  /* Soft surfaces */
+  --anbu-primary-soft: #EFFFFA;
+  --anbu-primary-soft-2: #DFFAF3;
+  --anbu-primary-soft-3: #CDEFE7;
+  --anbu-primary-line: #BCEBE1;
+
+  /* Text */
+  --anbu-ink: #17443F;
+  --anbu-ink-2: #2F5F59;
+  --anbu-muted: #637B76;
+
+  /* Background */
+  --anbu-bg: #F7FFFC;
+  --anbu-surface: #FFFFFF;
+  --anbu-surface-soft: #FAFFFD;
+  --anbu-border: #D6EDE7;
+
+  /* Semantic */
+  --anbu-safe-bg: #EFFFFA;
+  --anbu-safe-text: #247A71;
+  --anbu-watch-bg: #FFF9EE;
+  --anbu-watch-text: #795C22;
+  --anbu-danger-bg: #FFF4F4;
+  --anbu-danger-text: #8A3030;
+
+  /* Shadow */
+  --anbu-shadow-soft: 0 18px 44px rgba(42, 168, 151, 0.12);
+  --anbu-shadow-card: 0 18px 52px rgba(49, 151, 136, 0.08);
+}
+
+/* 공통 유틸리티 */
+.anbu-surface {
+  background: var(--anbu-surface) !important;
+  color: var(--anbu-ink) !important;
+  border: 1px solid var(--anbu-border) !important;
+}
+
+.anbu-surface-soft {
+  background: var(--anbu-surface-soft) !important;
+  color: var(--anbu-ink) !important;
+  border: 1px solid var(--anbu-border) !important;
+}
+
+.anbu-brand-soft {
+  background: linear-gradient(135deg, var(--anbu-primary-soft-2) 0%, var(--anbu-primary-soft) 100%) !important;
+  color: var(--anbu-primary-ink) !important;
+  border: 1px solid var(--anbu-primary-line) !important;
+  box-shadow: var(--anbu-shadow-soft) !important;
+}
+
+.anbu-brand-text {
+  color: var(--anbu-primary) !important;
+}
+
+.anbu-brand-ink {
+  color: var(--anbu-primary-ink) !important;
+}
+
+.anbu-muted {
+  color: var(--anbu-muted) !important;
+}
+
+.anbu-safe {
+  background: var(--anbu-safe-bg) !important;
+  color: var(--anbu-safe-text) !important;
+  border: 1px solid var(--anbu-primary-line) !important;
+}
+
+.anbu-watch {
+  background: var(--anbu-watch-bg) !important;
+  color: var(--anbu-watch-text) !important;
+  border: 1px solid #F3DEB5 !important;
+}
+
+.anbu-danger {
+  background: var(--anbu-danger-bg) !important;
+  color: var(--anbu-danger-text) !important;
+  border: 1px solid #F3C8C8 !important;
+}

@@ -1,27 +1,13 @@
 /*
-  AnbuWorks Logo Soft Theme
+  AnbuWorks Soft Brand Theme
 
-  목적:
-  - 기존 진한 운영실 청록색 #247A71 계열을
-    안부웍스 로고톤의 연한 민트/청록 UI로 통일합니다.
-  - 고객 UI와 Admin UI 모두에 적용됩니다.
-  - 기능 로직은 건드리지 않고 시각 톤만 보정합니다.
+  이 파일은 기존 코드에 남아 있는 특정 색상값만 안전하게 보정합니다.
+  주의:
+  - [class*="bg-[#0"] 같은 넓은 선택자는 사용하지 않습니다.
+  - 정확히 문제가 되었던 색상만 안부웍스 연한 로고톤으로 바꿉니다.
 */
 
-:root {
-  --anbu-logo: #2AA897;
-  --anbu-logo-strong: #1F9B8C;
-  --anbu-logo-ink: #137468;
-  --anbu-logo-soft: #EFFFFA;
-  --anbu-logo-soft-2: #DFFAF3;
-  --anbu-logo-soft-3: #CDEFE7;
-  --anbu-logo-line: #BCEBE1;
-}
-
-/*
-  기존 진한 배경 #247A71을 쓰던 카드/버튼을
-  연한 안부웍스 로고톤 카드로 보정합니다.
-*/
+/* 기존 진한 CTA #247A71 */
 :where(
   [class*="bg-[#247A71]"],
   [class*="bg-[#247a71]"],
@@ -30,166 +16,33 @@
   [style*="rgb(36, 122, 113)"],
   [style*="rgb(36,122,113)"]
 ) {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border-color: var(--anbu-logo-line) !important;
-  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
+  background: linear-gradient(135deg, var(--anbu-primary-soft-2) 0%, var(--anbu-primary-soft) 100%) !important;
+  color: var(--anbu-primary-ink) !important;
+  border-color: var(--anbu-primary-line) !important;
+  --tw-ring-color: var(--anbu-primary-line) !important;
+  box-shadow: var(--anbu-shadow-soft) !important;
 }
 
-/*
-  배경이 밝아졌기 때문에 내부 흰색 글씨는 로고 진한색으로 보정합니다.
-*/
+/* 기존 딥그린/딥네이비 표면만 정확히 보정 */
 :where(
-  [class*="bg-[#247A71]"],
-  [class*="bg-[#247a71]"],
-  [style*="#247A71"],
-  [style*="#247a71"]
-) :where(*) {
-  color: inherit !important;
-}
-
-/*
-  기존 text-[#247A71]은 안부웍스 로고색으로 통일합니다.
-*/
-:where(
-  [class*="text-[#247A71]"],
-  [class*="text-[#247a71]"]
-) {
-  color: var(--anbu-logo) !important;
-}
-
-/*
-  기존 border/ring도 연한 로고 라인으로 통일합니다.
-*/
-:where(
-  [class*="border-[#247A71]"],
-  [class*="border-[#247a71]"]
-) {
-  border-color: var(--anbu-logo-line) !important;
-}
-
-:where(
-  [class*="ring-[#247A71]"],
-  [class*="ring-[#247a71]"]
-) {
-  --tw-ring-color: var(--anbu-logo-line) !important;
-}
-
-/*
-  기존 #247A71 계열 그림자를 연한 로고 그림자로 보정합니다.
-*/
-:where(
-  [class*="rgba(36,122,113"],
-  [class*="rgba(36, 122, 113"]
-) {
-  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
-}
-
-/*
-  hover 상태에서도 진한 청록으로 돌아가지 않게 막습니다.
-*/
-:where(
-  [class*="hover:bg-[#247A71]"],
-  [class*="hover:bg-[#247a71]"],
-  [class*="group-hover:bg-[#247A71]"],
-  [class*="group-hover:bg-[#247a71]"]
-):hover {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-}
-
-/*
-  CTA가 너무 약해 보이지 않도록, 버튼류에는 테두리와 미세한 강조를 줍니다.
-*/
-:where(
-  button[class*="bg-[#247A71]"],
-  a[class*="bg-[#247A71]"],
-  button[class*="bg-[#247a71]"],
-  a[class*="bg-[#247a71]"]
-) {
-  border: 1px solid var(--anbu-logo-line) !important;
-  font-weight: 900 !important;
-}
-
-/*
-  선택/활성 상태가 필요한 작은 pill, tab은 로고색 텍스트 중심으로 보이게 합니다.
-*/
-:where(
-  [class*="is-active"],
-  [aria-current="page"]
-):where(
-  [class*="bg-[#247A71]"],
-  [class*="bg-[#247a71]"]
-) {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border-color: var(--anbu-logo-line) !important;
-}
-
-/*
-  필요 시 수동으로 쓰는 브랜드 유틸리티.
-*/
-.anbu-logo-soft-surface {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border: 1px solid var(--anbu-logo-line) !important;
-  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
-}
-
-.anbu-logo-text {
-  color: var(--anbu-logo) !important;
-}
-
-.anbu-logo-ink {
-  color: var(--anbu-logo-ink) !important;
-}
-
-
-/* __ANBU_REMOVE_DARK_GREEN_START__ */
-/*
-  진한 녹청/딥그린/딥네이비 계열 배경 제거.
-
-  적용 대상:
-  - bg-[#17443F]
-  - bg-[#0B2F4A]
-  - bg-[#0E3B37]
-  - bg-[#123D38]
-  - bg-[#14534C]
-  - bg-[#0F172A]
-  - bg-teal/emerald/slate 계열의 어두운 배경
-  - from/to/via 로 들어간 어두운 gradient 색상
-
-  결과:
-  - 연한 안부웍스 로고톤 배경
-  - 로고색 텍스트
-  - 부드러운 민트 테두리
-*/
-
-:root {
-  --anbu-logo: #2AA897;
-  --anbu-logo-strong: #1F9B8C;
-  --anbu-logo-ink: #137468;
-  --anbu-logo-deep: #0E756A;
-  --anbu-logo-soft: #EFFFFA;
-  --anbu-logo-soft-2: #DFFAF3;
-  --anbu-logo-soft-3: #CDEFE7;
-  --anbu-logo-line: #BCEBE1;
-}
-
-/* Tailwind arbitrary dark backgrounds */
-:where(
-  [class*="bg-[#0"],
-  [class*="bg-[#1"],
-  [class*="from-[#0"],
-  [class*="from-[#1"],
-  [class*="via-[#0"],
-  [class*="via-[#1"],
-  [class*="to-[#0"],
-  [class*="to-[#1"],
+  [class*="bg-[#17443F]"],
+  [class*="bg-[#17443f]"],
+  [class*="bg-[#0B2F4A]"],
+  [class*="bg-[#0b2f4a]"],
+  [class*="bg-[#0E3B37]"],
+  [class*="bg-[#0e3b37]"],
+  [class*="bg-[#123D38]"],
+  [class*="bg-[#123d38]"],
+  [class*="bg-[#14534C]"],
+  [class*="bg-[#14534c]"],
+  [class*="bg-[#0F172A]"],
+  [class*="bg-[#0f172a]"],
+  [class*="from-[#17443F]"],
+  [class*="from-[#17443f]"],
+  [class*="to-[#17443F]"],
+  [class*="to-[#17443f]"],
+  [class*="via-[#17443F]"],
+  [class*="via-[#17443f]"],
   [style*="#17443F"],
   [style*="#17443f"],
   [style*="#0B2F4A"],
@@ -201,112 +54,103 @@
   [style*="#14534C"],
   [style*="#14534c"],
   [style*="rgb(23, 68, 63)"],
-  [style*="rgb(23,68,63)"],
-  [style*="rgb(14, 59, 55)"],
-  [style*="rgb(14,59,55)"]
+  [style*="rgb(23,68,63)"]
 ) {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border-color: var(--anbu-logo-line) !important;
-  --tw-ring-color: var(--anbu-logo-line) !important;
-  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+  background: linear-gradient(135deg, var(--anbu-primary-soft-2) 0%, var(--anbu-primary-soft) 100%) !important;
+  color: var(--anbu-primary-ink) !important;
+  border-color: var(--anbu-primary-line) !important;
+  --tw-ring-color: var(--anbu-primary-line) !important;
+  box-shadow: var(--anbu-shadow-soft) !important;
 }
 
-/* Common Tailwind dark color families */
+/* 어두운 배경 안의 흰 글씨를 로고 잉크색으로 보정 */
 :where(
-  [class*="bg-teal-8"],
-  [class*="bg-teal-9"],
-  [class*="bg-emerald-8"],
-  [class*="bg-emerald-9"],
-  [class*="bg-cyan-8"],
-  [class*="bg-cyan-9"],
-  [class*="bg-slate-8"],
-  [class*="bg-slate-9"],
-  [class*="bg-zinc-8"],
-  [class*="bg-zinc-9"]
+  [class*="bg-[#247A71]"],
+  [class*="bg-[#247a71]"],
+  [class*="bg-[#17443F]"],
+  [class*="bg-[#17443f]"],
+  [class*="bg-[#0B2F4A]"],
+  [class*="bg-[#0b2f4a]"],
+  [class*="bg-[#0E3B37]"],
+  [class*="bg-[#0e3b37]"],
+  [class*="bg-[#123D38]"],
+  [class*="bg-[#123d38]"],
+  [class*="bg-[#14534C]"],
+  [class*="bg-[#14534c]"]
+) :where([class*="text-white"]) {
+  color: var(--anbu-primary-ink) !important;
+}
+
+/* 기존 text/ring/border 색상 보정 */
+:where(
+  [class*="text-[#247A71]"],
+  [class*="text-[#247a71]"]
 ) {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border-color: var(--anbu-logo-line) !important;
-  --tw-ring-color: var(--anbu-logo-line) !important;
-  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+  color: var(--anbu-primary) !important;
 }
 
-/* Dark surface 안의 흰 글씨를 로고색으로 보정 */
 :where(
-  [class*="bg-[#0"],
-  [class*="bg-[#1"],
-  [class*="from-[#0"],
-  [class*="from-[#1"],
-  [class*="via-[#0"],
-  [class*="via-[#1"],
-  [class*="to-[#0"],
-  [class*="to-[#1"],
-  [style*="#17443F"],
-  [style*="#17443f"],
-  [style*="#0B2F4A"],
-  [style*="#0b2f4a"],
-  [style*="#0E3B37"],
-  [style*="#0e3b37"],
-  [style*="#123D38"],
-  [style*="#123d38"],
-  [style*="#14534C"],
-  [style*="#14534c"]
-) :where([class*="text-white"], [class*="text-[#fff"], [class*="text-[#FFF"]) {
-  color: var(--anbu-logo-ink) !important;
+  [class*="border-[#247A71]"],
+  [class*="border-[#247a71]"],
+  [class*="border-[#17443F]"],
+  [class*="border-[#17443f]"]
+) {
+  border-color: var(--anbu-primary-line) !important;
 }
 
-/* Dark surface 안의 일반 텍스트도 너무 흐리지 않게 */
 :where(
-  [class*="bg-[#0"],
-  [class*="bg-[#1"],
-  [class*="from-[#0"],
-  [class*="from-[#1"],
-  [class*="via-[#0"],
-  [class*="via-[#1"],
-  [class*="to-[#0"],
-  [class*="to-[#1"]
-) :where(p, span, div, h1, h2, h3, h4, h5, h6, strong, b) {
-  color: inherit;
+  [class*="ring-[#247A71]"],
+  [class*="ring-[#247a71]"],
+  [class*="ring-[#17443F]"],
+  [class*="ring-[#17443f]"]
+) {
+  --tw-ring-color: var(--anbu-primary-line) !important;
 }
 
-/* Dark surface 안의 버튼은 연한 흰색 카드처럼 */
+/* hover에서 다시 진해지는 것 방지 */
 :where(
-  [class*="bg-[#0"],
-  [class*="bg-[#1"],
-  [class*="from-[#0"],
-  [class*="from-[#1"],
-  [class*="via-[#0"],
-  [class*="via-[#1"],
-  [class*="to-[#0"],
-  [class*="to-[#1"]
-) :where(a, button) {
-  border-color: var(--anbu-logo-line) !important;
-}
-
-/* 기존 진한 CTA hover가 다시 진해지는 것 방지 */
-:where(
-  [class*="hover:bg-[#0"],
-  [class*="hover:bg-[#1"],
-  [class*="group-hover:bg-[#0"],
-  [class*="group-hover:bg-[#1"]
+  [class*="hover:bg-[#247A71]"],
+  [class*="hover:bg-[#247a71]"],
+  [class*="group-hover:bg-[#247A71]"],
+  [class*="group-hover:bg-[#247a71]"],
+  [class*="hover:bg-[#17443F]"],
+  [class*="hover:bg-[#17443f]"],
+  [class*="group-hover:bg-[#17443F]"],
+  [class*="group-hover:bg-[#17443f]"]
 ):hover {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border-color: var(--anbu-logo-line) !important;
+  background: linear-gradient(135deg, var(--anbu-primary-soft-2) 0%, var(--anbu-primary-soft) 100%) !important;
+  color: var(--anbu-primary-ink) !important;
+  border-color: var(--anbu-primary-line) !important;
 }
 
-/* 그래도 강조가 필요한 CTA는 로고색 테두리로만 강조 */
-.anbu-soft-primary,
-.anbu-logo-soft-surface {
-  background:
-    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
-  color: var(--anbu-logo-ink) !important;
-  border: 1px solid var(--anbu-logo-line) !important;
-  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+/* 버튼류는 밝아진 대신 형태를 또렷하게 유지 */
+:where(
+  button[class*="bg-[#247A71]"],
+  a[class*="bg-[#247A71]"],
+  button[class*="bg-[#247a71]"],
+  a[class*="bg-[#247a71]"],
+  button[class*="bg-[#17443F]"],
+  a[class*="bg-[#17443F]"],
+  button[class*="bg-[#17443f]"],
+  a[class*="bg-[#17443f]"]
+) {
+  border: 1px solid var(--anbu-primary-line) !important;
+  font-weight: 900 !important;
 }
-/* __ANBU_REMOVE_DARK_GREEN_END__ */
 
+/* 기존 유틸리티 호환 */
+.anbu-logo-soft-surface,
+.anbu-soft-primary {
+  background: linear-gradient(135deg, var(--anbu-primary-soft-2) 0%, var(--anbu-primary-soft) 100%) !important;
+  color: var(--anbu-primary-ink) !important;
+  border: 1px solid var(--anbu-primary-line) !important;
+  box-shadow: var(--anbu-shadow-soft) !important;
+}
+
+.anbu-logo-text {
+  color: var(--anbu-primary) !important;
+}
+
+.anbu-logo-ink {
+  color: var(--anbu-primary-ink) !important;
+}
