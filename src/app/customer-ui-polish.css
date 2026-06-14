@@ -148,3 +148,45 @@ html[data-anbu-area='customer'] .anbu-customer-quickbar .full {
     display: none !important;
   }
 }
+
+
+/* __ANBU_HIDE_WEB_QUICKBAR_START__ */
+/*
+  PC/태블릿 웹에서는 고객 하단 빠른 이동 바를 숨깁니다.
+  모바일에서만 홈 / 부모님 / 리포트 / 링 / 가이드 빠른 이동을 보여줍니다.
+*/
+
+html[data-anbu-area='customer'] main {
+  padding-bottom: 0 !important;
+}
+
+html[data-anbu-area='customer'] .anbu-customer-quickbar {
+  display: none !important;
+}
+
+html[data-anbu-area='customer'] .anbu-customer-page-chip {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  html[data-anbu-area='customer'] main {
+    padding-bottom: 6rem !important;
+  }
+
+  html[data-anbu-area='customer'] .anbu-customer-quickbar {
+    display: grid !important;
+  }
+
+  html[data-anbu-area='customer'] .anbu-customer-page-chip {
+    display: inline-flex !important;
+  }
+}
+
+@media print {
+  html[data-anbu-area='customer'] .anbu-customer-quickbar,
+  html[data-anbu-area='customer'] .anbu-customer-page-chip {
+    display: none !important;
+  }
+}
+/* __ANBU_HIDE_WEB_QUICKBAR_END__ */
+
