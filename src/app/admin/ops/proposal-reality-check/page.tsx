@@ -7,6 +7,6 @@ export const metadata = {
   description: '사업계획서, 지자체 제안서, 고객 화면 문구를 비의료 안부 참고 표현으로 점검합니다.'
 }
 
-export default function OpsProposalRealityCheckPage() {
+export default function AdminOpsProposalRealityCheckPage() {
   return <AdminProposalCompliancePanel />
 }
