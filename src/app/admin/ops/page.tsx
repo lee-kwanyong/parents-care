@@ -13,7 +13,7 @@ export default function AdminOpsPage() {
       role="admin"
       showAdminOnly
       title="Admin 운영실"
-      subtitle="운영실, 지자체/B2G, R&D, 스마트링, 문자·알림 기능을 한곳에서 관리합니다."
+      subtitle="운영, 스마트링·R&D, 지자체·R&D, 문자·알림을 한눈에 보고 바로 처리합니다."
     />
   )
 }
