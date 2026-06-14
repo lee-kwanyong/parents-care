@@ -1,0 +1,149 @@
+/*
+  AnbuWorks Logo Soft Theme
+
+  목적:
+  - 기존 진한 운영실 청록색 #247A71 계열을
+    안부웍스 로고톤의 연한 민트/청록 UI로 통일합니다.
+  - 고객 UI와 Admin UI 모두에 적용됩니다.
+  - 기능 로직은 건드리지 않고 시각 톤만 보정합니다.
+*/
+
+:root {
+  --anbu-logo: #2AA897;
+  --anbu-logo-strong: #1F9B8C;
+  --anbu-logo-ink: #137468;
+  --anbu-logo-soft: #EFFFFA;
+  --anbu-logo-soft-2: #DFFAF3;
+  --anbu-logo-soft-3: #CDEFE7;
+  --anbu-logo-line: #BCEBE1;
+}
+
+/*
+  기존 진한 배경 #247A71을 쓰던 카드/버튼을
+  연한 안부웍스 로고톤 카드로 보정합니다.
+*/
+:where(
+  [class*="bg-[#247A71]"],
+  [class*="bg-[#247a71]"],
+  [style*="#247A71"],
+  [style*="#247a71"],
+  [style*="rgb(36, 122, 113)"],
+  [style*="rgb(36,122,113)"]
+) {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border-color: var(--anbu-logo-line) !important;
+  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
+}
+
+/*
+  배경이 밝아졌기 때문에 내부 흰색 글씨는 로고 진한색으로 보정합니다.
+*/
+:where(
+  [class*="bg-[#247A71]"],
+  [class*="bg-[#247a71]"],
+  [style*="#247A71"],
+  [style*="#247a71"]
+) :where(*) {
+  color: inherit !important;
+}
+
+/*
+  기존 text-[#247A71]은 안부웍스 로고색으로 통일합니다.
+*/
+:where(
+  [class*="text-[#247A71]"],
+  [class*="text-[#247a71]"]
+) {
+  color: var(--anbu-logo) !important;
+}
+
+/*
+  기존 border/ring도 연한 로고 라인으로 통일합니다.
+*/
+:where(
+  [class*="border-[#247A71]"],
+  [class*="border-[#247a71]"]
+) {
+  border-color: var(--anbu-logo-line) !important;
+}
+
+:where(
+  [class*="ring-[#247A71]"],
+  [class*="ring-[#247a71]"]
+) {
+  --tw-ring-color: var(--anbu-logo-line) !important;
+}
+
+/*
+  기존 #247A71 계열 그림자를 연한 로고 그림자로 보정합니다.
+*/
+:where(
+  [class*="rgba(36,122,113"],
+  [class*="rgba(36, 122, 113"]
+) {
+  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
+}
+
+/*
+  hover 상태에서도 진한 청록으로 돌아가지 않게 막습니다.
+*/
+:where(
+  [class*="hover:bg-[#247A71]"],
+  [class*="hover:bg-[#247a71]"],
+  [class*="group-hover:bg-[#247A71]"],
+  [class*="group-hover:bg-[#247a71]"]
+):hover {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+}
+
+/*
+  CTA가 너무 약해 보이지 않도록, 버튼류에는 테두리와 미세한 강조를 줍니다.
+*/
+:where(
+  button[class*="bg-[#247A71]"],
+  a[class*="bg-[#247A71]"],
+  button[class*="bg-[#247a71]"],
+  a[class*="bg-[#247a71]"]
+) {
+  border: 1px solid var(--anbu-logo-line) !important;
+  font-weight: 900 !important;
+}
+
+/*
+  선택/활성 상태가 필요한 작은 pill, tab은 로고색 텍스트 중심으로 보이게 합니다.
+*/
+:where(
+  [class*="is-active"],
+  [aria-current="page"]
+):where(
+  [class*="bg-[#247A71]"],
+  [class*="bg-[#247a71]"]
+) {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border-color: var(--anbu-logo-line) !important;
+}
+
+/*
+  필요 시 수동으로 쓰는 브랜드 유틸리티.
+*/
+.anbu-logo-soft-surface {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border: 1px solid var(--anbu-logo-line) !important;
+  box-shadow: 0 14px 34px rgba(42, 168, 151, 0.12) !important;
+}
+
+.anbu-logo-text {
+  color: var(--anbu-logo) !important;
+}
+
+.anbu-logo-ink {
+  color: var(--anbu-logo-ink) !important;
+}

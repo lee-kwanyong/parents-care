@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import './customer-ui-polish.css'
+import './anbu-logo-soft-theme.css'
 
 import { AppPermissionBootstrap } from '@/components/AppPermissionBootstrap'
 import { GlobalHeader } from '@/components/GlobalHeader'
