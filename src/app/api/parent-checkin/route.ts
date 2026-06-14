@@ -3,382 +3,448 @@ import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-type RestResult = {
-  ok: boolean
-  status: number
-  data: unknown
-  error: unknown
-}
+type Row = Record<string, unknown>
 
-type SaveResult =
-  | {
-      ok: true
-      mode: 'inserted' | 'updated'
-      status: number
-      data: unknown
-      error: null
-    }
-  | {
-      ok: false
-      status: number
-      data: null
-      error: unknown
-    }
+type ParentCheckinKind =
+  | 'ok'
+  | 'meal_ok'
+  | 'medication_ok'
+  | 'feeling_sick'
+  | 'need_help'
+  | 'custom'
 
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
 }
 
-function code6(value: unknown) {
-  return text(value).replace(/[^\d]/g, '').slice(0, 6)
-}
-
-function normalizeSlot(value: unknown) {
-  const slot = text(value)
-
-  if (['breakfast', 'lunch', 'dinner', 'morning', 'noon', 'evening', 'day'].includes(slot)) {
-    return slot
-  }
-
-  return 'day'
+function cleanFamilyCode(value: unknown) {
+  return text(value).replace(/[^\w-]/g, '').slice(0, 32)
 }
 
 function supabaseBaseUrl() {
-  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  if (!raw) return ''
-  return raw.replace(/\/rest\/v1\/?$/, '').replace(/\/$/, '')
+  return (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/$/, '')
 }
 
 function serviceKey() {
   return process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 }
 
-function todayKstDateKey() {
-  return new Intl.DateTimeFormat('sv-SE', {
+function restBaseUrl() {
+  const base = supabaseBaseUrl()
+  return base ? `${base}/rest/v1` : ''
+}
+
+function maskName(value: unknown) {
+  const name = text(value)
+
+  if (!name) return ''
+  if (name.length === 1) return name
+  if (name.length === 2) return `${name[0]}*`
+
+  return `${name[0]}*${name[name.length - 1]}`
+}
+
+function maskPhone(value: unknown) {
+  const digits = text(value).replace(/[^\d]/g, '')
+
+  if (digits.length >= 10) {
+    return `${digits.slice(0, 3)}-****-${digits.slice(-4)}`
+  }
+
+  if (digits.length >= 4) return `****-${digits.slice(-4)}`
+
+  return ''
+}
+
+function kstNowLabel() {
+  return new Intl.DateTimeFormat('ko-KR', {
     timeZone: 'Asia/Seoul',
-    year: 'numeric',
     month: '2-digit',
-    day: '2-digit'
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit'
   }).format(new Date())
 }
 
-async function rest(path: string, init?: RequestInit): Promise<RestResult> {
-  const base = supabaseBaseUrl()
+async function restRows(table: string, params: Record<string, string>): Promise<{ ok: boolean; rows: Row[]; error?: string }> {
+  const base = restBaseUrl()
   const key = serviceKey()
 
   if (!base || !key) {
     return {
       ok: false,
-      status: 500,
-      data: null,
-      error: 'Supabase 환경변수가 없습니다.'
+      rows: [],
+      error: 'Supabase URL 또는 service role key가 설정되지 않았습니다.'
     }
   }
 
-  const response = await fetch(base + '/rest/v1/' + path, {
-    ...init,
-    headers: {
-      apikey: key,
-      Authorization: 'Bearer ' + key,
-      'Content-Type': 'application/json',
-      ...(init?.headers || {})
-    },
-    cache: 'no-store'
-  })
-
-  const raw = await response.text()
-  let parsed: unknown = null
+  const search = new URLSearchParams(params)
 
   try {
-    parsed = raw ? JSON.parse(raw) : null
-  } catch {
-    parsed = raw
-  }
-
-  return {
-    ok: response.ok,
-    status: response.status,
-    data: parsed,
-    error: response.ok ? null : parsed || raw
-  }
-}
-
-async function findFamily(familyCode: string) {
-  const result = await rest(
-    'anbu_family_links?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&order=created_at.desc&limit=1'
-  )
-
-  if (!result.ok || !Array.isArray(result.data) || !result.data[0]) return null
-
-  return result.data[0] as Record<string, unknown>
-}
-
-async function findTodayExisting(familyCode: string, checkType: string, checkSlot: string, careDate: string) {
-  const result = await rest(
-    'daily_care_checkins?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&check_type=eq.' +
-      encodeURIComponent(checkType) +
-      '&check_slot=eq.' +
-      encodeURIComponent(checkSlot) +
-      '&care_date=eq.' +
-      encodeURIComponent(careDate) +
-      '&order=occurred_at.desc&limit=1'
-  )
-
-  if (!result.ok || !Array.isArray(result.data) || !result.data[0]) return null
-
-  return result.data[0] as Record<string, unknown>
-}
-
-async function saveSingleChoice(payload: {
-  familyCode: string
-  elderName: string
-  checkType: string
-  checkSlot: string
-  careDate: string
-  careLabel: string
-  status: string
-  memo: string
-}): Promise<SaveResult> {
-  const existing = await findTodayExisting(
-    payload.familyCode,
-    payload.checkType,
-    payload.checkSlot,
-    payload.careDate
-  )
-
-  if (existing?.id) {
-    const update = await rest('daily_care_checkins?id=eq.' + encodeURIComponent(String(existing.id)), {
-      method: 'PATCH',
-      headers: { Prefer: 'return=representation' },
-      body: JSON.stringify({
-        elder_name: payload.elderName,
-        check_slot: payload.checkSlot,
-        care_date: payload.careDate,
-        care_label: payload.careLabel,
-        status: payload.status,
-        memo: payload.memo,
-        occurred_at: new Date().toISOString()
-      })
+    const response = await fetch(`${base}/${table}?${search.toString()}`, {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json'
+      },
+      cache: 'no-store'
     })
 
-    if (update.ok) {
+    const raw = await response.text()
+    let parsed: unknown = []
+
+    try {
+      parsed = raw ? JSON.parse(raw) : []
+    } catch {
+      parsed = []
+    }
+
+    if (!response.ok) {
       return {
-        ok: true,
-        mode: 'updated',
-        status: update.status,
-        data: update.data,
-        error: null
+        ok: false,
+        rows: [],
+        error: `${table}: ${response.status} ${raw.slice(0, 180)}`
       }
     }
 
     return {
+      ok: true,
+      rows: Array.isArray(parsed) ? parsed as Row[] : []
+    }
+  } catch (error) {
+    return {
       ok: false,
-      status: update.status,
-      data: null,
-      error: {
-        message: '기존 선택을 교체하지 못했습니다.',
-        update: update.error
-      }
+      rows: [],
+      error: `${table}: ${error instanceof Error ? error.message : 'fetch failed'}`
+    }
+  }
+}
+
+async function insertRow(table: string, row: Row) {
+  const base = restBaseUrl()
+  const key = serviceKey()
+
+  if (!base || !key) {
+    return {
+      ok: false,
+      rows: [],
+      error: 'Supabase URL 또는 service role key가 설정되지 않았습니다.'
     }
   }
 
-  const insert = await rest('daily_care_checkins', {
-    method: 'POST',
-    headers: { Prefer: 'return=representation' },
-    body: JSON.stringify([
-      {
-        family_code: payload.familyCode,
-        elder_name: payload.elderName,
-        check_type: payload.checkType,
-        check_slot: payload.checkSlot,
-        care_date: payload.careDate,
-        care_label: payload.careLabel,
-        status: payload.status,
-        memo: payload.memo,
-        occurred_at: new Date().toISOString()
-      }
-    ])
-  })
+  async function post(body: Row) {
+    const response = await fetch(`${base}/${table}`, {
+      method: 'POST',
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation'
+      },
+      body: JSON.stringify(body),
+      cache: 'no-store'
+    })
 
-  if (insert.ok) {
+    const raw = await response.text()
+    let parsed: unknown = null
+
+    try {
+      parsed = raw ? JSON.parse(raw) : null
+    } catch {
+      parsed = null
+    }
+
+    return {
+      response,
+      raw,
+      parsed
+    }
+  }
+
+  const first = await post(row)
+
+  if (first.response.ok) {
     return {
       ok: true,
-      mode: 'inserted',
-      status: insert.status,
-      data: insert.data,
-      error: null
+      rows: Array.isArray(first.parsed) ? first.parsed as Row[] : []
+    }
+  }
+
+  /*
+    payload 컬럼이 없는 환경을 대비해 payload 제거 후 재시도합니다.
+  */
+  const { payload: _payload, ...minimal } = row
+  const retry = await post(minimal)
+
+  if (retry.response.ok) {
+    return {
+      ok: true,
+      rows: Array.isArray(retry.parsed) ? retry.parsed as Row[] : []
     }
   }
 
   return {
     ok: false,
-    status: insert.status,
-    data: null,
-    error: {
-      message: '선택을 저장하지 못했습니다.',
-      insert: insert.error
-    }
+    rows: [],
+    error: retry.raw.slice(0, 240) || first.raw.slice(0, 240)
   }
 }
 
-async function loadTodayChoices(familyCode: string, careDate: string) {
-  const result = await rest(
-    'daily_care_checkins?select=*&family_code=eq.' +
-      encodeURIComponent(familyCode) +
-      '&care_date=eq.' +
-      encodeURIComponent(careDate) +
-      '&order=occurred_at.desc'
-  )
-
-  if (!result.ok || !Array.isArray(result.data)) {
+function kindMeta(kind: ParentCheckinKind, note = '') {
+  if (kind === 'ok') {
     return {
-      ok: false,
-      choices: {},
-      rows: [],
-      error: result.error
+      signalType: 'daily_ok',
+      signalLabel: '괜찮아요',
+      requestType: 'parent_checkin',
+      riskLevel: 'low',
+      status: 'completed',
+      title: '부모님 안부 확인'
     }
   }
 
-  const choices: Record<string, unknown> = {}
+  if (kind === 'meal_ok') {
+    return {
+      signalType: 'meal_ok',
+      signalLabel: '밥 먹었어요',
+      requestType: 'parent_checkin',
+      riskLevel: 'low',
+      status: 'completed',
+      title: '식사 확인'
+    }
+  }
 
-  for (const row of result.data as Record<string, unknown>[]) {
-    const key = `${text(row.check_type)}:${text(row.check_slot) || 'day'}`
+  if (kind === 'medication_ok') {
+    return {
+      signalType: 'medication_ok',
+      signalLabel: '약 먹었어요',
+      requestType: 'parent_checkin',
+      riskLevel: 'low',
+      status: 'completed',
+      title: '복약 확인'
+    }
+  }
 
-    if (!choices[key]) {
-      choices[key] = row
+  if (kind === 'feeling_sick') {
+    return {
+      signalType: 'feeling_sick',
+      signalLabel: '몸이 아파요',
+      requestType: 'parent_checkin',
+      riskLevel: 'medium',
+      status: 'manual_needed',
+      title: '몸 상태 확인 필요'
+    }
+  }
+
+  if (kind === 'need_help') {
+    return {
+      signalType: 'urgent_neighbor_help',
+      signalLabel: '도움이 필요해요',
+      requestType: 'urgent_neighbor_help',
+      riskLevel: 'high',
+      status: 'manual_needed',
+      title: '도움 요청'
     }
   }
 
   return {
-    ok: true,
-    choices,
-    rows: result.data,
-    error: null
+    signalType: 'parent_note',
+    signalLabel: note || '부모님 메모',
+    requestType: 'parent_checkin',
+    riskLevel: 'low',
+    status: 'completed',
+    title: '부모님 메모'
   }
 }
 
-function checkTypeLabel(checkType: string) {
-  if (checkType === 'meal') return '식사'
-  if (checkType === 'medication') return '복약'
-  if (checkType === 'condition') return '몸 상태'
-  if (checkType === 'emergency') return '도움 요청'
-  return '안부'
+function demoResponse(familyCode = '') {
+  return {
+    ok: true,
+    demo: true,
+    generatedKst: kstNowLabel(),
+    family: {
+      familyCode,
+      parentName: '부모님',
+      guardianName: '보호자',
+      guardianPhoneMasked: ''
+    },
+    recentRecords: [],
+    sourceErrors: []
+  }
 }
 
 export async function GET(request: NextRequest) {
-  const familyCode =
-    code6(request.nextUrl.searchParams.get('familyCode')) ||
-    code6(request.cookies.get('anbu_family_code')?.value) ||
-    code6(request.cookies.get('pc_parent_invite_code')?.value) ||
-    code6(request.cookies.get('anbu_parent_code')?.value) ||
-    code6(request.cookies.get('parent_family_code')?.value)
+  const familyCode = cleanFamilyCode(request.nextUrl.searchParams.get('familyCode'))
 
-  if (!/^\d{6}$/.test(familyCode)) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '부모님 연결이 없습니다.'
-      },
-      { status: 401 }
-    )
+  if (!familyCode) {
+    return NextResponse.json(demoResponse())
   }
 
-  const careDate = todayKstDateKey()
-  const result = await loadTodayChoices(familyCode, careDate)
+  const sourceErrors: string[] = []
 
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '오늘 안부 선택을 불러오지 못했습니다.',
-        detail: result.error
-      },
-      { status: 500 }
-    )
-  }
+  const [familyResult, recentResult] = await Promise.all([
+    restRows('anbu_family_links', {
+      select: 'family_code,parent_name,guardian_name,guardian_phone,created_at',
+      family_code: `eq.${familyCode}`,
+      order: 'created_at.desc',
+      limit: '1'
+    }),
+    restRows('care_response_requests', {
+      select: 'id,family_code,parent_name,guardian_name,signal_type,signal_label,request_type,risk_level,status,created_at',
+      family_code: `eq.${familyCode}`,
+      order: 'created_at.desc',
+      limit: '8'
+    })
+  ])
+
+  if (!familyResult.ok && familyResult.error) sourceErrors.push(familyResult.error)
+  if (!recentResult.ok && recentResult.error) sourceErrors.push(recentResult.error)
+
+  const family = familyResult.rows[0] || {}
 
   return NextResponse.json({
     ok: true,
-    careDate,
-    choices: result.choices,
-    rows: result.rows
+    demo: false,
+    generatedKst: kstNowLabel(),
+    family: {
+      familyCode,
+      parentName: maskName(family.parent_name) || '부모님',
+      guardianName: maskName(family.guardian_name) || '보호자',
+      guardianPhoneMasked: maskPhone(family.guardian_phone)
+    },
+    recentRecords: recentResult.rows.map((row) => ({
+      id: text(row.id),
+      label: text(row.signal_label) || text(row.signal_type) || '안부 기록',
+      signalType: text(row.signal_type),
+      riskLevel: text(row.risk_level) || 'low',
+      status: text(row.status) || 'recorded',
+      createdAt: text(row.created_at)
+    })),
+    sourceErrors
   })
+}
+
+async function maybeQueueGuardianNotification(input: {
+  enabled: boolean
+  familyCode: string
+  guardianName: string
+  guardianPhone: string
+  meta: ReturnType<typeof kindMeta>
+  note: string
+}) {
+  if (!input.enabled) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: 'notification queue disabled'
+    }
+  }
+
+  if (!input.guardianPhone) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: 'guardian phone missing'
+    }
+  }
+
+  const body = `[안부웍스] 부모님 안부: ${input.meta.signalLabel}${input.note ? ` / ${input.note}` : ''}`
+
+  const result = await insertRow('notification_outbox', {
+    family_code: input.familyCode,
+    channel: 'sms',
+    to_name: input.guardianName || '보호자',
+    to_phone: input.guardianPhone,
+    title: input.meta.title,
+    body,
+    template_code: 'parent-checkin',
+    reason: 'parent-checkin',
+    target_url: `/guardian/today?familyCode=${encodeURIComponent(input.familyCode)}`,
+    status: 'queued',
+    payload: {
+      source: 'parent-checkin',
+      signalType: input.meta.signalType,
+      signalLabel: input.meta.signalLabel,
+      riskLevel: input.meta.riskLevel
+    }
+  })
+
+  return {
+    ok: result.ok,
+    skipped: false,
+    reason: result.error || null
+  }
 }
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}))
+  const familyCode = cleanFamilyCode(body.familyCode)
+  const kind = text(body.kind) as ParentCheckinKind
+  const note = text(body.note).slice(0, 1000)
+  const checklist = body.checklist && typeof body.checklist === 'object' ? body.checklist : {}
 
-  const familyCode =
-    code6(body.familyCode) ||
-    code6(request.cookies.get('anbu_family_code')?.value) ||
-    code6(request.cookies.get('pc_parent_invite_code')?.value) ||
-    code6(request.cookies.get('anbu_parent_code')?.value) ||
-    code6(request.cookies.get('parent_family_code')?.value)
-
-  if (!/^\d{6}$/.test(familyCode)) {
+  if (!familyCode) {
     return NextResponse.json(
       {
         ok: false,
-        message: '부모님 연결이 없습니다. 6자리 코드를 다시 입력해주세요.'
+        message: '가족코드가 필요합니다.'
       },
-      { status: 401 }
+      { status: 400 }
     )
   }
 
-  const checkType = text(body.checkType) || 'condition'
-  const checkSlot = normalizeSlot(body.checkSlot)
-  const careDate = todayKstDateKey()
-  const careLabel = text(body.careLabel) || '안부 확인'
-  const status = text(body.status) || 'done'
-  const memo = text(body.memo) || careLabel
-
-  const family = await findFamily(familyCode)
-
-  const result = await saveSingleChoice({
-    familyCode,
-    elderName: family ? text(family.parent_name) || '부모님' : '부모님',
-    checkType,
-    checkSlot,
-    careDate,
-    careLabel,
-    status,
-    memo
+  const familyResult = await restRows('anbu_family_links', {
+    select: 'family_code,parent_name,guardian_name,guardian_phone,created_at',
+    family_code: `eq.${familyCode}`,
+    order: 'created_at.desc',
+    limit: '1'
   })
 
-  if (!result.ok) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '안부 저장에 실패했습니다. Supabase SQL Editor에서 20260602_anbu_fingerprint_report.sql을 실행해주세요.',
-        detail: result.error
-      },
-      { status: 500 }
-    )
+  const family = familyResult.rows[0] || {}
+  const meta = kindMeta(kind, note)
+
+  const row = {
+    family_code: familyCode,
+    parent_name: text(family.parent_name) || '부모님',
+    guardian_name: text(family.guardian_name) || '보호자',
+    signal_type: meta.signalType,
+    signal_label: meta.signalLabel,
+    request_type: meta.requestType,
+    risk_level: meta.riskLevel,
+    status: meta.status,
+    payload: {
+      source: 'parent_checkin',
+      title: meta.title,
+      note,
+      checklist,
+      kind,
+      submittedAtKst: kstNowLabel()
+    }
   }
 
-  const groupLabel = checkTypeLabel(checkType)
+  const insertResult = await insertRow('care_response_requests', row)
+
+  const notificationResult = await maybeQueueGuardianNotification({
+    enabled: process.env.ANBU_PARENT_CHECKIN_QUEUE_NOTIFICATION === 'true',
+    familyCode,
+    guardianName: text(family.guardian_name) || '보호자',
+    guardianPhone: text(family.guardian_phone),
+    meta,
+    note
+  })
 
   return NextResponse.json({
     ok: true,
-    mode: result.mode,
-    careDate,
-    message:
-      result.mode === 'updated'
-        ? `${groupLabel} 선택이 ${careLabel}(으)로 변경되었습니다.`
-        : `${careLabel} 기록이 자녀 리포트에 저장되었습니다.`,
-    checkin: Array.isArray(result.data) ? result.data[0] : result.data,
-    session: {
-      familyCode,
-      parentName: family ? text(family.parent_name) || '부모님' : '부모님',
-      guardianName: family ? text(family.guardian_name) || '보호자' : '보호자',
-      role: 'parent',
-      loggedIn: true,
-      connected: true,
-      verified: true
+    persisted: insertResult.ok,
+    warning: insertResult.ok ? null : insertResult.error || '서버 저장에 실패했지만 브라우저 기록은 유지됩니다.',
+    notification: notificationResult,
+    record: {
+      id: insertResult.ok && insertResult.rows[0] ? text(insertResult.rows[0].id) : `local-${Date.now()}`,
+      label: meta.signalLabel,
+      signalType: meta.signalType,
+      riskLevel: meta.riskLevel,
+      status: meta.status,
+      createdAt: new Date().toISOString(),
+      note
     }
   })
 }
