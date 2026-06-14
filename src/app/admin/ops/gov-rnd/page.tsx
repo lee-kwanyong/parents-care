@@ -7,6 +7,6 @@ export const metadata = {
   description: '지자체, R&D, 스마트링 공급사, 투자사, 파트너 후속관리를 운영합니다.'
 }
 
-export default function OpsGovRndPage() {
+export default function AdminOpsGovRndPage() {
   return <AdminGovRndPipelinePanel />
 }
