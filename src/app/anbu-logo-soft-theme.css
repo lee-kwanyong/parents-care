@@ -147,3 +147,166 @@
 .anbu-logo-ink {
   color: var(--anbu-logo-ink) !important;
 }
+
+
+/* __ANBU_REMOVE_DARK_GREEN_START__ */
+/*
+  진한 녹청/딥그린/딥네이비 계열 배경 제거.
+
+  적용 대상:
+  - bg-[#17443F]
+  - bg-[#0B2F4A]
+  - bg-[#0E3B37]
+  - bg-[#123D38]
+  - bg-[#14534C]
+  - bg-[#0F172A]
+  - bg-teal/emerald/slate 계열의 어두운 배경
+  - from/to/via 로 들어간 어두운 gradient 색상
+
+  결과:
+  - 연한 안부웍스 로고톤 배경
+  - 로고색 텍스트
+  - 부드러운 민트 테두리
+*/
+
+:root {
+  --anbu-logo: #2AA897;
+  --anbu-logo-strong: #1F9B8C;
+  --anbu-logo-ink: #137468;
+  --anbu-logo-deep: #0E756A;
+  --anbu-logo-soft: #EFFFFA;
+  --anbu-logo-soft-2: #DFFAF3;
+  --anbu-logo-soft-3: #CDEFE7;
+  --anbu-logo-line: #BCEBE1;
+}
+
+/* Tailwind arbitrary dark backgrounds */
+:where(
+  [class*="bg-[#0"],
+  [class*="bg-[#1"],
+  [class*="from-[#0"],
+  [class*="from-[#1"],
+  [class*="via-[#0"],
+  [class*="via-[#1"],
+  [class*="to-[#0"],
+  [class*="to-[#1"],
+  [style*="#17443F"],
+  [style*="#17443f"],
+  [style*="#0B2F4A"],
+  [style*="#0b2f4a"],
+  [style*="#0E3B37"],
+  [style*="#0e3b37"],
+  [style*="#123D38"],
+  [style*="#123d38"],
+  [style*="#14534C"],
+  [style*="#14534c"],
+  [style*="rgb(23, 68, 63)"],
+  [style*="rgb(23,68,63)"],
+  [style*="rgb(14, 59, 55)"],
+  [style*="rgb(14,59,55)"]
+) {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border-color: var(--anbu-logo-line) !important;
+  --tw-ring-color: var(--anbu-logo-line) !important;
+  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+}
+
+/* Common Tailwind dark color families */
+:where(
+  [class*="bg-teal-8"],
+  [class*="bg-teal-9"],
+  [class*="bg-emerald-8"],
+  [class*="bg-emerald-9"],
+  [class*="bg-cyan-8"],
+  [class*="bg-cyan-9"],
+  [class*="bg-slate-8"],
+  [class*="bg-slate-9"],
+  [class*="bg-zinc-8"],
+  [class*="bg-zinc-9"]
+) {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border-color: var(--anbu-logo-line) !important;
+  --tw-ring-color: var(--anbu-logo-line) !important;
+  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+}
+
+/* Dark surface 안의 흰 글씨를 로고색으로 보정 */
+:where(
+  [class*="bg-[#0"],
+  [class*="bg-[#1"],
+  [class*="from-[#0"],
+  [class*="from-[#1"],
+  [class*="via-[#0"],
+  [class*="via-[#1"],
+  [class*="to-[#0"],
+  [class*="to-[#1"],
+  [style*="#17443F"],
+  [style*="#17443f"],
+  [style*="#0B2F4A"],
+  [style*="#0b2f4a"],
+  [style*="#0E3B37"],
+  [style*="#0e3b37"],
+  [style*="#123D38"],
+  [style*="#123d38"],
+  [style*="#14534C"],
+  [style*="#14534c"]
+) :where([class*="text-white"], [class*="text-[#fff"], [class*="text-[#FFF"]) {
+  color: var(--anbu-logo-ink) !important;
+}
+
+/* Dark surface 안의 일반 텍스트도 너무 흐리지 않게 */
+:where(
+  [class*="bg-[#0"],
+  [class*="bg-[#1"],
+  [class*="from-[#0"],
+  [class*="from-[#1"],
+  [class*="via-[#0"],
+  [class*="via-[#1"],
+  [class*="to-[#0"],
+  [class*="to-[#1"]
+) :where(p, span, div, h1, h2, h3, h4, h5, h6, strong, b) {
+  color: inherit;
+}
+
+/* Dark surface 안의 버튼은 연한 흰색 카드처럼 */
+:where(
+  [class*="bg-[#0"],
+  [class*="bg-[#1"],
+  [class*="from-[#0"],
+  [class*="from-[#1"],
+  [class*="via-[#0"],
+  [class*="via-[#1"],
+  [class*="to-[#0"],
+  [class*="to-[#1"]
+) :where(a, button) {
+  border-color: var(--anbu-logo-line) !important;
+}
+
+/* 기존 진한 CTA hover가 다시 진해지는 것 방지 */
+:where(
+  [class*="hover:bg-[#0"],
+  [class*="hover:bg-[#1"],
+  [class*="group-hover:bg-[#0"],
+  [class*="group-hover:bg-[#1"]
+):hover {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border-color: var(--anbu-logo-line) !important;
+}
+
+/* 그래도 강조가 필요한 CTA는 로고색 테두리로만 강조 */
+.anbu-soft-primary,
+.anbu-logo-soft-surface {
+  background:
+    linear-gradient(135deg, var(--anbu-logo-soft-2) 0%, var(--anbu-logo-soft) 100%) !important;
+  color: var(--anbu-logo-ink) !important;
+  border: 1px solid var(--anbu-logo-line) !important;
+  box-shadow: 0 18px 44px rgba(42, 168, 151, 0.12) !important;
+}
+/* __ANBU_REMOVE_DARK_GREEN_END__ */
+
