@@ -122,7 +122,7 @@ export function AdminFamilyHubPanel() {
   const [query, setQuery] = useState('')
   const [filter, setFilter] = useState('all')
   const [focusFamilyCode, setFocusFamilyCode] = useState('')
-  const [showRawContact, setShowRawContact] = useState(false)
+  const [showRawContact, setShowRawContact] = useState(true)
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
 
@@ -339,7 +339,7 @@ export function AdminFamilyHubPanel() {
                 onChange={(event) => setShowRawContact(event.target.checked)}
                 className="h-5 w-5 accent-[#2AA897]"
               />
-              연락처 원본 보기
+              원본 연락처 표시
             </label>
           </div>
         </section>
@@ -449,7 +449,7 @@ export function AdminFamilyHubPanel() {
                         {row.authUsers.length ? (
                           row.authUsers.map((user) => (
                             <div key={user.id} className="rounded-xl bg-white p-3 text-xs font-black leading-6 ring-1 ring-[#D6EDE7]">
-                              {user.name} · {user.email || '이메일 없음'} · {showRawContact ? user.phone || '번호 없음' : '번호 보호'}
+                              {user.name} · {user.email || '이메일 없음'} · {showRawContact ? user.phone || '번호 없음' : '번호 숨김'}
                             </div>
                           ))
                         ) : (
