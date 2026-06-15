@@ -132,6 +132,16 @@ export const customerMenuLinks: MenuLink[] = [
 
 export const adminMenuLinks: MenuLink[] = [
   {
+    href: '/admin/ops/families',
+    title: '가입자 통합관리',
+    description: '가입자, 가족, 보호자, 부모님, 스마트링 배정을 한 화면에서 관리합니다.',
+    category: '핵심',
+    roles: ['ops', 'admin'],
+    badge: '필수',
+    priority: 1,
+    opsOnly: true
+  },
+  {
     href: '/admin/ops',
     title: '운영실 통합 허브',
     description: '운영, 지자체, R&D, 스마트링, 문자 관련 메뉴를 한곳에서 관리합니다.',
