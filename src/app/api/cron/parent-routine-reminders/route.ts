@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sendCareNotification } from '@/lib/quiet-care-notifications'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -259,15 +260,20 @@ async function reminderAlreadyRecorded(
 }
 
 async function queueNotification(row: Row) {
-  const primary = await insertRow('notification_outbox', row)
-  if (primary.ok) return { ok: true, table: 'notification_outbox' }
-
-  const fallback = await insertRow('anbu_notification_outbox', row)
-  return {
-    ok: fallback.ok,
-    table: fallback.ok ? 'anbu_notification_outbox' : null,
-    error: fallback.error || primary.error
-  }
+  return sendCareNotification({
+    familyCode: text(row.family_code),
+    toName: text(row.to_name) || '보호자',
+    toPhone: text(row.to_phone),
+    title: text(row.title) || '안부 확인 알림',
+    body: text(row.body),
+    reason: text(row.reason) || 'parent-routine-reminder',
+    targetUrl: text(row.target_url) || '/parent/today',
+    eventType: 'parent_routine_reminder_dispatch',
+    metadata:
+      row.payload && typeof row.payload === 'object' && !Array.isArray(row.payload)
+        ? row.payload as Record<string, unknown>
+        : {}
+  })
 }
 
 async function recordReminder(input: {

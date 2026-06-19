@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sendCareNotification } from '@/lib/quiet-care-notifications'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -331,48 +332,45 @@ async function maybeQueueGuardianNotification(input: {
   meta: ReturnType<typeof kindMeta>
   note: string
 }) {
-  if (!input.enabled) {
+  if (input.meta.riskLevel === 'low') {
     return {
-      ok: false,
+      ok: true,
       skipped: true,
-      reason: 'notification queue disabled'
+      reason: 'normal_response_saved_for_daily_summary'
     }
   }
 
-  if (!input.guardianPhone) {
+  const guardianPhone = input.guardianPhone.replace(/[^\d+]/g, '')
+
+  if (!guardianPhone) {
     return {
       ok: false,
       skipped: true,
-      reason: 'guardian phone missing'
+      reason: 'guardian_phone_missing'
     }
   }
 
-  const body = `[안부웍스] 부모님 안부: ${input.meta.signalLabel}${input.note ? ` / ${input.note}` : ''}`
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://parents-care.net'
+  ).replace(/\/$/, '')
 
-  const result = await insertRow('notification_outbox', {
-    family_code: input.familyCode,
-    channel: 'sms',
-    to_name: input.guardianName || '보호자',
-    to_phone: input.guardianPhone,
+  return sendCareNotification({
+    familyCode: input.familyCode,
+    toName: input.guardianName || '보호자',
+    toPhone: guardianPhone,
     title: input.meta.title,
-    body,
-    template_code: 'parent-checkin',
-    reason: 'parent-checkin',
-    target_url: `/guardian/today?familyCode=${encodeURIComponent(input.familyCode)}`,
-    status: 'queued',
-    payload: {
+    body: `[안부웍스] 부모님 안부: ${input.meta.signalLabel}${input.note ? ` / ${input.note}` : ''}`,
+    reason: 'parent-checkin-risk',
+    targetUrl: `${siteUrl}/guardian/today?familyCode=${encodeURIComponent(input.familyCode)}`,
+    eventType: 'guardian_parent_checkin_risk',
+    metadata: {
       source: 'parent-checkin',
       signalType: input.meta.signalType,
       signalLabel: input.meta.signalLabel,
-      riskLevel: input.meta.riskLevel
+      riskLevel: input.meta.riskLevel,
+      legacyNotificationSetting: input.enabled
     }
   })
-
-  return {
-    ok: result.ok,
-    skipped: false,
-    reason: result.error || null
-  }
 }
 
 export async function POST(request: NextRequest) {

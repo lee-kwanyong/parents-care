@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { sendCareNotification } from '@/lib/quiet-care-notifications'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -693,7 +694,7 @@ async function queueGuardianAlert(input: {
     return {
       ok: true,
       skipped: true,
-      reason: 'normal_or_partial_response'
+      reason: 'normal_response_saved_for_daily_summary'
     }
   }
 
@@ -710,35 +711,26 @@ async function queueGuardianAlert(input: {
   const parentName = text(input.family.parent_name) || '부모님'
   const guardianName = text(input.family.guardian_name) || '보호자'
   const message = guardianAlertText(input.action, parentName, input.slot)
-  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://parents-care.net').replace(/\/$/, '')
-  const row = {
-    family_code: input.familyCode,
-    channel: 'sms',
-    to_name: guardianName,
-    to_phone: guardianPhone,
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://parents-care.net'
+  ).replace(/\/$/, '')
+
+  return sendCareNotification({
+    familyCode: input.familyCode,
+    toName: guardianName,
+    toPhone: guardianPhone,
     title: message.title,
     body: message.body,
-    template_code: 'parent-routine-alert',
     reason: 'parent-routine-alert',
-    target_url: `${siteUrl}/child/dashboard`,
-    status: 'queued',
-    payload: {
+    targetUrl: `${siteUrl}/child/dashboard`,
+    eventType: 'guardian_routine_alert',
+    metadata: {
       source: 'parent_routine',
       action: input.action,
       slot: input.slot,
       nonMedicalNotice: true
     }
-  }
-
-  const primary = await insertRow('notification_outbox', row)
-  if (primary.ok) return { ok: true, table: 'notification_outbox' }
-
-  const fallback = await insertRow('anbu_notification_outbox', row)
-  return {
-    ok: fallback.ok,
-    table: fallback.ok ? 'anbu_notification_outbox' : null,
-    error: fallback.error || primary.error
-  }
+  })
 }
 
 function familyCodeFromRequest(request: NextRequest, bodyCode?: unknown) {
@@ -947,7 +939,7 @@ export async function POST(request: NextRequest) {
           ? '도움 요청을 보호자 확인 대상으로 기록했습니다.'
           : action === 'condition_issue'
             ? '몸 상태를 보호자 확인 대상으로 기록했습니다.'
-            : `${meta.signalLabel}로 저장했습니다.`,
+            : `${meta.signalLabel}로 조용히 저장했고 저녁 요약에 반영됩니다.`,
     guardianAlert
   })
 }
