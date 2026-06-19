@@ -1,26 +1,77 @@
-import { randomUUID } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 type Row = Record<string, unknown>
-type TimeSlot = 'morning' | 'lunch' | 'dinner'
+type SlotKey = 'morning' | 'lunch' | 'evening'
 type RoutineAction =
   | 'all_done'
   | 'meal_only'
   | 'medication_only'
-  | 'snooze'
-  | 'feeling_sick'
+  | 'meal_done'
+  | 'medication_done'
+  | 'meal_not_done'
+  | 'medication_not_done'
+  | 'later'
+  | 'condition_issue'
   | 'need_help'
 
-const allowedSlots = new Set<TimeSlot>(['morning', 'lunch', 'dinner'])
-const allowedActions = new Set<RoutineAction>([
+type Schedule = {
+  breakfastTime: string
+  lunchTime: string
+  dinnerTime: string
+  morningMedication: boolean
+  noonMedication: boolean
+  eveningMedication: boolean
+  reminderDelayMinutes: number
+  escalationDelayMinutes: number
+}
+
+type StatusValue = 'done' | 'not_done' | 'unknown' | 'not_applicable' | 'needs_help'
+
+type SlotState = {
+  slot: SlotKey
+  mealStatus: StatusValue
+  medicationStatus: StatusValue
+  conditionStatus: StatusValue
+  emergency: boolean
+  complete: boolean
+  needsAttention: boolean
+  responded: boolean
+  lastAction: string
+  lastLabel: string
+  lastAt: string | null
+  snoozedUntil: string | null
+}
+
+const DEFAULT_SCHEDULE: Schedule = {
+  breakfastTime: '08:00',
+  lunchTime: '12:30',
+  dinnerTime: '18:30',
+  morningMedication: true,
+  noonMedication: false,
+  eveningMedication: true,
+  reminderDelayMinutes: 30,
+  escalationDelayMinutes: 90
+}
+
+const SLOT_LABELS: Record<SlotKey, string> = {
+  morning: '아침',
+  lunch: '점심',
+  evening: '저녁'
+}
+
+const ALLOWED_ACTIONS = new Set<RoutineAction>([
   'all_done',
   'meal_only',
   'medication_only',
-  'snooze',
-  'feeling_sick',
+  'meal_done',
+  'medication_done',
+  'meal_not_done',
+  'medication_not_done',
+  'later',
+  'condition_issue',
   'need_help'
 ])
 
@@ -29,14 +80,89 @@ function text(value: unknown) {
 }
 
 function cleanFamilyCode(value: unknown) {
-  return text(value).replace(/[^\w-]/g, '').slice(0, 32)
+  return text(value).replace(/[^\w-]/g, '').slice(0, 48)
 }
 
-function bool(value: unknown, fallback = false) {
-  if (typeof value === 'boolean') return value
-  if (value === 'true') return true
-  if (value === 'false') return false
-  return fallback
+function clampNumber(value: unknown, fallback: number, min: number, max: number) {
+  const parsed = Number(value)
+  if (!Number.isFinite(parsed)) return fallback
+  return Math.min(max, Math.max(min, Math.round(parsed)))
+}
+
+function isTime(value: unknown): value is string {
+  if (typeof value !== 'string' || !/^\d{2}:\d{2}$/.test(value)) return false
+  const [hour, minute] = value.split(':').map(Number)
+  return hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59
+}
+
+function toMinutes(value: string) {
+  const [hour, minute] = value.split(':').map(Number)
+  return hour * 60 + minute
+}
+
+function bool(value: unknown, fallback: boolean) {
+  return typeof value === 'boolean' ? value : fallback
+}
+
+function parsePayload(value: unknown): Row {
+  if (value && typeof value === 'object' && !Array.isArray(value)) {
+    return value as Row
+  }
+
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value)
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+        ? parsed as Row
+        : {}
+    } catch {
+      return {}
+    }
+  }
+
+  return {}
+}
+
+function normalizeSchedule(value: unknown): Schedule {
+  const input = parsePayload(value)
+
+  const breakfastTime = isTime(input.breakfastTime)
+    ? input.breakfastTime
+    : DEFAULT_SCHEDULE.breakfastTime
+  const lunchTime = isTime(input.lunchTime)
+    ? input.lunchTime
+    : DEFAULT_SCHEDULE.lunchTime
+  const dinnerTime = isTime(input.dinnerTime)
+    ? input.dinnerTime
+    : DEFAULT_SCHEDULE.dinnerTime
+
+  return {
+    breakfastTime,
+    lunchTime,
+    dinnerTime,
+    morningMedication: bool(input.morningMedication, DEFAULT_SCHEDULE.morningMedication),
+    noonMedication: bool(input.noonMedication, DEFAULT_SCHEDULE.noonMedication),
+    eveningMedication: bool(input.eveningMedication, DEFAULT_SCHEDULE.eveningMedication),
+    reminderDelayMinutes: clampNumber(
+      input.reminderDelayMinutes,
+      DEFAULT_SCHEDULE.reminderDelayMinutes,
+      10,
+      180
+    ),
+    escalationDelayMinutes: clampNumber(
+      input.escalationDelayMinutes,
+      DEFAULT_SCHEDULE.escalationDelayMinutes,
+      30,
+      360
+    )
+  }
+}
+
+function scheduleIsOrdered(schedule: Schedule) {
+  const breakfast = toMinutes(schedule.breakfastTime)
+  const lunch = toMinutes(schedule.lunchTime)
+  const dinner = toMinutes(schedule.dinnerTime)
+  return breakfast < lunch && lunch < dinner
 }
 
 function supabaseBaseUrl() {
@@ -52,42 +178,16 @@ function restBaseUrl() {
   return base ? `${base}/rest/v1` : ''
 }
 
-function maskName(value: unknown) {
-  const name = text(value)
-  if (!name) return ''
-  if (name.length === 1) return name
-  if (name.length === 2) return `${name[0]}*`
-  return `${name[0]}*${name[name.length - 1]}`
-}
-
-function maskPhone(value: unknown) {
-  const digits = text(value).replace(/[^\d]/g, '')
-  if (digits.length >= 10) return `${digits.slice(0, 3)}-****-${digits.slice(-4)}`
-  if (digits.length >= 4) return `****-${digits.slice(-4)}`
-  return ''
-}
-
-function kstNowLabel() {
-  return new Intl.DateTimeFormat('ko-KR', {
-    timeZone: 'Asia/Seoul',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(new Date())
-}
-
-function slotLabel(slot: TimeSlot) {
-  if (slot === 'morning') return '아침'
-  if (slot === 'lunch') return '점심'
-  return '저녁'
+type RestRowsResult = {
+  ok: boolean
+  rows: Row[]
+  error?: string
 }
 
 async function restRows(
   table: string,
   params: Record<string, string>
-): Promise<{ ok: boolean; rows: Row[]; error?: string }> {
+): Promise<RestRowsResult> {
   const base = restBaseUrl()
   const key = serviceKey()
 
@@ -95,7 +195,7 @@ async function restRows(
     return {
       ok: false,
       rows: [],
-      error: 'Supabase URL 또는 service role key가 설정되지 않았습니다.'
+      error: 'Supabase 환경변수가 설정되지 않았습니다.'
     }
   }
 
@@ -130,7 +230,7 @@ async function restRows(
 
     return {
       ok: true,
-      rows: Array.isArray(parsed) ? (parsed as Row[]) : []
+      rows: Array.isArray(parsed) ? parsed as Row[] : []
     }
   } catch (error) {
     return {
@@ -141,19 +241,19 @@ async function restRows(
   }
 }
 
-async function insertRow(table: string, row: Row) {
+async function insertRow(table: string, row: Row): Promise<RestRowsResult> {
   const base = restBaseUrl()
   const key = serviceKey()
 
   if (!base || !key) {
     return {
       ok: false,
-      rows: [] as Row[],
-      error: 'Supabase URL 또는 service role key가 설정되지 않았습니다.'
+      rows: [],
+      error: 'Supabase 환경변수가 설정되지 않았습니다.'
     }
   }
 
-  async function post(body: Row) {
+  try {
     const response = await fetch(`${base}/${table}`, {
       method: 'POST',
       headers: {
@@ -162,435 +262,692 @@ async function insertRow(table: string, row: Row) {
         'Content-Type': 'application/json',
         Prefer: 'return=representation'
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(row),
       cache: 'no-store'
     })
 
     const raw = await response.text()
-    let parsed: unknown = null
+    let parsed: unknown = []
 
     try {
-      parsed = raw ? JSON.parse(raw) : null
+      parsed = raw ? JSON.parse(raw) : []
     } catch {
-      parsed = null
+      parsed = []
     }
 
-    return { response, raw, parsed }
-  }
-
-  const first = await post(row)
-
-  if (first.response.ok) {
-    return {
-      ok: true,
-      rows: Array.isArray(first.parsed) ? (first.parsed as Row[]) : [],
-      error: ''
-    }
-  }
-
-  // 일부 구형 테이블에 payload 컬럼이 없을 수 있어 한 번 더 시도합니다.
-  const { payload: _payload, ...minimal } = row
-  const retry = await post(minimal)
-
-  if (retry.response.ok) {
-    return {
-      ok: true,
-      rows: Array.isArray(retry.parsed) ? (retry.parsed as Row[]) : [],
-      error: ''
-    }
-  }
-
-  return {
-    ok: false,
-    rows: [] as Row[],
-    error: retry.raw.slice(0, 300) || first.raw.slice(0, 300)
-  }
-}
-
-function actionMeta(action: RoutineAction, slot: TimeSlot, medicationDue: boolean) {
-  const period = slotLabel(slot)
-
-  if (action === 'all_done') {
-    return {
-      signalType: 'routine_all_done',
-      signalLabel: medicationDue
-        ? `${period} 식사·복약·몸 상태 완료`
-        : `${period} 식사·몸 상태 완료`,
-      requestType: 'parent_routine_checkin',
-      riskLevel: 'low',
-      status: 'completed',
-      title: `${period} 안부 확인 완료`,
-      meal: 'done',
-      medication: medicationDue ? 'done' : 'not_applicable',
-      condition: 'done'
-    }
-  }
-
-  if (action === 'meal_only') {
-    return {
-      signalType: 'routine_meal_only',
-      signalLabel: medicationDue ? `${period} 식사 완료·복약 미확인` : `${period} 식사 완료`,
-      requestType: 'parent_routine_checkin',
-      riskLevel: medicationDue ? 'medium' : 'low',
-      status: medicationDue ? 'manual_needed' : 'completed',
-      title: `${period} 일부 안부 확인`,
-      meal: 'done',
-      medication: medicationDue ? 'unknown' : 'not_applicable',
-      condition: 'unknown'
-    }
-  }
-
-  if (action === 'medication_only') {
-    return {
-      signalType: 'routine_medication_only',
-      signalLabel: `${period} 복약 완료·식사 미확인`,
-      requestType: 'parent_routine_checkin',
-      riskLevel: 'medium',
-      status: 'manual_needed',
-      title: `${period} 일부 안부 확인`,
-      meal: 'unknown',
-      medication: 'done',
-      condition: 'unknown'
-    }
-  }
-
-  if (action === 'snooze') {
-    return {
-      signalType: 'routine_snoozed',
-      signalLabel: `${period} 30분 후 다시 알림`,
-      requestType: 'parent_routine_checkin',
-      riskLevel: 'low',
-      status: 'pending',
-      title: `${period} 확인 연기`,
-      meal: 'unknown',
-      medication: medicationDue ? 'unknown' : 'not_applicable',
-      condition: 'unknown'
-    }
-  }
-
-  if (action === 'feeling_sick') {
-    return {
-      signalType: 'feeling_sick',
-      signalLabel: `${period} 몸이 불편해요`,
-      requestType: 'parent_routine_checkin',
-      riskLevel: 'medium',
-      status: 'manual_needed',
-      title: '몸 상태 확인 필요',
-      meal: 'unknown',
-      medication: medicationDue ? 'unknown' : 'not_applicable',
-      condition: 'needs_help'
-    }
-  }
-
-  return {
-    signalType: 'urgent_neighbor_help',
-    signalLabel: '도움이 필요해요',
-    requestType: 'urgent_neighbor_help',
-    riskLevel: 'high',
-    status: 'manual_needed',
-    title: '도움 요청',
-    meal: 'unknown',
-    medication: medicationDue ? 'unknown' : 'not_applicable',
-    condition: 'needs_help'
-  }
-}
-
-async function mirrorDailyCareEvents(input: {
-  familyCode: string
-  parentName: string
-  action: RoutineAction
-  slot: TimeSlot
-  medicationDue: boolean
-  eventId: string
-}) {
-  const period = slotLabel(input.slot)
-  const occurredAt = new Date().toISOString()
-  const rows: Row[] = []
-
-  const add = (checkType: string, careLabel: string, status: string, memo: string) => {
-    rows.push({
-      family_code: input.familyCode,
-      elder_name: input.parentName,
-      check_type: checkType,
-      care_label: careLabel,
-      status,
-      actor_role: 'parent',
-      source: 'parent_routine_checkin',
-      memo: `[${input.eventId}] ${memo}`,
-      occurred_at: occurredAt
-    })
-  }
-
-  if (input.action === 'all_done') {
-    add('meal', `${period} 식사`, 'done', '통합 버튼으로 식사 완료')
-    if (input.medicationDue) {
-      add('medication', `${period} 복약`, 'done', '통합 버튼으로 복약 완료')
-    }
-    add('condition', `${period} 몸 상태`, 'done', '통합 버튼으로 몸 상태 괜찮음')
-  } else if (input.action === 'meal_only') {
-    add('meal', `${period} 식사`, 'done', '식사만 완료')
-    if (input.medicationDue) {
-      add('medication', `${period} 복약`, 'unknown', '미복약이 아니라 복약 여부 미확인')
-    }
-  } else if (input.action === 'medication_only') {
-    add('medication', `${period} 복약`, 'done', '복약만 완료')
-    add('meal', `${period} 식사`, 'unknown', '미식사가 아니라 식사 여부 미확인')
-  } else if (input.action === 'snooze') {
-    add('condition', `${period} 안부 확인`, 'unknown', '30분 후 다시 알림 요청')
-  } else if (input.action === 'feeling_sick') {
-    add('condition', `${period} 몸 상태`, 'needs_help', '몸이 불편하다고 응답')
-  } else {
-    add('emergency', '도움 요청', 'needs_help', '빠른 보호자 또는 운영실 확인 필요')
-  }
-
-  const results = await Promise.all(rows.map((row) => insertRow('daily_care_checkins', row)))
-
-  return {
-    attempted: rows.length,
-    saved: results.filter((result) => result.ok).length,
-    errors: results.filter((result) => !result.ok).map((result) => result.error)
-  }
-}
-
-async function maybeQueueGuardianNotification(input: {
-  action: RoutineAction
-  familyCode: string
-  parentName: string
-  guardianName: string
-  guardianPhone: string
-  title: string
-  signalLabel: string
-  riskLevel: string
-  eventId: string
-}) {
-  if (input.action !== 'feeling_sick' && input.action !== 'need_help') {
-    return { ok: true, skipped: true, reason: 'normal_or_partial_event' }
-  }
-
-  if (process.env.ANBU_PARENT_CHECKIN_QUEUE_NOTIFICATION !== 'true') {
-    return { ok: true, skipped: true, reason: 'notification_queue_disabled' }
-  }
-
-  if (!input.guardianPhone) {
-    return { ok: false, skipped: true, reason: 'guardian_phone_missing' }
-  }
-
-  const urgent = input.action === 'need_help'
-  const body = urgent
-    ? `[긴급][안부웍스] ${input.parentName}님이 “도움이 필요해요”를 눌렀습니다. 즉시 전화로 확인해주세요. 응급상황이면 119에 연락해주세요.`
-    : `[안부웍스 확인 요청] ${input.parentName}님이 “몸이 불편해요”를 눌렀습니다. 전화로 상태를 확인해주세요.`
-
-  const result = await insertRow('notification_outbox', {
-    family_code: input.familyCode,
-    channel: 'sms',
-    to_name: input.guardianName || '보호자',
-    to_phone: input.guardianPhone,
-    title: input.title,
-    body,
-    template_code: urgent ? 'guardian_urgent_help' : 'guardian_sick',
-    reason: urgent ? 'parent-urgent-help' : 'parent-feeling-sick',
-    target_url: `/guardian/today?familyCode=${encodeURIComponent(input.familyCode)}`,
-    status: 'queued',
-    payload: {
-      source: 'parent_routine_checkin',
-      eventId: input.eventId,
-      signalLabel: input.signalLabel,
-      riskLevel: input.riskLevel
-    }
-  })
-
-  return {
-    ok: result.ok,
-    skipped: false,
-    reason: result.error || null
-  }
-}
-
-export async function GET(request: NextRequest) {
-  const familyCode = cleanFamilyCode(request.nextUrl.searchParams.get('familyCode'))
-
-  if (!familyCode) {
-    return NextResponse.json({
-      ok: true,
-      demo: true,
-      generatedKst: kstNowLabel(),
-      family: null,
-      recentRecords: []
-    })
-  }
-
-  const [familyResult, recentResult] = await Promise.all([
-    restRows('anbu_family_links', {
-      select: 'family_code,parent_name,guardian_name,guardian_phone,created_at',
-      family_code: `eq.${familyCode}`,
-      order: 'created_at.desc',
-      limit: '1'
-    }),
-    restRows('care_response_requests', {
-      select: 'id,signal_type,signal_label,risk_level,status,created_at',
-      family_code: `eq.${familyCode}`,
-      order: 'created_at.desc',
-      limit: '12'
-    })
-  ])
-
-  if (!familyResult.ok) {
-    return NextResponse.json(
-      {
+    if (!response.ok) {
+      return {
         ok: false,
-        message: '가족 정보를 불러오지 못했습니다.',
-        detail: familyResult.error
-      },
-      { status: 500 }
-    )
+        rows: [],
+        error: `${table}: ${response.status} ${raw.slice(0, 300)}`
+      }
+    }
+
+    return {
+      ok: true,
+      rows: Array.isArray(parsed) ? parsed as Row[] : []
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      rows: [],
+      error: `${table}: ${error instanceof Error ? error.message : 'fetch failed'}`
+    }
   }
-
-  const family = familyResult.rows[0]
-
-  if (!family) {
-    return NextResponse.json(
-      {
-        ok: false,
-        message: '등록된 가족코드를 찾지 못했습니다.'
-      },
-      { status: 404 }
-    )
-  }
-
-  return NextResponse.json({
-    ok: true,
-    demo: false,
-    generatedKst: kstNowLabel(),
-    family: {
-      familyCode,
-      parentName: maskName(family.parent_name) || '부모님',
-      guardianName: maskName(family.guardian_name) || '보호자',
-      guardianPhoneMasked: maskPhone(family.guardian_phone)
-    },
-    recentRecords: recentResult.rows.map((row) => ({
-      id: text(row.id),
-      label: text(row.signal_label) || text(row.signal_type) || '안부 기록',
-      signalType: text(row.signal_type),
-      riskLevel: text(row.risk_level) || 'low',
-      status: text(row.status) || 'recorded',
-      createdAt: text(row.created_at)
-    })),
-    sourceErrors: recentResult.ok ? [] : [recentResult.error]
-  })
 }
 
-export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({}))
-  const familyCode = cleanFamilyCode(body.familyCode)
-  const slot = text(body.timeSlot) as TimeSlot
-  const action = text(body.action) as RoutineAction
-  const medicationDue = bool(body.medicationDue, true)
+function kstInfo(date = new Date()) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hourCycle: 'h23'
+  }).formatToParts(date)
 
-  if (!familyCode) {
-    return NextResponse.json({ ok: false, message: '가족코드가 필요합니다.' }, { status: 400 })
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]))
+  const hour = Number(values.hour || '0')
+  const minute = Number(values.minute || '0')
+
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    minuteOfDay: hour * 60 + minute,
+    label: `${values.month}.${values.day} ${values.hour}:${values.minute}`,
+    iso: date.toISOString()
   }
+}
 
-  if (!allowedSlots.has(slot)) {
-    return NextResponse.json({ ok: false, message: '시간대가 올바르지 않습니다.' }, { status: 400 })
+function kstDayRange(dateString: string) {
+  const start = new Date(`${dateString}T00:00:00+09:00`)
+  const end = new Date(start.getTime() + 24 * 60 * 60 * 1000)
+
+  return {
+    start: start.toISOString(),
+    end: end.toISOString()
   }
+}
 
-  if (!allowedActions.has(action)) {
-    return NextResponse.json({ ok: false, message: '안부 응답이 올바르지 않습니다.' }, { status: 400 })
-  }
+function medicationEnabled(schedule: Schedule, slot: SlotKey) {
+  if (slot === 'morning') return schedule.morningMedication
+  if (slot === 'lunch') return schedule.noonMedication
+  return schedule.eveningMedication
+}
 
-  if (action === 'medication_only' && !medicationDue) {
-    return NextResponse.json(
-      { ok: false, message: '약이 없는 시간대에는 복약 완료를 선택할 수 없습니다.' },
-      { status: 400 }
-    )
-  }
+function slotTime(schedule: Schedule, slot: SlotKey) {
+  if (slot === 'morning') return schedule.breakfastTime
+  if (slot === 'lunch') return schedule.lunchTime
+  return schedule.dinnerTime
+}
 
-  const familyResult = await restRows('anbu_family_links', {
-    select: 'family_code,parent_name,guardian_name,guardian_phone,created_at',
+function currentSlot(schedule: Schedule, minuteOfDay: number): SlotKey | null {
+  const breakfast = toMinutes(schedule.breakfastTime)
+  const lunch = toMinutes(schedule.lunchTime)
+  const dinner = toMinutes(schedule.dinnerTime)
+  const firstVisible = Math.max(0, breakfast - 90)
+  const morningEnd = Math.floor((breakfast + lunch) / 2)
+  const lunchEnd = Math.floor((lunch + dinner) / 2)
+
+  if (minuteOfDay < firstVisible) return null
+  if (minuteOfDay < morningEnd) return 'morning'
+  if (minuteOfDay < lunchEnd) return 'lunch'
+  return 'evening'
+}
+
+function nextSlotKey(current: SlotKey | null): SlotKey {
+  if (current === 'morning') return 'lunch'
+  if (current === 'lunch') return 'evening'
+  return 'morning'
+}
+
+async function loadFamily(familyCode: string) {
+  const result = await restRows('anbu_family_links', {
+    select: '*',
     family_code: `eq.${familyCode}`,
     order: 'created_at.desc',
     limit: '1'
   })
 
-  const family = familyResult.rows[0]
+  if (!result.ok) return { family: null, error: result.error }
+  return { family: result.rows[0] || null, error: undefined }
+}
 
-  if (!family) {
+async function loadSchedule(familyCode: string) {
+  const result = await restRows('care_response_requests', {
+    select: 'payload,created_at',
+    family_code: `eq.${familyCode}`,
+    signal_type: 'eq.routine_schedule',
+    order: 'created_at.desc',
+    limit: '1'
+  })
+
+  if (!result.ok || !result.rows[0]) {
+    return {
+      schedule: DEFAULT_SCHEDULE,
+      source: 'default' as const,
+      error: result.ok ? undefined : result.error
+    }
+  }
+
+  const payload = parsePayload(result.rows[0].payload)
+  const stored = payload.schedule ?? payload
+  const schedule = normalizeSchedule(stored)
+
+  return {
+    schedule: scheduleIsOrdered(schedule) ? schedule : DEFAULT_SCHEDULE,
+    source: 'saved' as const,
+    error: undefined
+  }
+}
+
+async function loadTodayRows(familyCode: string, dateString: string) {
+  const range = kstDayRange(dateString)
+
+  return restRows('care_response_requests', {
+    select: 'id,signal_type,signal_label,risk_level,status,payload,created_at',
+    family_code: `eq.${familyCode}`,
+    created_at: `gte.${range.start}`,
+    and: `(created_at.lt.${range.end})`,
+    order: 'created_at.asc',
+    limit: '300'
+  })
+}
+
+function statusValue(value: unknown): StatusValue | null {
+  if (
+    value === 'done' ||
+    value === 'not_done' ||
+    value === 'unknown' ||
+    value === 'not_applicable' ||
+    value === 'needs_help'
+  ) {
+    return value
+  }
+
+  return null
+}
+
+function aggregateSlot(
+  rows: Row[],
+  slot: SlotKey,
+  isMedicationEnabled: boolean
+): SlotState {
+  let mealStatus: StatusValue = 'unknown'
+  let medicationStatus: StatusValue = isMedicationEnabled ? 'unknown' : 'not_applicable'
+  let conditionStatus: StatusValue = 'unknown'
+  let emergency = false
+  let responded = false
+  let lastAction = ''
+  let lastLabel = ''
+  let lastAt: string | null = null
+  let snoozedUntil: string | null = null
+
+  for (const row of rows) {
+    if (!text(row.signal_type).startsWith('routine_')) continue
+    if (text(row.signal_type) === 'routine_schedule') continue
+    if (text(row.signal_type) === 'routine_reminder_sent') continue
+
+    const payload = parsePayload(row.payload)
+    if (text(payload.source) !== 'parent_routine') continue
+    if (text(payload.slot) !== slot) continue
+
+    const meal = statusValue(payload.mealStatus)
+    const medication = statusValue(payload.medicationStatus)
+    const condition = statusValue(payload.conditionStatus)
+
+    if (meal && meal !== 'unknown') mealStatus = meal
+    if (medication && medication !== 'unknown') medicationStatus = medication
+    if (condition && condition !== 'unknown') conditionStatus = condition
+
+    if (payload.emergency === true) emergency = true
+
+    const action = text(payload.action)
+    if (action && action !== 'later') responded = true
+
+    if (text(payload.snoozeUntil)) {
+      snoozedUntil = text(payload.snoozeUntil)
+    }
+
+    lastAction = action || lastAction
+    lastLabel = text(row.signal_label) || lastLabel
+    lastAt = text(row.created_at) || lastAt
+  }
+
+  const complete =
+    mealStatus === 'done' &&
+    (medicationStatus === 'done' || medicationStatus === 'not_applicable') &&
+    conditionStatus !== 'needs_help' &&
+    !emergency
+
+  const needsAttention =
+    mealStatus === 'not_done' ||
+    medicationStatus === 'not_done' ||
+    conditionStatus === 'needs_help' ||
+    emergency
+
+  return {
+    slot,
+    mealStatus,
+    medicationStatus,
+    conditionStatus,
+    emergency,
+    complete,
+    needsAttention,
+    responded,
+    lastAction,
+    lastLabel,
+    lastAt,
+    snoozedUntil
+  }
+}
+
+async function buildView(familyCode: string, family?: Row | null) {
+  const now = kstInfo()
+  const scheduleResult = await loadSchedule(familyCode)
+  const todayRowsResult = await loadTodayRows(familyCode, now.date)
+  const rows = todayRowsResult.ok ? todayRowsResult.rows : []
+  const slotKeys: SlotKey[] = ['morning', 'lunch', 'evening']
+  const slots = Object.fromEntries(
+    slotKeys.map((slot) => [
+      slot,
+      aggregateSlot(rows, slot, medicationEnabled(scheduleResult.schedule, slot))
+    ])
+  ) as Record<SlotKey, SlotState>
+
+  const active = currentSlot(scheduleResult.schedule, now.minuteOfDay)
+  const next = nextSlotKey(active)
+
+  return {
+    ok: true,
+    date: now.date,
+    generatedKst: now.label,
+    family: {
+      familyCode,
+      parentName: text(family?.parent_name) || '부모님',
+      guardianName: text(family?.guardian_name) || '보호자'
+    },
+    schedule: scheduleResult.schedule,
+    scheduleSource: scheduleResult.source,
+    currentSlot: active
+      ? {
+          key: active,
+          label: SLOT_LABELS[active],
+          time: slotTime(scheduleResult.schedule, active),
+          medicationEnabled: medicationEnabled(scheduleResult.schedule, active)
+        }
+      : null,
+    nextSlot: {
+      key: next,
+      label: SLOT_LABELS[next],
+      time: slotTime(scheduleResult.schedule, next),
+      medicationEnabled: medicationEnabled(scheduleResult.schedule, next)
+    },
+    slots,
+    currentState: active ? slots[active] : null,
+    sourceErrors: [scheduleResult.error, todayRowsResult.error].filter(Boolean)
+  }
+}
+
+function actionMeta(
+  action: RoutineAction,
+  slot: SlotKey,
+  schedule: Schedule
+) {
+  const label = SLOT_LABELS[slot]
+  const hasMedication = medicationEnabled(schedule, slot)
+  const base = {
+    mealStatus: 'unknown' as StatusValue,
+    medicationStatus: hasMedication ? 'unknown' as StatusValue : 'not_applicable' as StatusValue,
+    conditionStatus: 'unknown' as StatusValue,
+    emergency: false,
+    snoozeUntil: null as string | null,
+    riskLevel: 'low',
+    status: 'completed',
+    signalLabel: `${label} 안부 확인`
+  }
+
+  if (action === 'all_done') {
+    return {
+      ...base,
+      mealStatus: 'done' as StatusValue,
+      medicationStatus: hasMedication ? 'done' as StatusValue : 'not_applicable' as StatusValue,
+      signalLabel: hasMedication
+        ? `${label} 식사·복약 완료`
+        : `${label} 식사 완료`
+    }
+  }
+
+  if (action === 'meal_only' || action === 'meal_done') {
+    return {
+      ...base,
+      mealStatus: 'done' as StatusValue,
+      signalLabel: `${label} 식사 완료`
+    }
+  }
+
+  if (action === 'medication_only' || action === 'medication_done') {
+    return {
+      ...base,
+      medicationStatus: 'done' as StatusValue,
+      signalLabel: `${label} 복약 완료`
+    }
+  }
+
+  if (action === 'meal_not_done') {
+    return {
+      ...base,
+      mealStatus: 'not_done' as StatusValue,
+      riskLevel: 'medium',
+      status: 'manual_needed',
+      signalLabel: `${label} 식사 확인 필요`
+    }
+  }
+
+  if (action === 'medication_not_done') {
+    return {
+      ...base,
+      medicationStatus: 'not_done' as StatusValue,
+      riskLevel: 'medium',
+      status: 'manual_needed',
+      signalLabel: `${label} 복약 확인 필요`
+    }
+  }
+
+  if (action === 'later') {
+    const snoozeUntil = new Date(
+      Date.now() + schedule.reminderDelayMinutes * 60 * 1000
+    ).toISOString()
+
+    return {
+      ...base,
+      status: 'pending',
+      snoozeUntil,
+      signalLabel: `${label} ${schedule.reminderDelayMinutes}분 후 재알림`
+    }
+  }
+
+  if (action === 'condition_issue') {
+    return {
+      ...base,
+      conditionStatus: 'needs_help' as StatusValue,
+      riskLevel: 'medium',
+      status: 'manual_needed',
+      signalLabel: `${label} 몸 상태 확인 필요`
+    }
+  }
+
+  return {
+    ...base,
+    conditionStatus: 'needs_help' as StatusValue,
+    emergency: true,
+    riskLevel: 'high',
+    status: 'manual_needed',
+    signalLabel: `${label} 도움 요청`
+  }
+}
+
+function guardianAlertText(action: RoutineAction, parentName: string, slot: SlotKey) {
+  const label = SLOT_LABELS[slot]
+
+  if (action === 'need_help') {
+    return {
+      title: '도움 요청 확인 필요',
+      body: `[안부웍스] ${parentName}님이 “도움이 필요해요”를 눌렀습니다. 즉시 전화로 상태를 확인해주세요. 응급상황이면 119에 연락해주세요.`
+    }
+  }
+
+  if (action === 'condition_issue') {
+    return {
+      title: '몸 상태 확인 필요',
+      body: `[안부웍스] ${parentName}님이 ${label} 확인에서 몸이 불편하다고 응답했습니다. 가능한 한 빠르게 전화로 상태를 확인해주세요.`
+    }
+  }
+
+  if (action === 'meal_not_done') {
+    return {
+      title: '식사 확인 필요',
+      body: `[안부웍스] ${parentName}님의 ${label} 식사가 “확인 필요”로 기록되었습니다. 식사하지 않았다고 단정하지 말고 전화로 확인해주세요.`
+    }
+  }
+
+  return {
+    title: '복약 확인 필요',
+    body: `[안부웍스] ${parentName}님의 ${label} 복약이 “확인 필요”로 기록되었습니다. 복약하지 않았다고 단정하지 말고 전화로 확인해주세요.`
+  }
+}
+
+async function queueGuardianAlert(input: {
+  familyCode: string
+  family: Row
+  action: RoutineAction
+  slot: SlotKey
+}) {
+  if (
+    input.action !== 'need_help' &&
+    input.action !== 'condition_issue' &&
+    input.action !== 'meal_not_done' &&
+    input.action !== 'medication_not_done'
+  ) {
+    return {
+      ok: true,
+      skipped: true,
+      reason: 'normal_or_partial_response'
+    }
+  }
+
+  const guardianPhone = text(input.family.guardian_phone).replace(/[^\d+]/g, '')
+
+  if (!guardianPhone) {
+    return {
+      ok: false,
+      skipped: true,
+      reason: 'guardian_phone_missing'
+    }
+  }
+
+  const parentName = text(input.family.parent_name) || '부모님'
+  const guardianName = text(input.family.guardian_name) || '보호자'
+  const message = guardianAlertText(input.action, parentName, input.slot)
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://parents-care.net').replace(/\/$/, '')
+  const row = {
+    family_code: input.familyCode,
+    channel: 'sms',
+    to_name: guardianName,
+    to_phone: guardianPhone,
+    title: message.title,
+    body: message.body,
+    template_code: 'parent-routine-alert',
+    reason: 'parent-routine-alert',
+    target_url: `${siteUrl}/child/dashboard`,
+    status: 'queued',
+    payload: {
+      source: 'parent_routine',
+      action: input.action,
+      slot: input.slot,
+      nonMedicalNotice: true
+    }
+  }
+
+  const primary = await insertRow('notification_outbox', row)
+  if (primary.ok) return { ok: true, table: 'notification_outbox' }
+
+  const fallback = await insertRow('anbu_notification_outbox', row)
+  return {
+    ok: fallback.ok,
+    table: fallback.ok ? 'anbu_notification_outbox' : null,
+    error: fallback.error || primary.error
+  }
+}
+
+function familyCodeFromRequest(request: NextRequest, bodyCode?: unknown) {
+  return cleanFamilyCode(
+    bodyCode ||
+      request.cookies.get('pc_parent_invite_code')?.value ||
+      request.cookies.get('anbu_family_code')?.value ||
+      ''
+  )
+}
+
+export async function GET(request: NextRequest) {
+  const familyCode = familyCodeFromRequest(
+    request,
+    request.nextUrl.searchParams.get('familyCode')
+  )
+
+  if (!familyCode) {
     return NextResponse.json(
-      { ok: false, message: '등록된 가족코드를 찾지 못했습니다.' },
-      { status: 404 }
+      {
+        ok: false,
+        message: '부모님 연결코드가 필요합니다.'
+      },
+      { status: 400 }
     )
   }
 
-  const parentName = text(family.parent_name) || '부모님'
-  const guardianName = text(family.guardian_name) || '보호자'
-  const guardianPhone = text(family.guardian_phone)
-  const eventId = randomUUID()
-  const meta = actionMeta(action, slot, medicationDue)
-  const reminderAt = action === 'snooze'
-    ? new Date(Date.now() + 30 * 60 * 1000).toISOString()
-    : null
+  const familyResult = await loadFamily(familyCode)
 
-  const insertResult = await insertRow('care_response_requests', {
+  if (!familyResult.family) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '연결된 가족 정보를 찾지 못했습니다.',
+        detail: familyResult.error
+      },
+      { status: familyResult.error ? 500 : 404 }
+    )
+  }
+
+  return NextResponse.json(await buildView(familyCode, familyResult.family))
+}
+
+export async function POST(request: NextRequest) {
+  const body = await request.json().catch(() => ({})) as Row
+  const familyCode = familyCodeFromRequest(request, body.familyCode)
+
+  if (!familyCode) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '부모님 연결코드가 필요합니다.'
+      },
+      { status: 400 }
+    )
+  }
+
+  const familyResult = await loadFamily(familyCode)
+
+  if (!familyResult.family) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '연결된 가족 정보를 찾지 못했습니다.',
+        detail: familyResult.error
+      },
+      { status: familyResult.error ? 500 : 404 }
+    )
+  }
+
+  const mode = text(body.mode) || 'checkin'
+
+  if (mode === 'save_schedule') {
+    const schedule = normalizeSchedule(body.schedule)
+
+    if (!scheduleIsOrdered(schedule)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '아침·점심·저녁 시간은 순서대로 설정해주세요.'
+        },
+        { status: 400 }
+      )
+    }
+
+    if (schedule.escalationDelayMinutes <= schedule.reminderDelayMinutes) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '보호자 확인 시간은 첫 재알림 시간보다 늦어야 합니다.'
+        },
+        { status: 400 }
+      )
+    }
+
+    const insert = await insertRow('care_response_requests', {
+      family_code: familyCode,
+      parent_name: text(familyResult.family.parent_name) || '부모님',
+      guardian_name: text(familyResult.family.guardian_name) || '보호자',
+      signal_type: 'routine_schedule',
+      signal_label: '부모님 식사·복약 일정 설정',
+      request_type: 'parent_checkin',
+      risk_level: 'low',
+      status: 'completed',
+      payload: {
+        source: 'parent_routine_schedule',
+        schedule,
+        savedAt: new Date().toISOString()
+      }
+    })
+
+    if (!insert.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          message: '일정 저장에 실패했습니다.',
+          detail: insert.error
+        },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json({
+      ...(await buildView(familyCode, familyResult.family)),
+      message: '부모님별 확인 일정이 저장되었습니다.'
+    })
+  }
+
+  const slot = text(body.slot) as SlotKey
+  const action = text(body.action) as RoutineAction
+
+  if (slot !== 'morning' && slot !== 'lunch' && slot !== 'evening') {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '확인 시간대가 올바르지 않습니다.'
+      },
+      { status: 400 }
+    )
+  }
+
+  if (!ALLOWED_ACTIONS.has(action)) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '확인 버튼 값이 올바르지 않습니다.'
+      },
+      { status: 400 }
+    )
+  }
+
+  const scheduleResult = await loadSchedule(familyCode)
+  const meta = actionMeta(action, slot, scheduleResult.schedule)
+  const now = kstInfo()
+
+  const insert = await insertRow('care_response_requests', {
     family_code: familyCode,
-    parent_name: parentName,
-    guardian_name: guardianName,
-    signal_type: meta.signalType,
+    parent_name: text(familyResult.family.parent_name) || '부모님',
+    guardian_name: text(familyResult.family.guardian_name) || '보호자',
+    signal_type: `routine_${action}`,
     signal_label: meta.signalLabel,
-    request_type: meta.requestType,
+    request_type: 'parent_checkin',
     risk_level: meta.riskLevel,
     status: meta.status,
     payload: {
-      source: 'parent_routine_checkin',
-      eventId,
+      source: 'parent_routine',
+      slot,
       action,
-      timeSlot: slot,
-      timeSlotLabel: slotLabel(slot),
-      mealStatus: meta.meal,
-      medicationStatus: meta.medication,
-      conditionStatus: meta.condition,
-      medicationDue,
-      reminderAt,
-      submittedAtKst: kstNowLabel(),
-      interpretationRule: 'unknown은 미식사·미복약을 뜻하지 않고 미확인을 뜻함'
+      mealStatus: meta.mealStatus,
+      medicationStatus: meta.medicationStatus,
+      conditionStatus: meta.conditionStatus,
+      emergency: meta.emergency,
+      snoozeUntil: meta.snoozeUntil,
+      medicationEnabled: medicationEnabled(scheduleResult.schedule, slot),
+      occurredAtKst: now.label,
+      clickedAt: now.iso
     }
   })
 
-  const mirrorResult = await mirrorDailyCareEvents({
+  if (!insert.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: '안부 확인 저장에 실패했습니다.',
+        detail: insert.error
+      },
+      { status: 500 }
+    )
+  }
+
+  const guardianAlert = await queueGuardianAlert({
     familyCode,
-    parentName,
+    family: familyResult.family,
     action,
-    slot,
-    medicationDue,
-    eventId
+    slot
   })
 
-  const notification = await maybeQueueGuardianNotification({
-    action,
-    familyCode,
-    parentName,
-    guardianName,
-    guardianPhone,
-    title: meta.title,
-    signalLabel: meta.signalLabel,
-    riskLevel: meta.riskLevel,
-    eventId
-  })
+  const view = await buildView(familyCode, familyResult.family)
 
   return NextResponse.json({
-    ok: true,
-    persisted: insertResult.ok,
-    warning: insertResult.ok ? null : insertResult.error || '서버 저장에 실패했습니다.',
-    eventId,
-    reminderAt,
-    mirror: mirrorResult,
-    notification,
-    record: {
-      id: insertResult.ok && insertResult.rows[0] ? text(insertResult.rows[0].id) : `local-${Date.now()}`,
-      label: meta.signalLabel,
-      signalType: meta.signalType,
-      riskLevel: meta.riskLevel,
-      status: meta.status,
-      createdAt: new Date().toISOString()
-    }
+    ...view,
+    message:
+      action === 'later'
+        ? `${scheduleResult.schedule.reminderDelayMinutes}분 후 다시 알려드릴게요.`
+        : action === 'need_help'
+          ? '도움 요청을 보호자 확인 대상으로 기록했습니다.'
+          : action === 'condition_issue'
+            ? '몸 상태를 보호자 확인 대상으로 기록했습니다.'
+            : `${meta.signalLabel}로 저장했습니다.`,
+    guardianAlert
   })
 }
