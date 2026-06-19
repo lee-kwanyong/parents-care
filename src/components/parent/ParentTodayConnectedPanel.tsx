@@ -1,7 +1,7 @@
 'use client'
 
-import { ParentRoutineCheckin } from '@/components/parent/ParentRoutineCheckin'
+import { ParentAutoGate } from '@/components/parent/ParentAutoGate'
 
 export function ParentTodayConnectedPanel() {
-  return <ParentRoutineCheckin />
+  return <ParentAutoGate />
 }
