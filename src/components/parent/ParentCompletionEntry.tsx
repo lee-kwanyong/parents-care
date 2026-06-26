@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type Signal = 'ok' | 'uncomfortable' | 'help'
 
@@ -19,9 +19,11 @@ function initialFamilyCode() {
 
 export function ParentCompletionEntry() {
   const [familyCode, setFamilyCode] = useState('')
-  const [saving, setSaving] = useState<Signal | ''>('')
+  const [saving, setSaving] = useState<Signal | 'undo' | ''>('')
   const [message, setMessage] = useState('')
-  const [lastSignal, setLastSignal] = useState<Signal | ''>('')
+  const [undoCaseId, setUndoCaseId] = useState('')
+  const [undoVisible, setUndoVisible] = useState(false)
+  const undoTimer = useRef<number | null>(null)
 
   useEffect(() => {
     const code = initialFamilyCode()
@@ -30,7 +32,24 @@ export function ParentCompletionEntry() {
     if (code && typeof window !== 'undefined') {
       window.localStorage.setItem('anbu-parent-family-code', code)
     }
+
+    return () => {
+      if (undoTimer.current) window.clearTimeout(undoTimer.current)
+    }
   }, [])
+
+  function showUndo(caseId: string) {
+    setUndoCaseId(caseId)
+    setUndoVisible(Boolean(caseId))
+
+    if (undoTimer.current) window.clearTimeout(undoTimer.current)
+
+    if (caseId) {
+      undoTimer.current = window.setTimeout(() => {
+        setUndoVisible(false)
+      }, 30_000)
+    }
+  }
 
   async function submit(signal: Signal) {
     const clean = familyCode.trim()
@@ -73,17 +92,59 @@ export function ParentCompletionEntry() {
         window.localStorage.setItem('anbu-parent-family-code', clean)
       }
 
-      setLastSignal(signal)
-
       if (signal === 'ok') {
+        showUndo('')
         setMessage('오늘 안부가 정상으로 기록되었습니다. 보호자에게는 요약 리포트로 전달됩니다.')
       } else if (signal === 'uncomfortable') {
-        setMessage('몸 상태 확인이 필요한 상황으로 기록되었습니다. 보호자가 확인할 수 있습니다.')
+        showUndo(String(result.createdCaseId || ''))
+        setMessage('몸 상태 확인이 필요한 상황으로 기록되었습니다. 잘못 눌렀다면 아래 취소 버튼을 눌러주세요.')
       } else {
-        setMessage('도움 요청이 기록되었습니다. 보호자가 확인할 수 있습니다.')
+        showUndo(String(result.createdCaseId || ''))
+        setMessage('도움 요청이 기록되었습니다. 잘못 눌렀다면 아래 취소 버튼을 눌러주세요.')
       }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : '안부 저장에 실패했습니다.')
+    } finally {
+      setSaving('')
+    }
+  }
+
+  async function undo() {
+    const clean = familyCode.trim()
+
+    if (!clean || !undoCaseId) return
+
+    setSaving('undo')
+    setMessage('')
+
+    try {
+      const response = await fetch('/api/anbu-completion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        cache: 'no-store',
+        body: JSON.stringify({
+          familyCode: clean,
+          action: 'cancel_case',
+          caseId: undoCaseId,
+          actorName: '부모님',
+          actorRole: 'parent',
+          resultType: 'wrong_press',
+          note: '부모님이 잘못 눌러 취소했습니다.'
+        })
+      })
+
+      const result = await response.json().catch(() => ({}))
+
+      if (!response.ok || result.ok === false) {
+        throw new Error(result.message || '취소에 실패했습니다.')
+      }
+
+      setUndoVisible(false)
+      setUndoCaseId('')
+      setMessage('잘못 누른 기록을 취소했습니다.')
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : '취소에 실패했습니다.')
     } finally {
       setSaving('')
     }
@@ -102,7 +163,7 @@ export function ParentCompletionEntry() {
           </h1>
 
           <p className="mt-4 text-base font-bold leading-8 text-[#637B76]">
-            복잡하게 적지 않아도 됩니다. 하나만 눌러주세요. 확인이 필요한 경우에만 보호자가 확인하고, 결과가 안부완료 리포트에 남습니다.
+            하나만 눌러주세요. 확인이 필요한 경우에만 보호자가 실제 확인하고, 결과가 안부완료 리포트에 남습니다.
           </p>
 
           <div className="mt-7">
@@ -120,6 +181,16 @@ export function ParentCompletionEntry() {
             </div>
           ) : null}
 
+          {undoVisible ? (
+            <button
+              onClick={undo}
+              disabled={Boolean(saving)}
+              className="mt-4 w-full rounded-2xl bg-[#F3F4F6] px-5 py-4 text-lg font-black text-[#4B5563] ring-1 ring-[#E5E7EB] disabled:opacity-50"
+            >
+              {saving === 'undo' ? '취소 중...' : '잘못 눌렀어요'}
+            </button>
+          ) : null}
+
           <div className="mt-6 grid gap-4">
             <button
               onClick={() => submit('ok')}
@@ -130,7 +201,7 @@ export function ParentCompletionEntry() {
                 {saving === 'ok' ? '저장 중...' : '괜찮아요'}
               </span>
               <span className="mt-2 block text-sm font-bold leading-7 opacity-80">
-                정상 안부로 조용히 기록되고, 보호자에게는 요약 리포트로 전달됩니다.
+                정상 안부로 조용히 기록됩니다.
               </span>
             </button>
 
@@ -143,7 +214,7 @@ export function ParentCompletionEntry() {
                 {saving === 'uncomfortable' ? '저장 중...' : '조금 불편해요'}
               </span>
               <span className="mt-2 block text-sm font-bold leading-7 opacity-80">
-                보호자가 확인할 수 있도록 확인필요 상황으로 남깁니다.
+                보호자가 확인할 수 있도록 확인필요 사건으로 남깁니다.
               </span>
             </button>
 
@@ -160,12 +231,6 @@ export function ParentCompletionEntry() {
               </span>
             </button>
           </div>
-
-          {lastSignal ? (
-            <div className="mt-5 rounded-2xl bg-[#F7FFFC] p-4 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
-              잘못 누르셨다면 보호자에게 알려주세요. 다음 단계에서 “잘못 눌렀어요” 취소 기능을 붙일 예정입니다.
-            </div>
-          ) : null}
 
           <div className="mt-5 rounded-2xl bg-white p-4 text-xs font-bold leading-6 text-[#637B76] ring-1 ring-[#EDF6F3]">
             안부웍스는 의료 진단이나 응급구조를 대신하지 않습니다. 응급상황이면 앱보다 먼저 119 또는 의료기관에 연락해주세요.
