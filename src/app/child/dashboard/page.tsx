@@ -1,12 +1,17 @@
-import { GuardianThreeSecondPanel } from '@/components/guardian/GuardianThreeSecondPanel'
+import { Suspense } from 'react'
+import { GuardianCompletionCarePanel } from '@/components/guardian/GuardianCompletionCarePanel'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '보호자 3초 안부 | 안부웍스',
-  description: '부모님의 현재 상태, 데이터 신뢰도, 지금 할 일을 3초 안에 확인합니다.'
+  title: '안부완료 리포트 | 안부웍스',
+  description: '확인필요 상황을 담당자 지정, 실제 확인, 완료 리포트까지 관리합니다.'
 }
 
 export default function ChildDashboardPage() {
-  return <GuardianThreeSecondPanel />
+  return (
+    <Suspense fallback={<main className="min-h-screen p-8">안부완료 리포트를 불러오는 중입니다.</main>}>
+      <GuardianCompletionCarePanel />
+    </Suspense>
+  )
 }

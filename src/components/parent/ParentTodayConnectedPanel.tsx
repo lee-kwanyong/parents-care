@@ -1,7 +1,7 @@
 'use client'
 
-import { ParentAutoGate } from '@/components/parent/ParentAutoGate'
+import { ParentCompletionEntry } from '@/components/parent/ParentCompletionEntry'
 
 export function ParentTodayConnectedPanel() {
-  return <ParentAutoGate />
+  return <ParentCompletionEntry />
 }
