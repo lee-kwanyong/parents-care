@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PricingReferralPanel } from '@/components/public/PricingReferralPanel'
 
 const signalCards = [
   {
@@ -93,6 +94,10 @@ export function PublicServiceIntroPanel() {
                 <Link href="/onboarding" className="rounded-2xl bg-[#FAFFFD] px-6 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   가입 후 시작하기
                 </Link>
+                <Link href="/pricing" className="rounded-2xl bg-[#EFFFFA] px-6 py-4 text-center text-sm font-black text-[#247A71] ring-1 ring-[#CDEFE7]">
+                  요금제 보기
+                </Link>
+
               </div>
             </div>
 
@@ -128,6 +133,8 @@ export function PublicServiceIntroPanel() {
             </div>
           </div>
         </section>
+
+        <PricingReferralPanel compact />
 
         <section className="grid gap-4 md:grid-cols-3">
           {signalCards.map((card) => (
