@@ -71,7 +71,7 @@ function initialQuery(name: string) {
 }
 
 export function CheckoutPaymentPanel() {
-  const [planCode, setPlanCode] = useState('two-week-care-299000')
+  const [planCode, setPlanCode] = useState('two-week-care-basic-179000')
   const [customerName, setCustomerName] = useState('')
   const [customerPhone, setCustomerPhone] = useState('')
   const [customerEmail, setCustomerEmail] = useState('')

@@ -32,7 +32,7 @@ function makeReferralCode(name: string, phone: string) {
 export function PricingReferralPanel({ compact = false }: Props) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [planCode, setPlanCode] = useState('two-week-care-299000')
+  const [planCode, setPlanCode] = useState('two-week-care-basic-179000')
   const [referralCode, setReferralCode] = useState('')
   const [message, setMessage] = useState('')
   const [saving, setSaving] = useState(false)
@@ -122,11 +122,11 @@ export function PricingReferralPanel({ compact = false }: Props) {
           <h2 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em]">
             월 9,900원 리포트,
             <br />
-            2주 케어 299,000원.
+            2주 케어는 179,000원부터.
           </h2>
 
           <p className="mt-4 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            안부완료 리포트는 가족이 직접 확인하는 월 구독입니다. 퇴원 후 2주 안부케어는 생활확인 파트너 확인까지 포함한 299,000원 단일 상품으로 운영합니다.
+            안부완료 리포트는 가족이 직접 확인하는 월 구독입니다. 퇴원 후 2주 안부케어는 생활확인 파트너 포함 횟수에 따라 베이직과 플러스로 운영합니다.
           </p>
         </div>
 
@@ -138,7 +138,7 @@ export function PricingReferralPanel({ compact = false }: Props) {
         </Link>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-6 grid gap-4 lg:grid-cols-3">
         {displayPlans.map((plan) => (
           <article
             key={plan.code}

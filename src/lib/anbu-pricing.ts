@@ -49,20 +49,48 @@ export const ANBU_PRICING_PLANS: AnbuPricingPlan[] = [
     }
   },
   {
+    code: 'two-week-care-basic-179000',
+    badge: '중간 요금제',
+    title: '퇴원 후 2주 안부케어 베이직',
+    priceKrw: 179000,
+    priceLabel: '179,000원',
+    subPrice: '14일 · 생활확인 파트너 1회 포함',
+    desc: '퇴원 직후 2주 동안 안부확인, 미응답 재확인, 운영실 확인, 생활확인 파트너 확인 1회, 종료 리포트를 제공하는 중간 케어 상품입니다.',
+    billingCycle: 'one_time',
+    category: 'care',
+    durationDays: 14,
+    officeChecks: 3,
+    partnerVisits: 1,
+    purchasable: true,
+    recommended: true,
+    features: [
+      '14일 안부 확인',
+      '미응답 재확인',
+      '운영실 확인',
+      '생활확인 파트너 1회 포함',
+      '14일 안부완료 리포트'
+    ],
+    metadata: {
+      humanVisitIncluded: true,
+      partnerVisitIncluded: 1,
+      recommended: true
+    }
+  },
+  {
     code: 'two-week-care-299000',
     badge: '2주 케어',
-    title: '퇴원 후 2주 안부케어',
+    title: '퇴원 후 2주 안부케어 플러스',
     priceKrw: 299000,
     priceLabel: '299,000원',
     subPrice: '14일 · 생활확인 파트너 3회 포함',
-    desc: '퇴원 직후 2주 동안 안부확인, 미응답 재확인, 보호자 확인 기록, 생활확인 파트너 확인, 종료 리포트를 제공하는 케어 상품입니다.',
+    desc: '퇴원 직후 2주 동안 안부확인, 미응답 재확인, 보호자 확인 기록, 생활확인 파트너 확인 3회, 종료 리포트를 제공하는 안심형 케어 상품입니다.',
     billingCycle: 'one_time',
     category: 'care',
     durationDays: 14,
     officeChecks: 5,
     partnerVisits: 3,
     purchasable: true,
-    recommended: true,
+    recommended: false,
     features: [
       '14일 안부 확인',
       '미응답 재확인',
@@ -73,12 +101,12 @@ export const ANBU_PRICING_PLANS: AnbuPricingPlan[] = [
     metadata: {
       humanVisitIncluded: true,
       partnerVisitIncluded: 3,
-      recommended: true
+      premium: true
     }
   }
 ]
 
-export const DEFAULT_PLAN_CODE = 'two-week-care-299000'
+export const DEFAULT_PLAN_CODE = 'two-week-care-basic-179000'
 
 export function normalizedPlanCode(value: unknown) {
   const code = typeof value === 'string'

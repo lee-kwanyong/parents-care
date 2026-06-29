@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: '요금제 | 안부웍스',
-  description: '월 9,900원 안부완료 리포트와 299,000원 퇴원 후 2주 안부케어 요금제입니다.'
+  description: '월 9,900원 안부완료 리포트, 179,000원 베이직 2주 케어, 299,000원 플러스 2주 케어 요금제입니다.'
 }
 
 export default function PricingPage() {
