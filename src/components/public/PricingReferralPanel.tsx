@@ -2,47 +2,16 @@
 
 import Link from 'next/link'
 import { useMemo, useState, type FormEvent } from 'react'
+import {
+  ANBU_REFERRAL_POINT,
+  corePlans,
+  getPricingPlan,
+  purchasablePlans
+} from '@/lib/anbu-pricing'
 
 type Props = {
   compact?: boolean
 }
-
-const plans = [
-  {
-    code: 'post-discharge-14',
-    badge: '퇴원 직후 추천',
-    title: '퇴원 후 14일 케어',
-    price: '14일 무료 실증',
-    subPrice: '정식가 49,000원 예정',
-    desc: '퇴원 후 혼자 계신 부모님의 14일 안부를 확인하고, 미응답·불편·도움 요청이 생기면 확인완료 리포트로 남깁니다.',
-    features: [
-      '14일 집중 안부 확인',
-      '미응답 재확인',
-      '불편·도움 요청 즉시 확인 사건 생성',
-      '보호자 전화 확인 결과 기록',
-      '14일 종료 안부완료 리포트'
-    ],
-    cta: '14일 실증 신청'
-  },
-  {
-    code: 'monthly-report-9900',
-    badge: '월 구독',
-    title: '안부완료 리포트',
-    price: '월 9,900원',
-    subPrice: '부모님 1명 기준',
-    desc: '정상 응답은 조용히 저장하고, 확인이 필요한 상황만 사건으로 관리해 매일·매주 리포트로 정리합니다.',
-    features: [
-      '부모님 3버튼 안부 입력',
-      '확인필요 사건함',
-      '담당자 지정',
-      '전화·방문 결과 입력',
-      '안부완료 리포트 저장·공유'
-    ],
-    cta: '월 9,900원 시작'
-  }
-]
-
-const referralPoint = 5000
 
 function onlyDigits(value: string) {
   return value.replace(/[^\d]/g, '')
@@ -63,14 +32,14 @@ function makeReferralCode(name: string, phone: string) {
 export function PricingReferralPanel({ compact = false }: Props) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [planCode, setPlanCode] = useState('post-discharge-14')
+  const [planCode, setPlanCode] = useState('two-week-care-299000')
   const [referralCode, setReferralCode] = useState('')
   const [message, setMessage] = useState('')
   const [saving, setSaving] = useState(false)
   const [generatedCode, setGeneratedCode] = useState('')
 
   const selectedPlan = useMemo(
-    () => plans.find((item) => item.code === planCode) || plans[0],
+    () => getPricingPlan(planCode),
     [planCode]
   )
 
@@ -104,7 +73,7 @@ export function PricingReferralPanel({ compact = false }: Props) {
           planTitle: selectedPlan.title,
           referralCode,
           generatedCode: nextCode,
-          pointAmount: referralPoint,
+          pointAmount: ANBU_REFERRAL_POINT,
           source: 'pricing_page'
         })
       })
@@ -119,7 +88,7 @@ export function PricingReferralPanel({ compact = false }: Props) {
       setMessage(
         result.persisted
           ? '신청이 접수되었습니다. 추천인코드는 아래에서 복사할 수 있습니다.'
-          : '신청 내용은 화면에 생성됐습니다. 서버 저장은 일부 실패했지만 코드 복사는 가능합니다.'
+          : '추천인코드는 생성됐습니다. 서버 저장은 일부 실패했지만 코드 복사는 가능합니다.'
       )
     } catch (error) {
       setGeneratedCode(nextCode)
@@ -140,6 +109,8 @@ export function PricingReferralPanel({ compact = false }: Props) {
     }
   }
 
+  const displayPlans = corePlans()
+
   return (
     <section className="rounded-[2rem] bg-white/95 p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-8">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -149,13 +120,13 @@ export function PricingReferralPanel({ compact = false }: Props) {
           </div>
 
           <h2 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em]">
-            부모님 안부,
+            월 9,900원 리포트,
             <br />
-            확인 완료까지.
+            2주 케어 299,000원.
           </h2>
 
           <p className="mt-4 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            안부웍스는 단순 알림 앱이 아니라, 확인필요 상황을 담당자 지정·전화 확인·결과 입력·안부완료 리포트까지 연결하는 비의료 안부확인 서비스입니다.
+            안부완료 리포트는 가족이 직접 확인하는 월 구독입니다. 퇴원 후 2주 안부케어는 생활확인 파트너 확인까지 포함한 299,000원 단일 상품으로 운영합니다.
           </p>
         </div>
 
@@ -168,27 +139,37 @@ export function PricingReferralPanel({ compact = false }: Props) {
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
-        {plans.map((plan) => (
+        {displayPlans.map((plan) => (
           <article
             key={plan.code}
-            className="flex flex-col rounded-[2rem] bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7] sm:p-6"
+            className={
+              'flex flex-col rounded-[2rem] p-5 ring-1 sm:p-6 ' +
+              (plan.recommended
+                ? 'bg-[#EFFFFA] ring-[#2AA897]'
+                : 'bg-[#FAFFFD] ring-[#D6EDE7]')
+            }
           >
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
                 {plan.badge}
               </span>
-              {plan.code === 'monthly-report-9900' ? (
+
+              {plan.partnerVisits ? (
                 <span className="rounded-full bg-[#FFF9EE] px-3 py-1 text-xs font-black text-[#795C22] ring-1 ring-[#F3DEB5]">
-                  월 9,900원
+                  방문 {plan.partnerVisits}회 포함
                 </span>
-              ) : null}
+              ) : (
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#637B76] ring-1 ring-[#D6EDE7]">
+                  방문 없음
+                </span>
+              )}
             </div>
 
-            <h3 className="mt-5 text-3xl font-black tracking-[-0.07em]">{plan.title}</h3>
+            <h3 className="mt-5 text-2xl font-black tracking-[-0.07em]">{plan.title}</h3>
 
             <div className="mt-4">
               <div className="text-4xl font-black tracking-[-0.08em] text-[#17443F]">
-                {plan.price}
+                {plan.priceLabel}
               </div>
               <div className="mt-1 text-sm font-black text-[#637B76]">{plan.subPrice}</div>
             </div>
@@ -205,10 +186,10 @@ export function PricingReferralPanel({ compact = false }: Props) {
             </ul>
 
             <Link
-              href={compact ? '/pricing' : '#referral-form'}
+              href={`/checkout?plan=${plan.code}`}
               className="mt-6 rounded-2xl bg-white px-5 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
-              {plan.cta}
+              결제하기
             </Link>
           </article>
         ))}
@@ -219,10 +200,10 @@ export function PricingReferralPanel({ compact = false }: Props) {
           <div>
             <div className="text-sm font-black text-[#247A71]">추천인 프로그램</div>
             <h3 className="mt-2 text-3xl font-black tracking-[-0.07em] text-[#17443F]">
-              추천인코드로 가입하면 5,000P
+              추천 결제 완료 시 5,000P
             </h3>
             <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-              추천 성사 시 서비스 포인트 5,000P를 지급합니다. 포인트는 안부완료 리포트 또는 14일 케어 이용료에서 차감할 수 있으며 현금 환불은 불가합니다.
+              추천받은 사람이 유료 결제까지 완료하면 서비스 포인트 5,000P를 지급합니다. 포인트는 이용료 차감용이며 현금 환불은 불가합니다.
             </p>
           </div>
 
@@ -246,12 +227,8 @@ export function PricingReferralPanel({ compact = false }: Props) {
           </div>
 
           <h3 className="mt-4 text-3xl font-black tracking-[-0.07em]">
-            실증 신청 또는 추천인코드 생성
+            신청하고 추천인코드 생성
           </h3>
-
-          <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
-            신청 정보는 안부웍스 운영팀이 확인합니다. 추천인코드를 입력하면 추천 포인트 5,000P가 함께 기록됩니다.
-          </p>
 
           <div className="mt-5 grid gap-3 lg:grid-cols-2">
             <input
@@ -273,9 +250,9 @@ export function PricingReferralPanel({ compact = false }: Props) {
               onChange={(event) => setPlanCode(event.target.value)}
               className="rounded-2xl border border-[#D6EDE7] bg-white px-5 py-4 text-sm font-black outline-none focus:border-[#2AA897] focus:ring-4 focus:ring-[#D8FFF3]"
             >
-              {plans.map((plan) => (
+              {purchasablePlans().map((plan) => (
                 <option key={plan.code} value={plan.code}>
-                  {plan.title} · {plan.price}
+                  {plan.title} · {plan.priceLabel}
                 </option>
               ))}
             </select>
@@ -308,13 +285,23 @@ export function PricingReferralPanel({ compact = false }: Props) {
               <div className="mt-2 break-all text-3xl font-black tracking-[-0.06em] text-[#17443F]">
                 {generatedCode}
               </div>
-              <button
-                type="button"
-                onClick={copyCode}
-                className="mt-4 rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
-              >
-                추천인코드 복사
-              </button>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={copyCode}
+                  className="rounded-xl bg-white px-4 py-3 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
+                >
+                  추천인코드 복사
+                </button>
+
+                <Link
+                  href={`/checkout?plan=${planCode}&ref=${encodeURIComponent(generatedCode)}`}
+                  className="rounded-xl bg-[#17443F] px-4 py-3 text-sm font-black text-white"
+                >
+                  이 코드로 결제하기
+                </Link>
+              </div>
             </div>
           ) : null}
         </form>
