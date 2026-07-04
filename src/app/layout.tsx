@@ -17,6 +17,7 @@ import { HeaderButtonOrderFix } from '@/components/HeaderButtonOrderFix'
 import { PwaRegister } from '@/components/pwa/PwaRegister'
 import { CustomerMenuSanitizer } from '@/components/common/CustomerMenuSanitizer'
 import { CustomerUXLayer } from '@/components/common/CustomerUXLayer'
+import { AnbuBusinessFooter } from '@/components/public/AnbuBusinessFooter'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GlobalHeader />
         <AppPermissionBootstrap />
         {children}
+        <AnbuBusinessFooter />
               <AuthSessionBridge />
               <MobileLoginButton />
       </body>
