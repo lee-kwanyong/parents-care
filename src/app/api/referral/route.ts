@@ -1,34 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { ANBU_REFERRAL_POINT, getPricingPlan } from '@/lib/anbu-pricing'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 type Row = Record<string, unknown>
-
-type Plan = {
-  planCode: string
-  title: string
-  priceKrw: number
-  billingCycle: 'one_time' | 'monthly'
-  trialDays: number
-}
-
-const fallbackPlans: Record<string, Plan> = {
-  'post-discharge-14': {
-    planCode: 'post-discharge-14',
-    title: '퇴원 후 14일 케어',
-    priceKrw: 49000,
-    billingCycle: 'one_time',
-    trialDays: 14
-  },
-  'monthly-report-9900': {
-    planCode: 'monthly-report-9900',
-    title: '안부완료 리포트',
-    priceKrw: 9900,
-    billingCycle: 'monthly',
-    trialDays: 0
-  }
-}
 
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
@@ -40,11 +16,6 @@ function digits(value: unknown) {
 
 function cleanCode(value: unknown) {
   return text(value).replace(/[^\w-]/g, '').slice(0, 60).toUpperCase()
-}
-
-function planKey(value: unknown) {
-  const key = text(value).replace(/[^\w-]/g, '').slice(0, 80).toLowerCase()
-  return fallbackPlans[key] ? key : 'post-discharge-14'
 }
 
 function supabaseBaseUrl() {
@@ -93,18 +64,10 @@ async function restRows(table: string, params: Record<string, string>) {
       parsed = []
     }
 
-    if (!response.ok) {
-      return {
-        ok: false,
-        rows: [] as Row[],
-        error: `${table}: ${response.status} ${raw.slice(0, 300)}`
-      }
-    }
-
     return {
-      ok: true,
-      rows: Array.isArray(parsed) ? parsed as Row[] : [],
-      error: ''
+      ok: response.ok,
+      rows: response.ok && Array.isArray(parsed) ? parsed as Row[] : [],
+      error: response.ok ? '' : `${table}: ${response.status} ${raw.slice(0, 300)}`
     }
   } catch (error) {
     return {
@@ -149,18 +112,10 @@ async function insertRow(table: string, row: Row) {
       parsed = []
     }
 
-    if (!response.ok) {
-      return {
-        ok: false,
-        rows: [] as Row[],
-        error: `${table}: ${response.status} ${raw.slice(0, 300)}`
-      }
-    }
-
     return {
-      ok: true,
-      rows: Array.isArray(parsed) ? parsed as Row[] : [],
-      error: ''
+      ok: response.ok,
+      rows: response.ok && Array.isArray(parsed) ? parsed as Row[] : [],
+      error: response.ok ? '' : `${table}: ${response.status} ${raw.slice(0, 300)}`
     }
   } catch (error) {
     return {
@@ -205,18 +160,10 @@ async function upsertRow(table: string, row: Row, onConflict: string) {
       parsed = []
     }
 
-    if (!response.ok) {
-      return {
-        ok: false,
-        rows: [] as Row[],
-        error: `${table}: ${response.status} ${raw.slice(0, 300)}`
-      }
-    }
-
     return {
-      ok: true,
-      rows: Array.isArray(parsed) ? parsed as Row[] : [],
-      error: ''
+      ok: response.ok,
+      rows: response.ok && Array.isArray(parsed) ? parsed as Row[] : [],
+      error: response.ok ? '' : `${table}: ${response.status} ${raw.slice(0, 300)}`
     }
   } catch (error) {
     return {
@@ -245,7 +192,8 @@ function makeReferralCode(name: string, phone: string, provided: string) {
 async function saveFallback(input: {
   name: string
   phone: string
-  plan: Plan
+  planCode: string
+  planTitle: string
   usedReferralCode: string
   generatedCode: string
   pointAmount: number
@@ -264,13 +212,13 @@ async function saveFallback(input: {
       source: input.source,
       name: input.name,
       phoneLast4: digits(input.phone).slice(-4),
-      planCode: input.plan.planCode,
-      planTitle: input.plan.title,
+      planCode: input.planCode,
+      planTitle: input.planTitle,
       usedReferralCode: input.usedReferralCode,
       generatedReferralCode: input.generatedCode,
       pointAmount: input.pointAmount,
       pointPolicy: 'service_credit_only_no_cash_refund',
-      note: '추천 성사 시 서비스 포인트 5,000P 지급',
+      note: '추천 결제 완료 시 서비스 포인트 5,000P 지급',
       backend: 'fallback_care_response_requests',
       createdAt: new Date().toISOString()
     }
@@ -280,7 +228,10 @@ async function saveFallback(input: {
 async function saveDedicated(input: {
   name: string
   phone: string
-  plan: Plan
+  planCode: string
+  planTitle: string
+  planPriceKrw: number
+  planCategory: string
   usedReferralCode: string
   generatedCode: string
   pointAmount: number
@@ -317,20 +268,18 @@ async function saveDedicated(input: {
     applicant_name: input.name,
     applicant_phone: digits(input.phone),
     applicant_phone_last4: phoneLast4,
-    plan_code: input.plan.planCode,
-    plan_title: input.plan.title,
-    plan_price_krw: input.plan.priceKrw,
+    plan_code: input.planCode,
+    plan_title: input.planTitle,
+    plan_price_krw: input.planPriceKrw,
     application_status: 'submitted',
     used_referral_code: input.usedReferralCode || null,
     generated_referral_code: input.generatedCode,
     point_amount: input.pointAmount,
     source: input.source,
     metadata: {
-      billingCycle: input.plan.billingCycle,
-      trialDays: input.plan.trialDays,
+      category: input.planCategory,
       pointPolicy: 'service_credit_only_no_cash_refund',
-      paymentStatus: 'not_connected_yet',
-      note: '실제 결제 PG 연결 전 신청/상담 상태로 저장'
+      paymentStatus: 'not_paid_yet'
     }
   })
 
@@ -352,11 +301,11 @@ async function saveDedicated(input: {
       application_id: applicationId || null,
       referee_name: input.name,
       referee_phone_last4: phoneLast4,
-      plan_code: input.plan.planCode,
+      plan_code: input.planCode,
       reward_points: input.pointAmount,
       event_status: 'pending',
       metadata: {
-        policy: '추천 성사 시 5,000P 지급',
+        policy: '유료 결제 완료 시 5,000P 지급',
         cashRefund: false
       }
     })
@@ -369,45 +318,8 @@ async function saveDedicated(input: {
       related_application_id: applicationId || null,
       memo: `${input.name} 님 신청으로 추천 포인트 대기`,
       metadata: {
-        planCode: input.plan.planCode,
+        planCode: input.planCode,
         generatedReferralCode: input.generatedCode
-      }
-    })
-  }
-
-  if (input.plan.planCode === 'post-discharge-14') {
-    await insertRow('anbu_care_pass_orders', {
-      application_id: applicationId || null,
-      plan_code: input.plan.planCode,
-      status: 'pilot_requested',
-      price_krw: input.plan.priceKrw,
-      free_pilot: true,
-      metadata: {
-        displayPrice: '14일 무료 실증',
-        regularPrice: '49,000원 예정',
-        applicantName: input.name,
-        applicantPhoneLast4: phoneLast4
-      }
-    })
-  }
-
-  if (input.plan.planCode === 'monthly-report-9900') {
-    const now = new Date()
-    const nextMonth = new Date(now.getTime())
-    nextMonth.setMonth(nextMonth.getMonth() + 1)
-
-    await insertRow('anbu_subscriptions', {
-      application_id: applicationId || null,
-      plan_code: input.plan.planCode,
-      status: 'pending_payment',
-      price_krw: input.plan.priceKrw,
-      current_period_start: now.toISOString(),
-      current_period_end: nextMonth.toISOString(),
-      metadata: {
-        displayPrice: '월 9,900원',
-        paymentProvider: 'not_connected_yet',
-        applicantName: input.name,
-        applicantPhoneLast4: phoneLast4
       }
     })
   }
@@ -457,11 +369,10 @@ export async function POST(request: NextRequest) {
 
   const name = text(body.name).slice(0, 40)
   const phone = digits(body.phone).slice(0, 20)
-  const key = planKey(body.planCode)
-  const plan = fallbackPlans[key]
+  const plan = getPricingPlan(body.planCode)
   const usedReferralCode = cleanCode(body.referralCode)
   const generatedCode = makeReferralCode(name, phone, text(body.generatedCode))
-  const pointAmount = Math.max(0, Math.min(50000, Number(body.pointAmount) || 5000))
+  const pointAmount = Math.max(0, Math.min(50000, Number(body.pointAmount) || ANBU_REFERRAL_POINT))
   const source = text(body.source) || 'pricing_page'
 
   if (!name || phone.length < 8) {
@@ -477,7 +388,10 @@ export async function POST(request: NextRequest) {
   const dedicated = await saveDedicated({
     name,
     phone,
-    plan,
+    planCode: plan.code,
+    planTitle: plan.title,
+    planPriceKrw: plan.priceKrw,
+    planCategory: plan.category,
     usedReferralCode,
     generatedCode,
     pointAmount,
@@ -493,7 +407,7 @@ export async function POST(request: NextRequest) {
       referralCode: generatedCode,
       usedReferralCode,
       pointAmount,
-      pointStatus: usedReferralCode ? 'pending_until_conversion' : 'none',
+      pointStatus: usedReferralCode ? 'pending_until_paid_conversion' : 'none',
       plan,
       message: '신청과 추천인코드가 백엔드에 저장되었습니다.'
     })
@@ -502,7 +416,8 @@ export async function POST(request: NextRequest) {
   const fallback = await saveFallback({
     name,
     phone,
-    plan,
+    planCode: plan.code,
+    planTitle: plan.title,
     usedReferralCode,
     generatedCode,
     pointAmount,
@@ -516,7 +431,7 @@ export async function POST(request: NextRequest) {
     referralCode: generatedCode,
     usedReferralCode,
     pointAmount,
-    pointStatus: usedReferralCode ? 'pending_until_conversion' : 'none',
+    pointStatus: usedReferralCode ? 'pending_until_paid_conversion' : 'none',
     plan,
     message: fallback.ok
       ? '전용 백엔드 테이블이 없어 기존 기록 테이블에 임시 저장했습니다.'

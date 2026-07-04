@@ -209,25 +209,7 @@ export function PublicServiceIntroPanel() {
           </section>
         </section>
 
-        <section className="rounded-[2rem] bg-[#17443F] p-5 text-white shadow-sm sm:p-8">
-          <div className="inline-flex rounded-full bg-white/10 px-4 py-2 text-sm font-black text-[#BFF5EA]">
-            안부웍스 한 문장
-          </div>
-
-          <h2 className="mt-5 text-3xl font-black leading-tight tracking-[-0.06em] sm:text-4xl">
-            안부웍스는 부모님의 안부 신호를 보호자 알림, 미응답 확인, 대리입력, 생활확인 파트너 연결, 리포트로 전환하는 비의료 생활확인 기반의 고령자 안심관리 플랫폼입니다.
-          </h2>
-
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/admin/ops/pilot-report" className="rounded-2xl bg-white px-6 py-4 text-center text-sm font-black text-[#17443F]">
-              실증 리포트 보기
-            </Link>
-
-            <Link href="/response/about" className="rounded-2xl bg-white/10 px-6 py-4 text-center text-sm font-black text-white ring-1 ring-white/20">
-              서비스 소개 보기
-            </Link>
-          </div>
-        </section>
+        {/* 안부웍스 소개 박스 제거 */}
       </section>
     </main>
   )

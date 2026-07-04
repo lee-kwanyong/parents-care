@@ -1,34 +1,10 @@
 import { NextResponse } from 'next/server'
+import { ANBU_PRICING_PLANS } from '@/lib/anbu-pricing'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
 type Row = Record<string, unknown>
-
-const fallbackPlans = [
-  {
-    planCode: 'post-discharge-14',
-    title: '퇴원 후 14일 케어',
-    description: '퇴원 후 14일 집중 안부확인과 안부완료 리포트',
-    priceKrw: 49000,
-    displayPrice: '14일 무료 실증',
-    regularPrice: '49,000원 예정',
-    billingCycle: 'one_time',
-    trialDays: 14,
-    isActive: true
-  },
-  {
-    planCode: 'monthly-report-9900',
-    title: '안부완료 리포트',
-    description: '월 9,900원 안부완료 리포트 구독',
-    priceKrw: 9900,
-    displayPrice: '월 9,900원',
-    regularPrice: '월 9,900원',
-    billingCycle: 'monthly',
-    trialDays: 0,
-    isActive: true
-  }
-]
 
 function text(value: unknown) {
   return typeof value === 'string' ? value.trim() : ''
@@ -124,8 +100,8 @@ export async function GET() {
   if (!result.ok || result.rows.length === 0) {
     return NextResponse.json({
       ok: true,
-      source: 'fallback',
-      plans: fallbackPlans
+      source: 'code',
+      plans: ANBU_PRICING_PLANS
     })
   }
 
@@ -136,12 +112,12 @@ export async function GET() {
       const metadata = parsePayload(row.metadata)
 
       return {
-        planCode: text(row.plan_code),
+        code: text(row.plan_code),
         title: text(row.title),
-        description: text(row.description),
+        desc: text(row.description),
         priceKrw: Number(row.price_krw) || 0,
-        displayPrice: text(metadata.displayPrice) || `${Number(row.price_krw || 0).toLocaleString('ko-KR')}원`,
-        regularPrice: text(metadata.regularPrice),
+        priceLabel: text(metadata.priceLabel) || `${Number(row.price_krw || 0).toLocaleString('ko-KR')}원`,
+        subPrice: text(metadata.subPrice),
         billingCycle: text(row.billing_cycle),
         trialDays: Number(row.trial_days) || 0,
         isActive: row.is_active !== false,
