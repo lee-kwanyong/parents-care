@@ -132,15 +132,6 @@ export function PublicServiceIntroPanel() {
           </div>
         </section>
 
-        <section className="rounded-[2rem] bg-[#17443F] p-5 text-white shadow-sm sm:p-8">
-          <h2 className="text-3xl font-black leading-tight tracking-[-0.06em] sm:text-4xl">
-            알림이 아니라, 확인완료를 남깁니다.
-          </h2>
-
-          <p className="mt-4 max-w-3xl text-sm font-bold leading-7 text-[#CDEFE7]">
-            본 서비스는 의료 진단이나 응급구조를 대체하지 않는 비의료 안부확인·기록 서비스입니다.
-          </p>
-        </section>
       </section>
     </main>
   )
