@@ -3,8 +3,8 @@ import { PublicServiceIntroPanel } from '@/components/public/PublicServiceIntroP
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  title: '안부웍스 | 부모님 안부·생활확인 안심관리',
-  description: '부모님의 몸 상태와 도움 요청을 보호자 알림, 방문확인, 병원동행, 생활확인 리포트로 연결합니다.'
+  title: '안부웍스 | 확인완료형 안부케어',
+  description: '부모님 안부를 확인 사건과 안부완료 리포트로 남기는 비의료 안부케어 서비스입니다.'
 }
 
 export default function HomePage() {
