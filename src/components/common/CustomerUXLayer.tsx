@@ -23,7 +23,7 @@ const customerQuickLinks = [
   {
     href: '/guardian/ring-report',
     label: '안부완료 리포트',
-    short: '링'
+    short: '고객센터'
   },
   {
     href: '/guide',

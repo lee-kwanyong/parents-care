@@ -532,11 +532,11 @@ export async function GET(request: NextRequest) {
       'ring-report-check',
       '안부리포트',
       '안부완료 리포트 생성과 상태를 확인합니다.',
-      '오늘 생성된 링 리포트, 확인필요, 주의 상태를 확인합니다.',
+      '오늘 생성된 고객센터, 확인필요, 주의 상태를 확인합니다.',
       ringRisk > 0 ? 'watch' : count(ringToday) > 0 ? 'safe' : 'neutral',
       `오늘 ${count(ringToday)}건 · 확인필요 ${count(ringCheckNeeded)}건`,
       '/admin/ops/ring-csv-import',
-      '링 리포트 보기'
+      '고객센터 보기'
     ),
     task(
       'ring-quality-check',

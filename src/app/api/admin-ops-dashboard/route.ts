@@ -439,7 +439,7 @@ export async function GET(request: NextRequest) {
       '/admin/ops/notification-dispatch'
     ),
     metric(
-      'ring',
+      'support',
       '안부완료 리포트',
       countValue(ringReportsToday),
       `확인필요 ${countValue(ringCheckNeeded)}건 · 주의 ${countValue(ringWatch)}건 · 품질부족 ${countValue(ringLowQuality)}건`,
@@ -500,7 +500,7 @@ export async function GET(request: NextRequest) {
           title: '안부완료 리포트 흐름이 안정적입니다.',
           desc: '확인필요 또는 데이터 품질 부족 신호가 낮습니다.',
           href: '/admin/ops/ring-csv-import',
-          cta: '링 리포트'
+          cta: '고객센터'
         },
     sourceErrors.length > 0
       ? {

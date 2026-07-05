@@ -391,7 +391,7 @@ export async function GET(request: NextRequest) {
       title: '안부완료 리포트 보기',
       desc: '수면·활동·착용·배터리 참고 신호를 확인합니다.',
       href: `/guardian/ring-report?familyCode=${encodeURIComponent(familyCode)}`,
-      cta: '링 리포트'
+      cta: '고객센터'
     }
   ]
 
