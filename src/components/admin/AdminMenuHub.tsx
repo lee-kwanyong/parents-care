@@ -39,21 +39,21 @@ const fallbackLinks: LooseMenuLink[] = [
   {
     href: '/admin/ops',
     title: '관리자 대시보드',
-    description: '오늘 확인필요, 주의, 가입자, 스마트링 상태를 요약합니다.',
+    description: '오늘 확인필요, 주의, 가입자, 안부리포트 상태를 요약합니다.',
     badge: '홈',
     category: '핵심'
   },
   {
     href: '/admin/ops/families',
     title: '가입자 통합관리',
-    description: '가입자, 가족, 보호자, 부모님, 스마트링을 한 화면에서 관리합니다.',
+    description: '가입자, 가족, 보호자, 부모님, 안부리포트을 한 화면에서 관리합니다.',
     badge: '필수',
     category: '핵심'
   },
   {
     href: '/admin/ops/gov-rnd',
     title: '지자체·R&D',
-    description: '지자체, R&D, 스마트링 공급사 파이프라인을 관리합니다.',
+    description: '지자체, R&D, 안부리포트 공급사 파이프라인을 관리합니다.',
     badge: '영업',
     category: '핵심'
   },
@@ -66,24 +66,24 @@ const fallbackLinks: LooseMenuLink[] = [
   },
   {
     href: '/admin/ops/ring-pilot-dashboard',
-    title: '스마트링 실증 대시보드',
+    title: '안부리포트 실증 대시보드',
     description: '모델, 샘플, 착용률, 데이터 품질을 관리합니다.',
     badge: '고급',
-    category: '스마트링'
+    category: '안부리포트'
   },
   {
     href: '/admin/ops/ring-csv-import',
-    title: '스마트링 CSV 업로드',
-    description: '스마트링 데이터를 업로드합니다.',
+    title: '데이터 파일 업로드',
+    description: '안부리포트 데이터를 업로드합니다.',
     badge: '고급',
-    category: '스마트링'
+    category: '안부리포트'
   },
   {
     href: '/admin/ops/ring-report-lab',
     title: '리포트 실험실',
     description: '안부완료 리포트 산식을 테스트합니다.',
     badge: '고급',
-    category: '스마트링'
+    category: '안부리포트'
   }
 ]
 

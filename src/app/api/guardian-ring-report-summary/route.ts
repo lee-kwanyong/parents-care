@@ -184,8 +184,8 @@ function statusFromRing(row: Row | null) {
     return {
       level: 'danger' as Tone,
       label: '확인필요',
-      title: '오늘 안부리듬에서 확인할 신호가 있습니다.',
-      desc: '스마트링 참고 신호상 평소와 다른 흐름이 있습니다. 전화로 컨디션을 확인해 주세요.'
+      title: '오늘 안부리포트에서 확인할 신호가 있습니다.',
+      desc: '안부리포트 참고 신호상 평소와 다른 흐름이 있습니다. 전화로 컨디션을 확인해 주세요.'
     }
   }
 
@@ -201,8 +201,8 @@ function statusFromRing(row: Row | null) {
   return {
     level: 'safe' as Tone,
     label: '안정',
-    title: '오늘 안부리듬은 안정적으로 기록되었습니다.',
-    desc: '현재 스마트링 참고 신호 기준으로 큰 후속 조치가 필요하지 않습니다.'
+    title: '오늘 안부리포트은 안정적으로 기록되었습니다.',
+    desc: '현재 안부리포트 참고 신호 기준으로 큰 후속 조치가 필요하지 않습니다.'
   }
 }
 
@@ -266,7 +266,7 @@ function buildMetrics(row: Row | null): RingMetric[] {
   return [
     metric(
       'score',
-      '안부리듬 점수',
+      '안부리포트 점수',
       score ? `${score}점` : '확인 중',
       '수면·활동·착용·배터리·생체 참고 신호를 종합한 비의료 안부 참고 점수입니다.',
       toneByScore(score, 75, 55)
@@ -296,7 +296,7 @@ function buildMetrics(row: Row | null): RingMetric[] {
       'heart',
       '심박',
       hr ? `${hr} bpm` : '확인 중',
-      '스마트링에서 측정된 심박 참고 신호입니다. 의료 진단 용도가 아닙니다.',
+      '안부리포트에서 측정된 심박 참고 신호입니다. 의료 진단 용도가 아닙니다.',
       hr ? (hr < 45 || hr > 110 ? 'watch' : 'safe') : 'neutral'
     ),
     metric(
@@ -341,7 +341,7 @@ function buildInsights(row: Row | null, metrics: RingMetric[]): Insight[] {
   if (!row) {
     return [
       {
-        title: '오늘 스마트링 데이터가 아직 없습니다.',
+        title: '오늘 안부리포트 데이터가 아직 없습니다.',
         desc: 'CSV 업로드 또는 기기 동기화 후 다시 확인해 주세요.',
         tone: 'neutral'
       }
@@ -359,7 +359,7 @@ function buildInsights(row: Row | null, metrics: RingMetric[]): Insight[] {
 
   if (score > 0 && score < 55) {
     insights.push({
-      title: '안부리듬 점수가 낮습니다.',
+      title: '안부리포트 점수가 낮습니다.',
       desc: '오늘은 전화로 식사, 수면, 컨디션을 확인해 주세요.',
       tone: 'danger'
     })
@@ -415,8 +415,8 @@ function buildInsights(row: Row | null, metrics: RingMetric[]): Insight[] {
 
   if (!insights.length) {
     insights.push({
-      title: '오늘 안부리듬은 안정적으로 보입니다.',
-      desc: '현재 스마트링 참고 신호 기준으로 큰 후속 조치가 필요하지 않습니다.',
+      title: '오늘 안부리포트은 안정적으로 보입니다.',
+      desc: '현재 안부리포트 참고 신호 기준으로 큰 후속 조치가 필요하지 않습니다.',
       tone: 'safe'
     })
   }
@@ -522,7 +522,7 @@ export async function GET(request: NextRequest) {
 
   const todayLine = latest
     ? score
-      ? `오늘 안부리듬은 ${score}점으로 기록되었습니다.`
+      ? `오늘 안부리포트은 ${score}점으로 기록되었습니다.`
       : status.title
     : '오늘 안부완료 리포트가 아직 없습니다.'
 
@@ -537,7 +537,7 @@ export async function GET(request: NextRequest) {
           },
           {
             title: '오늘 안부 신호 함께 보기',
-            desc: '스마트링뿐 아니라 식사·복약·몸 상태 신호도 함께 확인하세요.',
+            desc: '안부리포트뿐 아니라 식사·복약·몸 상태 신호도 함께 확인하세요.',
             href: `/guardian/today?familyCode=${encodeURIComponent(familyCode)}`,
             cta: '오늘 리포트'
           },
@@ -578,7 +578,7 @@ export async function GET(request: NextRequest) {
             },
             {
               title: '부모님 안부 남기기',
-              desc: '스마트링 신호와 함께 부모님 직접 입력도 같이 남기면 리포트 품질이 좋아집니다.',
+              desc: '안부리포트 신호와 함께 부모님 직접 입력도 같이 남기면 리포트 품질이 좋아집니다.',
               href: `/mobile/parent?familyCode=${encodeURIComponent(familyCode)}`,
               cta: '부모님 화면'
             },

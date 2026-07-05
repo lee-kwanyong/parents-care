@@ -476,7 +476,7 @@ export function GuardianThreeSecondPanel() {
         </section>
 
         <p className="px-2 text-center text-xs font-bold leading-6 text-[#637B76]">
-          {data?.notice || '스마트링 정보는 의료 진단이 아닌 안부 확인 참고 신호입니다.'}
+          {data?.notice || '안부리포트 정보는 의료 진단이 아닌 안부 확인 참고 신호입니다.'}
         </p>
       </section>
     </main>

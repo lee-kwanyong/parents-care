@@ -93,7 +93,7 @@ const initialForm: FormState = {
   region: '',
   expectedUnits: '5',
   monthlyFee: '4500',
-  hardwareModel: '스마트링 안부리듬',
+  hardwareModel: '안부완료 리포트',
   sampleCount: '2',
   nextAction: '자료 요청',
   nextActionDate: '',
@@ -102,7 +102,7 @@ const initialForm: FormState = {
 
 function typeLabel(type: string) {
   if (type === 'municipality') return '지자체'
-  if (type === 'smart-ring-supplier') return '스마트링'
+  if (type === 'smart-ring-supplier') return '안부리포트'
   if (type === 'rnd') return 'R&D'
   if (type === 'investor') return '투자'
   if (type === 'partner') return '파트너'
@@ -495,7 +495,7 @@ export function AdminGovRndPipelinePanel() {
       '',
       `전체 리드: ${metrics.total}건`,
       `지자체: ${metrics.municipality}건`,
-      `스마트링 공급사: ${metrics.supplier}건`,
+      `안부리포트 공급사: ${metrics.supplier}건`,
       `R&D: ${metrics.rnd}건`,
       `오늘 처리할 액션: ${metrics.dueToday}건`,
       `예상 실증 가구: ${metrics.expectedUnits}가구`,
@@ -528,7 +528,7 @@ export function AdminGovRndPipelinePanel() {
               <div className="flex flex-wrap gap-2">
                 <Pill className="bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]">지자체·R&D</Pill>
                 <Pill className="bg-[#EFFFFA] text-[#247A71] ring-[#CDEFE7]">B2G Pipeline</Pill>
-                <Pill>스마트링 공급망</Pill>
+                <Pill>안부리포트 공급망</Pill>
               </div>
 
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.08em] sm:text-6xl">
@@ -538,7 +538,7 @@ export function AdminGovRndPipelinePanel() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                지자체, R&D 사업, 스마트링 공급사, 투자사, 파트너 후속 연락을 단계별로 관리합니다.
+                지자체, R&D 사업, 안부리포트 공급사, 투자사, 파트너 후속 연락을 단계별로 관리합니다.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
@@ -638,7 +638,7 @@ export function AdminGovRndPipelinePanel() {
                   className="mt-2 w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none"
                 >
                   <option value="municipality">지자체</option>
-                  <option value="smart-ring-supplier">스마트링 공급사</option>
+                  <option value="smart-ring-supplier">안부리포트 공급사</option>
                   <option value="rnd">R&D/공모</option>
                   <option value="investor">투자사</option>
                   <option value="partner">파트너</option>
@@ -732,7 +732,7 @@ export function AdminGovRndPipelinePanel() {
                 <input
                   value={form.focusArea}
                   onChange={(event) => setField('focusArea', event.target.value.slice(0, 140))}
-                  placeholder="예: 3~5가구 예비 실증, 스마트링 SDK, B2G 제안"
+                  placeholder="예: 3~5가구 예비 실증, 안부리포트 SDK, B2G 제안"
                   className="mt-2 w-full rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none"
                 />
               </label>
@@ -820,7 +820,7 @@ export function AdminGovRndPipelinePanel() {
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="기관, 담당자, 스마트링, 지자체, R&D 검색"
+                placeholder="기관, 담당자, 안부리포트, 지자체, R&D 검색"
                 className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none"
               />
 
@@ -831,7 +831,7 @@ export function AdminGovRndPipelinePanel() {
               >
                 <option value="전체">전체</option>
                 <option value="municipality">지자체</option>
-                <option value="smart-ring-supplier">스마트링</option>
+                <option value="smart-ring-supplier">안부리포트</option>
                 <option value="rnd">R&D</option>
                 <option value="investor">투자</option>
                 <option value="partner">파트너</option>
@@ -844,7 +844,7 @@ export function AdminGovRndPipelinePanel() {
                 <div className="mt-2 text-3xl font-black">{metrics.municipality}</div>
               </div>
               <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
-                <div className="text-xs font-black text-[#637B76]">스마트링</div>
+                <div className="text-xs font-black text-[#637B76]">안부리포트</div>
                 <div className="mt-2 text-3xl font-black">{metrics.supplier}</div>
               </div>
               <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">

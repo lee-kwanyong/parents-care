@@ -208,7 +208,7 @@ function ringInsights(row: Row | null) {
   if (!row) {
     return [
       {
-        label: '스마트링 데이터',
+        label: '안부리포트 데이터',
         value: '대기',
         desc: '가족코드에 연결된 오늘 안부완료 리포트가 아직 없습니다.',
         tone: 'neutral'
@@ -218,7 +218,7 @@ function ringInsights(row: Row | null) {
 
   const items = [
     {
-      label: '안부리듬 점수',
+      label: '안부리포트 점수',
       value: num(row.anbu_score, 0) ? `${num(row.anbu_score)}점` : '확인 중',
       desc: '수면·활동·착용·생체 참고 신호를 종합한 비의료 안부 참고 점수입니다.',
       tone: text(row.overall_status) === 'check_needed' ? 'danger' : text(row.overall_status) === 'watch' ? 'watch' : 'safe'

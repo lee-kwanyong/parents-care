@@ -530,7 +530,7 @@ export async function GET(request: NextRequest) {
     ),
     task(
       'ring-report-check',
-      '스마트링',
+      '안부리포트',
       '안부완료 리포트 생성과 상태를 확인합니다.',
       '오늘 생성된 링 리포트, 확인필요, 주의 상태를 확인합니다.',
       ringRisk > 0 ? 'watch' : count(ringToday) > 0 ? 'safe' : 'neutral',
@@ -540,8 +540,8 @@ export async function GET(request: NextRequest) {
     ),
     task(
       'ring-quality-check',
-      '스마트링',
-      '스마트링 데이터 품질을 확인합니다.',
+      '안부리포트',
+      '안부리포트 데이터 품질을 확인합니다.',
       '착용 시간 부족, 데이터 품질 부족, 배터리 이슈가 있는 가구를 분리합니다.',
       count(ringLowQuality) > 0 ? 'watch' : 'safe',
       `품질부족 ${count(ringLowQuality)}건 · 주의 ${count(ringWatch)}건`,
@@ -552,7 +552,7 @@ export async function GET(request: NextRequest) {
       'gov-rnd-followup',
       '지자체·R&D',
       '지자체·R&D 후속 액션을 정리합니다.',
-      '미팅, 제안서, 스마트링 업체, 실증 협력기관 후속 연락을 정리합니다.',
+      '미팅, 제안서, 안부리포트 업체, 실증 협력기관 후속 연락을 정리합니다.',
       'neutral',
       '후속 메모 필요',
       '/admin/ops/gov-rnd',

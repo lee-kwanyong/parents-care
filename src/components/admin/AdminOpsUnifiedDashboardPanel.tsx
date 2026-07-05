@@ -169,7 +169,7 @@ export function AdminOpsUnifiedDashboardPanel() {
       `확인필요: ${m?.checkNeeded ?? 0}건`,
       `주의: ${m?.watch ?? 0}건`,
       `가입 가족: ${m?.totalFamilies ?? 0}가구`,
-      `스마트링 배정: ${m?.smartRingFamilies ?? 0}가구`,
+      `안부리포트 배정: ${m?.smartRingFamilies ?? 0}가구`,
       `전화번호 중복 검토: ${m?.duplicateFamilies ?? 0}가구`
     ]
 
@@ -230,7 +230,7 @@ export function AdminOpsUnifiedDashboardPanel() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                확인필요, 주의, 가입자, 가족, 스마트링 배정 상태를 한 화면에서 확인합니다.
+                확인필요, 주의, 가입자, 가족, 안부리포트 배정 상태를 한 화면에서 확인합니다.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">
@@ -302,7 +302,7 @@ export function AdminOpsUnifiedDashboardPanel() {
           <MetricCard
             title="주의"
             value={metrics.watch}
-            desc="안부 신호나 스마트링 참고 신호가 평소와 다른 가족"
+            desc="안부 신호나 안부리포트 참고 신호가 평소와 다른 가족"
             href="/admin/ops/families?filter=watch"
             tone="watch"
           />
@@ -316,7 +316,7 @@ export function AdminOpsUnifiedDashboardPanel() {
           />
 
           <MetricCard
-            title="스마트링"
+            title="안부리포트"
             value={metrics.smartRingFamilies}
             desc="안부완료 리포트나 기기 배정이 연결된 가족"
             href="/admin/ops/families?filter=smart-ring"
@@ -346,7 +346,7 @@ export function AdminOpsUnifiedDashboardPanel() {
                       </span>
                       {row.hasSmartRing ? (
                         <span className="rounded-full bg-[#F6F4FF] px-3 py-1 text-xs font-black text-[#4A3A8A] ring-1 ring-[#DED8FF]">
-                          스마트링
+                          안부리포트
                         </span>
                       ) : null}
                     </div>
@@ -378,7 +378,7 @@ export function AdminOpsUnifiedDashboardPanel() {
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <CompactMenuCard
                 title="가입자 통합관리"
-                desc="가입자, 가족, 보호자, 부모님, 스마트링 배정을 한 화면에서 봅니다."
+                desc="가입자, 가족, 보호자, 부모님, 안부리포트 배정을 한 화면에서 봅니다."
                 href="/admin/ops/families"
                 badge="필수"
               />
@@ -392,7 +392,7 @@ export function AdminOpsUnifiedDashboardPanel() {
 
               <CompactMenuCard
                 title="지자체·R&D"
-                desc="지자체, 스마트링 공급사, R&D 파이프라인을 관리합니다."
+                desc="지자체, 안부리포트 공급사, R&D 파이프라인을 관리합니다."
                 href="/admin/ops/gov-rnd"
                 badge="영업"
               />
@@ -412,8 +412,8 @@ export function AdminOpsUnifiedDashboardPanel() {
 
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
                 {[
-                  ['/admin/ops/ring-pilot-dashboard', '스마트링 실증 대시보드'],
-                  ['/admin/ops/ring-csv-import', '스마트링 CSV 업로드'],
+                  ['/admin/ops/ring-pilot-dashboard', '안부리포트 실증 대시보드'],
+                  ['/admin/ops/ring-csv-import', '데이터 파일 업로드'],
                   ['/admin/ops/ring-report-lab', '리포트 실험실'],
                   ['/admin/ops/admin-menu', '전체 메뉴'],
                   ['/admin/ops/system-check', '시스템 점검'],

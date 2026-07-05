@@ -258,7 +258,7 @@ export function assessAnbuAuto(input: {
   let tone: AutoAssessment['tone'] = 'safe'
   let label = '평소와 비슷해요'
   let title = '지금은 별도 확인이 필요하지 않습니다.'
-  let reason = '스마트링 데이터와 오늘 안부 기록이 평소 범위에 있습니다.'
+  let reason = '안부리포트 데이터와 오늘 안부 기록이 평소 범위에 있습니다.'
   let nextAction = '저녁 요약만 확인하면 됩니다.'
 
   if (hasOpenIncident || riskyRequest || riskyStatus || (score !== null && score < 60)) {
@@ -281,7 +281,7 @@ export function assessAnbuAuto(input: {
     if (noReport) {
       reason = '아직 안부완료 리포트가 들어오지 않았습니다.'
     } else if (stale) {
-      reason = `스마트링 데이터가 ${Math.round(hoursSinceSync || 0)}시간째 갱신되지 않았습니다.`
+      reason = `안부리포트 데이터가 ${Math.round(hoursSinceSync || 0)}시간째 갱신되지 않았습니다.`
     } else if (lowBattery) {
       reason = `반지 배터리가 ${battery}%로 낮습니다.`
     } else if (notWearing) {

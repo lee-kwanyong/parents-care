@@ -34,7 +34,7 @@ type Batch = {
 }
 
 const SAMPLE_CSV = `familyCode,parentName,guardianName,guardianPhone,parentPhone,reportDate,sleepMinutes,baselineSleepMinutes,steps,baselineSteps,restingHr,baselineRestingHr,hrv,baselineHrv,spo2,baselineSpo2,temperatureDelta,wearMinutes,batteryLevel,deviceId,deviceModel,vendor,notes
-123456,어머니,이관용,01046390336,01011112222,2026-06-12,310,400,1240,3100,82,74,28,38,96,97,0.3,1080,62,RING-001,TM22B,eIoT,첫 스마트링 CSV 테스트
+123456,어머니,이관용,01046390336,01011112222,2026-06-12,310,400,1240,3100,82,74,28,38,96,97,0.3,1080,62,RING-001,TM22B,eIoT,첫 데이터 파일 테스트
 917539,아버지,보호자,01046390336,01022223333,2026-06-12,430,410,4200,3900,72,73,40,38,97,97,0.1,1260,78,RING-002,TM21B,eIoT,정상 예시
 197385,어머니,보호자,01046390336,01033334444,2026-06-12,180,390,420,3000,92,74,20,38,93,97,0.8,240,8,RING-003,TM22B,eIoT,확인필요 예시`
 
@@ -179,7 +179,7 @@ export function RingCsvImportPanel() {
       <section className="mx-auto max-w-7xl space-y-5">
         <section className="rounded-[2rem] bg-white/95 p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
-            스마트링 CSV 업로드 센터
+            데이터 파일 업로드 센터
           </div>
 
           <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -191,7 +191,7 @@ export function RingCsvImportPanel() {
               </h1>
 
               <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                브링 CSV, eIoT/Goodway 샘플 데이터, 수동 정리표를 업로드해 여러 가구의 안부리듬 리포트를 일괄 생성합니다.
+                브링 CSV, eIoT/Goodway 샘플 데이터, 수동 정리표를 업로드해 여러 가구의 안부리포트 리포트를 일괄 생성합니다.
               </p>
             </div>
 
@@ -415,7 +415,7 @@ function ReportList({ reports, onCopy }: { reports: Report[]; onCopy: (value: st
                 <Pill>{report.anbuScore}점</Pill>
               </div>
 
-              <h3 className="mt-3 text-xl font-black">{report.parentName} 안부리듬</h3>
+              <h3 className="mt-3 text-xl font-black">{report.parentName} 안부리포트</h3>
               <p className="mt-2 text-sm font-bold leading-7 opacity-80">{report.summaryText}</p>
 
               <div className="mt-4 flex flex-wrap gap-2">

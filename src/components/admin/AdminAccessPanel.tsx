@@ -67,7 +67,7 @@ export function AdminAccessPanel() {
             </h1>
 
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#637B76]">
-              운영실, 지자체/B2G, R&D, 스마트링, 문자·알림 기능은 Admin에서만 관리합니다.
+              운영실, 지자체/B2G, R&D, 안부리포트, 문자·알림 기능은 Admin에서만 관리합니다.
               고객 메뉴에는 보호자와 부모님이 실제로 쓰는 화면만 남깁니다.
             </p>
 
@@ -82,7 +82,7 @@ export function AdminAccessPanel() {
               </div>
               <div className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
                 <div className="text-xs font-black text-[#2AA897]">R&D</div>
-                <div className="mt-2 text-lg font-black">스마트링</div>
+                <div className="mt-2 text-lg font-black">안부리포트</div>
               </div>
             </div>
           </section>

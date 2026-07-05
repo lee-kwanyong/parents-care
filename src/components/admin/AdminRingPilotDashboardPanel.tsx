@@ -458,14 +458,14 @@ export function AdminRingPilotDashboardPanel() {
       const result = await response.json().catch(() => ({}))
 
       if (!response.ok || result.ok === false) {
-        setMessage(result.message || '스마트링 실증 대시보드를 불러오지 못했습니다.')
+        setMessage(result.message || '안부리포트 실증 대시보드를 불러오지 못했습니다.')
         setData(result)
         return
       }
 
       setData(result)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '스마트링 실증 대시보드를 불러오지 못했습니다.')
+      setMessage(error instanceof Error ? error.message : '안부리포트 실증 대시보드를 불러오지 못했습니다.')
     } finally {
       setLoading(false)
     }
@@ -490,7 +490,7 @@ export function AdminRingPilotDashboardPanel() {
       const result = await response.json().catch(() => ({}))
 
       if (!response.ok || result.ok === false) {
-        setMessage(result.message || '스마트링 기기 저장에 실패했습니다.')
+        setMessage(result.message || '안부리포트 기기 저장에 실패했습니다.')
         return
       }
 
@@ -500,7 +500,7 @@ export function AdminRingPilotDashboardPanel() {
         setLocalDevices(next)
       }
 
-      setMessage(result.persisted ? '스마트링 기기를 저장했습니다.' : '서버 저장은 실패했지만 이 기기에 임시 저장했습니다.')
+      setMessage(result.persisted ? '안부리포트 기기를 저장했습니다.' : '서버 저장은 실패했지만 이 기기에 임시 저장했습니다.')
       setForm(initialForm)
       await load()
     } catch (error) {
@@ -563,7 +563,7 @@ export function AdminRingPilotDashboardPanel() {
 
   async function copySummary() {
     const lines = [
-      '[안부웍스] 스마트링 실증 대시보드 요약',
+      '[안부웍스] 안부리포트 실증 대시보드 요약',
       '',
       `전체 기기: ${metrics.totalDevices}개`,
       `가구 배정: ${metrics.assignedDevices}개`,
@@ -582,7 +582,7 @@ export function AdminRingPilotDashboardPanel() {
 
     try {
       await navigator.clipboard.writeText(lines.join('\n'))
-      setMessage('스마트링 실증 요약을 복사했습니다.')
+      setMessage('안부리포트 실증 요약을 복사했습니다.')
     } catch {
       setMessage('복사에 실패했습니다. 브라우저 권한을 확인해주세요.')
     }
@@ -600,13 +600,13 @@ export function AdminRingPilotDashboardPanel() {
           <div className="grid gap-0 xl:grid-cols-[1.05fr_0.95fr]">
             <div className="p-6 sm:p-9">
               <div className="flex flex-wrap gap-2">
-                <Pill className="bg-[#F6F4FF] text-[#4A3A8A] ring-[#DED8FF]">Smart Ring Pilot</Pill>
+                <Pill className="bg-[#F6F4FF] text-[#4A3A8A] ring-[#DED8FF]">Support Pilot</Pill>
                 <Pill className="bg-[#EFFFFA] text-[#247A71] ring-[#CDEFE7]">데이터 품질</Pill>
                 <Pill>운영실 전용</Pill>
               </div>
 
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.08em] sm:text-6xl">
-                스마트링 실증을
+                안부리포트 실증을
                 <br />
                 모델별로 관리합니다.
               </h1>
@@ -727,7 +727,7 @@ export function AdminRingPilotDashboardPanel() {
         <section className="grid gap-4 xl:grid-cols-[0.95fr_1.05fr]">
           <article className="rounded-[2rem] bg-white/95 p-6 shadow-sm ring-1 ring-[#D6EDE7]">
             <Pill className="bg-[#EFFFFA] text-[#247A71] ring-[#CDEFE7]">기기 추가</Pill>
-            <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">새 스마트링 샘플 등록</h2>
+            <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">새 안부리포트 샘플 등록</h2>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <label className="block">
@@ -871,7 +871,7 @@ export function AdminRingPilotDashboardPanel() {
               disabled={saving}
               className="mt-5 w-full rounded-2xl bg-[#EFFFFA] px-5 py-5 text-base font-black text-[#247A71] ring-1 ring-[#CDEFE7] disabled:opacity-50"
             >
-              {saving ? '저장 중...' : '스마트링 샘플 등록'}
+              {saving ? '저장 중...' : '안부리포트 샘플 등록'}
             </button>
           </article>
 

@@ -339,10 +339,10 @@ export function GuardianTodayReportPanel() {
 
           <article className="rounded-[2rem] bg-white/95 p-6 shadow-sm ring-1 ring-[#D6EDE7]">
             <div className="rounded-full bg-[#F6F4FF] px-4 py-2 text-sm font-black text-[#4A3A8A] ring-1 ring-[#DED8FF] inline-flex">
-              스마트링 참고 신호
+              안부리포트 참고 신호
             </div>
 
-            <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">안부리듬</h2>
+            <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">안부리포트</h2>
 
             <div className="mt-5 space-y-3">
               {ringInsights.map((item) => (

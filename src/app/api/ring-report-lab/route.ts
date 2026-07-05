@@ -441,9 +441,9 @@ function buildReport(body: Row) {
 
   const summaryText =
     overallStatus === 'normal'
-      ? `오늘 ${parentName}의 안부리듬은 평소와 비슷합니다. 수면, 활동, 심박 리듬이 큰 변화 없이 확인됩니다.`
+      ? `오늘 ${parentName}의 안부리포트은 평소와 비슷합니다. 수면, 활동, 심박 리듬이 큰 변화 없이 확인됩니다.`
       : overallStatus === 'watch'
-        ? `오늘 ${parentName}의 안부리듬이 평소와 조금 다릅니다. ${reasonText || '일부 지표 변화'}가 보여 전화 확인을 권장합니다.`
+        ? `오늘 ${parentName}의 안부리포트이 평소와 조금 다릅니다. ${reasonText || '일부 지표 변화'}가 보여 전화 확인을 권장합니다.`
         : `오늘 ${parentName}의 상태 확인이 필요합니다. ${reasonText || '데이터 부족 또는 평소와 다른 변화'}가 확인되어 보호자 확인을 권장합니다.`
 
   const recommendedAction =
@@ -457,7 +457,7 @@ function buildReport(body: Row) {
 `[안부웍스] ${parentName} 안부완료 리포트
 
 오늘 상태: ${statusLabel(overallStatus)}
-안부리듬 점수: ${score}점
+안부리포트 점수: ${score}점
 
 ${summaryText}
 

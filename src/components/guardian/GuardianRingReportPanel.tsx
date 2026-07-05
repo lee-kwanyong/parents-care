@@ -232,7 +232,7 @@ export function GuardianRingReportPanel() {
             <div className="p-6 sm:p-9">
               <div className="flex flex-wrap gap-2">
                 <span className="rounded-full bg-[#F6F4FF] px-4 py-2 text-sm font-black text-[#4A3A8A] ring-1 ring-[#DED8FF]">
-                  스마트링 안부리듬
+                  안부완료 리포트
                 </span>
                 <span className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   {data?.generatedKst || '오늘'}
@@ -247,11 +247,11 @@ export function GuardianRingReportPanel() {
               <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.08em] sm:text-6xl">
                 수치를 나열하지 않고
                 <br />
-                안부리듬으로 보여줍니다.
+                안부리포트으로 보여줍니다.
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                심박, HRV, SpO2, 체온, 수면, 활동, 착용, 배터리를 보호자가 이해하기 쉬운 안부 참고 신호로 정리합니다.
+                부모님 안부 상태를 보호자가 이해하기 쉬운 리포트로 정리합니다.
               </p>
 
               <div className="mt-7 grid gap-3 sm:grid-cols-[1fr_auto]">
@@ -278,13 +278,13 @@ export function GuardianRingReportPanel() {
             <aside className="bg-[linear-gradient(135deg,#F6F4FF_0%,#F7FFFC_50%,#FFFFFF_100%)] p-6 sm:p-9">
               <div className={`rounded-[2rem] p-6 ring-1 ${toneClass(status.level)}`}>
                 <div className="text-5xl">{toneEmoji(status.level)}</div>
-                <div className="mt-4 text-sm font-black opacity-70">오늘 안부리듬</div>
+                <div className="mt-4 text-sm font-black opacity-70">오늘 안부리포트</div>
                 <div className="mt-2 text-4xl font-black tracking-[-0.08em]">{status.label}</div>
 
                 {score > 0 ? (
                   <div className="mt-4">
                     <div className="flex items-end justify-between gap-3">
-                      <div className="text-sm font-black opacity-70">안부리듬 점수</div>
+                      <div className="text-sm font-black opacity-70">안부리포트 점수</div>
                       <div className="text-3xl font-black">{score}점</div>
                     </div>
                     <div className="mt-3 h-4 overflow-hidden rounded-full bg-white/70 ring-1 ring-current/10">
@@ -316,7 +316,7 @@ export function GuardianRingReportPanel() {
             </div>
 
             <h2 className="mt-5 text-3xl font-black leading-tight tracking-[-0.07em]">
-              {data?.todayLine || '스마트링 안부리듬을 확인 중입니다.'}
+              {data?.todayLine || '안부완료 리포트을 확인 중입니다.'}
             </h2>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -361,7 +361,7 @@ export function GuardianRingReportPanel() {
 
         <section className="rounded-[2rem] bg-white/95 p-6 shadow-sm ring-1 ring-[#D6EDE7]">
           <div className="inline-flex rounded-full bg-[#F6F4FF] px-4 py-2 text-sm font-black text-[#4A3A8A] ring-1 ring-[#DED8FF]">
-            안부리듬 지표
+            안부리포트 지표
           </div>
 
           <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">오늘 참고 신호</h2>

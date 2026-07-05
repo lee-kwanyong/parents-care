@@ -407,7 +407,7 @@ export function FamilyInviteFlowPanel({ mode = 'onboarding' }: { mode?: 'onboard
               {[
                 ['부모님 안부 앱', links.parent, '부모님이 오늘 상태를 남기는 화면'],
                 ['보호자 오늘 리포트', links.guardianToday, '보호자가 오늘 상태와 다음 할 일을 확인하는 화면'],
-                ['안부완료 리포트', links.guardianRing, '스마트링 안부리듬 참고 신호 화면'],
+                ['안부완료 리포트', links.guardianRing, '안부완료 리포트 참고 신호 화면'],
                 ['보호자 대리입력', links.proxyCheckin, '전화 확인 후 보호자가 대신 기록하는 화면'],
                 ['동의 화면', primaryHref, '실증 참여와 비의료 고지를 확인하는 화면']
               ].map(([label, href, desc]) => (

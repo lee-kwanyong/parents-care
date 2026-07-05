@@ -12,10 +12,10 @@ const blocks = [
   },
   {
     title: 'R&D·바이오헬스',
-    desc: '스마트링, 바이오헬스 데이터, R&D 실증, 협력기관 대응을 관리합니다.',
+    desc: '안부리포트, 바이오헬스 데이터, R&D 실증, 협력기관 대응을 관리합니다.',
     links: [
       ['/admin/ops/ring-report-lab', '안부완료 리포트 실험실'],
-      ['/admin/ops/ring-csv-import', '스마트링 CSV 업로드'],
+      ['/admin/ops/ring-csv-import', '데이터 파일 업로드'],
       ['/admin/ops/training-center', '교육·가이드 센터']
     ]
   },
@@ -46,7 +46,7 @@ export function AdminGovRndHubPanel() {
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            B2G, 조달, R&D, 바이오헬스, 스마트링 실증, 컴플라이언스는 고객에게 노출하지 않고 운영실 내부에서 관리합니다.
+            B2G, 조달, R&D, 바이오헬스, 안부리포트 실증, 컴플라이언스는 고객에게 노출하지 않고 운영실 내부에서 관리합니다.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">

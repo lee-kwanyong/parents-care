@@ -308,7 +308,7 @@ function templates() {
   return [
     {
       key: 'eiot',
-      title: 'eIoT 스마트링 공급사',
+      title: 'eIoT 안부리포트 공급사',
       desc: 'TM22/TM21 샘플, SDK/API, 500~1000개 단가, KC/인증 검토',
       defaults: {
         leadType: 'smart-ring-supplier',
@@ -318,7 +318,7 @@ function templates() {
         channel: 'email/whatsapp',
         stage: '샘플/견적',
         priority: 'high',
-        focusArea: '스마트링 공급·SDK·CSV/API',
+        focusArea: '안부리포트 공급·SDK·CSV/API',
         region: '중국 Shenzhen',
         expectedUnits: '5',
         monthlyFee: '0',
@@ -330,7 +330,7 @@ function templates() {
     },
     {
       key: 'goodway',
-      title: 'Goodway 스마트링 공급사',
+      title: 'Goodway 안부리포트 공급사',
       desc: 'BCL603M1 후보, 서버 직접 연결, SDK 2차 개발 지원 확인',
       defaults: {
         leadType: 'smart-ring-supplier',
@@ -340,7 +340,7 @@ function templates() {
         channel: 'email/whatsapp',
         stage: '문의/자료요청',
         priority: 'high',
-        focusArea: '스마트링 SDK·서버 연동',
+        focusArea: '안부리포트 SDK·서버 연동',
         region: '중국',
         expectedUnits: '5',
         monthlyFee: '0',
@@ -362,7 +362,7 @@ function templates() {
         channel: 'smartstore/contact',
         stage: '발굴',
         priority: 'medium',
-        focusArea: '국내 스마트링 PoC',
+        focusArea: '국내 안부리포트 PoC',
         region: '한국',
         expectedUnits: '3',
         monthlyFee: '0',
@@ -390,7 +390,7 @@ function templates() {
         region: '충북 오송/오창',
         expectedUnits: '50',
         monthlyFee: '4500',
-        hardwareModel: '스마트링 + 안부 리포트',
+        hardwareModel: '안부리포트 + 안부 리포트',
         sampleCount: '5',
         nextAction: '사업 담당 부서 확인, 제안서 초안 작성, 비의료 표현 점검',
         memo: '바이오헬스 데이터 인프라와 시니어 안부 리듬 데이터 실증 연결 가능성 검토.'
@@ -414,7 +414,7 @@ function templates() {
         region: '전남/경북/충북',
         expectedUnits: '5',
         monthlyFee: '4500',
-        hardwareModel: '스마트링 안부리듬 + 보호자 리포트',
+        hardwareModel: '안부완료 리포트 + 보호자 리포트',
         sampleCount: '5',
         nextAction: '1페이지 제안서, 비의료 고지, 실증 성공 기준 정리',
         memo: '성공 기준: 보호자 유용성, 노인 착용 지속성, 데이터 수집률, 확인필요 후속처리율.'

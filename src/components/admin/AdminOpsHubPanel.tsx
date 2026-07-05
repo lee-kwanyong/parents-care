@@ -9,11 +9,11 @@ function groupByCategory(links: MenuLink[]) {
   }, {})
 }
 
-const categoryOrder = ['운영', '스마트링·R&D', '지자체·R&D', '문자·알림', '시스템']
+const categoryOrder = ['운영', '안부리포트·R&D', '지자체·R&D', '문자·알림', '시스템']
 
 function toneClass(category: string) {
   if (category === '운영') return 'bg-[#EFFFFA] text-[#247A71] ring-[#CDEFE7]'
-  if (category === '스마트링·R&D') return 'bg-[#F6F4FF] text-[#4A3A8A] ring-[#DED8FF]'
+  if (category === '안부리포트·R&D') return 'bg-[#F6F4FF] text-[#4A3A8A] ring-[#DED8FF]'
   if (category === '지자체·R&D') return 'bg-[#FFF9EE] text-[#795C22] ring-[#F3DEB5]'
   if (category === '문자·알림') return 'bg-[#FFF4F4] text-[#8A3030] ring-[#F3C8C8]'
   return 'bg-white text-[#17443F] ring-[#D6EDE7]'
@@ -41,7 +41,7 @@ export function AdminOpsHubPanel() {
           </h1>
 
           <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            고객 메뉴에는 고객이 쓰는 기능만 남기고, 운영실·지자체/B2G·R&D·스마트링·문자·실증 관리는 모두 Admin에서 관리합니다.
+            고객 메뉴에는 고객이 쓰는 기능만 남기고, 운영실·지자체/B2G·R&D·안부리포트·문자·실증 관리는 모두 Admin에서 관리합니다.
           </p>
 
           <div className="mt-5 rounded-2xl bg-[#FFF9EE] p-4 text-sm font-black leading-7 text-[#795C22] ring-1 ring-[#F3DEB5]">

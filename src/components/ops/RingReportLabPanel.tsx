@@ -264,7 +264,7 @@ export function RingReportLabPanel() {
               </h1>
 
               <p className="mt-4 max-w-4xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                수면, 활동, 심박, HRV, SpO2, 체온 추세, 착용 시간, 배터리를 입력하면 보호자용 안부리듬 리포트를 생성합니다.
+                수면, 활동, 심박, HRV, SpO2, 체온 추세, 착용 시간, 배터리를 입력하면 보호자용 안부리포트 리포트를 생성합니다.
               </p>
             </div>
 
@@ -452,7 +452,7 @@ export function RingReportLabPanel() {
           <section className="rounded-[2rem] bg-white/95 p-5 shadow-sm ring-1 ring-[#D6EDE7] sm:p-6">
             <h2 className="text-3xl font-black tracking-[-0.06em]">이벤트는 API에 저장됩니다</h2>
             <p className="mt-4 rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
-              리포트 생성, 보호자 조회, 스키마 적용 이벤트가 저장됩니다. 다음 단계에서 운영실 스마트링 대시보드로 확장합니다.
+              리포트 생성, 보호자 조회, 스키마 적용 이벤트가 저장됩니다. 다음 단계에서 운영실 안부리포트 대시보드로 확장합니다.
             </p>
           </section>
         ) : null}
@@ -467,11 +467,11 @@ function ReportPreview({ report, onCopy, guardianReportUrl }: { report: Report; 
       <article className={'rounded-2xl p-5 ring-1 ' + toneClass(report.overallStatus)}>
         <div className="flex flex-wrap gap-2">
           <Pill tone={report.overallStatus}>{statusLabel(report.overallStatus)}</Pill>
-          <Pill>안부리듬 {report.anbuScore}점</Pill>
+          <Pill>안부리포트 {report.anbuScore}점</Pill>
           <Pill>데이터 신뢰도 {report.dataQualityScore}점</Pill>
         </div>
 
-        <h3 className="mt-4 text-2xl font-black tracking-[-0.06em]">{report.parentName} 오늘 안부리듬</h3>
+        <h3 className="mt-4 text-2xl font-black tracking-[-0.06em]">{report.parentName} 오늘 안부리포트</h3>
         <p className="mt-3 text-base font-black leading-8">{report.summaryText}</p>
 
         <div className="mt-4 rounded-2xl bg-white/80 p-4 text-sm font-black leading-7 ring-1 ring-current/10">

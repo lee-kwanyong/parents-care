@@ -173,11 +173,11 @@ export function GuardianRingReportPanel() {
             <article className={'rounded-[2rem] p-6 shadow-sm ring-1 ' + toneClass(report.overallStatus)}>
               <div className="flex flex-wrap gap-2">
                 <Pill tone={report.overallStatus}>{statusLabel(report.overallStatus)}</Pill>
-                <Pill>안부리듬 {report.anbuScore}점</Pill>
+                <Pill>안부리포트 {report.anbuScore}점</Pill>
                 <Pill>{report.reportDate}</Pill>
               </div>
 
-              <h2 className="mt-5 text-4xl font-black tracking-[-0.07em]">{report.parentName} 오늘 안부리듬</h2>
+              <h2 className="mt-5 text-4xl font-black tracking-[-0.07em]">{report.parentName} 오늘 안부리포트</h2>
 
               <p className="mt-4 text-lg font-black leading-9">{report.summaryText}</p>
 

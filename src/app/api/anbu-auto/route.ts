@@ -397,7 +397,7 @@ async function loadBundle(familyCode: string) {
       requestResult.error,
       eventResult.error
     ].filter(Boolean),
-    notice: '스마트링 정보는 의료 진단이 아닌 일상 안부 확인을 돕는 참고 신호입니다.'
+    notice: '안부리포트 정보는 의료 진단이 아닌 일상 안부 확인을 돕는 참고 신호입니다.'
   }
 }
 

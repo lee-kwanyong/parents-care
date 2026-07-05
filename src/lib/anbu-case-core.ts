@@ -254,7 +254,7 @@ function dashboardStatus(input: {
         key: 'data_gap',
         label: '데이터 부족',
         title: '상태 이상이 아니라 확인 자료가 부족합니다.',
-        desc: '스마트링·앱·전화 응답 자료가 충분하지 않아 먼저 데이터 상태 확인이 필요합니다.',
+        desc: '안부리포트·앱·전화 응답 자료가 충분하지 않아 먼저 데이터 상태 확인이 필요합니다.',
         tone: 'neutral' as CaseTone
       }
     }

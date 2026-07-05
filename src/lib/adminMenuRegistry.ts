@@ -86,10 +86,10 @@ export const customerMenuLinks: MenuLink[] = [
   {
     href: '/guardian/ring-report',
     title: '안부완료 리포트',
-    description: '스마트링 기반 리포트를 확인합니다.',
+    description: '안부리포트 기반 리포트를 확인합니다.',
     category: '보호자',
     roles: ['all', 'guardian', 'child'],
-    badge: '스마트링',
+    badge: '안부리포트',
     priority: 6
   },
   {
@@ -134,7 +134,7 @@ export const adminMenuLinks: MenuLink[] = [
   {
     href: '/admin/ops/families',
     title: '가입자 통합관리',
-    description: '가입자, 가족, 보호자, 부모님, 스마트링 배정을 한 화면에서 관리합니다.',
+    description: '가입자, 가족, 보호자, 부모님, 안부리포트 배정을 한 화면에서 관리합니다.',
     category: '핵심',
     roles: ['ops', 'admin'],
     badge: '필수',
@@ -144,7 +144,7 @@ export const adminMenuLinks: MenuLink[] = [
   {
     href: '/admin/ops',
     title: '운영실 통합 허브',
-    description: '운영, 지자체, R&D, 스마트링, 문자 관련 메뉴를 한곳에서 관리합니다.',
+    description: '운영, 지자체, R&D, 안부리포트, 문자 관련 메뉴를 한곳에서 관리합니다.',
     category: '운영',
     roles: ['ops', 'admin'],
     badge: '허브',
@@ -193,9 +193,9 @@ export const adminMenuLinks: MenuLink[] = [
   },
   {
     href: '/admin/ops/ring-pilot-dashboard',
-    title: '스마트링 실증 대시보드',
+    title: '안부리포트 실증 대시보드',
     description: '모델, 샘플, 가구 배정, 착용률, 데이터 품질, 배터리, 리포트 상태를 관리합니다.',
-    category: '스마트링·R&D',
+    category: '안부리포트·R&D',
     roles: ['ops', 'admin'],
     badge: '실증',
     priority: 9,
@@ -204,8 +204,8 @@ export const adminMenuLinks: MenuLink[] = [
   {
     href: '/admin/ops/ring-report-lab',
     title: '안부완료 리포트 실험실',
-    description: '스마트링 기반 리포트를 생성합니다.',
-    category: '스마트링·R&D',
+    description: '안부리포트 기반 리포트를 생성합니다.',
+    category: '안부리포트·R&D',
     roles: ['ops', 'admin'],
     badge: '링리포트',
     priority: 10,
@@ -213,9 +213,9 @@ export const adminMenuLinks: MenuLink[] = [
   },
   {
     href: '/admin/ops/ring-csv-import',
-    title: '스마트링 CSV 업로드',
+    title: '데이터 파일 업로드',
     description: 'CSV를 업로드해 리포트를 생성합니다.',
-    category: '스마트링·R&D',
+    category: '안부리포트·R&D',
     roles: ['ops', 'admin'],
     badge: 'CSV',
     priority: 11,

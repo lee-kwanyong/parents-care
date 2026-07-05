@@ -164,7 +164,7 @@ export function AdminFamilyHubPanel() {
       `부모님 주소: ${row.parentAddress || '-'}`,
       `보호자 주소: ${row.guardianAddress || '-'}`,
       `상태: ${row.risk.label}`,
-      `스마트링: ${row.ringDevices.map((item) => `${item.model}/${item.stage}`).join(', ') || '없음'}`
+      `안부리포트: ${row.ringDevices.map((item) => `${item.model}/${item.stage}`).join(', ') || '없음'}`
     ]
 
     try {
@@ -242,7 +242,7 @@ export function AdminFamilyHubPanel() {
               가입자 통합관리
             </span>
             <span className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
-              가족 + 가입자 + 스마트링
+              가족 + 가입자 + 안부리포트
             </span>
             <span className="rounded-full bg-white px-4 py-2 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
               {data?.generatedKst || '오늘'}
@@ -254,11 +254,11 @@ export function AdminFamilyHubPanel() {
               <h1 className="text-4xl font-black leading-tight tracking-[-0.08em] sm:text-6xl">
                 가입자와 가족,
                 <br />
-                스마트링을 한 줄로 봅니다.
+                안부리포트을 한 줄로 봅니다.
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                이름, 연락처, 주소, 가족코드, 최신 안부, 스마트링 배정 상태를 한 화면에서 관리합니다.
+                이름, 연락처, 주소, 가족코드, 최신 안부, 안부리포트 배정 상태를 한 화면에서 관리합니다.
               </p>
             </div>
 
@@ -290,7 +290,7 @@ export function AdminFamilyHubPanel() {
             ['확인필요', metrics.checkNeeded, 'check-needed'],
             ['주의', metrics.watch, 'watch'],
             ['완료', metrics.completed, 'completed'],
-            ['스마트링', metrics.smartRingFamilies, 'smart-ring'],
+            ['안부리포트', metrics.smartRingFamilies, 'smart-ring'],
             ['중복검토', metrics.duplicateFamilies, 'duplicates']
           ].map(([label, value, key]) => (
             <button
@@ -313,7 +313,7 @@ export function AdminFamilyHubPanel() {
             <input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
-              placeholder="이름, 전화번호, 주소, 가족코드, 스마트링 모델 검색"
+              placeholder="이름, 전화번호, 주소, 가족코드, 안부리포트 모델 검색"
               className="rounded-2xl border border-[#D6EDE7] bg-white px-4 py-4 text-sm font-black outline-none"
             />
 
@@ -327,7 +327,7 @@ export function AdminFamilyHubPanel() {
               <option value="watch">주의</option>
               <option value="completed">완료</option>
               <option value="pending">대기</option>
-              <option value="smart-ring">스마트링</option>
+              <option value="smart-ring">안부리포트</option>
               <option value="duplicates">중복검토</option>
               <option value="auth-only">가입자만 있고 가족 미연결</option>
             </select>
@@ -361,7 +361,7 @@ export function AdminFamilyHubPanel() {
 
                       {row.hasSmartRing ? (
                         <span className="rounded-full bg-[#F6F4FF] px-3 py-1 text-xs font-black text-[#4A3A8A] ring-1 ring-[#DED8FF]">
-                          스마트링 연결
+                          안부리포트 연결
                         </span>
                       ) : null}
 
@@ -412,7 +412,7 @@ export function AdminFamilyHubPanel() {
                       </section>
 
                       <section className="rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
-                        <div className="text-sm font-black text-[#637B76]">최신 스마트링</div>
+                        <div className="text-sm font-black text-[#637B76]">최신 안부리포트</div>
                         <div className="mt-2 text-xl font-black tracking-[-0.05em]">
                           {row.latestRing ? `${row.latestRing.score || 0}점 / 품질 ${row.latestRing.quality || 0}` : '기록 없음'}
                         </div>
@@ -423,7 +423,7 @@ export function AdminFamilyHubPanel() {
                     </div>
 
                     <section className="mt-3 rounded-2xl bg-[#FAFFFD] p-4 ring-1 ring-[#D6EDE7]">
-                      <div className="text-sm font-black text-[#637B76]">스마트링 기기</div>
+                      <div className="text-sm font-black text-[#637B76]">안부리포트 기기</div>
 
                       <div className="mt-3 space-y-2">
                         {row.ringDevices.length ? (
@@ -436,7 +436,7 @@ export function AdminFamilyHubPanel() {
                           ))
                         ) : (
                           <p className="text-sm font-bold leading-7 text-[#637B76]">
-                            배정된 스마트링 기기가 없습니다.
+                            배정된 안부리포트 기기가 없습니다.
                           </p>
                         )}
                       </div>

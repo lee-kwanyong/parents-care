@@ -204,7 +204,7 @@ export function ParentAutoGate() {
               {assessment?.label || '자동 확인 중'}
             </div>
             <p className="mt-3 text-sm font-bold leading-7 opacity-85">
-              {assessment?.reason || '스마트링 데이터와 오늘 기록을 확인하고 있습니다.'}
+              {assessment?.reason || '안부리포트 데이터와 오늘 기록을 확인하고 있습니다.'}
             </p>
           </div>
 
@@ -275,7 +275,7 @@ export function ParentAutoGate() {
         </section>
 
         <p className="px-3 text-center text-xs font-bold leading-6 text-[#637B76]">
-          스마트링 정보는 의료 진단이 아니라 일상 안부 확인을 돕는 참고 신호입니다. 응급상황은 119에 연락하세요.
+          안부리포트 정보는 의료 진단이 아니라 일상 안부 확인을 돕는 참고 신호입니다. 응급상황은 119에 연락하세요.
         </p>
       </section>
     </main>
