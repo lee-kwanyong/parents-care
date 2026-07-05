@@ -369,7 +369,7 @@ export function AnbuSupportCenter({ mode = 'widget' }: { mode?: SupportMode }) {
   return (
     <>
       {open ? (
-        <div className="fixed bottom-[6.3rem] right-4 z-50 w-[calc(100vw-2rem)] max-w-[420px] md:bottom-5">
+        <div className="fixed bottom-5 right-4 z-50 hidden w-[420px] max-w-[calc(100vw-2rem)] md:block">
           <div className="mb-2 flex justify-end">
             <button
               type="button"
@@ -386,7 +386,7 @@ export function AnbuSupportCenter({ mode = 'widget' }: { mode?: SupportMode }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-[6.3rem] right-4 z-50 rounded-full bg-[#17443F] px-5 py-4 text-sm font-black text-white shadow-[0_18px_40px_rgba(23,68,63,0.28)] md:bottom-5"
+          className="fixed bottom-5 right-4 z-50 hidden rounded-full bg-[#17443F] px-5 py-4 text-sm font-black text-white shadow-[0_18px_40px_rgba(23,68,63,0.28)] md:block"
         >
           고객센터 💬
         </button>

@@ -155,7 +155,7 @@ function statusFromRing(row: Row | null) {
   if (!row) {
     return {
       level: 'neutral' as Tone,
-      label: '데이터 대기',
+      label: '리포트 대기',
       title: '아직 안부완료 리포트가 없습니다.',
       desc: '가족코드를 입력하거나 오늘 데이터 업로드 후 다시 확인해 주세요.'
     }
