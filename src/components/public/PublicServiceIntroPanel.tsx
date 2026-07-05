@@ -69,6 +69,10 @@ export function PublicServiceIntroPanel() {
                 <Link href="/child/dashboard" className="rounded-2xl bg-[#FAFFFD] px-6 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]">
                   보호자 화면 보기
                 </Link>
+
+                <Link href="/support" className="rounded-2xl bg-white px-6 py-4 text-center text-sm font-black text-[#247A71] ring-1 ring-[#CDEFE7]">
+                  고객센터
+                </Link>
               </div>
             </div>
 

@@ -18,6 +18,7 @@ import { PwaRegister } from '@/components/pwa/PwaRegister'
 import { CustomerMenuSanitizer } from '@/components/common/CustomerMenuSanitizer'
 import { CustomerUXLayer } from '@/components/common/CustomerUXLayer'
 import { AnbuBusinessFooter } from '@/components/public/AnbuBusinessFooter'
+import { AnbuSupportCenter } from '@/components/support/AnbuSupportCenter'
 
 export const metadata: Metadata = {
   title: '안부웍스 | 부모님 안심케어',
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AppPermissionBootstrap />
         {children}
         <AnbuBusinessFooter />
+        <AnbuSupportCenter mode="widget" />
               <AuthSessionBridge />
               <MobileLoginButton />
       </body>
