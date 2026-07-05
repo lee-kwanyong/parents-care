@@ -159,7 +159,7 @@ export function GuardianRingReportPanel() {
       const result = await response.json().catch(() => ({}))
 
       if (!response.ok || result.ok === false) {
-        setMessage(result.message || '스마트링 리포트를 불러오지 못했습니다.')
+        setMessage(result.message || '안부완료 리포트를 불러오지 못했습니다.')
         setData(result)
         return
       }
@@ -173,7 +173,7 @@ export function GuardianRingReportPanel() {
         window.history.replaceState(null, '', nextUrl.toString())
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '스마트링 리포트를 불러오지 못했습니다.')
+      setMessage(error instanceof Error ? error.message : '안부완료 리포트를 불러오지 못했습니다.')
     } finally {
       setLoading(false)
     }
@@ -184,11 +184,11 @@ export function GuardianRingReportPanel() {
     const family = data?.family
 
     const lines = [
-      '[안부웍스] 스마트링 안부리듬 리포트',
+      '[안부웍스] 안부완료 리포트',
       '',
       `부모님: ${family?.parentName || '부모님'}`,
       `상태: ${status?.label || '확인 대기'}`,
-      `요약: ${data?.todayLine || '스마트링 리포트를 확인 중입니다.'}`,
+      `요약: ${data?.todayLine || '안부완료 리포트를 확인 중입니다.'}`,
       '',
       ...(data?.insights || []).map((item) => `- ${item.title}: ${item.desc}`),
       '',
@@ -197,7 +197,7 @@ export function GuardianRingReportPanel() {
 
     try {
       await navigator.clipboard.writeText(lines.join('\n'))
-      setMessage('스마트링 리포트 요약을 복사했습니다.')
+      setMessage('안부완료 리포트 요약을 복사했습니다.')
     } catch {
       setMessage('복사에 실패했습니다. 브라우저 권한을 확인해주세요.')
     }
@@ -212,7 +212,7 @@ export function GuardianRingReportPanel() {
   const status = data?.status || {
     level: 'neutral' as Tone,
     label: '확인 대기',
-    title: '스마트링 리포트를 불러오는 중입니다.',
+    title: '안부완료 리포트를 불러오는 중입니다.',
     desc: '잠시만 기다려 주세요.'
   }
 
@@ -335,7 +335,7 @@ export function GuardianRingReportPanel() {
               onClick={copySummary}
               className="mt-5 w-full rounded-2xl bg-white px-5 py-4 text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
             >
-              스마트링 요약 복사
+              안부요약 복사
             </button>
           </article>
 
@@ -436,7 +436,7 @@ export function GuardianRingReportPanel() {
                 ))
               ) : (
                 <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
-                  아직 표시할 스마트링 리포트가 없습니다. 가족코드를 입력하거나 운영실에서 CSV 업로드 후 다시 확인해 주세요.
+                  아직 표시할 안부완료 리포트가 없습니다. 가족코드를 입력하거나 운영실에서 CSV 업로드 후 다시 확인해 주세요.
                 </div>
               )}
             </div>

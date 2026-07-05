@@ -85,7 +85,7 @@ export const customerMenuLinks: MenuLink[] = [
   },
   {
     href: '/guardian/ring-report',
-    title: '스마트링 안부리듬 리포트',
+    title: '안부완료 리포트',
     description: '스마트링 기반 리포트를 확인합니다.',
     category: '보호자',
     roles: ['all', 'guardian', 'child'],
@@ -203,7 +203,7 @@ export const adminMenuLinks: MenuLink[] = [
   },
   {
     href: '/admin/ops/ring-report-lab',
-    title: '스마트링 리포트 실험실',
+    title: '안부완료 리포트 실험실',
     description: '스마트링 기반 리포트를 생성합니다.',
     category: '스마트링·R&D',
     roles: ['ops', 'admin'],

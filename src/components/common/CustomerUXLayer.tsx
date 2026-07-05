@@ -22,7 +22,7 @@ const customerQuickLinks = [
   },
   {
     href: '/guardian/ring-report',
-    label: '스마트링 리포트',
+    label: '안부완료 리포트',
     short: '링'
   },
   {
@@ -43,7 +43,7 @@ function isAdminPath(pathname: string) {
 
 function pageLabel(pathname: string) {
   if (pathname.startsWith('/mobile/parent')) return '부모님 화면'
-  if (pathname.startsWith('/guardian/ring-report')) return '스마트링 리포트'
+  if (pathname.startsWith('/guardian/ring-report')) return '안부완료 리포트'
   if (pathname.startsWith('/guardian/today')) return '보호자 리포트'
   if (pathname.startsWith('/guardian/proxy-checkin')) return '보호자 대리입력'
   if (pathname.startsWith('/consent')) return '실증 참여 동의'

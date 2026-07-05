@@ -621,7 +621,7 @@ function buildReport(input: Row): ReportBuildResult {
         : '먼저 전화 확인을 진행하고, 연결이 어렵거나 걱정되는 경우 가족 공유 또는 생활확인 요청을 검토해주세요.'
 
   const shareMessage =
-`[안부웍스] ${parentName} 스마트링 안부리듬 리포트
+`[안부웍스] ${parentName} 안부완료 리포트
 
 오늘 상태: ${statusLabel(overallStatus)}
 안부리듬 점수: ${score}점

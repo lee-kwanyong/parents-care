@@ -252,7 +252,7 @@ export function FamilyInviteFlowPanel({ mode = 'onboarding' }: { mode?: 'onboard
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                부모님 안부 앱, 보호자 리포트, 스마트링 리포트, 대리입력 화면이 같은 가족코드로 이어집니다.
+                부모님 안부 앱, 보호자 리포트, 안부완료 리포트, 대리입력 화면이 같은 가족코드로 이어집니다.
               </p>
 
               <div className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -407,7 +407,7 @@ export function FamilyInviteFlowPanel({ mode = 'onboarding' }: { mode?: 'onboard
               {[
                 ['부모님 안부 앱', links.parent, '부모님이 오늘 상태를 남기는 화면'],
                 ['보호자 오늘 리포트', links.guardianToday, '보호자가 오늘 상태와 다음 할 일을 확인하는 화면'],
-                ['스마트링 리포트', links.guardianRing, '스마트링 안부리듬 참고 신호 화면'],
+                ['안부완료 리포트', links.guardianRing, '스마트링 안부리듬 참고 신호 화면'],
                 ['보호자 대리입력', links.proxyCheckin, '전화 확인 후 보호자가 대신 기록하는 화면'],
                 ['동의 화면', primaryHref, '실증 참여와 비의료 고지를 확인하는 화면']
               ].map(([label, href, desc]) => (

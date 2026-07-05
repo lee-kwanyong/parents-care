@@ -58,9 +58,7 @@ export function AnbuBusinessFooter() {
                 <span className="mx-2 text-[#B8D8D1]">|</span>
                 사업자등록번호: 301-88-03572
               </p>
-              <p>
-                주소: 충청북도 청주시 청원구 오창읍 중심상업로 32-13, 7층 701-62호
-              </p>
+              <p>주소: 충청북도 청주시 청원구 오창읍 중심상업로 32-13, 7층 701-62호</p>
             </div>
 
             <p className="text-xs font-bold leading-6 text-[#8AA09B]">
@@ -70,9 +68,7 @@ export function AnbuBusinessFooter() {
 
           <div className="space-y-3">
             <div className="rounded-[1.25rem] bg-white p-4 ring-1 ring-[#D6EDE7]">
-              <div className="text-xs font-black text-[#247A71]">
-                고객센터
-              </div>
+              <div className="text-xs font-black text-[#247A71]">고객센터</div>
 
               <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <a
@@ -102,9 +98,7 @@ export function AnbuBusinessFooter() {
             </div>
 
             <div className="rounded-[1.25rem] bg-white p-4 ring-1 ring-[#D6EDE7]">
-              <div className="text-xs font-black text-[#247A71]">
-                결제 계좌
-              </div>
+              <div className="text-xs font-black text-[#247A71]">결제 계좌</div>
 
               <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div className="text-lg font-black leading-7 tracking-[-0.04em] text-[#17443F]">

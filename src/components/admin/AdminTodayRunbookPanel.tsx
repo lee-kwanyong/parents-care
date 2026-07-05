@@ -322,7 +322,7 @@ export function AdminTodayRunbookPanel() {
               </h1>
 
               <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-                가입자, 가족 연결, 안부 신호, 문자 실패, 스마트링 리포트, 지자체·R&D 후속 액션까지 운영실이 하루에 확인해야 할 일을 체크합니다.
+                가입자, 가족 연결, 안부 신호, 문자 실패, 안부완료 리포트, 지자체·R&D 후속 액션까지 운영실이 하루에 확인해야 할 일을 체크합니다.
               </p>
 
               <div className="mt-7 flex flex-wrap gap-3">

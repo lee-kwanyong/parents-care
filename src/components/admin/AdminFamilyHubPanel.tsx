@@ -473,7 +473,7 @@ export function AdminFamilyHubPanel() {
                       href={row.familyCode ? `/guardian/ring-report?familyCode=${encodeURIComponent(row.familyCode)}` : '/guardian/ring-report'}
                       className="block rounded-2xl bg-white px-4 py-4 text-center text-sm font-black text-[#17443F] ring-1 ring-[#D6EDE7]"
                     >
-                      스마트링 리포트
+                      안부완료 리포트
                     </Link>
 
                     <Link

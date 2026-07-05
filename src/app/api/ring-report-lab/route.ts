@@ -454,7 +454,7 @@ function buildReport(body: Row) {
         : '먼저 전화 확인을 진행하고, 연결이 어렵거나 걱정되는 경우 가족 공유 또는 생활확인 요청을 검토해주세요.'
 
   const shareMessage =
-`[안부웍스] ${parentName} 스마트링 안부리듬 리포트
+`[안부웍스] ${parentName} 안부완료 리포트
 
 오늘 상태: ${statusLabel(overallStatus)}
 안부리듬 점수: ${score}점
@@ -603,7 +603,7 @@ async function publicReport(request: NextRequest) {
     return {
       ok: false,
       status: 404,
-      message: '일치하는 스마트링 리포트가 없습니다.'
+      message: '일치하는 안부완료 리포트가 없습니다.'
     }
   }
 
@@ -647,7 +647,7 @@ async function opsDashboard() {
     return {
       ok: false,
       status: 500,
-      message: '스마트링 리포트 목록을 불러오지 못했습니다.',
+      message: '안부완료 리포트 목록을 불러오지 못했습니다.',
       detail: reportResult.error
     }
   }
@@ -726,7 +726,7 @@ async function createReport(body: Row) {
     return {
       ok: false,
       status: 500,
-      message: '스마트링 리포트 저장에 실패했습니다.',
+      message: '안부완료 리포트 저장에 실패했습니다.',
       detail: result.error
     }
   }
@@ -746,7 +746,7 @@ async function createReport(body: Row) {
 
   return {
     ok: true,
-    message: '스마트링 안부리듬 리포트를 생성했습니다.',
+    message: '안부완료 리포트를 생성했습니다.',
     report: normalizeReport(saved)
   }
 }

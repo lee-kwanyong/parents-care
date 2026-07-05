@@ -318,7 +318,7 @@ export function AdminOpsUnifiedDashboardPanel() {
           <MetricCard
             title="스마트링"
             value={metrics.smartRingFamilies}
-            desc="스마트링 리포트나 기기 배정이 연결된 가족"
+            desc="안부완료 리포트나 기기 배정이 연결된 가족"
             href="/admin/ops/families?filter=smart-ring"
             tone="neutral"
           />

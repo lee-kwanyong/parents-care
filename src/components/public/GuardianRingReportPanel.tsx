@@ -123,7 +123,7 @@ export function GuardianRingReportPanel() {
       <section className="mx-auto max-w-5xl space-y-5">
         <section className="rounded-[2rem] bg-white/95 p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
-            보호자 스마트링 안부리듬 리포트
+            보호자 안부완료 리포트
           </div>
 
           <h1 className="mt-5 text-4xl font-black leading-tight tracking-[-0.07em] sm:text-5xl">

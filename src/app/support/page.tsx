@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: '고객센터 | 안부웍스',
-  description: '안부웍스 요금제, 이용 방법, 2주 케어, 안부완료 리포트 문의를 확인하세요.'
+  description: '안부웍스 요금제, 이용 방법, 2주 케어, 리포트 문의를 확인하세요.'
 }
 
 export default function SupportPage() {
@@ -23,7 +23,7 @@ export default function SupportPage() {
           </h1>
 
           <p className="mt-4 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-            안부웍스 이용 방법, 요금제, 2주 안부케어, 추천인 포인트, 결제 문의를 빠르게 안내합니다.
+            자동 답변으로 기본 안내를 받고, 필요한 문의는 바로 접수할 수 있습니다.
           </p>
         </section>
 

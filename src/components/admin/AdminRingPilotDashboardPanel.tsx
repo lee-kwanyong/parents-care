@@ -974,7 +974,7 @@ export function AdminRingPilotDashboardPanel() {
         </section>
 
         <section className="rounded-[2rem] bg-white/95 p-6 shadow-sm ring-1 ring-[#D6EDE7]">
-          <Pill>최근 스마트링 리포트</Pill>
+          <Pill>최근 안부완료 리포트</Pill>
           <h2 className="mt-4 text-3xl font-black tracking-[-0.07em]">최근 리포트 흐름</h2>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -999,7 +999,7 @@ export function AdminRingPilotDashboardPanel() {
 
             {!(data?.reports || []).length ? (
               <div className="rounded-2xl bg-[#FAFFFD] p-5 text-sm font-bold leading-7 text-[#637B76] ring-1 ring-[#D6EDE7]">
-                아직 스마트링 리포트가 없습니다. CSV 업로드 후 다시 확인하세요.
+                아직 안부완료 리포트가 없습니다. CSV 업로드 후 다시 확인하세요.
               </div>
             ) : null}
           </div>

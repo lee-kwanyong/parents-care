@@ -81,7 +81,7 @@ const fallbackLinks: LooseMenuLink[] = [
   {
     href: '/admin/ops/ring-report-lab',
     title: '리포트 실험실',
-    description: '스마트링 리포트 산식을 테스트합니다.',
+    description: '안부완료 리포트 산식을 테스트합니다.',
     badge: '고급',
     category: '스마트링'
   }

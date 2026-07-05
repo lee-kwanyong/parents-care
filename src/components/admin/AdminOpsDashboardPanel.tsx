@@ -202,7 +202,7 @@ function RecentTable({ data }: { data: DashboardData }) {
 
       <article className="rounded-[2rem] bg-white/95 p-5 shadow-sm ring-1 ring-[#D6EDE7]">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="text-xl font-black tracking-[-0.05em]">최근 스마트링 리포트</h3>
+          <h3 className="text-xl font-black tracking-[-0.05em]">최근 안부완료 리포트</h3>
           <Link href="/admin/ops/ring-csv-import" className="rounded-full bg-[#FAFFFD] px-3 py-1 text-xs font-black text-[#247A71] ring-1 ring-[#D6EDE7]">
             CSV 업로드
           </Link>
@@ -228,7 +228,7 @@ function RecentTable({ data }: { data: DashboardData }) {
             ))
           ) : (
             <div className="rounded-2xl bg-[#FAFFFD] p-4 text-sm font-bold text-[#637B76] ring-1 ring-[#D6EDE7]">
-              최근 스마트링 리포트가 없습니다.
+              최근 안부완료 리포트가 없습니다.
             </div>
           )}
         </div>
@@ -297,7 +297,7 @@ export function AdminOpsDashboardPanel() {
             </h1>
 
             <p className="mt-5 max-w-3xl text-sm font-bold leading-7 text-[#637B76] sm:text-base">
-              가입자, 실증 가구, 안부 신호, 문자/알림, 스마트링 리포트 상태를 한 화면에서 확인합니다.
+              가입자, 실증 가구, 안부 신호, 문자/알림, 안부완료 리포트 상태를 한 화면에서 확인합니다.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">

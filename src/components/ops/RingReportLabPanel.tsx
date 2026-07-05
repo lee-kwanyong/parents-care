@@ -176,7 +176,7 @@ export function RingReportLabPanel() {
       const data = await response.json().catch(() => ({}))
 
       if (!response.ok || !data.ok) {
-        setMessage(data.message || '스마트링 리포트 정보를 불러오지 못했습니다.')
+        setMessage(data.message || '안부완료 리포트 정보를 불러오지 못했습니다.')
         setDebug(JSON.stringify(data.detail || data, null, 2))
         return
       }
@@ -192,7 +192,7 @@ export function RingReportLabPanel() {
       setMessage('')
       setDebug('')
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : '스마트링 리포트 정보를 불러오지 못했습니다.')
+      setMessage(error instanceof Error ? error.message : '안부완료 리포트 정보를 불러오지 못했습니다.')
     } finally {
       setLoading(false)
     }
@@ -252,7 +252,7 @@ export function RingReportLabPanel() {
       <section className="mx-auto max-w-7xl space-y-5">
         <section className="rounded-[2rem] bg-white/95 p-5 shadow-[0_18px_52px_rgba(49,151,136,0.08)] ring-1 ring-[#D6EDE7] sm:rounded-[2.5rem] sm:p-8">
           <div className="inline-flex rounded-full bg-[#EFFFFA] px-4 py-2 text-sm font-black text-[#2AA897]">
-            스마트링 안부리듬 리포트 실험실
+            안부완료 리포트 실험실
           </div>
 
           <div className="mt-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -392,7 +392,7 @@ export function RingReportLabPanel() {
               </div>
 
               <button onClick={createReport} disabled={loading} className="mt-5 w-full rounded-2xl bg-[#247A71] px-5 py-5 text-base font-black text-white disabled:opacity-50">
-                스마트링 안부리듬 리포트 생성
+                안부완료 리포트 생성
               </button>
             </section>
 

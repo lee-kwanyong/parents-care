@@ -179,7 +179,7 @@ function templates() {
   return [
     {
       id: 'customer-ring',
-      title: '고객 화면 · 스마트링 리포트',
+      title: '고객 화면 · 안부완료 리포트',
       audience: 'customer',
       text: '스마트링은 심박, HRV, SpO2, 체온 등 생체 신호를 분석해 위험을 예측하고 응급 상황을 즉시 전파합니다.'
     },

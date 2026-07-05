@@ -440,7 +440,7 @@ export async function GET(request: NextRequest) {
     ),
     metric(
       'ring',
-      '스마트링 리포트',
+      '안부완료 리포트',
       countValue(ringReportsToday),
       `확인필요 ${countValue(ringCheckNeeded)}건 · 주의 ${countValue(ringWatch)}건 · 품질부족 ${countValue(ringLowQuality)}건`,
       ringRisk > 0 ? 'watch' : countValue(ringReportsToday) > 0 ? 'safe' : 'neutral',
@@ -490,14 +490,14 @@ export async function GET(request: NextRequest) {
     ringRisk > 0
       ? {
           tone: 'watch',
-          title: '스마트링 리포트 확인이 필요합니다.',
+          title: '안부완료 리포트 확인이 필요합니다.',
           desc: `확인필요 ${countValue(ringCheckNeeded)}건, 품질부족 ${countValue(ringLowQuality)}건이 있습니다.`,
           href: '/admin/ops/ring-csv-import',
           cta: '링 데이터 보기'
         }
       : {
           tone: 'safe',
-          title: '스마트링 리포트 흐름이 안정적입니다.',
+          title: '안부완료 리포트 흐름이 안정적입니다.',
           desc: '확인필요 또는 데이터 품질 부족 신호가 낮습니다.',
           href: '/admin/ops/ring-csv-import',
           cta: '링 리포트'

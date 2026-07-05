@@ -550,7 +550,7 @@ export function GuardianProxyCheckinPanel() {
                 href={familyCode ? `/guardian/ring-report?familyCode=${encodeURIComponent(familyCode)}` : '/guardian/ring-report'}
                 className="rounded-2xl bg-[#FAFFFD] p-5 ring-1 ring-[#D6EDE7]"
               >
-                <div className="text-xl font-black">스마트링 안부리듬 리포트</div>
+                <div className="text-xl font-black">안부완료 리포트</div>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#637B76]">
                   스마트링 참고 신호와 전화 확인 결과를 함께 봅니다.
                 </p>

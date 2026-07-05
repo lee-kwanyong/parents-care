@@ -156,8 +156,8 @@ function statusFromRing(row: Row | null) {
     return {
       level: 'neutral' as Tone,
       label: '데이터 대기',
-      title: '아직 스마트링 리포트가 없습니다.',
-      desc: '가족코드를 입력하거나 오늘 스마트링 CSV 업로드 후 다시 확인해 주세요.'
+      title: '아직 안부완료 리포트가 없습니다.',
+      desc: '가족코드를 입력하거나 오늘 데이터 업로드 후 다시 확인해 주세요.'
     }
   }
 
@@ -435,7 +435,7 @@ function demoResponse(familyCode = '') {
       guardianName: '보호자'
     },
     status: statusFromRing(null),
-    todayLine: '가족코드를 입력하면 스마트링 안부리듬 리포트를 확인할 수 있습니다.',
+    todayLine: '가족코드를 입력하면 안부완료 리포트를 확인할 수 있습니다.',
     metrics: buildMetrics(null),
     insights: buildInsights(null, []),
     actions: [
@@ -524,7 +524,7 @@ export async function GET(request: NextRequest) {
     ? score
       ? `오늘 안부리듬은 ${score}점으로 기록되었습니다.`
       : status.title
-    : '오늘 스마트링 리포트가 아직 없습니다.'
+    : '오늘 안부완료 리포트가 아직 없습니다.'
 
   const actions =
     status.level === 'danger'

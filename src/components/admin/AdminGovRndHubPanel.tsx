@@ -14,7 +14,7 @@ const blocks = [
     title: 'R&D·바이오헬스',
     desc: '스마트링, 바이오헬스 데이터, R&D 실증, 협력기관 대응을 관리합니다.',
     links: [
-      ['/admin/ops/ring-report-lab', '스마트링 리포트 실험실'],
+      ['/admin/ops/ring-report-lab', '안부완료 리포트 실험실'],
       ['/admin/ops/ring-csv-import', '스마트링 CSV 업로드'],
       ['/admin/ops/training-center', '교육·가이드 센터']
     ]

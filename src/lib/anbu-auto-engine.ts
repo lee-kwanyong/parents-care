@@ -279,7 +279,7 @@ export function assessAnbuAuto(input: {
     title = '건강 이상이 아니라 반지 상태를 먼저 확인해 주세요.'
 
     if (noReport) {
-      reason = '아직 스마트링 리포트가 들어오지 않았습니다.'
+      reason = '아직 안부완료 리포트가 들어오지 않았습니다.'
     } else if (stale) {
       reason = `스마트링 데이터가 ${Math.round(hoursSinceSync || 0)}시간째 갱신되지 않았습니다.`
     } else if (lowBattery) {

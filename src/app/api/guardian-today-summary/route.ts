@@ -210,7 +210,7 @@ function ringInsights(row: Row | null) {
       {
         label: '스마트링 데이터',
         value: '대기',
-        desc: '가족코드에 연결된 오늘 스마트링 리포트가 아직 없습니다.',
+        desc: '가족코드에 연결된 오늘 안부완료 리포트가 아직 없습니다.',
         tone: 'neutral'
       }
     ]
@@ -357,7 +357,7 @@ export async function GET(request: NextRequest) {
   const todayLine = latestCare
     ? careSummary(latestCare)
     : latestRing
-      ? '오늘 스마트링 리포트가 기록되었습니다.'
+      ? '오늘 안부완료 리포트가 기록되었습니다.'
       : '오늘 기록된 안부 신호가 아직 없습니다.'
 
   const actions = [
@@ -388,7 +388,7 @@ export async function GET(request: NextRequest) {
       cta: '부모님 화면'
     },
     {
-      title: '스마트링 리포트 보기',
+      title: '안부완료 리포트 보기',
       desc: '수면·활동·착용·배터리 참고 신호를 확인합니다.',
       href: `/guardian/ring-report?familyCode=${encodeURIComponent(familyCode)}`,
       cta: '링 리포트'
